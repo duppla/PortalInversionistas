@@ -58,10 +58,11 @@ export default function Home() {
     }
 
     catch (error) {
+      
 
       if (error instanceof Error && 'code' in error && typeof error.code === 'string') {
         if (error.code === 'auth/user-not-found') {
-          setError('El usuario no se encuentra registrado');
+         
           swal({
             text: 'El usuario no se encuentra registrado',
             icon: "info",
@@ -69,7 +70,7 @@ export default function Home() {
             timer: 5000,
           });
         } else if (error.code === 'auth/invalid-email') {
-          setError('El correo es inválido');
+        
           swal({
             text: 'El correo es inválido',
             icon: "info",
@@ -77,7 +78,7 @@ export default function Home() {
             timer: 5000,
           });
         } else if (error.code === 'auth/wrong-password') {
-          setError('La contraseña es incorrecta, intente nuevamente');
+      
           swal({
             text: 'La contraseña es incorrecta, intente nuevamente',
             icon: "info",
