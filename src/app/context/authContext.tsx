@@ -7,8 +7,6 @@ import { UserCredential } from "firebase/auth";
 import { User } from "firebase/auth";
 
 
-
-
 interface AuthContextType {
     singUp: (email: string, password: string) => Promise<UserCredential>;
     login: (email: string, password: string) => Promise<UserCredential>;
@@ -18,11 +16,13 @@ interface AuthContextType {
   }
 const authContext = createContext<AuthContextType | undefined>(undefined);
 
+
+
 export const useAuth = (): AuthContextType => {
   const context = useContext(authContext);
   if (!context) throw new Error('useAuth debe estar dentro del proveedor');
   return context;
-}
+};
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -66,4 +66,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     </authContext.Provider>
   )
 }
-
+/* Consumir el contexto */
+export function useAuthContext() {
+  return useContext(authContext);
+}
