@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../../context/authContext';
 
 
 
@@ -15,8 +15,8 @@ import Container from '@mui/material/Container';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Image from 'next/image';
-import LogoInversionistas from '../../img/logoinversionistas.svg';
-import SettingDupplaMenu from '../../img/setting-icon.svg';
+import LogoInversionistas from './../../../img/logoinversionistas.svg';
+import SettingDupplaMenu from './../../../img/setting-icon.svg';
 
 
 const pages = ['Products', 'Pricing', 'Blog'];

@@ -1,11 +1,11 @@
 'use client';
-import Link from "next/link";
+
 import React from 'react'
-import { useAuth } from './../../context/authContext';
+/* import { useAuth } from './../../context/authContext'; */
 import { Box } from "@mui/material";
 
 function Page() {
-    const { logout } = useAuth();
+ 
 
     return (
 
@@ -14,8 +14,7 @@ function Page() {
             
             <h1> Buyer-inversionista pequeño</h1>
 
-
-            <button onClick={logout}>Cerrar sesión</button>
+            
 
         </div>
         </Box>
