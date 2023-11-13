@@ -17,13 +17,7 @@ function Page() {
                     <h1> Buyer-inversionista pequeño</h1>
                 </div>
             )}
-        <div>
-            
-            <h1> Buyer-inversionista pequeño</h1>
-
-            
-
-        </div>
+        
         </Box>
     )
 }
