@@ -83,6 +83,37 @@ a {
   text-decoration: none;
 }
 
+
+/* sección navbar */
+
+.colorBackgroundPrincipal {
+  /*  background-color: #272727 !important;
+  border-color: var(--color-verde-duppla);
+
+*/
+  background: linear-gradient(60.01deg, #0A3323 19.88%, #C5F5CA 217.71%);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  border-bottom-left-radius: 60% 18%;
+  border-bottom-right-radius: 60% 18%;
+  border-bottom-color: 1px solid #6C9FFF !important;
+}
+.img-home {
+  width: 130px;
+  height: 48px;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+.icon-setting-home {
+  width: 48px;
+  height: 48px;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
