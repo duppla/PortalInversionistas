@@ -116,7 +116,16 @@ a {
   height: 450px;
 }
 
+input {
+  color: white;
+  background-color: white;
+  border: 1px solid white;
+}
 
+/* Opcional: para cambiar el color del texto del placeholder (texto de sugerencia) en el input */
+input::placeholder {
+  color: white;
+}
 
 @media (prefers-color-scheme: dark) {
   html {

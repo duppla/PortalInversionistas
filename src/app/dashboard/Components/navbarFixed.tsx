@@ -99,7 +99,9 @@ function ResponsiveAppBar() {
           </Box> */}
 
           <Box sx={{
-             flexGrow: 1,           
+             flexGrow: 1,  
+             display: 'flex',
+             justifyContent: 'flex-end',         
           }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>               

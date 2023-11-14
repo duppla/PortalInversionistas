@@ -7,7 +7,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import LogoInversionistas from '../img/logoinversionistas.svg'
-import { Box, Button, Container, CssBaseline, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, CssBaseline, TextField, Typography, createTheme, ThemeProvider } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 /* import {useRouter} from "next/router";
@@ -19,6 +19,22 @@ import { useAuth } from '../app/context/authContext';
 import swal from 'sweetalert';
 
 /* import { Router } from 'next/router'; */
+
+const themeCustomer = createTheme({
+ 
+  palette: {
+      primary: {
+          main: '#ffffff',
+          contrastText: '#ffffff',
+      },
+      secondary: {
+          main: '#6C9FFF',
+      },
+  },
+});
+
+
+
 
 
 export default function Home() {
@@ -91,52 +107,15 @@ export default function Home() {
           // Otro manejo de errores de autenticación de Firebase
           console.error('Error de autenticación:', error);
         }
-
-
-        /*     setError(error?.code);
-            if (error.code === 'auth/user-not-found') {
-              swal({
-                text: 'El usuario no se encuentra registrado',
-                icon: "info",
-                buttons: ["Cerrar"],
-                timer: 5000,
-              });
-            } else if (error.code) {
-              swal({
-                text: 'El correo es inválido',
-                icon: "info",
-                buttons: ["Cerrar"],
-                timer: 5000,
-              });
-            } else if (error.code === 'auth/wrong-password') {
-              swal({
-                text: 'La contraseña es incorrecta, intente nuevamente',
-                icon: "info",
-                buttons: ["Cerrar"],
-                timer: 5000,
-              });
-            } else {
-              // Otro manejo de errores de autenticación de Firebase
-              console.error('Error de autenticación:', error);
-            } */
+      
       }
     }
   }
 
 
-
-
-
-
-
-
-
-
-
-
   return (
 
-
+    <ThemeProvider theme={themeCustomer} >
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
@@ -173,6 +152,8 @@ export default function Home() {
             autoComplete="email"
             autoFocus
             sx={{
+              labelColor: '#ffffff',
+              color: '#ffffff'
             }}
           />
           <TextField
@@ -187,6 +168,7 @@ export default function Home() {
             autoComplete="current-password"
             sx={{
               labelColor: '#ffffff',
+              color: '#ffffff'
             }}
           />
 
@@ -227,6 +209,7 @@ export default function Home() {
       </Box>
 
     </Container>
+    </ThemeProvider>
 
   )
 }
