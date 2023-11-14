@@ -27,11 +27,11 @@ function Layout({ children }: { children: ReactNode; }) {
 
           {/*----------------------------Descripción inmueble y graficas barras de progreso-------------------------------------------- */}
           <Box sx={{ flexGrow: 1, backgroundColor: '#272727', mt: 4 }}>
+            
             {children}
-           
             <button onClick={logout}>Cerrar sesión</button>
           </Box>
-          
+
           {/*------------------------------------------------------------------------ */}
 
 

@@ -111,6 +111,10 @@ a {
   margin-top: 4px;
   margin-bottom: 2px;
 }
+.grafica-barcharts {
+  width: 700px !important;
+  height: 450px;
+}
 
 
 
