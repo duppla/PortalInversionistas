@@ -11,23 +11,20 @@ function Layout({ children }: { children: ReactNode; }) {
 
   return (
     <PrivateRoute>
-      <Box sx={{ display: 'flex' }}>
-
+      <Box sx={{ display: 'flex',  }}>
         <Box id='contenidoInmueble'
           component="main"
           sx={{
             flexGrow: 1,
-            overflow: 'auto',
-            /*  backgroundColor: '#F2F2F2', */
+            overflow: 'auto',        
             height: '100vh',
           }}
         >
           {/*Nabvar fixed Mui*/}
-          <Navbar />
+         <Navbar /> 
 
-          {/*----------------------------Descripción inmueble y graficas barras de progreso-------------------------------------------- */}
-          <Box sx={{ flexGrow: 1, backgroundColor: '#272727', mt: 4 }}>
-            
+          {/*----------------------------visualización dashboard-------------------------------------------- */}
+          <Box sx={{ flexGrow: 1, backgroundColor: '#272727', mt: 4, borderTopLeftRadius:'39px' , borderTopRightRadius: '39px'}}> 
             {children}
             <button onClick={logout}>Cerrar sesión</button>
           </Box>
