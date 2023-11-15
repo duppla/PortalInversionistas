@@ -112,8 +112,8 @@ a {
 }
 
 .grafica-barcharts {
-  width: 700px !important;
-  height: 450px;
+  width: 100% !important;
+  height: 480px;
 }
 
 input {

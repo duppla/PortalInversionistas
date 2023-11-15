@@ -1,140 +1,130 @@
 'use client'
 import { ResponsiveBar } from '@nivo/bar'
+import { useEffect, useState } from 'react';
+
 
 function truncateValue(value: number): number {
     // Implementa tu lógica de truncamiento aquí
     return Math.floor(value);
 }
 
+interface DataApiType {
+    fecha: string;
+    flujo_real: number;
+    flujo_esperado: number;
+    // otras propiedades que los objetos en dataApi pueden tener...
+}
 
-function barChart() {
+function BarChart() {
+
+
+    const [dataApi, setDataApi] = useState<DataApiType[]>([]);
+
+    useEffect(() => {
+        const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
+
+        fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/prueba_barras?investor=skandia%40duppla.co', options)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response + 'respuesta endpoint');
+                const data = response;
+                setDataApi(data);
+            })
+
+            .catch(err => console.error(err));
+    }, []);
+
+    const fecha = dataApi.map((item) => item.fecha);
+    const flujo_real = dataApi.map((item) => item.flujo_real);
+    const flujo_esperado = dataApi.map((item) => item.flujo_esperado);
+    console.log(fecha + 'fecha' + '' + flujo_real + 'flujo real' + '' + flujo_esperado);
+
+    const meses = dataApi.map((item) => {
+        // Obtener solo el mes (por ejemplo, "2023-01-15" -> "01")
+        return item.fecha.split('-')[1];
+      });
+      
+
+
 
     const data = [
         {
-            "country": "AD",
-            "hot dog": 56,
-            "hot dogColor": "hsl(149, 70%, 50%)",
-            "burger": 153,
-            "burgerColor": "hsl(9, 70%, 50%)",
-            "sandwich": 177,
-            "sandwichColor": "hsl(135, 70%, 50%)",
-            "kebab": 84,
-            "kebabColor": "hsl(154, 70%, 50%)",
-            "fries": 5,
-            "friesColor": "hsl(248, 70%, 50%)",
-            "donut": 0,
-            "donutColor": "hsl(232, 70%, 50%)"
+            "meses": meses[0],
+            "flujo_real": flujo_real[0],
+            "flujo_esperado": flujo_esperado[0],
         },
         {
-            "country": "AE",
-            "hot dog": 185,
-            "hot dogColor": "hsl(52, 70%, 50%)",
-            "burger": 171,
-            "burgerColor": "hsl(173, 70%, 50%)",
-            "sandwich": 66,
-            "sandwichColor": "hsl(320, 70%, 50%)",
-            "kebab": 59,
-            "kebabColor": "hsl(6, 70%, 50%)",
-            "fries": 188,
-            "friesColor": "hsl(9, 70%, 50%)",
-            "donut": 176,
-            "donutColor": "hsl(20, 70%, 50%)"
+            "meses": meses[1],
+            "flujo_real": flujo_real[1],
+            "flujo_esperado": flujo_esperado[1],
         },
         {
-            "country": "AF",
-            "hot dog": 24,
-            "hot dogColor": "hsl(246, 70%, 50%)",
-            "burger": 95,
-            "burgerColor": "hsl(309, 70%, 50%)",
-            "sandwich": 98,
-            "sandwichColor": "hsl(224, 70%, 50%)",
-            "kebab": 129,
-            "kebabColor": "hsl(112, 70%, 50%)",
-            "fries": 183,
-            "friesColor": "hsl(339, 70%, 50%)",
-            "donut": 88,
-            "donutColor": "hsl(146, 70%, 50%)"
+            "meses": meses[2],
+            "flujo_real": flujo_real[2],
+            "flujo_esperado": flujo_esperado[2],
         },
         {
-            "country": "AG",
-            "hot dog": 187,
-            "hot dogColor": "hsl(232, 70%, 50%)",
-            "burger": 91,
-            "burgerColor": "hsl(305, 70%, 50%)",
-            "sandwich": 26,
-            "sandwichColor": "hsl(2, 70%, 50%)",
-            "kebab": 107,
-            "kebabColor": "hsl(335, 70%, 50%)",
-            "fries": 157,
-            "friesColor": "hsl(23, 70%, 50%)",
-            "donut": 188,
-            "donutColor": "hsl(343, 70%, 50%)"
+            "meses": meses[3],
+            "flujo_real": flujo_real[3],
+            "flujo_esperado": flujo_esperado[3],
         },
         {
-            "country": "AI",
-            "hot dog": 101,
-            "hot dogColor": "hsl(230, 70%, 50%)",
-            "burger": 68,
-            "burgerColor": "hsl(165, 70%, 50%)",
-            "sandwich": 118,
-            "sandwichColor": "hsl(106, 70%, 50%)",
-            "kebab": 88,
-            "kebabColor": "hsl(296, 70%, 50%)",
-            "fries": 77,
-            "friesColor": "hsl(119, 70%, 50%)",
-            "donut": 73,
-            "donutColor": "hsl(195, 70%, 50%)"
+            "meses": meses[4],
+            "flujo_real": flujo_real[4],
+            "flujo_esperado": flujo_esperado[4],
         },
         {
-            "country": "AL",
-            "hot dog": 107,
-            "hot dogColor": "hsl(205, 70%, 50%)",
-            "burger": 143,
-            "burgerColor": "hsl(28, 70%, 50%)",
-            "sandwich": 187,
-            "sandwichColor": "hsl(182, 70%, 50%)",
-            "kebab": 74,
-            "kebabColor": "hsl(250, 70%, 50%)",
-            "fries": 3,
-            "friesColor": "hsl(28, 70%, 50%)",
-            "donut": 42,
-            "donutColor": "hsl(137, 70%, 50%)"
+            "meses": meses[5],
+            "flujo_real": flujo_real[5],
+            "flujo_esperado": flujo_esperado[5],
         },
         {
-            "country": "AM",
-            "hot dog": 152,
-            "hot dogColor": "hsl(162, 70%, 50%)",
-            "burger": 166,
-            "burgerColor": "hsl(79, 70%, 50%)",
-            "sandwich": 28,
-            "sandwichColor": "hsl(24, 70%, 50%)",
-            "kebab": 135,
-            "kebabColor": "hsl(249, 70%, 50%)",
-            "fries": 62,
-            "friesColor": "hsl(100, 70%, 50%)",
-            "donut": 22,
-            "donutColor": "hsl(354, 70%, 50%)"
-        }
+            "meses": meses[6],
+            "flujo_real": flujo_real[6],
+            "flujo_esperado": flujo_esperado[6],
+        },
+        {
+            "meses": meses[7],
+            "flujo_real": flujo_real[7],
+            "flujo_esperado": flujo_esperado[7],
+        },
+        {
+            "meses": meses[8],
+            "flujo_real": flujo_real[8],
+            "flujo_esperado": flujo_esperado[8],
+        },
+        {
+            "meses": meses[9],
+            "flujo_real": flujo_real[9],
+            "flujo_esperado": flujo_esperado[9],
+        },
+        {
+            "meses": meses[10],
+            "flujo_real": flujo_real[10],
+            "flujo_esperado": flujo_esperado[10],
+        },
+        {
+            "meses": meses[11],
+            "flujo_real": flujo_real[11],
+            "flujo_esperado": flujo_esperado[11],
+        },
     ]
 
     return (
         <div className='grafica-barcharts'>
             <ResponsiveBar
                 data={data}
-                keys={[
-                    'hot dog',
-                    'burger',
-                    'sandwich',
-                    'kebab',
-                    'fries',
-                    'donut'
-                ]}
-                indexBy="country"
+                keys={['flujo_real', 'flujo_esperado']}
+
+                indexBy="meses"
+                label={() => ''}
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.3}
+                groupMode="grouped"
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}
-                colors={{ scheme: 'nivo' }}
+                colors={[ '#6C6FFF','#C5F5CA']} // Define tus propios colores
+
                 defs={[
                     {
                         id: 'dots',
@@ -184,16 +174,21 @@ function barChart() {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'country',
+                    legend: '',
                     legendPosition: 'middle',
                     legendOffset: 32,
-
+                    format: value => {
+                        // Puedes personalizar el formato de los ticks si es necesario
+                        // Por ejemplo, para mostrar "Ene", "Feb", "Mar"...
+                        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                        return months[value - 1]; // Restar 1 porque los meses generalmente van de 1 a 12
+                    }
                 }}
                 axisLeft={{
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'food',
+                    legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
 
@@ -242,6 +237,6 @@ function barChart() {
     )
 }
 
-export default barChart
+export default BarChart
 
 
