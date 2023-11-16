@@ -42,8 +42,8 @@ function BarChart() {
     const meses = dataApi.map((item) => {
         // Obtener solo el mes (por ejemplo, "2023-01-15" -> "01")
         return item.fecha.split('-')[1];
-      });
-      
+    });
+
 
 
 
@@ -111,26 +111,27 @@ function BarChart() {
     ]
 
     return (
-        <div className='grafica-barcharts'>
+        <div className='grafica-barcharts nivo-text'>
             <ResponsiveBar
                 data={data}
                 keys={['flujo_real', 'flujo_esperado']}
 
                 indexBy="meses"
                 label={() => ''}
+                
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.3}
                 groupMode="grouped"
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}
-                colors={[ '#6C6FFF','#C5F5CA']} // Define tus propios colores
-
-                defs={[
+                colors={['#6C6FFF', '#C5F5CA']} // Define tus propios colores
+                
+               /*  defs={[
                     {
                         id: 'dots',
                         type: 'patternDots',
                         background: 'inherit',
-                        color: '#38bcb2',
+                        color: '#000000',
                         size: 4,
                         padding: 1,
                         stagger: true
@@ -139,7 +140,7 @@ function BarChart() {
                         id: 'lines',
                         type: 'patternLines',
                         background: 'inherit',
-                        color: '#eed312',
+                        color: '#333333',
                         rotation: -45,
                         lineWidth: 6,
                         spacing: 10
@@ -158,13 +159,23 @@ function BarChart() {
                         },
                         id: 'lines'
                     }
-                ]}
+                ]} */
+
+                defs={[
+                    {
+                      id: 'text',
+                      type: 'text',
+                      color: 'white',
+                    },
+                  ]}
+                  fill={[{ match: { id: 'text' }, id: 'text' }]}
+
                 borderColor={{
                     from: 'color',
                     modifiers: [
                         [
                             'darker',
-                            1.6
+                            1.4
                         ]
                     ]
                 }}
@@ -177,6 +188,7 @@ function BarChart() {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: 32,
+                    
                     format: value => {
                         // Puedes personalizar el formato de los ticks si es necesario
                         // Por ejemplo, para mostrar "Ene", "Feb", "Mar"...
@@ -191,6 +203,7 @@ function BarChart() {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
+                    
 
                 }}
                 labelSkipWidth={12}
@@ -218,6 +231,7 @@ function BarChart() {
                         itemDirection: 'left-to-right',
                         itemOpacity: 0.85,
                         symbolSize: 20,
+
                         effects: [
                             {
                                 on: 'hover',

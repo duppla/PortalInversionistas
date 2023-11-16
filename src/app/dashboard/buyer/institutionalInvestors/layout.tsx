@@ -16,7 +16,7 @@ function Layout({ children }: { children: ReactNode; }) {
                 <Container maxWidth="xl" sx={{ display: 'flex', justifyContent: 'end', alignContent: 'end', alignItems: 'end' }}>
                     <Grid sx={{ flexGrow: 1, }} container spacing={2}>
                         <Grid item xs={12} md={6} lg={6} sx={{}}>
-                            Migas de pan
+                          
                         </Grid>
                         <Grid item xs={12} md={6} lg={6} sx={{}}>
                             <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-end' }}>

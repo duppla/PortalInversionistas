@@ -114,6 +114,7 @@ a {
 .grafica-barcharts {
   width: 100% !important;
   height: 480px;
+  
 }
 
 input {
@@ -125,6 +126,11 @@ input {
 /* Opcional: para cambiar el color del texto del placeholder (texto de sugerencia) en el input */
 input::placeholder {
   color: white;
+}
+
+/* Estilo para los elementos text dentro del gráfico */
+.nivo-text {
+  fill: #ffffff !important; /* Cambia el color del texto a blanco */
 }
 
 @media (prefers-color-scheme: dark) {

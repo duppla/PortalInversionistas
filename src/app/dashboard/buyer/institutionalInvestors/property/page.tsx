@@ -71,7 +71,7 @@ const page = () => {
                     <Grid item className='' xs={12} sm={12} md={10} lg={10} sx={{
                         width: '100%',
                         height: '460px',
-                        backgroundColor: '#B8B8B8',
+                        backgroundColor: '#333333',
                         borderRadius: '20px',
                     }}>
                         <Graficaprueba />
@@ -81,7 +81,7 @@ const page = () => {
                 {/* prueba de colunmas */}
                 <Grid container sx={{
                     ml: 2,
-                    backgroundColor: '#FFFFFF',
+                   /*  backgroundColor: '#FFFFFF', */
                 }}>
                     {/*Segunda columna principal-datos del inmueble*/}
                     <Grid item className='' xs={12} sm={12} md={6} lg={6}>
@@ -89,14 +89,13 @@ const page = () => {
                             <Grid item spacing={1} xs={12} sm={12} md={12} lg={12}
                                 className=''>
                                 <div className=''>
-
                                     {/*----------------endpoint  graficas de barras de especificaciones------------------- */}
                                     <Grid container sx={{
                                         backgroundColor: '',
                                         width: '100%',
                                         height: '100%',
                                     }}>
-                                        {/*  <Chart /> */} grafica
+                                        {/*  <Chart /> */} 
                                     </Grid>
 
                                 </div>
