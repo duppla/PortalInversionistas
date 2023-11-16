@@ -32,9 +32,6 @@ function Page() {
                 {mostrarCliente ?  <InversionistaRetail /> : <Institucionalinversor /> }
 
             </Box> */}
-
-
-
             <Box id='contenidoInmueble'
                 component="main"
                 sx={{
@@ -45,14 +42,13 @@ function Page() {
             >
                 <Container className='centrado' maxWidth="xl" sx={{ mt: 2, }}
                 >
-                    <div>
+                    <div className='centrado' >
                         <Image src={LogoInver} alt="Logo" width={492} height={287} />
 
                     </div>
                 </Container>
                 <Container className='centrado' maxWidth="xl" sx={{ mt: 1, mb: 3, }}>
-                    <div>
-
+                    <div className='centrado' >
                         <Typography variant="h6" component="div" sx={{ color: '#ffffff' }}>
                             Seleccione el dashboard que desea ver:
                         </Typography>

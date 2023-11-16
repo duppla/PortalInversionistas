@@ -47,7 +47,7 @@ function BarChart() {
 
 
 
-    const data = [
+   /*  const data = [
         {
             "meses": meses[0],
             "flujo_real": flujo_real[0],
@@ -109,6 +109,46 @@ function BarChart() {
             "flujo_esperado": flujo_esperado[11],
         },
     ]
+ */
+
+    const data = dataApi.map(item => ({
+        meses: item.fecha.split('-')[1], // Obtener el mes de la fecha actual
+        flujo_real: item.flujo_real,
+        flujo_esperado: item.flujo_esperado,
+    }));
+
+
+    /* prueba de formateo data a legible */  
+
+   function formatNumber(value: number): string {
+        const suffixes = ['', 'K', 'M', 'B', 'T'];
+        const suffixNum = Math.floor(('' + value).length / 3);
+        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
+        
+        if (shortValue.endsWith('.0')) {
+            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
+        }
+    
+        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+    }
+  /* prueba de formateo data a legible tooltip */  
+    function formatNumberTooltip(value: number): string {
+        const suffixes = ['', 'K', 'M', 'B', 'T'];
+        const suffixNum = Math.floor(('' + value).length / 3);
+        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
+    
+        if (shortValue.endsWith('.0')) {
+            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
+        }
+    
+        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+    }
+    
+    
+    
+
+
+
 
     return (
         <div className='grafica-barcharts nivo-text'>
@@ -125,42 +165,27 @@ function BarChart() {
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}
                 colors={['#6C6FFF', '#C5F5CA']} // Define tus propios colores
+                theme={{
+                    axis: {
+                        ticks: {
+                            text: {
+                                fill: 'white', // Color del texto en los ejes
+                            },
+                        },
+                    },
+                    legends: {
+                        text: {
+                            fill: 'white', // Color del texto de las leyendas
+                        },
+                    },
+                    tooltip: {
+                        container: {
+                            background: 'black', // Fondo del tooltip
+                            color: 'white', // Color del texto del tooltip
+                        },
+                    },
+                }}
                 
-               /*  defs={[
-                    {
-                        id: 'dots',
-                        type: 'patternDots',
-                        background: 'inherit',
-                        color: '#000000',
-                        size: 4,
-                        padding: 1,
-                        stagger: true
-                    },
-                    {
-                        id: 'lines',
-                        type: 'patternLines',
-                        background: 'inherit',
-                        color: '#333333',
-                        rotation: -45,
-                        lineWidth: 6,
-                        spacing: 10
-                    }
-                ]}
-                fill={[
-                    {
-                        match: {
-                            id: 'fries'
-                        },
-                        id: 'dots'
-                    },
-                    {
-                        match: {
-                            id: 'sandwich'
-                        },
-                        id: 'lines'
-                    }
-                ]} */
-
                 defs={[
                     {
                       id: 'text',
@@ -179,6 +204,15 @@ function BarChart() {
                         ]
                     ]
                 }}
+                tooltip={({ id, value, color }) => (
+                    <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+                        <strong >
+                            {id}: {formatNumberTooltip(value)}
+                        </strong>
+                       {/*  {id === 'flujo_real' && <div style={{ color: 'red' }}>Flujo Real</div>}
+                        {id === 'flujo_esperado' && <div style={{ color: 'green' }}>Flujo Esperado</div>} */}
+                    </div>
+                )}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -203,6 +237,7 @@ function BarChart() {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
+                    format: value => formatNumber(value),
                     
 
                 }}
@@ -231,6 +266,7 @@ function BarChart() {
                         itemDirection: 'left-to-right',
                         itemOpacity: 0.85,
                         symbolSize: 20,
+                        
 
                         effects: [
                             {
