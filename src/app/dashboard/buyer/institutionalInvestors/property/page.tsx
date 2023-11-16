@@ -3,6 +3,7 @@ import React from 'react'
 import { Grid, Container, Box, Button, ButtonGroup, Typography, Stack } from '@mui/material';
 import Link from 'next/link';
 import Graficaprueba from './../../../Components/barChart'
+import GraficaLineasB from './../../../Components/valuepchart'
 
 
 const page = () => {
@@ -91,11 +92,11 @@ const page = () => {
                                 <div className=''>
                                     {/*----------------endpoint  graficas de barras de especificaciones------------------- */}
                                     <Grid container sx={{
-                                        backgroundColor: '',
-                                        width: '100%',
-                                        height: '100%',
+                                       backgroundColor: '#333333',
+                                       
                                     }}>
-                                        {/*  <Chart /> */} 
+                                        <h1>hola</h1>
+                                       <GraficaLineasB />
                                     </Grid>
 
                                 </div>

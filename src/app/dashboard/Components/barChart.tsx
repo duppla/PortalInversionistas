@@ -30,7 +30,6 @@ function BarChart() {
                 const data = response;
                 setDataApi(data);
             })
-
             .catch(err => console.error(err));
     }, []);
 
@@ -44,73 +43,7 @@ function BarChart() {
         return item.fecha.split('-')[1];
     });
 
-
-
-
-   /*  const data = [
-        {
-            "meses": meses[0],
-            "flujo_real": flujo_real[0],
-            "flujo_esperado": flujo_esperado[0],
-        },
-        {
-            "meses": meses[1],
-            "flujo_real": flujo_real[1],
-            "flujo_esperado": flujo_esperado[1],
-        },
-        {
-            "meses": meses[2],
-            "flujo_real": flujo_real[2],
-            "flujo_esperado": flujo_esperado[2],
-        },
-        {
-            "meses": meses[3],
-            "flujo_real": flujo_real[3],
-            "flujo_esperado": flujo_esperado[3],
-        },
-        {
-            "meses": meses[4],
-            "flujo_real": flujo_real[4],
-            "flujo_esperado": flujo_esperado[4],
-        },
-        {
-            "meses": meses[5],
-            "flujo_real": flujo_real[5],
-            "flujo_esperado": flujo_esperado[5],
-        },
-        {
-            "meses": meses[6],
-            "flujo_real": flujo_real[6],
-            "flujo_esperado": flujo_esperado[6],
-        },
-        {
-            "meses": meses[7],
-            "flujo_real": flujo_real[7],
-            "flujo_esperado": flujo_esperado[7],
-        },
-        {
-            "meses": meses[8],
-            "flujo_real": flujo_real[8],
-            "flujo_esperado": flujo_esperado[8],
-        },
-        {
-            "meses": meses[9],
-            "flujo_real": flujo_real[9],
-            "flujo_esperado": flujo_esperado[9],
-        },
-        {
-            "meses": meses[10],
-            "flujo_real": flujo_real[10],
-            "flujo_esperado": flujo_esperado[10],
-        },
-        {
-            "meses": meses[11],
-            "flujo_real": flujo_real[11],
-            "flujo_esperado": flujo_esperado[11],
-        },
-    ]
- */
-
+/* data del enpoint para renderizar la grafica por un map */
     const data = dataApi.map(item => ({
         meses: item.fecha.split('-')[1], // Obtener el mes de la fecha actual
         flujo_real: item.flujo_real,
@@ -164,6 +97,7 @@ function BarChart() {
                 groupMode="grouped"
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}
+               
                 colors={['#6C6FFF', '#C5F5CA']} // Define tus propios colores
                 theme={{
                     axis: {
@@ -237,8 +171,7 @@ function BarChart() {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
-                    format: value => formatNumber(value),
-                    
+                    format: value => formatNumber(value),                 
 
                 }}
                 labelSkipWidth={12}

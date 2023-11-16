@@ -6,6 +6,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+
 import LogoInversionistas from '../img/logoinversionistas.svg'
 import { Box, Button, Container, CssBaseline, TextField, Typography, createTheme, ThemeProvider } from '@mui/material';
 import Link from 'next/link';

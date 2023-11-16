@@ -132,7 +132,11 @@ input::placeholder {
 .nivo-text {
   fill: #ffffff !important; /* Cambia el color del texto a blanco */
 }
+.ChartContainerSizeManager{
+  width: 100% !important;
+  height: 480px;
 
+}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
