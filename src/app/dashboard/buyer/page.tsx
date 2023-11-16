@@ -45,65 +45,70 @@ function Page() {
             >
                 <Container className='centrado' maxWidth="xl" sx={{ mt: 2, }}
                 >
-                    <Image src={LogoInver} alt="Logo" width={492} height={287} />                   
-                </Container>
-                <Container className='centrado' maxWidth="xl" sx={{ mt: 1, mb: 3, }}>                   
+                    <div>
+                        <Image src={LogoInver} alt="Logo" width={492} height={287} />
 
-                    <Typography variant="h6" component="div" sx={{ color: '#ffffff' }}>
-                        Seleccione el dashboard que desea ver:
-                    </Typography>
+                    </div>
+                </Container>
+                <Container className='centrado' maxWidth="xl" sx={{ mt: 1, mb: 3, }}>
+                    <div>
+
+                        <Typography variant="h6" component="div" sx={{ color: '#ffffff' }}>
+                            Seleccione el dashboard que desea ver:
+                        </Typography>
+                    </div>
                 </Container>
                 {/* Grid botones de navegación secciones */}
                 <Grid container className='centrado' spacing={1} >
-                   
+
 
                     <Grid item xs={12} sm={6} md={6} lg={6}>
                         <div className='centrado'>
 
-                        <Link href="/dashboard/buyer/institutionalInvestors/property">
-                            <Button variant="outlined" sx={{
-                                backgroundColor: '#272727',
-                                color: '#ffffff',
-                                fontFamily: 'Roboto',
-                                fontStyle: 'normal',
-                                fontWeight: '500',
-                                fontSize: '20px',
-                                textTransform: 'none',
-                                width: '480px',
-                                height: '240px',
-                                borderColor: '#5682F2',
-                            }}>
-                                Portafolio
-                            </Button>
-                        </Link>
+                            <Link href="/dashboard/buyer/institutionalInvestors/property">
+                                <Button variant="outlined" sx={{
+                                    backgroundColor: '#272727',
+                                    color: '#ffffff',
+                                    fontFamily: 'Roboto',
+                                    fontStyle: 'normal',
+                                    fontWeight: '500',
+                                    fontSize: '20px',
+                                    textTransform: 'none',
+                                    width: '480px',
+                                    height: '240px',
+                                    borderColor: '#5682F2',
+                                }}>
+                                    Portafolio
+                                </Button>
+                            </Link>
                         </div>
                         {/* <button onClick={handleMostrarInmueble}>Inmueble</button> */}
                     </Grid>
                     <Grid item xs={12} sm={6} md={6} lg={6}>
 
-                    <div className='centrado'>
+                        <div className='centrado'>
 
-                        <Link href="/dashboard/buyer/institutionalInvestors/customer">
-                            <Button variant="outlined" sx={{
-                                backgroundColor: '#272727',
-                                color: '#ffffff',
-                                fontFamily: 'Roboto',
-                                fontStyle: 'normal',
-                                fontWeight: '500',
-                                fontSize: '20px',
-                                textTransform: 'none',
-                                width: '480px',
-                                height: '240px',
-                                borderColor: '#5682F2',
-                            }}>
-                                Individual
-                            </Button>
-                        </Link>
-                        {/* <button onClick={handleMostrarCliente}>Cliente</button> */}
+                            <Link href="/dashboard/buyer/institutionalInvestors/customer">
+                                <Button variant="outlined" sx={{
+                                    backgroundColor: '#272727',
+                                    color: '#ffffff',
+                                    fontFamily: 'Roboto',
+                                    fontStyle: 'normal',
+                                    fontWeight: '500',
+                                    fontSize: '20px',
+                                    textTransform: 'none',
+                                    width: '480px',
+                                    height: '240px',
+                                    borderColor: '#5682F2',
+                                }}>
+                                    Individual
+                                </Button>
+                            </Link>
+                            {/* <button onClick={handleMostrarCliente}>Cliente</button> */}
                         </div>
                     </Grid>
 
-                   
+
                 </Grid>
 
 
