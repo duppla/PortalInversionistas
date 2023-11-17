@@ -23,7 +23,7 @@ function BarChart() {
     useEffect(() => {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-        fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/prueba_barras?investor=skandia%40duppla.co', options)
+        fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/a1?investor=skandia', options)
             .then(response => response.json())
             .then(response => {
                 console.log(response + 'respuesta endpoint');

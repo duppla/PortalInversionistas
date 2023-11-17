@@ -73,7 +73,7 @@ export default function Home() {
 
     try {
       await login(datos.email, datos.password);
-      navigate.push('/dashboard/buyer');
+      navigate.push('/dashboard/home');
     }
 
     catch (error) {
