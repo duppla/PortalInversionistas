@@ -36,36 +36,11 @@ interface DataApiType {
     fecha: string;
     valor_contable: number;
     flujo_esperado: number;
+    valor_simulado: number;
     // otras propiedades que los objetos en dataApi pueden tener...
 }
 
-const data: DataItem[] = [
-    { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
-    { name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },
-    { name: 'Page C', uv: 2000, pv: 9800, amt: 2290 },
-    { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
-    { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
-    { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
-    { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
-];
 
-const CustomizedLabel: React.FC<LabelProps> = ({ x, y, stroke, value }) => {
-    return (
-        <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
-            {value}
-        </text>
-    );
-};
-
-const CustomizedAxisTick: React.FC<AxisTickProps> = ({ x, y, stroke, payload }) => {
-    return (
-        <g transform={`translate(${x},${y})`}>
-            <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">
-                {payload.value}
-            </text>
-        </g>
-    );
-};
 
 const RechartsExample: React.FC = () => {
 
@@ -78,40 +53,57 @@ const RechartsExample: React.FC = () => {
             .then(response => response.json())
             .then(response => {
                 dataSourceSet(response);
-                console.log(JSON.stringify(response + 'prueba de data componete b'));
+                /* console.log(JSON.stringify(response + 'prueba de data componete b')); */
             })
             .catch(err => console.error(err));
     }, []);
 
-    let datep = dataSource.map((item) => item.fecha);
-    let valorContable = dataSource.map((item) => item.valor_contable);
-    let flujoEsperado = dataSource.map((item) => item.flujo_esperado);
-    console.log(datep + 'fecha' + '' + valorContable + 'valor contable' + '' + flujoEsperado);
 
     const transformedData = dataSource.map((item) => ({
-        name: item.fecha,
+        fecha: new Date(item.fecha).toLocaleDateString(),
         valor_contable: item.valor_contable,
-        flujo_esperado: item.flujo_esperado,
-        /* valor_simulado: item.valor_simulado || 0, */ // Valor simulado o 0 si no está presente
+        valor_simulado: item.valor_simulado,
     }));
+
+    console.log(JSON.stringify(transformedData) + 'transformedData');
 
 
     return (
-        <ResponsiveContainer className='ChartContainerSizeManager' width={720} height={480}>
+        <ResponsiveContainer className='ChartContainerSizeManager' width={1020} height={480}>
+
             <LineChart
-                width={900}
-                height={400}
+                width={1000}
+                height={300}
                 data={transformedData}
-                margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
+                margin={{
+                    top: 10,
+                    right: 30,
+                    left: 0,
+                    bottom: 0,
+                }}
             >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" height={60} />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="valor_contable" stroke="#FF864B" name="Valor Contable" />
-        <Line type="monotone" dataKey="flujo_esperado" stroke="#C5F5CA" name="Flujo Esperado" />
+                <CartesianGrid strokeDasharray="6 6" /* vertical={false} */ />
+                <XAxis dataKey="fecha" height={80} tickFormatter={(fecha) => fecha} />
+                <YAxis tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`} />
+
+                <YAxis tickFormatter={(value) => `${(Number(value) / 1000000).toFixed(0)}M`} />
+
+                <Tooltip
+                    contentStyle={{ backgroundColor: 'black', border: 'none', color: 'white' }}
+                   
+                    formatter={(value, name, props) => {
+                        return [`${(Number(value) / 1000000).toFixed(0)}M`, name];
+                    }}
+                />
+
+                <Line connectNulls type="monotone" dataKey="valor_contable" stroke="#FF864B" name="Valor Contable" animationDuration={0} />
+                <Line connectNulls type="monotone" dataKey="valor_simulado" stroke="#C5F5CA" name="Valor Simulado" animationDuration={0} />
+
+
+                {/*        <Line connectNulls type="monotone" dataKey="valor_contable" stroke="#FF864B" name="Valor Contable" />
+                <Line connectNulls type="monotone" dataKey="valor_simulado" stroke="#C5F5CA" name="Valor Simulado" /> */}
             </LineChart>
+            {/*   </ResponsiveContainer> */}
         </ResponsiveContainer>
     );
 };

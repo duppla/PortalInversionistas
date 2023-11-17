@@ -11,12 +11,12 @@ const page = () => {
         <Box >
             <Container maxWidth="xl" sx={{ mt: 4, mb: 4, }}
                 className=''>
-                 <Container maxWidth="xl" sx={{ mt: 4, }}>
+                <Container maxWidth="xl" sx={{ mt: 4, }}>
                     <Grid container spacing={1}>
                         {/*Segunda columna principal*/}
                         <Grid item xs={12} sm={6} md={6} lg={6}>
                             {/* card inicial apartamentos*/}
-                            {/* <Migasdepan /> */} 
+                            {/* <Migasdepan /> */}
                         </Grid>
                         {/*Segunda columna principal*/}
                         <Grid xs={6} sm={6} md={6} lg={6} sx={{
@@ -24,7 +24,7 @@ const page = () => {
                             justifyItems: 'end',
                             alignItems: 'end',
                         }}>
-                           {/*  <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-end' }}>
+                            {/*  <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-end' }}>
                                 <Link href="/dashboard/buyer/institutionalInvestors/property">
                                     <Button variant="outlined" sx={{
                                         backgroundColor: '#272727',
@@ -58,7 +58,7 @@ const page = () => {
                             </Stack> */}
                         </Grid>
                     </Grid>
-                </Container> 
+                </Container>
                 <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
                     Inmuebles
                 </Typography>
@@ -81,22 +81,29 @@ const page = () => {
                 </Grid>
                 {/* prueba de colunmas */}
                 <Grid container sx={{
+                    mt: 4,
                     ml: 2,
-                   /*  backgroundColor: '#FFFFFF', */
+                    /*  backgroundColor: '#FFFFFF', */
                 }}>
                     {/*Segunda columna principal-datos del inmueble*/}
                     <Grid item className='' xs={12} sm={12} md={6} lg={6}>
                         <Grid container sx={{}}>
                             <Grid item spacing={1} xs={12} sm={12} md={12} lg={12}
                                 className=''>
-                                <div className=''>
+                                <div className='centrado'>
                                     {/*----------------endpoint  graficas de barras de especificaciones------------------- */}
-                                    <Grid container sx={{
-                                       backgroundColor: '#333333',
-                                       
+                                    <Grid className='centrado' container sx={{
+                                        /* backgroundColor: '#333333', */
+                                        borderRadius: '20px',
                                     }}>
-                                        <h1>hola</h1>
-                                       <GraficaLineasB />
+                                        <div>
+                                            <Typography component="h1" variant="h3" sx={{ color: '#FFFFFF', fontFamily: 'Roboto', fontSize: '16px', mt: 3, mb:4 }}>
+                                                Valor portafolio
+                                            </Typography>
+                                        </div>
+
+
+                                        <GraficaLineasB />
                                     </Grid>
 
                                 </div>
@@ -108,8 +115,6 @@ const page = () => {
                             <Grid item spacing={1} xs={12} sm={12} md={12} lg={12}
                                 className=''>
                                 <div className=''>
-
-
                                 </div>
                             </Grid>
                         </Grid>
