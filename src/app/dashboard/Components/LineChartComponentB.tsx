@@ -34,8 +34,8 @@ interface AxisTickProps {
 }
 interface DataApiType {
     fecha: string;
-    valor_contable: number;
-    flujo_esperado: number;
+    fair_market_price: number;
+    valor_contractual: number;
     valor_simulado: number;
     // otras propiedades que los objetos en dataApi pueden tener...
 }
@@ -49,7 +49,7 @@ const RechartsExample: React.FC = () => {
     useEffect(() => {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-        fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/prueba_lineas?investor=skandia%40duppla.co', options)
+        fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/b?investor=skandia', options)
             .then(response => response.json())
             .then(response => {
                 dataSourceSet(response);
@@ -61,8 +61,8 @@ const RechartsExample: React.FC = () => {
 
     const transformedData = dataSource.map((item) => ({
         fecha: new Date(item.fecha).toLocaleDateString(),
-        valor_contable: item.valor_contable,
-        valor_simulado: item.valor_simulado,
+        fair_market_price: item.fair_market_price,
+        valor_contractual: item.valor_contractual,
     }));
 
     console.log(JSON.stringify(transformedData) + 'transformedData');
@@ -96,8 +96,8 @@ const RechartsExample: React.FC = () => {
                     }}
                 />
 
-                <Line connectNulls type="monotone" dataKey="valor_contable" stroke="#FF864B" name="Valor Contable" animationDuration={0} />
-                <Line connectNulls type="monotone" dataKey="valor_simulado" stroke="#C5F5CA" name="Valor Simulado" animationDuration={0} />
+                <Line connectNulls type="monotone" dataKey="fair_market_price" stroke="#FF864B" name="Fair market price" animationDuration={0} />
+                <Line connectNulls type="monotone" dataKey="valor_contractual" stroke="#C5F5CA" name="Valor Contractual" animationDuration={0} />
 
 
                 {/*        <Line connectNulls type="monotone" dataKey="valor_contable" stroke="#FF864B" name="Valor Contable" />
