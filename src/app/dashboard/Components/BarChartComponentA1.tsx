@@ -33,10 +33,10 @@ function BarChart() {
             .catch(err => console.error(err));
     }, []);
 
-    const fecha = dataApi.map((item) => item.fecha);
+  /*   const fecha = dataApi.map((item) => item.fecha);
     const flujo_real = dataApi.map((item) => item.flujo_real);
     const flujo_esperado = dataApi.map((item) => item.flujo_esperado);
-    console.log(fecha + 'fecha' + '' + flujo_real + 'flujo real' + '' + flujo_esperado);
+    console.log(fecha + 'fecha' + '' + flujo_real + 'flujo real' + '' + flujo_esperado); */
 
     const meses = dataApi.map((item) => {
         // Obtener solo el mes (por ejemplo, "2023-01-15" -> "01")
@@ -128,7 +128,7 @@ function BarChart() {
                     },
                   ]}
                   fill={[{ match: { id: 'text' }, id: 'text' }]}
-
+                  borderRadius={3}
                 borderColor={{
                     from: 'color',
                     modifiers: [

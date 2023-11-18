@@ -4,6 +4,7 @@ import { Container, Box, Button, ButtonGroup, Typography, Stack } from '@mui/mat
 import Link from 'next/link';
 import Grid from '@mui/material/Unstable_Grid2';
 import Graficaprueba from '../Components/BarChartComponentA1'
+import GraficacomponenteA2 from '../Components/BarChartComponentA2'
 
 
 
@@ -100,7 +101,7 @@ const page = () => {
                         backgroundColor: '#333333',
                         borderRadius: '20px',
                     }}>
-                        <Graficaprueba />
+                        <GraficacomponenteA2 />
                     </Grid>
 
                 </Grid>
