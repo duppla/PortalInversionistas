@@ -23,7 +23,6 @@ function Layout({ children }: { children: ReactNode; }) {
         >
           {/*Nabvar fixed Mui*/}
           <Navbar />
-
           {/*----------------------------visualización dashboard-------------------------------------------- */}
           <Box sx={{ flexGrow: 1, backgroundColor: '#272727', mt: 4, borderTopLeftRadius: '39px', borderTopRightRadius: '39px' }}>
 
@@ -33,12 +32,7 @@ function Layout({ children }: { children: ReactNode; }) {
                 <Container maxWidth="xl" sx={{ mt: 4, }}>
                   <Grid container spacing={1}>
                     {/*Segunda columna principal*/}
-                    <Grid item xs={12} sm={6} md={6} lg={6}>
-                      {/* card inicial apartamentos*/}
-
-                      <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
-                        Dashboard principal
-                      </Typography>
+                    <Grid item xs={12} sm={6} md={6} lg={6}>                    
                     </Grid>
                     {/*Segunda columna principal*/}
                     <Grid xs={6} sm={6} md={6} lg={6} sx={{

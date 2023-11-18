@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/app/dashboard/Components/BarChartComponentA2"  ],
   "exclude": [
     "node_modules"
   ]
