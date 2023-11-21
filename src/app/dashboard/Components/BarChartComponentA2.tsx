@@ -227,30 +227,30 @@ const BarChartComponentA2 = () => {
         padding={0.3}
         valueScale={{ type: 'linear', min: 0 }}
         indexScale={{ type: 'band', round: true }}
-        colors={['#6C6FFF', '#C5F5CA', '#FF864B']} // Define tus propios colores
+        colors={['#6C6FFF', '#5ED1B1', '#00B383']} // Define tus propios colores
         theme={{
           axis: {
             ticks: {
               text: {
-                fill: 'white', // Color del texto en los ejes
+                fill: '#9B9EAB', // Color del texto en los ejes
               },
             },
           },
           legends: {
             text: {
-              fill: 'white', // Color del texto de las leyendas
+              fill: '#9B9EAB', // Color del texto de las leyendas
             },
           },
           tooltip: {
             container: {
               background: 'black', // Fondo del tooltip
-              color: 'white', // Color del texto del tooltip
+              color: '#9B9EAB', // Color del texto del tooltip
             },
           },
         }}
 
         tooltip={({ id, value, color }) => (
-          <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+          <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: '#9B9EAB' }}>
             <strong >
               {id}: {formatNumberTooltip(value)}
             </strong>
@@ -258,7 +258,7 @@ const BarChartComponentA2 = () => {
           </div>
         )}
 
-        borderRadius={3}
+        borderRadius={4}
         borderColor={{
           from: 'color',
           modifiers: [

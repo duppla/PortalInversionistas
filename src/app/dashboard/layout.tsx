@@ -24,7 +24,7 @@ function Layout({ children }: { children: ReactNode; }) {
           {/*Nabvar fixed Mui*/}
           <Navbar />
           {/*----------------------------visualización dashboard-------------------------------------------- */}
-          <Box sx={{ flexGrow: 1, backgroundColor: '#272727', mt: 4, borderTopLeftRadius: '39px', borderTopRightRadius: '39px' }}>
+          <Box sx={{ flexGrow: 1, backgroundColor: '#OBOBOD', mt: 4, borderTopLeftRadius: '39px', borderTopRightRadius: '39px' }}>
 
             <Box >
               <Container maxWidth="xl" sx={{ mt: 4, mb: 4, }}

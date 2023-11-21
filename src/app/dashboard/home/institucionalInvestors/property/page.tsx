@@ -36,9 +36,9 @@ const page = () => {
                     justifyItems: 'center',
                     width: '100%',
                     height: '280px',
-                    backgroundColor: '#333333',
+                    backgroundColor: '#212126',
                     borderRadius: '20px',
-                    /*  backgroundColor: '#FFFFFF', */
+                    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                 }} rowSpacing={0.5} gap={1} columnSpacing={{ md: 1, lg: 1, }}
                 >
                     <Grid xs={12} sm={12} md={5} lg={5} sx={{ backgroundColor: '#f5f5f5', width: '560px', height: '260px' }}>
@@ -60,16 +60,18 @@ const page = () => {
                     justifyItems: 'center',
                     width: '100%',
                     height: '460px',
-                    backgroundColor: '#333333',
+                    backgroundColor: '#212126',
                     borderRadius: '20px',
+                    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
 
                 }}>
                     {/*Grafica principal-datos del inmueble*/}
                     <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                         width: '100%',
                         height: '460px',
-                        backgroundColor: '#333333',
+                        backgroundColor: '#212126',
                         borderRadius: '20px',
+                       
                     }}>
                         <GraficaComponenteb />
                     </Grid>
@@ -83,16 +85,18 @@ const page = () => {
                     justifyItems: 'center',
                     width: '100%',
                     height: '460px',
-                    backgroundColor: '#333333',
+                    backgroundColor: '#212126',
                     borderRadius: '20px',
+                    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
 
                 }}>
                     {/*Grafica principal-datos del inmueble*/}
                     <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                         width: '100%',
                         height: '460px',
-                        backgroundColor: '#333333',
+                        backgroundColor: '#212126',
                         borderRadius: '20px',
+                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                     }}>
                         <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
                             Componente C

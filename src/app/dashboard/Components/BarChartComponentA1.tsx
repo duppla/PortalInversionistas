@@ -103,19 +103,19 @@ function BarChart() {
                     axis: {
                         ticks: {
                             text: {
-                                fill: 'white', // Color del texto en los ejes
+                                fill: '#9B9EAB', // Color del texto en los ejes
                             },
                         },
                     },
                     legends: {
                         text: {
-                            fill: 'white', // Color del texto de las leyendas
+                            fill: '#9B9EAB', // Color del texto de las leyendas
                         },
                     },
                     tooltip: {
                         container: {
                             background: 'black', // Fondo del tooltip
-                            color: 'white', // Color del texto del tooltip
+                            color: '#9B9EAB', // Color del texto del tooltip
                         },
                     },
                 }}

@@ -22,15 +22,20 @@ import swal from 'sweetalert';
 /* import { Router } from 'next/router'; */
 
 const themeCustomer = createTheme({
- 
+
   palette: {
-      primary: {
-          main: '#ffffff',
-          contrastText: '#ffffff',
-      },
-      secondary: {
-          main: '#6C9FFF',
-      },
+    primary: {
+      main: '#5782F2',
+      light: '#E8E9F2',
+      dark: '#212126',
+      contrastText: '#obobdo'
+    },
+    secondary: {
+      main: '#5782F2',
+      light: '#5782F2',
+      // dark: will be calculated from palette.secondary.main,
+      contrastText: '#47008F',
+    },
   },
 });
 
@@ -45,14 +50,6 @@ export default function Home() {
     email: '',
     password: ''
   })
-
-  /*Función manejo de cambios en los inputs, maneja un evento e*/
- /*  const handleChange = ({ target: { name, value } }) => {
-    setDatos({ ...datos, [name]: value })
-  } */
-/*   const handleChange = ({ target: { name, value } }) => {
-    setDatos((prevDatos) => ({ ...prevDatos, [name]: value }));
-  }; */
 
   const handleChange = ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement>) => {
     setDatos((prevDatos) => ({ ...prevDatos, [name]: value }));
@@ -77,11 +74,11 @@ export default function Home() {
     }
 
     catch (error) {
-      
+
 
       if (error instanceof Error && 'code' in error && typeof error.code === 'string') {
         if (error.code === 'auth/user-not-found') {
-         
+
           swal({
             text: 'El usuario no se encuentra registrado',
             icon: "info",
@@ -89,7 +86,7 @@ export default function Home() {
             timer: 5000,
           });
         } else if (error.code === 'auth/invalid-email') {
-        
+
           swal({
             text: 'El correo es inválido',
             icon: "info",
@@ -97,7 +94,7 @@ export default function Home() {
             timer: 5000,
           });
         } else if (error.code === 'auth/wrong-password') {
-      
+
           swal({
             text: 'La contraseña es incorrecta, intente nuevamente',
             icon: "info",
@@ -108,7 +105,7 @@ export default function Home() {
           // Otro manejo de errores de autenticación de Firebase
           console.error('Error de autenticación:', error);
         }
-      
+
       }
     }
   }
@@ -117,79 +114,139 @@ export default function Home() {
   return (
 
     <ThemeProvider theme={themeCustomer} >
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          mt: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <div>
-          <Image src={LogoInversionistas} alt="" width={492} height={287} />
-        </div>
-        <Typography component="h1" variant='h5' sx={{
-          marginTop: '18px',
-          color: '#ffffff',
-          fontFamily: 'Roboto',
-          fontStyle: 'normal',
-          fontSize: '36px',
-          fontWeight: 'bold',
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            mt: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <div>
+            <Image src={LogoInversionistas} alt="" width={492} height={287} />
+          </div>
+          <Typography component="h1" variant='h5' sx={{
+            marginTop: '18px',
+            color: '#ffffff',
+            fontFamily: 'Roboto',
+            fontStyle: 'normal',
+            fontSize: '36px',
+            fontWeight: 'bold',
 
-        }}>
-          Portal Inversionistas
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ marginTop: '35px' }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            onChange={handleChange}
-            autoComplete="email"
-            autoFocus
-            sx={{
-              labelColor: '#ffffff',
-              color: '#ffffff'
-            }}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            onChange={handleChange}
-            id="password"
-            autoComplete="current-password"
-            sx={{
-              labelColor: '#ffffff',
-              color: '#ffffff'
-            }}
-          />
+          }}>
+            Portal Inversionistas
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ marginTop: '35px' }}>
+            <TextField
+              className='miInput'
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              onChange={handleChange}
+              autoComplete="email"
+              autoFocus
+              sx={{
+                '& label': {
+                  color: '#5782F2', // Estilo del texto del label
+                },
+                '& .MuiOutlinedInput-input': {
+                  color: '#ffffff', // Estilo del texto del input
+                  backgroundColor: '#1E1E1E', // Fondo del input
+                },
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#ffffff', // Estilo del borde del input
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#ffffff', // Estilo del borde del input al pasar el ratón
+                },
+              }}
+              InputProps={{
+                sx: {
+                  color: '#ffffff', // Estilo del texto del input (placeholder)
+                },
+                'inputProps': { // Para estilos adicionales del input
+                  'aria-label': 'Email',
+                },
+              }}
+            />
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              marginTop: '40px',
-              mb: 2,
-              background: '#6C9FFF',
-              borderRadius: '10px',
-              color: '#FFFFFF',
-            }}
+            <TextField
+              className='miInput'
+              margin="normal"
+              required
+              fullWidth
+              id="password"              
+              name="password"
+              label="Password"
+              type="password"
+              onChange={handleChange}
+              autoComplete="current-password"
+              autoFocus
+              sx={{
+                '& label': {
+                  color: '#5782F2', // Estilo del texto del label
+                },
+                '& .MuiOutlinedInput-input': {
+                  color: '#ffffff', // Estilo del texto del input
+                  backgroundColor: '#1E1E1E', // Fondo del input
+                },
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#ffffff', // Estilo del borde del input
+                  
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#ffffff', // Estilo del borde del input al pasar el ratón
+                },
+              }}
+              InputProps={{
+                sx: {
+                  color: '#ffffff', // Estilo del texto del input (placeholder)
+                },
+                'inputProps': { // Para estilos adicionales del input
+                  'aria-label': 'Password',
+                },
+              }}
+            />
+    {/*         <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              onChange={handleChange}
+              id="password"
+              autoComplete="current-password"
+              sx={{
+                labelColor: '#ffffff',
+                color: '#ffffff'
+              }}
+            /> */}
 
-          >
-            Iniciar sesión
-          </Button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
 
-          {/* <Link href='/Register'>
+              sx={{
+                marginTop: '40px',
+                mb: 2,
+                background: '#5782F2',
+                borderRadius: '10px',
+                color: '#FFFFFF',
+                textTransform: 'none',
+              }}
+
+            >
+              Iniciar sesión
+            </Button>
+
+            {/* <Link href='/Register'>
             <Button
               fullWidth
               variant="contained"
@@ -206,10 +263,10 @@ export default function Home() {
             </Button>
           </Link> */}
 
+          </Box>
         </Box>
-      </Box>
 
-    </Container>
+      </Container>
     </ThemeProvider>
 
   )
