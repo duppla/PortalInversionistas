@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, PureComponent} from 'react';
 import {
     LineChart,
     Line,
@@ -81,6 +81,7 @@ const RechartsExample: React.FC = () => {
                     left: 0,
                     bottom: 0,
                 }}
+                
             >
                 <CartesianGrid strokeDasharray="6 6" /* vertical={false} */ />
                 <XAxis dataKey="fecha" height={80} tickFormatter={(fecha) => fecha} />
@@ -96,8 +97,8 @@ const RechartsExample: React.FC = () => {
                     }}
                 />
 
-                <Line connectNulls type="monotone" dataKey="fair_market_price" stroke="#FF864B" name="Fair market price" animationDuration={0} />
-                <Line connectNulls type="monotone" dataKey="valor_contractual" stroke="#C5F5CA" name="Valor Contractual" animationDuration={0} />
+                <Line connectNulls type="monotone" dataKey="fair_market_price" stroke="#FF864B" name="Fair market price" animationDuration={1500} />
+                <Line connectNulls type="monotone" dataKey="valor_contractual" stroke="#C5F5CA" name="Valor Contractuals" animationDuration={5000} />
 
 
                 {/*        <Line connectNulls type="monotone" dataKey="valor_contable" stroke="#FF864B" name="Valor Contable" />
