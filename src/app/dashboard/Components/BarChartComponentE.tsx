@@ -73,28 +73,52 @@ const BarChartComponentA2 = () => {
  
   /* prueba de formateo data a legible */
 
-  function formatNumber(value: number): string {
+ /*  function formatNumber(value: number): string {
     const suffixes = ['', 'K', 'M', 'B', 'T'];
     const suffixNum = Math.floor(('' + value).length / 3);
-    let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
+    let shortValue = (suffixNum !== 0 ? (value / Math.pow(1, suffixNum)) : value).toFixed(1);
 
     if (shortValue.endsWith('.0')) {
       shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
     }
 
     return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
-  }
+  } */
+  function formatNumber(value: number): string {
+    if (value < 1) {
+        // Formato para valores menores que 1
+        return (value * 100).toFixed(0) + '';
+    } else {
+        // Formato para valores mayores o iguales a 1
+        const suffixes = ['', 'K', 'M', 'B', 'T'];
+        const suffixNum = Math.floor(('' + value).length / 3);
+        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
+
+        if (shortValue.endsWith('.0')) {
+            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
+        }
+
+        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+    }
+}
+
   /* prueba de formateo data a legible tooltip */
   function formatNumberTooltip(value: number): string {
-    const suffixes = ['', 'K', 'M', 'B', 'T'];
-    const suffixNum = Math.floor(('' + value).length / 3);
-    let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
+    if (value < 1) {
+        // Formato para valores menores que 1
+        return (value * 100).toFixed(0) + '';
+    } else {
+        // Formato para valores mayores o iguales a 1
+        const suffixes = ['', 'K', 'M', 'B', 'T'];
+        const suffixNum = Math.floor(('' + value).length / 3);
+        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
 
-    if (shortValue.endsWith('.0')) {
-      shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
+        if (shortValue.endsWith('.0')) {
+            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
+        }
+
+        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
-
-    return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
   }
 
 
