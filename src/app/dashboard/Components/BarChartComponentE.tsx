@@ -106,14 +106,14 @@ const BarChartComponentA2 = () => {
 
       <ResponsiveBar
         data={data.filter(item => !isNaN(item.duppla) && !isNaN(item.clientes) && !isNaN(item.inversionistas))}
-        keys={['duppla', 'clientes', 'inversionistas']}
+        keys={['inversionistas', 'clientes', 'duppla']}
         indexBy="meses"
         label={() => ''}
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.3}
         valueScale={{ type: 'linear', min: 0 }}
         indexScale={{ type: 'band', round: true }}
-        colors={[ '#5ED1B1', '#28ACFF','#723DFD']} // Define tus propios colores
+        colors={[ '#723DFD', '#28ACFF','#5ED1B1']} // Define tus propios colores
         theme={{
           axis: {
             ticks: {

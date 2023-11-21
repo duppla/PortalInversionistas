@@ -1,6 +1,12 @@
 'use client'
 import { ResponsiveBar } from '@nivo/bar'
-import { useEffect, useState } from 'react';
+import { useEffect, useState , ReactNode} from 'react';
+import Grid from '@mui/material/Unstable_Grid2';
+import { SelectChangeEvent } from '@mui/material/Select';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
+import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+
 
 
 
@@ -20,53 +26,45 @@ type ItemType = {
     fecha: string;
     flujo_real: number;
     flujo_esperado: number;
-  };
+};
 function BarChart() {
 
 
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
-
-
     const [dataApi, setDataApi] = useState<DataType[]>([]);
     const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
+    const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
+                const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/a1?investor=skandia`, options);
+                const responseData = await response.json();
+                setResponseData(responseData);
+                setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
 
-    /*     useEffect(() => {
-            const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-    
-            fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/a1?investor=skandia', options)
-                .then(response => response.json())
-                .then(response => {
-                    console.log(response + 'respuesta endpoint');
-                    const data = response;
-                    setDataApi(data);
-                })
-                .catch(err => console.error(err));
-        }, []); */
-
-        useEffect(() => {
-            const fetchData = async () => {
-                try {
-                    const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                    const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/a1?investor=skandia`, options);
-                    const responseData = await response.json();
-                    setResponseData(responseData);
-                    setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
-                } catch (error) {
-                    console.error(error);
-                }
-            };
-    
-            fetchData();
-        }, []);
-
-
-
-    /* función para actualizar la sellección del usuario */
+    /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
         setSelectedDataKey(dataKey);
     };
+
+    /* Función que controla la selección del dropdown */
+    const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
+        const selectedDataKey = event.target.value as string;
+        setSelectedValue(selectedDataKey);
+        handleDataSelection(selectedDataKey);
+    };
+
 
     const getDataForSelectedKey = (): ItemType[] => {
         if (!responseData) return [];
@@ -83,45 +81,15 @@ function BarChart() {
         }
     };
 
-  
-    /* const fecha = dataApi.map((item) => item.fecha);
-      const flujo_real = dataApi.map((item) => item.flujo_real);
-      const flujo_esperado = dataApi.map((item) => item.flujo_esperado);
-      console.log(fecha + 'fecha' + '' + flujo_real + 'flujo real' + '' + flujo_esperado); */
-
-
     /* data del enpoint para renderizar la grafica por un map */
-    /*     const data = dataApi.map(item => ({
-            meses: item.fecha.split('-')[1], // Obtener el mes de la fecha actual
+
+    const formattedData = responseData
+        ? responseData[selectedDataKey].map((item: ItemType) => ({
+            fecha: item.fecha,
             flujo_real: item.flujo_real,
             flujo_esperado: item.flujo_esperado,
-        })); */
-   /*  const formattedData = getDataForSelectedKey().map(item => ({
-        fecha: item.fecha,
-        flujo_real: item.flujo_real,
-        flujo_esperado: item.flujo_esperado,
-    })); */
-
-  /*   const formattedData = responseData ? responseData.este_anho.map(item => ({
-        fecha: item.fecha,
-        flujo_real: item.flujo_real,
-        flujo_esperado: item.flujo_esperado,
-      })) : [];
-       */
-     /*  const formattedData = getDataForSelectedKey(); */
-     const formattedData = responseData
-     ? responseData[selectedDataKey].map((item: ItemType) => ({
-           fecha: item.fecha,
-           flujo_real: item.flujo_real,
-           flujo_esperado: item.flujo_esperado,
-       }))
-     : [];
-
-     /*  const formattedData = responseData ? responseData.este_anho.map((item: ItemType) => ({
-        fecha: item.fecha,
-        flujo_real: item.flujo_real,
-        flujo_esperado: item.flujo_esperado,
-      })) : []; */
+        }))
+        : [];
 
     /* prueba de formateo data a legible */
 
@@ -158,11 +126,34 @@ function BarChart() {
     return (
         <div className='grafica-barcharts nivo-text'>
             <div>
-                <button onClick={() => handleDataSelection('ult_12_meses')}>Últimos 12 meses</button>
-                <button onClick={() => handleDataSelection('este_anho')}>Este año</button>
-                <button onClick={() => handleDataSelection('ult_6_meses')}>Últimos 6 meses</button>
+                <FormControl fullWidth>
+                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
+                        <Grid xs={6} md={6} lg={6}>
+                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Flujo real vs. flujo esperado</Typography>
+                        </Grid>
+                        <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={selectedValue}
+                                label="Age"
+                                 onChange={handleSelectChange} 
+                                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
+                               
+                                sx={{
+                                    color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill:'#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
+                                    '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                                    '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
 
-
+                                }}
+                            >
+                                <MenuItem value='este_anho'>Este año</MenuItem>
+                                <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
+                                <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
+                            </Select>
+                        </Grid>
+                    </Grid>
+                </FormControl>
             </div>
 
             <ResponsiveBar

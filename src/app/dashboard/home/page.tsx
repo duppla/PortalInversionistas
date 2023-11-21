@@ -13,14 +13,14 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 const theme = createTheme({
     palette: {
         primary: {
-            main: '##5C5E6B',
+            main: '#ffffff',
             light: '#E8E9F2',
             dark: '#9B9EAB',
             // contrastText: will be calculated to contrast with palette.primary.main
         },
         secondary: {
-            main: '#E0C2FF',
-            light: '#F5EBFF',
+            main: '#ffffff',
+            light: '#FFFFFF',
             // dark: will be calculated from palette.secondary.main,
             contrastText: '#47008F',
         },
@@ -33,6 +33,8 @@ const theme = createTheme({
 const Page = () => {
     const [selectedValue, setSelectedValue] = useState('Este año');
     const [changeState, setChangeState] = useState(true);
+    const [selectedView, setSelectedView] = useState('general');
+
 
     const handleChange = (event: SelectChangeEvent<string>) => {
         setSelectedValue(event.target.value as string);
@@ -106,81 +108,56 @@ const Page = () => {
                         {/*Grafica principal-datos del inmueble*/}
                         <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                             width: '100%',
-                            height: '560px',
+                            height: '600px',
                             backgroundColor: '#212126',
                             borderRadius: '20px',
+
                         }}>
-                            <br />
-                            {/*  <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Este año</InputLabel>
-                            
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={selectedValue}
-                                label="Age"
-                                onChange={handleChange}
-                            >
-                                <MenuItem value='Este año'>Este año</MenuItem>
-                                <MenuItem value='2023'>2023</MenuItem>
-                            </Select>
-                        </FormControl> */}
 
                             {/* Condicionalmente renderiza las gráficas */}
-                            {changeState ? (<FormControl fullWidth>
-                                <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
-                                    <Grid xs={6} md={6} lg={6}>
-                                        <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Flujo real vs. flujo esperado</Typography>
-                                    </Grid>
-                                    <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={selectedValue}
-                                            label="Age"
-                                            onChange={handleChange}
-                                            sx={{
-                                                color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', ' &.MuiSelect-icon': { color: '#FFFFFF !important' },
-                                                '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                                                '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                                            }}
-                                        >
-                                            <MenuItem value='Este año'>Este año</MenuItem>
-                                            <MenuItem value='2023'>2023</MenuItem>
-                                        </Select>
-                                    </Grid>
-                                </Grid>
-                            </FormControl>
-                            ) : (
-                                <FormControl fullWidth>
-                                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
-                                        <Grid xs={6} md={6} lg={6}>
-                                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Flujo real vs. flujo esperado desglose</Typography>
-                                        </Grid>
-                                        <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={selectedValue}
-                                                label="Age"
-                                                onChange={handleChange}
-                                                sx={{
-                                                    color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', ' &.MuiSelect-icon': { color: '#FFFFFF !important' },
-                                                    '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                                                    '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                                                }}
-                                            >
-                                                <MenuItem value='Este año'>Este año</MenuItem>
-                                                <MenuItem value='2023'>2023</MenuItem>
-                                            </Select>
-                                        </Grid>
-                                    </Grid>
-                                </FormControl>
+                            {selectedView === 'general' && <Graficaprueba />}
+                            {selectedView === 'detalle' && <GraficacomponenteA2 />}
+                            <br /><br />
+                            <div className='centrado'>
+                                <div>
+                            <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-end', mt: 1 }}>
 
-                            )}
-                            {/* Condicionalmente renderiza las gráficas */}
-                            {selectedValue === 'Este año' && <Graficaprueba />}
-                            {selectedValue === '2023' && <GraficacomponenteA2 />}
+                                <Button variant="outlined" sx={{
+                                    backgroundColor: '#272727',
+                                    color: '#9B9EAB',
+                                    fontFamily: 'Roboto',
+                                    fontStyle: 'normal',
+                                    fontWeight: '400',
+                                    fontSize: '16px',
+                                    textTransform: 'none',
+                                    width: '140px',
+                                    borderColor: '#9B9EAB',
+                                }}
+                                onClick={() => setSelectedView('general')}
+                                
+                                >
+                                   Vista general
+                                </Button>
+
+                                <Button variant="outlined" sx={{
+                                    backgroundColor: '#272727',
+                                    color: '#9B9EAB',
+                                    fontFamily: 'Roboto',
+                                    fontStyle: 'normal',
+                                    fontWeight: '400',
+                                    fontSize: '16px',
+                                    textTransform: 'none',
+                                    width: '140px',
+                                    borderColor: '#9B9EAB',
+                                }}
+                                onClick={() => setSelectedView('detalle')}
+                                
+                                >
+                                    Detalle
+                                </Button>
+                            </Stack>
+                                </div>
+                            </div>
                         </Grid>
                     </Grid>
                     {/* Componente E*/}
