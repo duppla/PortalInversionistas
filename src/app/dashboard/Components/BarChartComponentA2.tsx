@@ -1,53 +1,102 @@
 'use client'
 import { ResponsiveBar } from '@nivo/bar'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
+import Grid from '@mui/material/Unstable_Grid2';
+import { SelectChangeEvent } from '@mui/material/Select';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
+import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 
+type DataApiType = {
+  fecha: string;
+  arriendo: any;
+  compra_venta: any;
+  prepago: any;
+};
 
-function truncateValue(value: number): number {
-  // Implementa tu lógica de truncamiento aquí
-  return Math.floor(value);
-}
+type DataType = {
+  ult_12_meses: DataApiType[];
+  este_anho: DataApiType[];
+  ult_6_meses: DataApiType[];
+};
 
-interface DataApiType {
+type ItemType = {
+  fecha: string;
+  arriendo: number;
+  compra_venta: number;
+  prepago: number;
+};
+
+/* interface DataApiType {
   fecha: string;
   arriendo: number;
   compra_venta: number;
   prepago: number;
   // otras propiedades que los objetos en dataApi pueden tener...
-}
+} */
 const BarChartComponentA2 = () => {
 
-  const [dataApi, setDataApi] = useState<DataApiType[]>([]);
+  const [data, setData] = useState<DataType | null>(null);
+  const [responseData, setResponseData] = useState<any>(null);
+  const [dataApi, setDataApi] = useState<DataType[]>([]);
+  const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
+  const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
+
+  /*  useEffect(() => {
+     const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
+ 
+     fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/a2?investor=skandia', options)
+       .then(response => response.json())
+       .then(response => {
+         console.log(response + 'respuesta endpoint');
+         const data = response;
+         setDataApi(data);
+       })
+       .catch(err => console.error(err));
+   }, []); */
 
   useEffect(() => {
-    const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
+    const fetchData = async () => {
+      try {
+        const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
+        const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/a2?investor=skandia`, options);
+        const responseData = await response.json();
+        setResponseData(responseData);
+        setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-    fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/a2?investor=skandia', options)
-      .then(response => response.json())
-      .then(response => {
-        console.log(response + 'respuesta endpoint');
-        const data = response;
-        setDataApi(data);
-      })
-      .catch(err => console.error(err));
+    fetchData();
   }, []);
 
 
+  /* Función para actualizar la selección del usuario */
+  const handleDataSelection = (dataKey: string) => {
+    setSelectedDataKey(dataKey);
+  };
 
-  const meses = dataApi.map((item) => {
-    // Obtener solo el mes (por ejemplo, "2023-01-15" -> "01")
-    return item.fecha.split('-')[1];
-  });
+  /* Función que controla la selección del dropdown */
+  const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
+    const selectedDataKey = event.target.value as string;
+    setSelectedValue(selectedDataKey);
+    handleDataSelection(selectedDataKey);
+  };
 
+      /* data del enpoint para renderizar la grafica por un map */
 
+      const formattedDataa = responseData
+      ? responseData[selectedDataKey].map((item: ItemType) => ({
+          fecha: item.fecha,       
+          arriendo: item.arriendo,
+          compra_venta: item.compra_venta,
+          prepago: item.prepago,
+      }))
+      : [];
 
-  const data = dataApi.map((item) => ({
-    meses: Number(item.fecha.split('-')[1]) || 0, // Usa 0 si no es un número válido
-    compra_venta: item.compra_venta,
-    prepago: item.prepago,
-    arriendo: item.arriendo,
-  }));
 
 
   const colors: Record<string, string> = {
@@ -57,19 +106,19 @@ const BarChartComponentA2 = () => {
   };
 
 
-  data.forEach((item: Record<string, any>) => {
+/*   data.forEach((item: Record<string, any>) => {
     item.color = colors[item.meses];
-  });
+  }); */
 
   const keys = ['prepago', 'arriendo', 'compra_venta'];
 
-  const formattedData = data.map((item: Record<string, any>) => {
+/*   const formattedData = data.map((item: Record<string, any>) => {
     const formattedItem: Record<string, any> = { meses: item.meses };
     keys.forEach(key => {
       formattedItem[key] = item[key];
     });
     return formattedItem;
-  });
+  }); */
 
   const dataNivo = [
     {
@@ -207,36 +256,65 @@ const BarChartComponentA2 = () => {
   }
 
 
-  console.log('Data para el gráfico:', JSON.stringify(formattedData));
+  
 
   return (
     <div className='grafica-barcharts nivo-text'>
+ <div>
+                <FormControl fullWidth>
+                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
+                        <Grid xs={6} md={6} lg={6}>
+                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Flujo real vs. flujo esperado</Typography>
+                        </Grid>
+                        <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={selectedValue}
+                                label="Age"
+                                 onChange={handleSelectChange} 
+                                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
+                               
+                                sx={{
+                                    color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill:'#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
+                                    '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                                    '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
 
+                                }}
+                            >
+                                <MenuItem value='este_anho'>Este año</MenuItem>
+                                <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
+                                <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
+                            </Select>
+                        </Grid>
+                    </Grid>
+                </FormControl>
+            </div>
 
       <ResponsiveBar
-        data={data.filter(item => !isNaN(item.compra_venta) && !isNaN(item.prepago) && !isNaN(item.arriendo))}
+        data={formattedDataa}
         keys={['compra_venta', 'arriendo', 'prepago']}
-        indexBy="meses"
+        indexBy="fecha"
         label={() => ''}
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.3}
         valueScale={{ type: 'linear', min: 0 }}
         indexScale={{ type: 'band', round: true }}
-         colors={['#28ACFF', '#00B383', '#5ED1B1']} // Define tus propios colores */
+        colors={['#28ACFF', '#00B383', '#5ED1B1']} // Define tus propios colores */
 
-      /*   colors={(bar) => {
-          switch (bar.id) {
-            case 'prepago':
-              return '#5ED1B1';
-            case 'arriendo':
-              return '#00B383';
-            case 'compra_venta':
-              return '#28ACFF';
-            default:
-              return '#000000';
-          }
-        }}
- */
+        /*   colors={(bar) => {
+            switch (bar.id) {
+              case 'prepago':
+                return '#5ED1B1';
+              case 'arriendo':
+                return '#00B383';
+              case 'compra_venta':
+                return '#28ACFF';
+              default:
+                return '#000000';
+            }
+          }}
+   */
 
         theme={{
           axis: {
@@ -340,13 +418,13 @@ const BarChartComponentA2 = () => {
                 }
               }
             ],
-            data: [
+            /* data: [
               { id: 'prepago', label: 'Prepago' },
               { id: 'arriendo', label: 'Arriendo' },
               { id: 'compra_venta', label: 'Compra/Venta' },
             ],
             itemTextColor: '#9B9EAB',
-            symbolShape: 'circle',
+            symbolShape: 'circle', */
 
           }
         ]}
