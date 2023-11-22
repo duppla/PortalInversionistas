@@ -117,6 +117,14 @@ a {
   
 }
 
+.grafica-piecharts {
+  width: auto !important;
+  height: 380px;
+  
+}
+
+
+
 .miInput {
   color: #272727;
   background-color: #272727;
