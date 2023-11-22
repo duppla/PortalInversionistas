@@ -29,13 +29,7 @@ type ItemType = {
   prepago: number;
 };
 
-/* interface DataApiType {
-  fecha: string;
-  arriendo: number;
-  compra_venta: number;
-  prepago: number;
-  // otras propiedades que los objetos en dataApi pueden tener...
-} */
+
 const BarChartComponentA2 = () => {
 
   const [data, setData] = useState<DataType | null>(null);
@@ -44,18 +38,7 @@ const BarChartComponentA2 = () => {
   const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
   const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
 
-  /*  useEffect(() => {
-     const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
- 
-     fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/a2?investor=skandia', options)
-       .then(response => response.json())
-       .then(response => {
-         console.log(response + 'respuesta endpoint');
-         const data = response;
-         setDataApi(data);
-       })
-       .catch(err => console.error(err));
-   }, []); */
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,16 +69,16 @@ const BarChartComponentA2 = () => {
     handleDataSelection(selectedDataKey);
   };
 
-      /* data del enpoint para renderizar la grafica por un map */
+  /* data del enpoint para renderizar la grafica por un map */
 
-      const formattedDataa = responseData
-      ? responseData[selectedDataKey].map((item: ItemType) => ({
-          fecha: item.fecha,       
-          arriendo: item.arriendo,
-          compra_venta: item.compra_venta,
-          prepago: item.prepago,
-      }))
-      : [];
+  const formattedDataa = responseData
+    ? responseData[selectedDataKey].map((item: ItemType) => ({
+      fecha: item.fecha,
+      arriendo: item.arriendo,
+      compra_venta: item.compra_venta,
+      prepago: item.prepago,
+    }))
+    : [];
 
 
 
@@ -106,127 +89,11 @@ const BarChartComponentA2 = () => {
   };
 
 
-/*   data.forEach((item: Record<string, any>) => {
-    item.color = colors[item.meses];
-  }); */
+
 
   const keys = ['prepago', 'arriendo', 'compra_venta'];
 
-/*   const formattedData = data.map((item: Record<string, any>) => {
-    const formattedItem: Record<string, any> = { meses: item.meses };
-    keys.forEach(key => {
-      formattedItem[key] = item[key];
-    });
-    return formattedItem;
-  }); */
 
-  const dataNivo = [
-    {
-      "country": "AD",
-      "hot dog": 114,
-      "hot dogColor": "hsl(205, 70%, 50%)",
-      "burger": 39,
-      "burgerColor": "hsl(291, 70%, 50%)",
-      "sandwich": 42,
-      "sandwichColor": "hsl(254, 70%, 50%)",
-      "kebab": 64,
-      "kebabColor": "hsl(320, 70%, 50%)",
-      "fries": 15,
-      "friesColor": "hsl(69, 70%, 50%)",
-      "donut": 155,
-      "donutColor": "hsl(11, 70%, 50%)"
-    },
-    {
-      "country": "AE",
-      "hot dog": 84,
-      "hot dogColor": "hsl(250, 70%, 50%)",
-      "burger": 46,
-      "burgerColor": "hsl(151, 70%, 50%)",
-      "sandwich": 57,
-      "sandwichColor": "hsl(239, 70%, 50%)",
-      "kebab": 130,
-      "kebabColor": "hsl(311, 70%, 50%)",
-      "fries": 69,
-      "friesColor": "hsl(121, 70%, 50%)",
-      "donut": 177,
-      "donutColor": "hsl(277, 70%, 50%)"
-    },
-    {
-      "country": "AF",
-      "hot dog": 7,
-      "hot dogColor": "hsl(260, 70%, 50%)",
-      "burger": 36,
-      "burgerColor": "hsl(21, 70%, 50%)",
-      "sandwich": 4,
-      "sandwichColor": "hsl(112, 70%, 50%)",
-      "kebab": 199,
-      "kebabColor": "hsl(276, 70%, 50%)",
-      "fries": 31,
-      "friesColor": "hsl(242, 70%, 50%)",
-      "donut": 37,
-      "donutColor": "hsl(256, 70%, 50%)"
-    },
-    {
-      "country": "AG",
-      "hot dog": 196,
-      "hot dogColor": "hsl(171, 70%, 50%)",
-      "burger": 142,
-      "burgerColor": "hsl(312, 70%, 50%)",
-      "sandwich": 2,
-      "sandwichColor": "hsl(83, 70%, 50%)",
-      "kebab": 93,
-      "kebabColor": "hsl(67, 70%, 50%)",
-      "fries": 39,
-      "friesColor": "hsl(317, 70%, 50%)",
-      "donut": 107,
-      "donutColor": "hsl(164, 70%, 50%)"
-    },
-    {
-      "country": "AI",
-      "hot dog": 174,
-      "hot dogColor": "hsl(311, 70%, 50%)",
-      "burger": 145,
-      "burgerColor": "hsl(320, 70%, 50%)",
-      "sandwich": 50,
-      "sandwichColor": "hsl(155, 70%, 50%)",
-      "kebab": 59,
-      "kebabColor": "hsl(192, 70%, 50%)",
-      "fries": 149,
-      "friesColor": "hsl(79, 70%, 50%)",
-      "donut": 147,
-      "donutColor": "hsl(349, 70%, 50%)"
-    },
-    {
-      "country": "AL",
-      "hot dog": 41,
-      "hot dogColor": "hsl(29, 70%, 50%)",
-      "burger": 25,
-      "burgerColor": "hsl(333, 70%, 50%)",
-      "sandwich": 119,
-      "sandwichColor": "hsl(4, 70%, 50%)",
-      "kebab": 194,
-      "kebabColor": "hsl(79, 70%, 50%)",
-      "fries": 175,
-      "friesColor": "hsl(342, 70%, 50%)",
-      "donut": 5,
-      "donutColor": "hsl(344, 70%, 50%)"
-    },
-    {
-      "country": "AM",
-      "hot dog": 38,
-      "hot dogColor": "hsl(39, 70%, 50%)",
-      "burger": 124,
-      "burgerColor": "hsl(241, 70%, 50%)",
-      "sandwich": 159,
-      "sandwichColor": "hsl(246, 70%, 50%)",
-      "kebab": 169,
-      "kebabColor": "hsl(213, 70%, 50%)",
-      "fries": 126,
-      "friesColor": "hsl(300, 70%, 50%)",
-      "donut": 193,
-      "donutColor": "hsl(221, 70%, 50%)"
-    }
-  ]
 
 
   /* prueba de formateo data a legible */
@@ -256,40 +123,40 @@ const BarChartComponentA2 = () => {
   }
 
 
-  
+
 
   return (
     <div className='grafica-barcharts nivo-text'>
- <div>
-                <FormControl fullWidth>
-                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
-                        <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Flujo real vs. flujo esperado desglose</Typography>
-                        </Grid>
-                        <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={selectedValue}
-                                label="Age"
-                                 onChange={handleSelectChange} 
-                                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
-                               
-                                sx={{
-                                    color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill:'#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
-                                    '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                                    '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
+      <div>
+        <FormControl fullWidth>
+          <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
+            <Grid xs={6} md={6} lg={6}>
+              <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Flujo real vs. flujo esperado desglose</Typography>
+            </Grid>
+            <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedValue}
+                label="Age"
+                onChange={handleSelectChange}
+                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
 
-                                }}
-                            >
-                                <MenuItem value='este_anho'>Este año</MenuItem>
-                                <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
-                                <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
-                            </Select>
-                        </Grid>
-                    </Grid>
-                </FormControl>
-            </div>
+                sx={{
+                  color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill: '#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
+                  '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                  '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
+
+                }}
+              >
+                <MenuItem value='este_anho'>Este año</MenuItem>
+                <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
+                <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
+              </Select>
+            </Grid>
+          </Grid>
+        </FormControl>
+      </div>
 
       <ResponsiveBar
         data={formattedDataa}
