@@ -11,6 +11,9 @@ import GraficacomponenteG2 from '../Components/PieChartComponentG2'
 import CardcomponenteD1 from '../Components/CardComponentD1'
 import CardcomponenteD2 from '../Components/CardComponentD2'
 import CardcomponenteD3 from '../Components/CardComponentD3'
+import CardcomponenteF1 from '../Components/CardComponentF1'
+import CardcomponenteF2 from '../Components/CardComponentF2'
+import CardcomponenteF3 from '../Components/CardComponentF3'
 import { useState } from 'react'
 import { SelectChangeEvent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -192,24 +195,16 @@ const Page = () => {
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                    }} rowSpacing={0.5} gap={1} columnSpacing={{ md: 1, lg: 1, }}  >
-
-                        <Grid xs={12} sm={12} md={3} lg={3} sx={{ backgroundColor: '#ffffff', width: '560px', height: '260px' }}>
-                            <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
-                                Componente F1
-                            </Typography>
+                       mt:4 ,
+                    }} rowSpacing={1} gap={10} columnSpacing={{ md: 1, lg: 1, }}  >
+                        <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
+                            <CardcomponenteF1 />
                         </Grid>
-                        <Grid xs={12} sm={12} md={3} lg={3} sx={{ backgroundColor: '#ffffff', width: '560px', height: '260px' }}>
-                            <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
-                                Componente F2
-                            </Typography>
+                        <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
+                            <CardcomponenteF2 />
                         </Grid>
-                        <Grid xs={12} sm={12} md={3} lg={3} sx={{
-                            backgroundColor: '#ffffff', width: '560px', height: '260px'
-                        }}>
-                            <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
-                                Componente F3
-                            </Typography>
+                        <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
+                            <CardcomponenteF3 />
                         </Grid>
                     </Grid>
                     {/* Componente G */}
@@ -224,6 +219,7 @@ const Page = () => {
                         backgroundColor: '#1E1E1E',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                        mt:4
                     }} rowSpacing={2} gap={10} columnSpacing={{ md: 1, lg: 1, }}
                     >
                         <Grid xs={12} sm={12} md={5} lg={5} sx={{
