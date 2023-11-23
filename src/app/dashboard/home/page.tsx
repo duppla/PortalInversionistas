@@ -8,6 +8,9 @@ import GraficacomponenteA2 from '../Components/BarChartComponentA2'
 import GraficacomponenteE from '../Components/BarChartComponentE'
 import GraficacomponenteG1 from '../Components/PieChartComponentG1'
 import GraficacomponenteG2 from '../Components/PieChartComponentG2'
+import CardcomponenteD1 from '../Components/CardComponentD1'
+import CardcomponenteD2 from '../Components/CardComponentD2'
+import CardcomponenteD3 from '../Components/CardComponentD3'
 import { useState } from 'react'
 import { SelectChangeEvent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -75,24 +78,15 @@ const Page = () => {
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                    }} rowSpacing={0.5} gap={1} columnSpacing={{ md: 1, lg: 1, }}  >
-
-                        <Grid xs={12} sm={12} md={3} lg={3} sx={{ backgroundColor: 'blue', width: '560px', height: '260px' }}>
-                            <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
-                                Componente D1
-                            </Typography>
+                    }} rowSpacing={1} gap={10} columnSpacing={{ md: 1, lg: 1, }}  >
+                        <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
+                            <CardcomponenteD1 />
                         </Grid>
-                        <Grid xs={12} sm={12} md={3} lg={3} sx={{ backgroundColor: '#ffffff', width: '560px', height: '260px' }}>
-                            <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
-                                Componente D2
-                            </Typography>
+                        <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
+                            <CardcomponenteD2 />
                         </Grid>
-                        <Grid xs={12} sm={12} md={3} lg={3} sx={{
-                            backgroundColor: '#ffffff', width: '560px', height: '260px'
-                        }}>
-                            <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
-                                Componente D3
-                            </Typography>
+                        <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
+                            <CardcomponenteD3 />
                         </Grid>
                     </Grid>
                     {/* Componente A y A1 */}
@@ -122,42 +116,42 @@ const Page = () => {
                             <br /><br />
                             <div className='centrado'>
                                 <div>
-                            <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-end', mt: 1 }}>
+                                    <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-end', mt: 1 }}>
 
-                                <Button variant="outlined" sx={{
-                                    backgroundColor: '#272727',
-                                    color: '#9B9EAB',
-                                    fontFamily: 'Roboto',
-                                    fontStyle: 'normal',
-                                    fontWeight: '400',
-                                    fontSize: '16px',
-                                    textTransform: 'none',
-                                    width: '140px',
-                                    borderColor: '#9B9EAB',
-                                }}
-                                onClick={() => setSelectedView('general')}
-                                
-                                >
-                                   Vista general
-                                </Button>
+                                        <Button variant="outlined" sx={{
+                                            backgroundColor: '#272727',
+                                            color: '#9B9EAB',
+                                            fontFamily: 'Roboto',
+                                            fontStyle: 'normal',
+                                            fontWeight: '400',
+                                            fontSize: '16px',
+                                            textTransform: 'none',
+                                            width: '140px',
+                                            borderColor: '#9B9EAB',
+                                        }}
+                                            onClick={() => setSelectedView('general')}
 
-                                <Button variant="outlined" sx={{
-                                    backgroundColor: '#272727',
-                                    color: '#9B9EAB',
-                                    fontFamily: 'Roboto',
-                                    fontStyle: 'normal',
-                                    fontWeight: '400',
-                                    fontSize: '16px',
-                                    textTransform: 'none',
-                                    width: '140px',
-                                    borderColor: '#9B9EAB',
-                                }}
-                                onClick={() => setSelectedView('detalle')}
-                                
-                                >
-                                    Detalle
-                                </Button>
-                            </Stack>
+                                        >
+                                            Vista general
+                                        </Button>
+
+                                        <Button variant="outlined" sx={{
+                                            backgroundColor: '#272727',
+                                            color: '#9B9EAB',
+                                            fontFamily: 'Roboto',
+                                            fontStyle: 'normal',
+                                            fontWeight: '400',
+                                            fontSize: '16px',
+                                            textTransform: 'none',
+                                            width: '140px',
+                                            borderColor: '#9B9EAB',
+                                        }}
+                                            onClick={() => setSelectedView('detalle')}
+
+                                        >
+                                            Detalle
+                                        </Button>
+                                    </Stack>
                                 </div>
                             </div>
                         </Grid>
@@ -232,15 +226,19 @@ const Page = () => {
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                     }} rowSpacing={2} gap={10} columnSpacing={{ md: 1, lg: 1, }}
                     >
-                        <Grid xs={12} sm={12} md={5} lg={5} sx={{  backgroundColor: '#212126', borderRadius: '20px',
-                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', }}>
-                        
-                            <GraficacomponenteG1/>
+                        <Grid xs={12} sm={12} md={5} lg={5} sx={{
+                            backgroundColor: '#212126', borderRadius: '20px',
+                            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                        }}>
+
+                            <GraficacomponenteG1 />
 
                         </Grid>
-                        <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{  backgroundColor: '#212126', borderRadius: '20px',
-                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', }}>
-                           <GraficacomponenteG2/>
+                        <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{
+                            backgroundColor: '#212126', borderRadius: '20px',
+                            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                        }}>
+                            <GraficacomponenteG2 />
                         </Grid>
                     </Grid>
                 </Container>

@@ -106,7 +106,7 @@ const BarChartComponentA2 = () => {
     function formatNumber(value: number): string {
         if (value < 1) {
             // Formato para valores menores que 1
-            return (value * 100).toFixed(0) + '';
+            return (value * 100).toFixed(0) + '%';
         } else {
             // Formato para valores mayores o iguales a 1
             const suffixes = ['', 'K', 'M', 'B', 'T'];
@@ -149,7 +149,7 @@ const BarChartComponentA2 = () => {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt:1 }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Porcentaje de propiedad del portafolio</Typography>
+                            <Typography variant="subtitle1" sx={{ color: '#ffffff', }}>Porcentaje de propiedad del portafolio</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -210,7 +210,7 @@ const BarChartComponentA2 = () => {
                 tooltip={({ id, value, color }) => (
                     <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: '#9B9EAB' }}>
                         <strong >
-                            {id}: {formatNumberTooltip(value)}
+                            {id}: {formatNumberTooltip(value)}%
                         </strong>
 
                     </div>
