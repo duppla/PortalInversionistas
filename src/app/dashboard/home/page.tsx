@@ -7,6 +7,7 @@ import Graficaprueba from '../Components/BarChartComponentA1'
 import GraficacomponenteA2 from '../Components/BarChartComponentA2'
 import GraficacomponenteE from '../Components/BarChartComponentE'
 import GraficacomponenteG1 from '../Components/PieChartComponentG1'
+import GraficacomponenteG2 from '../Components/PieChartComponentG2'
 import { useState } from 'react'
 import { SelectChangeEvent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -225,21 +226,21 @@ const Page = () => {
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                        height: '380px',
-                        backgroundColor: '#212126',
+                        height: '480px',
+                        backgroundColor: '#1E1E1E',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                    }} rowSpacing={0.5} gap={1} columnSpacing={{ md: 1, lg: 1, }}
+                    }} rowSpacing={2} gap={10} columnSpacing={{ md: 1, lg: 1, }}
                     >
-                        <Grid xs={12} sm={12} md={5} lg={5} sx={{  }}>
+                        <Grid xs={12} sm={12} md={5} lg={5} sx={{  backgroundColor: '#212126', borderRadius: '20px',
+                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', }}>
                         
                             <GraficacomponenteG1/>
 
                         </Grid>
-                        <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{ backgroundColor: '#f5f5f5', width: '560px', height: '260px' }}>
-                            <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
-                                Componente G2
-                            </Typography>
+                        <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{  backgroundColor: '#212126', borderRadius: '20px',
+                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', }}>
+                           <GraficacomponenteG2/>
                         </Grid>
                     </Grid>
                 </Container>
