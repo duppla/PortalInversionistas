@@ -17,11 +17,7 @@ type DataApiType = {
     total: number;
 };
 
-/* type DataType = {
-    ult_12_meses: DataApiType;
-    este_anho: DataApiType;
-    ult_6_meses: DataApiType;
-}; */
+
 type DataType = {
     [key: string]: any;
 };

@@ -3,17 +3,17 @@ import React from 'react'
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Link from 'next/link';
 import Grid from '@mui/material/Unstable_Grid2';
-import Graficaprueba from '../Components/BarChartComponentA1'
-import GraficacomponenteA2 from '../Components/BarChartComponentA2'
-import GraficacomponenteE from '../Components/BarChartComponentE'
-import GraficacomponenteG1 from '../Components/PieChartComponentG1'
-import GraficacomponenteG2 from '../Components/PieChartComponentG2'
-import CardcomponenteD1 from '../Components/CardComponentD1'
-import CardcomponenteD2 from '../Components/CardComponentD2'
-import CardcomponenteD3 from '../Components/CardComponentD3'
-import CardcomponenteF1 from '../Components/CardComponentF1'
-import CardcomponenteF2 from '../Components/CardComponentF2'
-import CardcomponenteF3 from '../Components/CardComponentF3'
+import Graficaprueba from '../Components/main/BarChartComponentA1'
+import GraficacomponenteA2 from '../Components/main/BarChartComponentA2'
+import GraficacomponenteE from '../Components/main/BarChartComponentE'
+import GraficacomponenteG1 from '../Components/main/PieChartComponentG1'
+import GraficacomponenteG2 from '../Components/main/PieChartComponentG2'
+import CardcomponenteD1 from '../Components/main/CardComponentD1'
+import CardcomponenteD2 from '../Components/main/CardComponentD2'
+import CardcomponenteD3 from '../Components/main/CardComponentD3'
+import CardcomponenteF1 from '../Components/main/CardComponentF1'
+import CardcomponenteF2 from '../Components/main/CardComponentF2'
+import CardcomponenteF3 from '../Components/main/CardComponentF3'
 import { useState } from 'react'
 import { SelectChangeEvent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
