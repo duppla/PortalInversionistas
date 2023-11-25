@@ -192,7 +192,7 @@ const LineChartComponentH2 = () => {
                 }
               ]}
               enablePointLabel
-              height={400}
+            
               margin={{
                 bottom: 60,
                 left: 80,
@@ -212,7 +212,7 @@ const LineChartComponentH2 = () => {
               pointSize={16}
               pointSymbol={function noRefCheck(){}}
               useMesh
-              width={900}
+             
               xFormat="time:%Y-%m-%d %H:%M:%S.%L"
               xScale={{
                 format: '%Y-%m-%d %H:%M:%S.%L',
