@@ -122,6 +122,10 @@ a {
   height: 380px;
   
 }
+.grafica-Linecharts {
+  width: 100%;
+  height: 300px; /* O el valor que desees para pantallas más grandes */
+}
 
 
 

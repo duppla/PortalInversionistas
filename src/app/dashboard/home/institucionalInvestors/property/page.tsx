@@ -5,6 +5,7 @@ import Link from 'next/link';
 import GraficaComponenteb from '../../../Components/property/LineChartComponentB'
 import GraficacomponenteH1 from '../../../Components/property/PieChartComponentH1'
 import GraficacomponenteH2 from '../../../Components/property/LineChartComponentH2'
+import Prueba from '../../../Components/property/Prueba'
 
 
 const page = () => {
@@ -107,6 +108,7 @@ const page = () => {
                         <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
                             Componente C
                         </Typography>
+                     {/*    <Prueba /> */}
                     </Grid>
 
                 </Grid>

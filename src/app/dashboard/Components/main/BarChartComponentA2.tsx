@@ -301,12 +301,6 @@ const BarChartComponentA2 = () => {
         barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
       />
 
-
-
-
-
-
-
     </div>
   )
 }

@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -10,7 +8,7 @@ import { ResponsiveLine } from '@nivo/line';
 
 type DataApiType = {
     fecha: string;
-    unidades: number;
+    fair_market_price: number;
 };
 
 
@@ -23,7 +21,7 @@ type DataType = {
 interface Item {
     [key: string]: any;
     fecha: string;
-    unidades: number | null;
+    fair_market_price: number | null;
 }
 
 const LineChartComponentH2 = () => {
@@ -35,7 +33,7 @@ const LineChartComponentH2 = () => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/h2?investor=skandia', options);
+                const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/b?investor=skandia', options);
                 const data = await response.json();
                 setData(data);
                 handleDataSelection(selectedValue.toString());
@@ -60,7 +58,7 @@ const LineChartComponentH2 = () => {
     const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
         return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
             x: item.fecha,
-            y: item.unidades,
+            y: item.fair_market_price,
         }));
     };
 
@@ -71,7 +69,7 @@ const LineChartComponentH2 = () => {
 
 
     return (
-        <div className='grafica-Linecharts'>
+        <div className='grafica-barcharts nivo-text'>
             <div>
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
@@ -103,20 +101,141 @@ const LineChartComponentH2 = () => {
                     </Grid>
                 </FormControl>
             </div>
-          
+
             <ResponsiveLine
-                animate
+              animate
+              axisBottom={{
+                format: '.%L',
+                legend: 'time scale',
+                legendOffset: -12,
+                tickValues: 'every 10 milliseconds'
+              }}
+              axisLeft={{
+                legend: 'linear scale',
+                legendOffset: 12
+              }}
+              curve="monotoneX"
+              data={[
+                {
+                  data: [
+                    {
+                      x: '2018-01-01 12:00:01.100',
+                      y: 7
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.110',
+                      y: 5
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.120',
+                      y: 11
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.130',
+                      y: 9
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.140',
+                      y: 12
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.150',
+                      y: 16
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.160',
+                      y: 13
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.170',
+                      y: 13
+                    }
+                  ],
+                  id: 'signal A'
+                },
+                {
+                  data: [
+                    {
+                      x: '2018-01-01 12:00:01.100',
+                      y: 14
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.110',
+                      y: 14
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.120',
+                      y: 15
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.130',
+                      y: 11
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.140',
+                      y: 10
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.150',
+                      y: 12
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.160',
+                      y: 9
+                    },
+                    {
+                      x: '2018-01-01 12:00:01.170',
+                      y: 7
+                    }
+                  ],
+                  id: 'signal B'
+                }
+              ]}
+              enablePointLabel
+              height={400}
+              margin={{
+                bottom: 60,
+                left: 80,
+                right: 20,
+                top: 20
+              }}
+              pointBorderColor={{
+                from: 'color',
+                modifiers: [
+                  [
+                    'darker',
+                    0.3
+                  ]
+                ]
+              }}
+              pointBorderWidth={1}
+              pointSize={16}
+              pointSymbol={function noRefCheck(){}}
+              useMesh
+              width={900}
+              xFormat="time:%Y-%m-%d %H:%M:%S.%L"
+              xScale={{
+                format: '%Y-%m-%d %H:%M:%S.%L',
+                precision: 'millisecond',
+                type: 'time',
+                useUTC: false
+              }}
+              yScale={{
+                type: 'linear'
+              }}
+
+              /*   animate
                 axisBottom={{
                     format: '%b %d',
-                    /*  legend: 'time scale', */
+                   
                     legendOffset: -12,
                     tickValues: 'every month'
                 }}
                 axisLeft={{
-                    /*  legend: 'linear scale', */
+                  
                     legendOffset: 12,
-                     
-                    
+
+
                 }}
                 theme={{
                     axis: {
@@ -127,8 +246,7 @@ const LineChartComponentH2 = () => {
                         }
                     }
                 }}
-                lineWidth={6}                           
-
+                lineWidth={6}
                 curve="monotoneX"
                 data={[
                     {
@@ -137,14 +255,14 @@ const LineChartComponentH2 = () => {
                         id: 'Unidades'
                     }
                 ]}
-                colors={['#5ED1B1']}
+                colors={['#5ED1B1','#28ACFF']}
                 enablePointLabel={false}
 
                 margin={{
                     bottom: 60,
-                    left: 50,
+                    left: 80,
                     right: 20,
-                    top: 40
+                    top: 20
                 }}
                 pointBorderColor={{
                     from: 'color',
@@ -169,12 +287,13 @@ const LineChartComponentH2 = () => {
                 }}
                 yScale={{
                     type: 'linear'
-                }}
+                }} */
             />
-        
 
         </div>
     );
 };
 
 export default LineChartComponentH2;
+
+

@@ -17,6 +17,7 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.5",
     "@mui/x-data-grid": "^6.18.1",
     "@nivo/bar": "^0.84.0",
+    "@nivo/bump": "^0.84.0",
     "@nivo/core": "^0.84.0",
     "@nivo/line": "^0.84.0",
     "@nivo/pie": "^0.84.0",
