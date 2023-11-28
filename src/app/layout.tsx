@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import 'mapbox-gl/dist/mapbox-gl.css';
 import AuthProvider from '../app/context/authContext';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -17,6 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+
       <body
         className={inter.className}>
         <AuthProvider>{/* envuelve toda la app */}

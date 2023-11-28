@@ -22,6 +22,7 @@
     "@nivo/line": "^0.84.0",
     "@nivo/pie": "^0.84.0",
     "firebase": "^10.6.0",
+    "mapbox-gl": "^2.15.0",
     "next": "^14.0.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -30,6 +31,7 @@
     "sweetalert": "^2.1.2"
   },
   "devDependencies": {
+    "@types/mapbox-gl": "^2.7.19",
     "@types/node": "^16.11.14",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",

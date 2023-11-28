@@ -5,6 +5,7 @@ import Link from 'next/link';
 import GraficaComponenteb from '../../../Components/property/LineChartComponentB'
 import GraficacomponenteH1 from '../../../Components/property/PieChartComponentH1'
 import GraficacomponenteH2 from '../../../Components/property/LineChartComponentH2'
+import MapacomponenteC from '../../../Components/property/MapComponentC'
 import Prueba from '../../../Components/property/Prueba'
 
 
@@ -16,8 +17,8 @@ const page = () => {
             <Box maxWidth="xl" sx={{ ml: 4 }}>
                 <Grid container spacing={2}>
                     <Grid xs={12} sm={6} md={6} lg={6}>
-                        <Typography sx={{ mt:0.3, mb: 1.5, color: '#5682F2', fontStyle:'normal',fontWeight:'700' }}>
-                           <h1>Inmuebles</h1> 
+                        <Typography sx={{ mt: 0.3, mb: 1.5, color: '#5682F2', fontStyle: 'normal', fontWeight: '700' }}>
+                            <h1>Inmuebles</h1>
                         </Typography>
                     </Grid>
                     <Grid xs={6} sm={6} md={6} lg={6} sx={{
@@ -57,7 +58,7 @@ const page = () => {
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                         mt: 2, mb: 2,
                     }}>
-                       <GraficacomponenteH2 />
+                        <GraficacomponenteH2 />
                     </Grid>
                 </Grid>
                 {/* Componente B */}
@@ -109,12 +110,14 @@ const page = () => {
                         <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
                             Componente C
                         </Typography>
-                     {/*  <Prueba />   */}
+
+                        <MapacomponenteC />
+
                     </Grid>
 
                 </Grid>
-                 {/* Componente J */}
-                 <Grid container sx={{
+                {/* Componente J */}
+                <Grid container sx={{
                     marginTop: '40px',
                     display: 'flex',
                     justifyContent: 'center',
@@ -137,7 +140,7 @@ const page = () => {
                         <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
                             Componente J
                         </Typography>
-                     {/*  <Prueba />   */}
+                        {/*  <Prueba />   */}
                     </Grid>
 
                 </Grid>
