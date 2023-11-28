@@ -4,12 +4,13 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FormControl, Typography, Select, MenuItem } from '@mui/material';
 import { ResponsiveLine } from '@nivo/line';
+import { DatumValue } from '@nivo/core';
 
-
-type DataApiType = {
+interface Item {
+    [key: string]: any;
     fecha: string;
-    fair_market_price: number;
-};
+    unidades: number | null;
+}
 
 
 type DataType = {
@@ -18,16 +19,20 @@ type DataType = {
     ult_6_meses: DataApiType[];
 };
 
-interface Item {
-    [key: string]: any;
+type DataApiType = {
     fecha: string;
-    fair_market_price: number | null;
-}
+    fair_market_price: number;
+    valor_contractual: number;
+};
 
-const LineChartComponentH2 = () => {
+
+
+const LineChartComponentB = () => {
+
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
     const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,26 +60,30 @@ const LineChartComponentH2 = () => {
         handleDataSelection(selectedOption);
     };
 
-    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
+    /*  función para formateo data según requerimiento d ela gráfica */
+
+    const transformData = (data: DataType, selectedDataKey: string, field: keyof DataApiType) => {
         return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
             x: item.fecha,
-            y: item.fair_market_price,
+            y: item[field],
         }));
     };
 
+    const transformedDataContractual = transformData(data, selectedDataKey, 'valor_contractual');
+    const transformedDataFairMarket = transformData(data, selectedDataKey, 'fair_market_price');
 
 
-    const tranformedData = tranformeDataApi(data, selectedDataKey);
-
+    console.log("Transformed data:", transformedDataContractual);
+    console.log("Transformed data Market:", transformedDataFairMarket);
 
 
     return (
         <div className='grafica-barcharts nivo-text'>
             <div>
                 <FormControl fullWidth>
-                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
+                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt: 1 }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Número de unidades</Typography>
+                            <Typography variant="subtitle1" sx={{ color: '#ffffff', }}>Valor de los inmuebles</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -83,14 +92,13 @@ const LineChartComponentH2 = () => {
                                 value={selectedValue}
                                 label="Age"
                                 onChange={handleSelectChange}
+                                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
+
                                 sx={{
-                                    color: '#9B9EAB',
-                                    justifyContent: 'flex-end',
-                                    textAlign: 'end',
-                                    fill: '#ffffff',
-                                    '&.MuiSelect-icon': { color: '#FFFFFF !important' },
+                                    color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill: '#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
                                     '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
                                     '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
+
                                 }}
                             >
                                 <MenuItem value='este_anho'>Este año</MenuItem>
@@ -101,163 +109,70 @@ const LineChartComponentH2 = () => {
                     </Grid>
                 </FormControl>
             </div>
-
             <ResponsiveLine
-              animate
-              axisBottom={{
-                format: '.%L',
-                legend: 'time scale',
-                legendOffset: -12,
-                tickValues: 'every 10 milliseconds'
-              }}
-              axisLeft={{
-                legend: 'linear scale',
-                legendOffset: 12
-              }}
-              curve="monotoneX"
-              data={[
-                {
-                  data: [
-                    {
-                      x: '2018-01-01 12:00:01.100',
-                      y: 7
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.110',
-                      y: 5
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.120',
-                      y: 11
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.130',
-                      y: 9
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.140',
-                      y: 12
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.150',
-                      y: 16
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.160',
-                      y: 13
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.170',
-                      y: 13
-                    }
-                  ],
-                  id: 'signal A'
-                },
-                {
-                  data: [
-                    {
-                      x: '2018-01-01 12:00:01.100',
-                      y: 14
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.110',
-                      y: 14
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.120',
-                      y: 15
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.130',
-                      y: 11
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.140',
-                      y: 10
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.150',
-                      y: 12
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.160',
-                      y: 9
-                    },
-                    {
-                      x: '2018-01-01 12:00:01.170',
-                      y: 7
-                    }
-                  ],
-                  id: 'signal B'
-                }
-              ]}
-              enablePointLabel
-            
-              margin={{
-                bottom: 60,
-                left: 80,
-                right: 20,
-                top: 20
-              }}
-              pointBorderColor={{
-                from: 'color',
-                modifiers: [
-                  [
-                    'darker',
-                    0.3
-                  ]
-                ]
-              }}
-              pointBorderWidth={1}
-              pointSize={16}
-              pointSymbol={function noRefCheck(){}}
-              useMesh
-             
-              xFormat="time:%Y-%m-%d %H:%M:%S.%L"
-              xScale={{
-                format: '%Y-%m-%d %H:%M:%S.%L',
-                precision: 'millisecond',
-                type: 'time',
-                useUTC: false
-              }}
-              yScale={{
-                type: 'linear'
-              }}
-
-              /*   animate
                 axisBottom={{
-                    format: '%b %d',
-                   
+                    legend: '',
                     legendOffset: -12,
-                    tickValues: 'every month'
+                    tickValues: 'every month',
+                    format: (value) => {
+                        const date = new Date(value);
+                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                    },
                 }}
                 axisLeft={{
-                  
+                    legend: '',
                     legendOffset: 12,
-
-
+                    tickValues: 5,
+                    format: (value) => `${value / 1000000}M`,
                 }}
+                tooltip={(point) => {
+                    const date = new Date(point.point.data.x);
+                    const formattedValue = typeof point.point.data.y === 'number' ? `${point.point.data.y / 1000000}M` : 'N/A';
+                    return (
+                        <div style={{ background: '#272727', color: 'white', padding:  '9px 12px', border: '1px solid #ccc' }}>
+                            <div style={{  color: '#C5F5CA' }}><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
+                            <div style={{  color: '#FF864B' }}>{`Valor: ${formattedValue}`}</div>
+                        </div>
+                    );
+                }}
+
+                curve="monotoneX"
+
+                data={[
+                    {
+                        data: transformedDataContractual,
+                        id: 'Contractual'
+                    },
+                    {
+                        data: transformedDataFairMarket,
+                        id: 'Fair Market Price'
+                    },
+
+                ]}
                 theme={{
                     axis: {
                         ticks: {
                             text: {
-                                fill: '#9B9EAB' // Cambia aquí al color que desees para el texto de las marcas en el eje Y
-                            }
-                        }
-                    }
+                                fill: '#9B9EAB', // Color del texto en los ejes
+                            },
+                        },
+                    },
+
+                    legends: {
+                        text: {
+                            fill: '#9B9EAB', // Color del texto de las leyendas
+                        },
+
+                    },
+                    tooltip: {
+                        container: {
+                            background: '#272727', // Fondo del tooltip
+                            color: '#9B9EAB', // Color del texto del tooltip
+                        },
+                    },
                 }}
-                lineWidth={6}
-                curve="monotoneX"
-                data={[
-                    {
-                        data: tranformedData,
-
-                        id: 'Unidades'
-                    }
-                ]}
-                colors={['#5ED1B1','#28ACFF']}
+                colors={['#C5F5CA', '#FF864B']}
                 enablePointLabel={false}
-
                 margin={{
                     bottom: 60,
                     left: 80,
@@ -285,15 +200,21 @@ const LineChartComponentH2 = () => {
                     type: 'time',
                     useUTC: false
                 }}
-                yScale={{
-                    type: 'linear'
-                }} */
-            />
 
+                yFormat={(value: DatumValue) => typeof value === 'number' ? `${value / 1000000}M` : ''}
+                yScale={{
+                    type: 'linear',
+                    min: 'auto',
+                    max: 'auto',
+                    stacked: false,
+                    reverse: false,
+
+                }}
+
+
+            />
         </div>
     );
 };
 
-export default LineChartComponentH2;
-
-
+export default LineChartComponentB;

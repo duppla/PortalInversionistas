@@ -16,8 +16,8 @@ const page = () => {
             <Box maxWidth="xl" sx={{ ml: 4 }}>
                 <Grid container spacing={2}>
                     <Grid xs={12} sm={6} md={6} lg={6}>
-                        <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
-                            Inmuebles
+                        <Typography sx={{ mt:0.3, mb: 1.5, color: '#5682F2', fontStyle:'normal',fontWeight:'700' }}>
+                           <h1>Inmuebles</h1> 
                         </Typography>
                     </Grid>
                     <Grid xs={6} sm={6} md={6} lg={6} sx={{
@@ -108,10 +108,39 @@ const page = () => {
                         <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
                             Componente C
                         </Typography>
-                     {/*    <Prueba /> */}
+                     {/*  <Prueba />   */}
                     </Grid>
 
                 </Grid>
+                 {/* Componente J */}
+                 <Grid container sx={{
+                    marginTop: '40px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    justifyItems: 'center',
+                    width: '100%',
+                    height: '460px',
+                    backgroundColor: '#212126',
+                    borderRadius: '20px',
+                    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+
+                }}>
+                    {/*Grafica principal-datos del inmueble*/}
+                    <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
+                        width: '100%',
+                        height: '460px',
+                        backgroundColor: '#212126',
+                        borderRadius: '20px',
+                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                    }}>
+                        <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
+                            Componente J
+                        </Typography>
+                     {/*  <Prueba />   */}
+                    </Grid>
+
+                </Grid>
+
 
 
             </Container>

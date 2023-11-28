@@ -234,12 +234,10 @@ const BarChartComponentA2 = () => {
           legend: '',
           legendPosition: 'middle',
           legendOffset: 32,
-          format: value => {
-            // Puedes personalizar el formato de los ticks si es necesario
-            // Por ejemplo, para mostrar "Ene", "Feb", "Mar"...
-            const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-            return months[value - 1]; // Restar 1 porque los meses generalmente van de 1 a 12
-          }
+          format: (value) => {
+            const date = new Date(value);
+            return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+          },
 
         }}
         axisLeft={{

@@ -1,131 +1,104 @@
-'use client'
-
-import React, { useEffect, useState, PureComponent, ReactNode } from 'react';
-import { SelectChangeEvent } from '@mui/material/Select';
+import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
+import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { FormControl, Typography, Select, MenuItem } from '@mui/material';
+import { ResponsiveLine } from '@nivo/line';
+import { DatumValue } from '@nivo/core';
 
-import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
-} from 'recharts';
-
-interface DataItem {
-    name: string;
-    uv: number;
-    pv: number;
-    amt: number;
-}
-
-interface LabelProps {
-    x: number;
-    y: number;
-    stroke: string;
-    value: number;
-}
-
-interface AxisTickProps {
-    x: number;
-    y: number;
-    stroke: string;
-    payload: { value: string };
-}
-
-interface DataApiType {
+interface Item {
+    [key: string]: any;
     fecha: string;
-    fair_market_price?: number;
-    valor_contractual?: number;
+    unidades: number | null;
 }
 
 
-const RechartsExample: React.FC = () => {
+type DataType = {
+    ult_12_meses: DataApiType[];
+    este_anho: DataApiType[];
+    ult_6_meses: DataApiType[];
+};
 
-  
+type DataApiType = {
+    fecha: string;
+    fair_market_price: number;
+    valor_contractual: number;
+};
+
+
+
+const LineChartComponentB = () => {
+
+    const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
     const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
-
-    const [dataApi, setDataApi] = useState<{ [key: string]: DataApiType[] }>({});
-    const [selectedOption, setSelectedOption] = useState<string>('este_anho');
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(
-                    'https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/b?investor=skandia',
-                    options
-                );
+                const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/b?investor=skandia', options);
                 const data = await response.json();
-                setDataApi(data);
+                setData(data);
+                handleDataSelection(selectedValue.toString());
             } catch (error) {
                 console.error(error);
             }
         };
 
         fetchData();
-    }, []);
+    }, [selectedValue]);
 
-
-/*     const transformedData = dataSource.map((item) => ({
-        fecha: new Date(item.fecha).toLocaleDateString(),
-        fair_market_price: item.fair_market_price,
-        valor_contractual: item.valor_contractual,
-    })); */
-
-    const transformedData = dataApi[selectedOption]?.map((item) => ({
-        fecha: new Date(item.fecha).toLocaleDateString(),
-        fair_market_price: item.fair_market_price || null,
-        valor_contractual: item.valor_contractual || null,
-    })) || [];
-
-
-    /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
         setSelectedDataKey(dataKey);
     };
 
-    /* Función que controla la selección del dropdown */
-    const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-        const selectedDataKey = event.target.value as string;
-        setSelectedValue(selectedDataKey);
-        handleDataSelection(selectedDataKey);
+    const handleSelectChange = (event: SelectChangeEvent<string | number>) => {
+        const selectedOption = event.target.value as string;
+        setSelectedValue(selectedOption);
+        handleDataSelection(selectedOption);
     };
 
-/*     console.log(JSON.stringify(transformedData) + 'transformedData'); */
+    /*  función para formateo data según requerimiento d ela gráfica */
+
+    const transformData = (data: DataType, selectedDataKey: string, field: keyof DataApiType) => {
+        return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
+            x: item.fecha,
+            y: item[field],
+        }));
+    };
+
+    const transformedDataContractual = transformData(data, selectedDataKey, 'valor_contractual');
+    const transformedDataFairMarket = transformData(data, selectedDataKey, 'fair_market_price');
+
+
+    console.log("Transformed data:", transformedDataContractual);
+    console.log("Transformed data Market:", transformedDataFairMarket);
 
 
     return (
-        <Box>
+        <div className='grafica-barcharts nivo-text'>
             <div>
-                <FormControl fullWidth sx={{marginBottom:'40px'}}>
-                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
+                <FormControl fullWidth>
+                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt: 1 }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Flujo real vs. flujo esperado desglose</Typography>
+                            <Typography variant="subtitle1" sx={{ color: '#ffffff', }}>Valor de los inmuebles</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={selectedOption}
+                                value={selectedValue}
                                 label="Age"
-                                onChange={(event) => {
-                                    const selectedOption = event.target.value as string;
-                                    setSelectedOption(selectedOption);
-                                }}
+                                onChange={handleSelectChange}
+                                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
+
                                 sx={{
                                     color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill: '#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
                                     '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
                                     '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
+
                                 }}
                             >
                                 <MenuItem value='este_anho'>Este año</MenuItem>
@@ -136,43 +109,112 @@ const RechartsExample: React.FC = () => {
                     </Grid>
                 </FormControl>
             </div>
+            <ResponsiveLine
+                axisBottom={{
+                    legend: '',
+                    legendOffset: -12,
+                    tickValues: 'every month',
+                    format: (value) => {
+                        const date = new Date(value);
+                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                    },
+                }}
+                axisLeft={{
+                    legend: '',
+                    legendOffset: 12,
+                    tickValues: 5,
+                    format: (value) => `${value / 1000000}M`,
+                }}
+                tooltip={(point) => {
+                    const date = new Date(point.point.data.x);
+                    const formattedValue = typeof point.point.data.y === 'number' ? `${point.point.data.y / 1000000}M` : 'N/A';
+                    return (
+                        <div style={{ background: '#272727', color: 'white', padding:  '9px 12px', border: '1px solid #ccc' }}>
+                            <div style={{  color: '#C5F5CA' }}><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
+                            <div style={{  color: '#FF864B' }}>{`Valor: ${formattedValue}`}</div>
+                        </div>
+                    );
+                }}
 
-            <ResponsiveContainer className='ChartContainerSizeManager' width="100%" height={480} style={{ margin: 'auto' }}>
+                curve="monotoneX"
 
-                <LineChart
-                    width={1000}
-                    height={300}
-                    data={transformedData}
-                    margin={{
-                        top: 10,
-                        right: 30,
-                        left: 0,
-                        bottom: 0,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="6 6" /* vertical={false} */ />
-                    <XAxis dataKey="fecha" height={80} tickFormatter={(fecha) => fecha} />
-                    <YAxis tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`} />
+                data={[
+                    {
+                        data: transformedDataContractual,
+                        id: 'Contractual'
+                    },
+                    {
+                        data: transformedDataFairMarket,
+                        id: 'Fair Market Price'
+                    },
 
-                    <YAxis tickFormatter={(value) => `${(Number(value) / 1000000).toFixed(0)}M`} />
+                ]}
+                theme={{
+                    axis: {
+                        ticks: {
+                            text: {
+                                fill: '#9B9EAB', // Color del texto en los ejes
+                            },
+                        },
+                    },
 
-                    <Tooltip
-                        contentStyle={{ backgroundColor: 'black', border: 'none', color: 'white' }}
+                    legends: {
+                        text: {
+                            fill: '#9B9EAB', // Color del texto de las leyendas
+                        },
 
-                        formatter={(value, name, props) => {
-                            return [`${(Number(value) / 1000000).toFixed(0)}M`, name];
-                        }}
-                    />
+                    },
+                    tooltip: {
+                        container: {
+                            background: '#272727', // Fondo del tooltip
+                            color: '#9B9EAB', // Color del texto del tooltip
+                        },
+                    },
+                }}
+                colors={['#C5F5CA', '#FF864B']}
+                enablePointLabel={false}
+                margin={{
+                    bottom: 60,
+                    left: 80,
+                    right: 20,
+                    top: 20
+                }}
+                pointBorderColor={{
+                    from: 'color',
+                    modifiers: [
+                        [
+                            'darker',
+                            0.3
+                        ]
+                    ]
+                }}
+                pointBorderWidth={1}
+                pointSize={16}
+                pointSymbol={function noRefCheck() { }}
+                useMesh
 
-                    <Line connectNulls type="monotone" dataKey="fair_market_price" stroke="#FF864B" name="Fair market price" animationDuration={1500} />
-                    <Line connectNulls type="monotone" dataKey="valor_contractual" stroke="#C5F5CA" name="Valor Contractuals" animationDuration={1500} />
+                xFormat="time:%Y-%m-%d"
+                xScale={{
+                    format: '%Y-%m-%d',
+                    precision: 'day',
+                    type: 'time',
+                    useUTC: false
+                }}
 
-                </LineChart>
+                yFormat={(value: DatumValue) => typeof value === 'number' ? `${value / 1000000}M` : ''}
+                yScale={{
+                    type: 'linear',
+                    min: 'auto',
+                    max: 'auto',
+                    stacked: false,
+                    reverse: false,
 
-            </ResponsiveContainer>
-        </Box>
+                }}
+
+
+            />
+        </div>
     );
 };
 
-export default RechartsExample;
-
+export default LineChartComponentB;

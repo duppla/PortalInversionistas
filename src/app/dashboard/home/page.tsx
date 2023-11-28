@@ -57,8 +57,8 @@ const Page = () => {
                 <Box maxWidth="xl" sx={{ ml: 4 }}>
                     <Grid container spacing={2}>
                         <Grid xs={12} sm={6} md={6} lg={6}>
-                            <Typography component="h1" variant="h5" sx={{ color: '#5682F2', fontFamily: 'Roboto', }}>
-                                Dashboard principal
+                            <Typography  sx={{  fontFamily: 'Roboto',mt:2, mb: 1.5, color: '#5682F2', fontStyle:'normal',fontWeight:'700' }}>
+                               <h1> Dashboard principal </h1>
                             </Typography>
                         </Grid>
                         <Grid xs={6} sm={6} md={6} lg={6} sx={{

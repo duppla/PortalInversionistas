@@ -87,22 +87,6 @@ const BarChartComponentA2 = () => {
 
     const keys = ['duppla', 'clientes', 'inversionistas'];
 
-
-
-
-    /* prueba de formateo data a legible */
-
-    /*  function formatNumber(value: number): string {
-       const suffixes = ['', 'K', 'M', 'B', 'T'];
-       const suffixNum = Math.floor(('' + value).length / 3);
-       let shortValue = (suffixNum !== 0 ? (value / Math.pow(1, suffixNum)) : value).toFixed(1);
-   
-       if (shortValue.endsWith('.0')) {
-         shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
-       }
-   
-       return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
-     } */
     function formatNumber(value: number): string {
         if (value < 1) {
             // Formato para valores menores que 1
@@ -235,12 +219,10 @@ const BarChartComponentA2 = () => {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: 32,
-                    format: value => {
-                        // Puedes personalizar el formato de los ticks si es necesario
-                        // Por ejemplo, para mostrar "Ene", "Feb", "Mar"...
-                        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                        return months[value - 1]; // Restar 1 porque los meses generalmente van de 1 a 12
-                    }
+                    format: (value) => {
+                        const date = new Date(value);
+                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                      },
 
                 }}
                 axisLeft={{
@@ -294,13 +276,6 @@ const BarChartComponentA2 = () => {
                 ariaLabel="Nivo bar chart demo"
                 barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
             />
-
-
-
-
-
-
-
         </div>
     )
 }

@@ -68,7 +68,7 @@ function Layout({ children }: { children: ReactNode; }) {
                             width: '120px',
                             borderColor: '#5682F2',
                           }}>
-                            Property
+                            Inmuebles
                           </Button>
                         </Link>
                         <Link href="/dashboard/home/institucionalInvestors/customer">
@@ -83,7 +83,7 @@ function Layout({ children }: { children: ReactNode; }) {
                             width: '120px',
                             borderColor: '#5682F2',
                           }}>
-                            Buyer
+                            Clientes
                           </Button>
                         </Link>
 
@@ -97,7 +97,7 @@ function Layout({ children }: { children: ReactNode; }) {
 
 
             {children}
-            <button onClick={logout}>Cerrar sesión</button>
+          
           </Box>
 
           {/*------------------------------------------------------------------------ */}

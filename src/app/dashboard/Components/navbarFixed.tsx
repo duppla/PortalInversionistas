@@ -3,8 +3,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/authContext';
 
-
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,8 +17,8 @@ import LogoInversionistas from './../../../img/logoinversionistas.svg';
 import SettingDupplaMenu from './../../../img/setting-icon.svg';
 
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = [ 'Dashboard', 'Logout'];
+
+const settings = ['Cerrar Sesión'];
 
 function ResponsiveAppBar() {
   const { logout } = useAuth();
@@ -36,18 +34,20 @@ function ResponsiveAppBar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
+
+  const handleLogout = () => {
+    logout();  // Llama a la función de logout desde el contexto
+    handleCloseUserMenu();  // Cierra el menú después de cerrar sesión
+  };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
   return (
-    <AppBar position="static" className='colorBackgroundPrincipal'>
+    <AppBar position="static" className='colorBackgroundPrincipal'  sx={{ width: '100%' }}>
       <Box maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ width: '100%' }}>
 
           <Container sx={{
             display: 'flex',
@@ -55,13 +55,13 @@ function ResponsiveAppBar() {
             alignItems: 'center',
             height: '100%',
             width: '100%',
-            maxWidth: '100%',
+          /*   maxWidth: '100%', */
             padding: '0px',
             margin: '0px',
             /*  backgroundColor: 'red', */
 
           }} >
-            
+
             <Image src={LogoInversionistas} alt="" className='img-home' width={492} height={287} />
           </Container>
 
@@ -86,26 +86,22 @@ function ResponsiveAppBar() {
 
 
 
-          {/*  <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box> */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+
+
+          </Box>
 
           <Box sx={{
-             flexGrow: 1,  
-             display: 'flex',
-             justifyContent: 'flex-end',         
+            flexGrow: 1,
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',  // Añade esta línea para centrar verticalmente
+            width: '100%',
+            paddingRight: '16px',  // Ajusta el espacio derecho según sea necesario
           }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>               
-                <Image src={SettingDupplaMenu} alt="" className='icon-setting-home' width={30} height={30} />
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Image src={SettingDupplaMenu} alt="" className='' width={48} height={48} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -125,7 +121,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={setting === 'Cerrar Sesión' ? handleLogout : handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
