@@ -234,10 +234,10 @@ const BarChartComponentA2 = () => {
           legend: '',
           legendPosition: 'middle',
           legendOffset: 32,
-          format: (value) => {
-            const date = new Date(value);
-            return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-          },
+         format: (value) => {
+                      const date = new Date(value);
+                      return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                    },
 
         }}
         axisLeft={{
@@ -261,39 +261,34 @@ const BarChartComponentA2 = () => {
             ]
           ]
         }}
+       
         legends={[
           {
-            dataFrom: 'keys',
-            anchor: 'bottom-right',
-            direction: 'column',
-            justify: false,
-            translateX: 120,
-            translateY: 0,
-            itemsSpacing: 2,
-            itemWidth: 100,
-            itemHeight: 20,
-            itemDirection: 'left-to-right',
-            itemOpacity: 0.85,
-            symbolSize: 20,
-            effects: [
-              {
-                on: 'hover',
-                style: {
-                  itemOpacity: 1
-                }
-              }
-            ],
-            /* data: [
-              { id: 'prepago', label: 'Prepago' },
-              { id: 'arriendo', label: 'Arriendo' },
-              { id: 'compra_venta', label: 'Compra/Venta' },
-            ],
-            itemTextColor: '#9B9EAB',
-            symbolShape: 'circle', */
-
+              dataFrom: 'keys',
+              anchor: 'bottom-left',
+              direction: 'row',
+              justify: false,
+              translateX: 0,
+              translateY: 54,
+              itemsSpacing: 20,
+              itemDirection: 'left-to-right',
+              itemWidth: 80,
+              itemHeight: 20,
+              itemOpacity: 0.75,
+              symbolSize: 12,
+              symbolShape: 'square',
+              symbolBorderColor: 'rgba(0, 0, 0, .5)',
+              effects: [
+                  {
+                      on: 'hover',
+                      style: {
+                          itemBackground: 'rgba(0, 0, 0, .03)',
+                          itemOpacity: 1
+                      }
+                  }
+              ]
           }
-        ]}
-
+      ]}
         role="application"
         ariaLabel="Nivo bar chart demo"
         barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}

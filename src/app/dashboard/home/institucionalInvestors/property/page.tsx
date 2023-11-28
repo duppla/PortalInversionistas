@@ -11,7 +11,7 @@ import Prueba from '../../../Components/property/Prueba'
 const page = () => {
     return (
 
-        <Box sx={{ flexGrow: 1, mt: 4, ml: 2, mr: 2, borderRadius: '20px' }} >
+        <Box sx={{ flexGrow: 1, mt: 1, ml: 2, mr: 2, borderRadius: '20px' }} >
             {/* sección 1 titulo */}
             <Box maxWidth="xl" sx={{ ml: 4 }}>
                 <Grid container spacing={2}>
@@ -27,7 +27,7 @@ const page = () => {
             </Box>
             {/* Sección dashborad */}
 
-            <Container maxWidth="xl" sx={{ mt: 4, mb: 4, }}
+            <Container maxWidth="xl" sx={{ mt: 2, mb: 4, }}
                 className=''>
                 {/* Componente H */}
                 <Grid container sx={{
@@ -37,24 +37,25 @@ const page = () => {
                     justifyContent: 'center',
                     justifyItems: 'center',
                     width: '100%',
-                    height: '480px',
-                    backgroundColor: '#1E1E1E',
+                    height: '430px',
+                    backgroundColor: '#212126',
                     borderRadius: '20px',
                     boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                     mt: 4
                 }} rowSpacing={2} gap={10} columnSpacing={{ md: 1, lg: 1, }}
                 >
                     <Grid xs={12} sm={12} md={5} lg={5} sx={{
-                        backgroundColor: '#212126', borderRadius: '20px',
+                        backgroundColor: '#020101', borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                        mt: 2, mb: 2,
                     }}>
-
                         <GraficacomponenteH1 />
 
                     </Grid>
                     <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{
-                        backgroundColor: '#212126', borderRadius: '20px',
+                        backgroundColor: '#020101', borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                        mt: 2, mb: 2,
                     }}>
                        <GraficacomponenteH2 />
                     </Grid>

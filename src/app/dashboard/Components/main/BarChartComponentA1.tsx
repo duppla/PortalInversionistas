@@ -159,16 +159,13 @@ function BarChart() {
             <ResponsiveBar
                 data={formattedData}
                 keys={['flujo_real', 'flujo_esperado']}
-
                 indexBy="fecha"
                 label={() => ''}
-
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.3}
                 groupMode="grouped"
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}
-
                 colors={['#6C6FFF', '#C5F5CA']} // Define tus propios colores
                 theme={{
                     axis: {
@@ -254,7 +251,7 @@ function BarChart() {
                         ]
                     ]
                 }}
-                legends={[
+               /*  legends={[
                     {
                         dataFrom: 'keys',
                         anchor: 'bottom-right',
@@ -274,6 +271,33 @@ function BarChart() {
                             {
                                 on: 'hover',
                                 style: {
+                                    itemOpacity: 1
+                                }
+                            }
+                        ]
+                    }
+                ]} */
+                legends={[
+                    {
+                        dataFrom: 'keys',
+                        anchor: 'bottom-left',
+                        direction: 'row',
+                        justify: false,
+                        translateX: 0,
+                        translateY: 54,
+                        itemsSpacing: 0,
+                        itemDirection: 'left-to-right',
+                        itemWidth: 80,
+                        itemHeight: 20,
+                        itemOpacity: 0.75,
+                        symbolSize: 12,
+                        symbolShape: 'square',
+                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
+                        effects: [
+                            {
+                                on: 'hover',
+                                style: {
+                                    itemBackground: 'rgba(0, 0, 0, .03)',
                                     itemOpacity: 1
                                 }
                             }

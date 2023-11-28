@@ -52,13 +52,13 @@ const Page = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Box sx={{ flexGrow: 1, mt: 4, ml: 2, mr: 2, borderRadius: '20px' }} >
+            <Box sx={{ flexGrow: 1, mt: 1, ml: 2, mr: 2, borderRadius: '20px' }} >
                 {/* sección 1 titulo */}
                 <Box maxWidth="xl" sx={{ ml: 4 }}>
                     <Grid container spacing={2}>
                         <Grid xs={12} sm={6} md={6} lg={6}>
-                            <Typography  sx={{  fontFamily: 'Roboto',mt:2, mb: 1.5, color: '#5682F2', fontStyle:'normal',fontWeight:'700' }}>
-                               <h1> Dashboard principal </h1>
+                            <Typography sx={{ fontFamily: 'Roboto', mt: 2, mb: 1.5, color: '#5682F2', fontStyle: 'normal', fontWeight: '700' }}>
+                                <h1> Dashboard principal </h1>
                             </Typography>
                         </Grid>
                         <Grid xs={6} sm={6} md={6} lg={6} sx={{
@@ -106,11 +106,12 @@ const Page = () => {
                     }}>
                         {/*Grafica principal-datos del inmueble*/}
                         <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
-                            width: '100%',
+                            width: 'auto',
                             height: '600px',
-                            backgroundColor: '#212126',
+                            backgroundColor: '#020101',
                             borderRadius: '20px',
-
+                            mt:2,
+                            mb:2,
                         }}>
 
                             {/* Condicionalmente renderiza las gráficas */}
@@ -133,7 +134,6 @@ const Page = () => {
                                             borderColor: '#9B9EAB',
                                         }}
                                             onClick={() => setSelectedView('general')}
-
                                         >
                                             Vista general
                                         </Button>
@@ -195,7 +195,7 @@ const Page = () => {
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                       mt:4 ,
+                        mt: 4,
                     }} rowSpacing={1} gap={10} columnSpacing={{ md: 1, lg: 1, }}  >
                         <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
                             <CardcomponenteF1 />
@@ -215,24 +215,26 @@ const Page = () => {
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                        height: '480px',
-                        backgroundColor: '#1E1E1E',
+                        height: '430px',
+                        backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                        mt:4
+                        mt: 4
                     }} rowSpacing={2} gap={10} columnSpacing={{ md: 1, lg: 1, }}
                     >
                         <Grid xs={12} sm={12} md={5} lg={5} sx={{
-                            backgroundColor: '#212126', borderRadius: '20px',
+                            backgroundColor: '#020101', borderRadius: '20px',
                             boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                            mt: 2, mb: 2,
                         }}>
 
                             <GraficacomponenteG1 />
 
                         </Grid>
                         <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{
-                            backgroundColor: '#212126', borderRadius: '20px',
+                            backgroundColor: '#020101', borderRadius: '20px',
                             boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                            mt: 2, mb: 2,
                         }}>
                             <GraficacomponenteG2 />
                         </Grid>

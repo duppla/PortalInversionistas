@@ -12,7 +12,7 @@
   --azulDupplaOscuro: #5682F2;
   --azulDupplaClaro: #6C9FFF;
   --naranjaDuppla: #FE864B;
-  --fondo1: #121212;
+  --fondo1: #0B0B0D;
   --fondo2: #1E1E1E;
   --fondo3: #272727;
   --fondo4: #272727;
@@ -114,6 +114,8 @@ a {
 .grafica-barcharts {
   width: 100% !important;
   height: 480px;
+  /* background-color: #020101; */
+
   
 }
 
