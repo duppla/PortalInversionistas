@@ -66,11 +66,11 @@ function MapComponentC() {
     if (map && data[city] && data[city].length > 0) {
       const center = data[city][0]; // Tomar la primera ubicación como referencia
       map.setCenter([center.longitud, center.latitud]);
-      map.setZoom(100); // Puedes ajustar el zoom según tus necesidades
+      map.setZoom(80); // Puedes ajustar el zoom según tus necesidades
     }
   };
 
-  // Función para agregar marcadores al mapa
+  // Función para agregar marcadores originales al mapa
 /*   const addMarkersToMap = () => {
     Object.keys(data).forEach(city => {
       data[city].forEach(location => {
@@ -81,7 +81,10 @@ function MapComponentC() {
       });
     });
   }; */ 
-  const addMarkersToMap = () => {
+
+
+
+ const addMarkersToMap = () => {
     Object.keys(data).forEach(city => {
       data[city].forEach(location => {
         // Crear un elemento de marcador personalizado con una clase específica
@@ -100,7 +103,7 @@ function MapComponentC() {
           .addTo(map!);
       });
     });
-  };
+  }; 
   
 // Actualizar marcadores cuando los datos o la ciudad cambien
  useEffect(() => {

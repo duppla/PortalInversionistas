@@ -79,7 +79,7 @@ const getColorByKey = (key: string): string => {
   }
 };
 
-const formattedDataPieG2 = responseData
+/* const formattedDataPieG2 = responseData
 ? responseData[selectedDataKey]
   ? Object.keys(responseData[selectedDataKey])
       .filter((key) => key !== 'total') // Filtra la categoría 'total'
@@ -104,6 +104,41 @@ const formattedDataPieG2 = responseData
       })
   : []
 : [];
+
+
+ */
+
+const formattedDataPieG2 = responseData
+  ? responseData[selectedDataKey]
+    ? Object.keys(responseData[selectedDataKey])
+        .filter((key) => key !== 'total') // Filtra la categoría 'total'
+        .map((key: string) => {
+          const item = responseData[selectedDataKey][key];
+          let categoryLabel = key;
+
+          // Personaliza los nombres de las categorías
+          if (key === 'menor_30') {
+            categoryLabel = 'Menor a 30 días';
+          } else if (key === 'mayor_30') {
+            categoryLabel = 'Mayor a 30 días';
+          }
+
+          const numericValue = Number((item * 100).toFixed(2)); // Convierte a número y redondea a dos decimales
+          
+          return {
+            id: key,
+            label: categoryLabel,
+            value: numericValue,
+            formattedValue: `${numericValue}%`,
+            color: getColorByKey(key), // Reemplaza getColorByKey con tu lógica de asignación de colores
+          };
+        })
+    : []
+  : [];
+
+
+
+
 
     /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {

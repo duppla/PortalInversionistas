@@ -117,7 +117,7 @@ const PieChartComponentK2 = () => {
             <FormControl fullWidth>
                 <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                     <Grid xs={6} md={6} lg={6}>
-                        <Typography variant="subtitle1" sx={{ color: '#ffffff', ml:1 }}>Actividad económica</Typography>
+                        <Typography variant="subtitle1" sx={{ color: '#ffffff', ml:1 }}>Porcentaje ownership</Typography>
                     </Grid>
                     <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                         <Select
@@ -155,7 +155,7 @@ const PieChartComponentK2 = () => {
                     padAngle={1}
                     activeInnerRadiusOffset={3}
                     activeOuterRadiusOffset={8}
-                    colors={['#FFB024', '#5782F2','#5ED1B1']}
+                    colors={[ '#5782F2','#FFB024','#5ED1B1']}
                     borderColor={{
                         from: 'color',
                         modifiers: [['darker', 0.2]],

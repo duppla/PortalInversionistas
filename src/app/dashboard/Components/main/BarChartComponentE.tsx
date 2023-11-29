@@ -87,7 +87,7 @@ const BarChartComponentA2 = () => {
 
     const keys = ['duppla', 'clientes', 'inversionistas'];
 
-    function formatNumber(value: number): string {
+/*     function formatNumber(value: number): string {
         if (value < 1) {
             // Formato para valores menores que 1
             return (value * 100).toFixed(0) + '%';
@@ -103,7 +103,29 @@ const BarChartComponentA2 = () => {
 
             return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
         }
+    } */
+ 
+    function formatNumber(value: number): string {
+        if (value < 1) {
+            // Formato para valores menores que 1
+            return (value * 100).toFixed(0) + '%';
+        } else {
+            // Formato para valores mayores o iguales a 1
+            const suffixes = ['', 'K', 'M', 'B', 'T'];
+            const suffixNum = Math.floor(('' + value).length / 3);
+            let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value);
+    
+            if (Number.isInteger(shortValue)) {
+                shortValue = Math.round(shortValue); // Redondear a números enteros
+            } else {
+                shortValue = Number(shortValue.toFixed(2)); // Convertir a número con un decimal
+            }
+    
+            return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '') + '%';
+        }
     }
+    
+
 
     /* prueba de formateo data a legible tooltip */
     function formatNumberTooltip(value: number): string {

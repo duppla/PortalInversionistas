@@ -159,7 +159,7 @@ handleDataSelection(selectedDataKey);
                 padAngle={1}
                 activeInnerRadiusOffset={3}
                 activeOuterRadiusOffset={8}
-                colors={['#FFB024', '#5782F2','#5ED1B1']}
+                colors={['#5782F2','#FFB024','#5ED1B1']}
                 borderColor={{
                     from: 'color',
                     modifiers: [['darker', 0.2]],
