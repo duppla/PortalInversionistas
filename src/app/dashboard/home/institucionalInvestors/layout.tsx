@@ -9,17 +9,13 @@ function Layout({ children }: { children: ReactNode; }) {
 
 
     return (
-        <Box sx={{ display: 'flex' }}>          
-
+        <Box sx={{ display: 'flex' }}>        
             {/*----------------------------Descripción inmueble y gráficas barras de progreso-------------------------------------------- */}
             <Box sx={{ flexGrow: 1, mt: 4 }}>               
                 {children}
             </Box>
             {/*------------------------------------------------------------------------ */}
         </Box>
-
-
-
     )
 }
 

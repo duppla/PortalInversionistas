@@ -108,7 +108,7 @@ const Page = () => {
                         <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                             width: 'auto',
                             height: '600px',
-                            backgroundColor: '#020101',
+                            
                             borderRadius: '20px',
                             mt:2,
                             mb:2,
@@ -223,7 +223,7 @@ const Page = () => {
                     }} rowSpacing={2} gap={10} columnSpacing={{ md: 1, lg: 1, }}
                     >
                         <Grid xs={12} sm={12} md={5} lg={5} sx={{
-                            backgroundColor: '#020101', borderRadius: '20px',
+                            borderRadius: '20px',
                             boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                             mt: 2, mb: 2,
                         }}>
@@ -232,7 +232,7 @@ const Page = () => {
 
                         </Grid>
                         <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{
-                            backgroundColor: '#020101', borderRadius: '20px',
+                            borderRadius: '20px',
                             boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                             mt: 2, mb: 2,
                         }}>
