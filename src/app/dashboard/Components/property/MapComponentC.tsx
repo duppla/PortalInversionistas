@@ -66,7 +66,7 @@ function MapComponentC() {
     if (map && data[city] && data[city].length > 0) {
       const center = data[city][0]; // Tomar la primera ubicación como referencia
       map.setCenter([center.longitud, center.latitud]);
-      map.setZoom(12); // Puedes ajustar el zoom según tus necesidades
+      map.setZoom(100); // Puedes ajustar el zoom según tus necesidades
     }
   };
 
@@ -90,9 +90,9 @@ function MapComponentC() {
         
         // Puedes personalizar el estilo del marcador aquí
         markerElement.style.backgroundColor = '#FF864B'; // Cambia el color del fondo
-        markerElement.style.width = '24px'; // Cambia el ancho del marcador
-        markerElement.style.height = '24px'; // Cambia la altura del marcador
-        markerElement.style.borderRadius = '50%'; // Hace que el marcador sea circular
+        markerElement.style.width = '18px'; // Cambia el ancho del marcador
+        markerElement.style.height = '18px'; // Cambia la altura del marcador
+        markerElement.style.borderRadius = '80%'; // Hace que el marcador sea circular
   
         new mapboxgl.Marker({ element: markerElement })
           .setLngLat([location.longitud, location.latitud])
@@ -102,29 +102,12 @@ function MapComponentC() {
     });
   };
   
-
-/*   const addMarkersToMap = () => {
-    if (selectedCity && data[selectedCity]) {
-      data[selectedCity].forEach(location => {
-         const markerElement = document.createElement('div');
-         markerElement.className = 'custom-marker';
-         ReactDOM.createPortal(<RoomIcon style={{ fontSize: 24, color: 'orange' }} />, markerElement);
-
-        new mapboxgl.Marker({ element: markerElement })
-          .setLngLat([location.longitud, location.latitud])
-          .setPopup(new mapboxgl.Popup().setHTML(`<p>${selectedCity}</p>`)) // Mensaje emergente con el nombre de la ciudad
-          .addTo(map!);
-      });
-    }
-  }; */
-
-
- // Actualizar marcadores cuando los datos o la ciudad cambien
+// Actualizar marcadores cuando los datos o la ciudad cambien
  useEffect(() => {
   if (map && selectedCity && data[selectedCity]) {
     map.flyTo({
       center: [data[selectedCity][0].longitud, data[selectedCity][0].latitud],
-      zoom: 12,
+      zoom: 10,
     });
     addMarkersToMap();
   }

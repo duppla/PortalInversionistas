@@ -10,28 +10,11 @@ import { ResponsivePie } from '@nivo/pie'
 
 
 
-type DataApiType = {
-    [key: string]: number;
-    en_mora: number;
-    a_tiempo: number;
-    total: number;
-};
-
 
 type DataType = {
     [key: string]: any;
 };
 
-type ItemType = {
-    id: string;
-    label: string;
-    value: number;
-};
-type MayHaveLabel = {
-    id: string;
-    label: string;
-    value: number;
-};
 
 function PieChartComponentH1() {
 

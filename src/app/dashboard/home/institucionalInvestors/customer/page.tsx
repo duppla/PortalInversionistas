@@ -2,6 +2,8 @@
 import React from 'react'
 import { Grid, Container, Box, Button, ButtonGroup, Typography, Stack } from '@mui/material';
 import Link from 'next/link';
+import PieChartComponentk1 from '@/app/dashboard/Components/customer/PieChartComponentK1';
+import PieChartComponentK2 from '@/app/dashboard/Components/customer/PieChartComponentK2';
 
 
 const Customer = () => {
@@ -38,23 +40,22 @@ const Customer = () => {
         }} rowSpacing={2} gap={10} columnSpacing={{ md: 1, lg: 1, }}
         >
             <Grid xs={12} sm={12} md={5} lg={5} sx={{
-               backgroundColor: '#020101', borderRadius: '20px',
+               borderRadius: '20px',
                boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                mt: 2, mb: 2,
             }}>
-
-                pie chart K1
+                <PieChartComponentk1/>
 
             </Grid>
             <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{
-              backgroundColor: '#020101', borderRadius: '20px',
+              borderRadius: '20px',
               boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
               mt: 2, mb: 2,
             }}>
-               pie chart K2
+               <PieChartComponentK2/>
             </Grid>
         </Grid>
-        {/* Componente B */}
+        {/* Componente L */}
         <Grid container sx={{
             marginTop: '40px',
             display: 'flex',
@@ -79,7 +80,7 @@ const Customer = () => {
             </Grid>
 
         </Grid>
-        {/* Componente C -Mapa*/}
+        {/* Componente M*/}
         <Grid container sx={{
             marginTop: '40px',
             display: 'flex',
@@ -107,7 +108,7 @@ const Customer = () => {
             </Grid>
 
         </Grid>
-         {/* Componente J */}
+         {/* Componente N */}
          <Grid container sx={{
             marginTop: '40px',
             display: 'flex',
