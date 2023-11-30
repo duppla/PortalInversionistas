@@ -42,6 +42,7 @@ const Page = () => {
     const [selectedValue, setSelectedValue] = useState('Este año');
     const [changeState, setChangeState] = useState(true);
     const [selectedView, setSelectedView] = useState('general');
+    const [selectedGrafica, setSelectedGrafica] = useState('general');
 
 
     const handleChange = (event: SelectChangeEvent<string>) => {
@@ -108,10 +109,9 @@ const Page = () => {
                         <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                             width: 'auto',
                             height: '600px',
-                            
                             borderRadius: '20px',
-                            mt:2,
-                            mb:2,
+                            mt: 2,
+                            mb: 2,
                         }}>
 
                             {/* Condicionalmente renderiza las gráficas */}
@@ -122,33 +122,58 @@ const Page = () => {
                                 <div>
                                     <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-end', mt: 1 }}>
 
-                                        <Button variant="outlined" sx={{
-                                            backgroundColor: '#272727',
-                                            color: '#9B9EAB',
-                                            fontFamily: 'Roboto',
-                                            fontStyle: 'normal',
-                                            fontWeight: '400',
-                                            fontSize: '16px',
-                                            textTransform: 'none',
-                                            width: '140px',
-                                            borderColor: '#9B9EAB',
-                                        }}
+                                        <Button variant="outlined"
+                                            disabled={selectedView === 'general'}
+                                            sx={{
+                                                borderRadius: '10px',
+                                                color: '#ffffff', // Letra blanca
+                                                fontFamily: 'Roboto',
+                                                fontStyle: 'normal',
+                                                fontWeight: '500',
+                                                fontSize: '16px',
+                                                textTransform: 'none',
+                                                width: '140px',
+                                                backgroundColor: '#6C9FFF',
+                                                borderColor: '#6C9FFF', // Color de borde normal
+                                                '&:hover': {
+                                                    backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
+                                                    borderColor: '#3158A3', // Cambia el borde al pasar el mouse
+                                                },
+                                                '&.Mui-disabled': {
+                                                    color: '#9A9A9A',
+                                                    backgroundColor: '#3158A3',
+                                                    // Letra blanca cuando está deshabilitado
+                                                },
+                                            }}
                                             onClick={() => setSelectedView('general')}
                                         >
                                             Vista general
                                         </Button>
 
-                                        <Button variant="outlined" sx={{
-                                            backgroundColor: '#272727',
-                                            color: '#9B9EAB',
-                                            fontFamily: 'Roboto',
-                                            fontStyle: 'normal',
-                                            fontWeight: '400',
-                                            fontSize: '16px',
-                                            textTransform: 'none',
-                                            width: '140px',
-                                            borderColor: '#9B9EAB',
-                                        }}
+                                        <Button variant="outlined"
+
+                                            disabled={selectedView === 'detalle'}
+                                            sx={{
+                                                borderRadius: '10px',
+                                                color: '#ffffff', // Letra blanca
+                                                fontFamily: 'Roboto',
+                                                fontStyle: 'normal',
+                                                fontWeight: '500',
+                                                fontSize: '16px',
+                                                textTransform: 'none',
+                                                width: '140px',
+                                                backgroundColor: '#6C9FFF',
+                                                borderColor: '#6C9FFF', // Color de borde normal
+                                                '&:hover': {
+                                                    backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
+                                                    borderColor: '#3158A3', // Cambia el borde al pasar el mouse
+                                                },
+                                                '&.Mui-disabled': {
+                                                    color: '#9A9A9A',
+                                                    backgroundColor: '#3158A3',
+                                                    // Letra blanca cuando está deshabilitado
+                                                },
+                                            }}
                                             onClick={() => setSelectedView('detalle')}
 
                                         >
@@ -225,9 +250,9 @@ const Page = () => {
                         <Grid xs={12} sm={12} md={5} lg={5} sx={{
                             borderRadius: '10px',
                             backgroundColor: '#212126',
-                            
+
                             mt: 2, mb: 2,
-                            p:3
+                            p: 3
                         }}>
 
                             <GraficacomponenteG1 />
@@ -236,9 +261,9 @@ const Page = () => {
                         <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{
                             borderRadius: '10px',
                             backgroundColor: '#212126',
-                           
+
                             mt: 2, mb: 2,
-                            p:3
+                            p: 3
                         }}>
                             <GraficacomponenteG2 />
                         </Grid>
