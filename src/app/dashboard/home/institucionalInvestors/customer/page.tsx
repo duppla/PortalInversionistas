@@ -25,7 +25,7 @@ const Customer = () => {
     {/* Sección dashborad Clientes*/}
     <Container maxWidth="xl" sx={{ mt: 2, mb: 4, }}
         className=''>
-        {/* Componente H */}
+        {/* Componente K1 -K2 */}
         <Grid container sx={{
             marginTop: '10px',
             display: 'flex',
@@ -33,29 +33,31 @@ const Customer = () => {
             justifyItems: 'center',
             width: '100%',
             height: '480px',
-            backgroundColor: '#212126',
+            backgroundColor: '#0B0B0D',
             borderRadius: '20px',
-            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+            
             mt: 4
         }} rowSpacing={2} gap={10} columnSpacing={{ md: 1, lg: 1, }}
         >
             <Grid xs={12} sm={12} md={5} lg={5} sx={{
-               borderRadius: '20px',
-               boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+               borderRadius: '10px',
+               backgroundColor: '#212126',              
                mt: 2, mb: 2,
+               p:3
             }}>
                 <PieChartComponentk1/>
 
             </Grid>
             <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{
-              borderRadius: '20px',
-              boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-              mt: 2, mb: 2,
+             borderRadius: '10px',
+             backgroundColor: '#212126',            
+             mt: 2, mb: 2,
+             p:3
             }}>
                <PieChartComponentK2/>
             </Grid>
         </Grid>
-        {/* Componente L */}
+        {/* Componente N */}
         <Grid container sx={{
             marginTop: '40px',
             display: 'flex',
@@ -76,11 +78,11 @@ const Customer = () => {
                 borderRadius: '20px',
 
             }}>
-                Componenet L
+                Componenet N
             </Grid>
 
         </Grid>
-        {/* Componente M*/}
+        {/* Componente L*/}
         <Grid container sx={{
             marginTop: '40px',
             display: 'flex',
@@ -102,13 +104,13 @@ const Customer = () => {
                 boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
             }}>
                 <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
-                    Componente M
+                    Componente L
                 </Typography>
              {/*  <Prueba />   */}
             </Grid>
 
         </Grid>
-         {/* Componente N */}
+         {/* Componente O */}
          <Grid container sx={{
             marginTop: '40px',
             display: 'flex',
@@ -130,7 +132,7 @@ const Customer = () => {
                 boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
             }}>
                 <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
-                    Componente J
+                    Componente O
                 </Typography>
              {/*  <Prueba />   */}
             </Grid>

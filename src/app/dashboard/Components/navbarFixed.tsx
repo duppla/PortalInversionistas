@@ -64,42 +64,23 @@ function ResponsiveAppBar() {
             <Image src={LogoInversionistas} alt="" className='img-home' width={492} height={287} />
           </Container>
 
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography> */}
-
 
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-
-
           </Box>
 
-          <Box sx={{
+          <Box  /* className= 'icon-setting-navbar' */ sx={{
             flexGrow: 1,
             display: 'flex',
             justifyContent: 'flex-end',
             alignItems: 'center',  // Añade esta línea para centrar verticalmente
             width: '100%',
-            paddingRight: '16px',  // Ajusta el espacio derecho según sea necesario
+            marginRight: '8px',
+            marginLeft: '60%',   // añade esta línea 
+             // Ajusta el espacio derecho según sea necesario
           }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} className='icon-setting-navbar' sx={{ p: 0, }}>
                 <Image src={SettingDupplaMenu} alt="" className='' width={48} height={48} />
               </IconButton>
             </Tooltip>

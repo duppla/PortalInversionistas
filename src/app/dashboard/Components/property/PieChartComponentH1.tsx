@@ -203,7 +203,7 @@ const formattedDataPie = responseData
                                 anchor: 'right',
                                 direction: 'column',
                                 justify: false,
-                                translateX: 28,
+                                translateX: 30,
                                 translateY: 1,
                                 itemsSpacing: 7,
                                 itemWidth: 111,
@@ -231,7 +231,7 @@ const formattedDataPie = responseData
 
             )
             }
-            <div className="centrado" style={{ position: 'absolute', top: '60%', left: '40%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
+            <div className="centrado div-center-pie"  /* style={{ position: 'absolute', top: '60%', left: '40%', transform: 'translate(-50%, -50%)', zIndex: 1 }} */>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Typography sx={{ color: "#ffffff", marginBottom: '8px', textAlign: 'center', fontWeight: '600', fontStyle: 'normal', fontSize: '36px' }}>
                     {responseData[selectedDataKey].total.toLocaleString()}

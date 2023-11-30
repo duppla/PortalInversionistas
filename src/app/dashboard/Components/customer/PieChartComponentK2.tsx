@@ -206,7 +206,7 @@ const PieChartComponentK2 = () => {
                             }}
                           >
                             <div>
-                              <strong> {label}: {formattedValue}%</strong>
+                              <strong> {label}: {formattedValue}</strong>
                             </div>                                
                           </div>
                         );

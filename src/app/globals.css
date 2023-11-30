@@ -129,8 +129,6 @@ a {
   height: 300px; /* O el valor que desees para pantallas más grandes */
 }
 
-
-
 .miInput {
   color: #272727;
   background-color: #272727;
@@ -141,8 +139,6 @@ a {
 .miInput::placeholder {
   color: white;
 }
-
-
 
 /* Estilo para los elementos text dentro del gráfico */
 .nivo-text {
@@ -156,5 +152,54 @@ a {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+@media screen and (min-width: 300px) {
+ 
+  
+}
+@media screen and (min-width: 375px) {
+ 
+}
+@media screen and (min-width: 425px) {
+ 
+}
+@media screen and (min-width: 768px) {
+ 
+}
+@media screen and (min-width: 1000px) {
+  .div-center-pie{
+    position: absolute;
+    top: 46%;
+    left: 24%;
+    translate: translate(-50%, -50%);
+    z-index: 1;   
+  }
+
+}
+@media screen and (min-width: 1200px) {
+  .div-center-pie{
+    position: absolute;
+    top: 47%;
+    left: 31%;
+    translate: translate(-50%, -50%);
+    z-index: 1;   
+  }
+}
+@media screen and (min-width: 1600px) {
+  .div-center-pie{
+    position: absolute;
+    top: 47%;
+    left: 34%;
+    translate: translate(-50%, -50%);
+    z-index: 1;   
+  }
+
+  .icon-setting-navbar{
+    
+    margin-top: 4px;
+    margin-bottom: 2px;
+    margin-left: 700px !important;
   }
 }
