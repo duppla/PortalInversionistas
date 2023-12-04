@@ -46,20 +46,20 @@ const LineChartComponentH2 = () => {
                 const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/h2?investor=skandia', options);
                 const data = await response.json();
                 setData(data);
-                /*     setData((prevData) => ({
+                   setData((prevData) => ({
                            ult_12_meses: [],
                            este_anho: [],
                            ult_6_meses: [],
                            ...data,
-                       })); */
+                       })); 
 
 
                 /* prueba dos limpieada de datos */
 
-                setData((prevData) => ({
+            /*     setData((prevData) => ({
                     ...prevData,
                     [selectedValue.toString()]: data[selectedValue.toString()],
-                }));
+                })); */
 
                 handleDataSelection(selectedValue.toString());
             } catch (error) {
