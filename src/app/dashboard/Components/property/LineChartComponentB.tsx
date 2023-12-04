@@ -41,6 +41,12 @@ const LineChartComponentB = () => {
                 const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/b?investor=skandia', options);
                 const data = await response.json();
                 setData(data);
+
+                setData((prevData) => ({
+                    ...prevData,
+                    [selectedValue.toString()]: data[selectedValue.toString()],
+                }));
+
                 handleDataSelection(selectedValue.toString());
             } catch (error) {
                 console.error(error);
@@ -129,9 +135,9 @@ const LineChartComponentB = () => {
                     const date = new Date(point.point.data.x);
                     const formattedValue = typeof point.point.data.y === 'number' ? `${point.point.data.y / 1000000}M` : 'N/A';
                     return (
-                        <div style={{ background: '#272727', color: 'white', padding:  '9px 12px', border: '1px solid #ccc' }}>
-                            <div style={{  color: '#C5F5CA' }}><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
-                            <div style={{  color: '#FF864B' }}>{`Valor: ${formattedValue}`}</div>
+                        <div style={{ background: '#272727', color: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
+                            <div style={{ color: '#C5F5CA' }}><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
+                            <div style={{ color: '#FF864B' }}>{`Valor: ${formattedValue}`}</div>
                         </div>
                     );
                 }}
