@@ -14,11 +14,19 @@ type DataApiType = {
 };
 
 
+/* type DataType = {
+    ult_12_meses: DataApiType[];
+    este_anho: DataApiType[];
+    ult_6_meses: DataApiType[];
+}; */
+
 type DataType = {
     ult_12_meses: DataApiType[];
     este_anho: DataApiType[];
     ult_6_meses: DataApiType[];
+    /*  [key: string]: DataApiType[]; */ // Firma de índice
 };
+
 
 interface Item {
     [key: string]: any;
@@ -38,6 +46,21 @@ const LineChartComponentH2 = () => {
                 const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/h2?investor=skandia', options);
                 const data = await response.json();
                 setData(data);
+                /*     setData((prevData) => ({
+                           ult_12_meses: [],
+                           este_anho: [],
+                           ult_6_meses: [],
+                           ...data,
+                       })); */
+
+
+                /* prueba dos limpieada de datos */
+
+                setData((prevData) => ({
+                    ...prevData,
+                    [selectedValue.toString()]: data[selectedValue.toString()],
+                }));
+
                 handleDataSelection(selectedValue.toString());
             } catch (error) {
                 console.error(error);
@@ -64,11 +87,7 @@ const LineChartComponentH2 = () => {
         }));
     };
 
-
-
     const tranformedData = tranformeDataApi(data, selectedDataKey);
-
-
 
     return (
         <div className='grafica-Linecharts'>
@@ -103,23 +122,24 @@ const LineChartComponentH2 = () => {
                     </Grid>
                 </FormControl>
             </div>
-          
+
             <ResponsiveLine
                 animate
                 axisBottom={{
-                    legend: 'Fecha',
+                    legend: '',
                     legendOffset: -12,
                     tickValues: 'every month',
                     format: (value) => {
-                      const date = new Date(value);
-                      return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                        const date = new Date(value);
+                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
                     },
-                  }}
+                }}
                 axisLeft={{
                     /*  legend: 'linear scale', */
                     legendOffset: 12,
-                     
-                    
+                    tickValues: 5,
+
+
                 }}
                 theme={{
                     axis: {
@@ -130,18 +150,18 @@ const LineChartComponentH2 = () => {
                         }
                     }
                 }}
-                lineWidth={6} 
+                lineWidth={6}
                 tooltip={(point) => {
                     const date = new Date(point.point.data.x);
-                    
+
                     return (
-                        <div style={{ background: '#272727', color: '#5ED1B1', padding:  '9px 12px', border: '1px solid #ccc' }}>
+                        <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
                             <div ><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
                             <div >{`Unidades: ${point.point.data.y}`}</div>
-                          
+
                         </div>
                     );
-                }}                          
+                }}
 
                 curve="monotoneX"
                 data={[
@@ -182,10 +202,18 @@ const LineChartComponentH2 = () => {
                     useUTC: false
                 }}
                 yScale={{
-                    type: 'linear'
+                    type: 'linear',
+                    min: 'auto',
+                    max: 'auto',
+                    stacked: false,
+                    reverse: false,
+                    
+                  
+                    
                 }}
+                
             />
-        
+
 
         </div>
     );
