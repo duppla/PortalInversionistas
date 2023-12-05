@@ -14,10 +14,11 @@ interface Item {
 
 
 type DataType = {
-    ult_12_meses: DataApiType[];
-    este_anho: DataApiType[];
-    ult_6_meses: DataApiType[];
-};
+    ult_12_meses: any[];
+    este_anho: any[];
+    ult_6_meses: any[];
+    [key: string]: any;
+  };
 
 type DataApiType = {
     fecha: string;
@@ -33,19 +34,24 @@ const LineChartComponentB = () => {
     const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
 
-
+ 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
                 const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/b?investor=skandia', options);
-                const data = await response.json();
-                setData(data);
+                const newData = await response.json();
 
-                setData((prevData) => ({
-                    ...prevData,
-                    [selectedValue.toString()]: data[selectedValue.toString()],
-                }));
+                setData((prevData) => {
+                    const updatedData = { ...prevData, [selectedValue.toString()]: newData[selectedValue.toString()] };
+
+                    // Verificar si la propiedad ya existe antes de agregarla
+                    if (!prevData[selectedValue.toString()]) {
+                        updatedData[selectedValue.toString()] = newData[selectedValue.toString()];
+                    }
+
+                    return updatedData;
+                });
 
                 handleDataSelection(selectedValue.toString());
             } catch (error) {
@@ -55,6 +61,7 @@ const LineChartComponentB = () => {
 
         fetchData();
     }, [selectedValue]);
+
 
     const handleDataSelection = (dataKey: string) => {
         setSelectedDataKey(dataKey);
@@ -66,7 +73,7 @@ const LineChartComponentB = () => {
         handleDataSelection(selectedOption);
     };
 
-    /*  función para formateo data según requerimiento d ela gráfica */
+    /*  función para formateo data según requerimiento de la gráfica */
 
     const transformData = (data: DataType, selectedDataKey: string, field: keyof DataApiType) => {
         return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
@@ -79,8 +86,8 @@ const LineChartComponentB = () => {
     const transformedDataFairMarket = transformData(data, selectedDataKey, 'fair_market_price');
 
 
-    console.log("Transformed data:", transformedDataContractual);
-    console.log("Transformed data Market:", transformedDataFairMarket);
+/*     console.log("Transformed data:", transformedDataContractual);
+    console.log("Transformed data Market:", transformedDataFairMarket); */
 
 
     return (

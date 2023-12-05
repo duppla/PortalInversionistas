@@ -21,11 +21,11 @@ type DataApiType = {
 }; */
 
 type DataType = {
-    ult_12_meses: DataApiType[];
-    este_anho: DataApiType[];
-    ult_6_meses: DataApiType[];
-    /*  [key: string]: DataApiType[]; */ // Firma de índice
-};
+    ult_12_meses: any[];
+    este_anho: any[];
+    ult_6_meses: any[];
+    [key: string]: any;
+  };
 
 
 interface Item {
@@ -44,22 +44,18 @@ const LineChartComponentH2 = () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
                 const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/h2?investor=skandia', options);
-                const data = await response.json();
-                setData(data);
-                   setData((prevData) => ({
-                           ult_12_meses: [],
-                           este_anho: [],
-                           ult_6_meses: [],
-                           ...data,
-                       })); 
+                const newData = await response.json();
 
+                setData((prevData) => {
+                    const updatedData = { ...prevData, [selectedValue.toString()]: newData[selectedValue.toString()] };
 
-                /* prueba dos limpieada de datos */
+                    // Verificar si la propiedad ya existe antes de agregarla
+                    if (!prevData[selectedValue.toString()]) {
+                        updatedData[selectedValue.toString()] = newData[selectedValue.toString()];
+                    }
 
-            /*     setData((prevData) => ({
-                    ...prevData,
-                    [selectedValue.toString()]: data[selectedValue.toString()],
-                })); */
+                    return updatedData;
+                });
 
                 handleDataSelection(selectedValue.toString());
             } catch (error) {
@@ -74,10 +70,12 @@ const LineChartComponentH2 = () => {
         setSelectedDataKey(dataKey);
     };
 
+/* Función dropdown */
     const handleSelectChange = (event: SelectChangeEvent<string | number>) => {
         const selectedOption = event.target.value as string;
         setSelectedValue(selectedOption);
         handleDataSelection(selectedOption);
+
     };
 
     const tranformeDataApi = (data: DataType, selectedDataKey: string) => {

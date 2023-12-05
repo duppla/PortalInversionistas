@@ -206,14 +206,24 @@ function BarChart() {
                         ]
                     ]
                 }}
-                tooltip={({ id, value, color }) => (
+               tooltip={({ id, value, color }) => (
                     <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
                         <strong >
                             {id}: {formatNumberTooltip(value)}
                         </strong>
 
                     </div>
-                )}
+                )} 
+               /*  tooltip={(point) => {
+                    const date = new Date(point.point.data.x);
+                    const formattedValue = typeof point.point.data.y === 'number' ? `${point.point.data.y / 1000000}M` : 'N/A';
+                    return (
+                        <div style={{ background: '#272727', color: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
+                            <div style={{ color: '#C5F5CA' }}><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
+                            <div style={{ color: '#FF864B' }}>{`Valor: ${formattedValue}`}</div>
+                        </div>
+                    );
+                }} */
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -234,6 +244,7 @@ function BarChart() {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
+                    tickValues: 5,
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
