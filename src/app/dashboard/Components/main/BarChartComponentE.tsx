@@ -68,9 +68,9 @@ const BarChartComponentA2 = () => {
     };
 
     const colors: Record<string, string> = {
-        clientes: '#28ACFF',
+        Clientes: '#28ACFF',
         duppla: '#5ED1B1',
-        inversionistas: '#723DFD',
+        Inversionistas: '#723DFD',
     };
 
 
@@ -79,32 +79,15 @@ const BarChartComponentA2 = () => {
     const formattedDataa = responseData
         ? responseData[selectedDataKey].map((item: ItemType) => ({
             fecha: item.fecha,
-            clientes: item.clientes,
+            Clientes: item.clientes,
             duppla: item.duppla,
-            inversionistas: item.inversionistas,
+            Inversionistas: item.inversionistas,
         }))
         : [];
 
-    const keys = ['duppla', 'clientes', 'inversionistas'];
+    const keys = ['duppla', 'Clientes', 'Inversionistas'];
 
-/*     function formatNumber(value: number): string {
-        if (value < 1) {
-            // Formato para valores menores que 1
-            return (value * 100).toFixed(0) + '%';
-        } else {
-            // Formato para valores mayores o iguales a 1
-            const suffixes = ['', 'K', 'M', 'B', 'T'];
-            const suffixNum = Math.floor(('' + value).length / 3);
-            let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
-
-            if (shortValue.endsWith('.0')) {
-                shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
-            }
-
-            return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
-        }
-    } */
- 
+    /* función para formateo data según requerimiento de la gráfica */ 
     function formatNumber(value: number): string {
         if (value < 1) {
             // Formato para valores menores que 1
@@ -184,7 +167,7 @@ const BarChartComponentA2 = () => {
 
             <ResponsiveBar
                 data={formattedDataa}
-                keys={['inversionistas', 'clientes', 'duppla']}
+                keys={['Inversionistas', 'Clientes', 'duppla']}
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
@@ -197,6 +180,9 @@ const BarChartComponentA2 = () => {
                         ticks: {
                             text: {
                                 fill: '#9B9EAB', // Color del texto en los ejes
+                            },
+                            line: {
+                                stroke: '#723DFD', // Color de las líneas en los ejes
                             },
                         },
                     },
@@ -213,14 +199,18 @@ const BarChartComponentA2 = () => {
                     },
                 }}
 
-                tooltip={({ id, value, color }) => (
-                    <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: '#9B9EAB' }}>
-                        <strong >
-                            {id}: {formatNumberTooltip(value)}%
-                        </strong>
-
-                    </div>
-                )}
+                tooltip={(point) => {
+                    const date = new Date(point.data.fecha);
+                    const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                    const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+    
+                    return (
+                        <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+                            <strong>{formattedDate}</strong>
+                            <div>{point.id}: {formattedValue}</div>
+                        </div>
+                    );
+                }}
 
                 borderRadius={2}
                 borderColor={{
@@ -232,6 +222,7 @@ const BarChartComponentA2 = () => {
                         ]
                     ]
                 }}
+                
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -256,6 +247,7 @@ const BarChartComponentA2 = () => {
                     legendPosition: 'middle',
                     legendOffset: -40,
                     format: value => formatNumber(value),
+                    
 
                 }}
                 labelSkipWidth={12}

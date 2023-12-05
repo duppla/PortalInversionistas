@@ -74,9 +74,9 @@ const BarChartComponentA2 = () => {
   const formattedDataa = responseData
     ? responseData[selectedDataKey].map((item: ItemType) => ({
       fecha: item.fecha,
-      arriendo: item.arriendo,
-      compra_venta: item.compra_venta,
-      prepago: item.prepago,
+      Arriendo: item.arriendo,
+      Compraventa: item.compra_venta,
+      Prepago: item.prepago,
     }))
     : [];
 
@@ -89,11 +89,7 @@ const BarChartComponentA2 = () => {
   };
 
 
-
-
   const keys = ['prepago', 'arriendo', 'compra_venta'];
-
-
 
 
   /* prueba de formateo data a legible */
@@ -160,7 +156,7 @@ const BarChartComponentA2 = () => {
 
       <ResponsiveBar
         data={formattedDataa}
-        keys={['compra_venta', 'arriendo', 'prepago']}
+        keys={['Compraventa', 'Arriendo', 'Prepago']}
         indexBy="fecha"
         label={() => ''}
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
@@ -168,20 +164,6 @@ const BarChartComponentA2 = () => {
         valueScale={{ type: 'linear', min: 0 }}
         indexScale={{ type: 'band', round: true }}
         colors={['#28ACFF', '#00B383', '#5ED1B1']} // Define tus propios colores */
-
-        /*   colors={(bar) => {
-            switch (bar.id) {
-              case 'prepago':
-                return '#5ED1B1';
-              case 'arriendo':
-                return '#00B383';
-              case 'compra_venta':
-                return '#28ACFF';
-              default:
-                return '#000000';
-            }
-          }}
-   */
 
         theme={{
           axis: {
@@ -206,14 +188,19 @@ const BarChartComponentA2 = () => {
           },
         }}
 
-        tooltip={({ id, value, color }) => (
-          <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: '#9B9EAB' }}>
-            <strong >
-              {id}: {formatNumberTooltip(value)}
-            </strong>
+  
+        tooltip={(point) => {
+          const date = new Date(point.data.fecha);
+          const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+          const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
 
-          </div>
-        )}
+          return (
+              <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+                  <strong>{formattedDate}</strong>
+                  <div>{point.id}: {formattedValue}</div>
+              </div>
+          );
+      }}
 
         borderRadius={4}
         borderColor={{

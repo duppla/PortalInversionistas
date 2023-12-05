@@ -84,12 +84,17 @@ function BarChart() {
     /* data del enpoint para renderizar la grafica por un map */
 
     const formattedData = responseData
-        ? responseData[selectedDataKey].map((item: ItemType) => ({
-            fecha: item.fecha,
-            flujo_real: item.flujo_real,
-            flujo_esperado: item.flujo_esperado,
-        }))
-        : [];
+    ? responseData[selectedDataKey]
+        ? responseData[selectedDataKey].map((item: ItemType) => {
+        
+            return {
+                fecha: item.fecha,
+                Real: item.flujo_real, // Cambia la leyenda de flujo_real a Flujo
+                Esperado: item.flujo_esperado, // Cambia la leyenda de flujo_esperado a Esperado
+            };
+        })
+        : []
+    : [];
 
     /* prueba de formateo data a legible */
 
@@ -158,7 +163,7 @@ function BarChart() {
 
             <ResponsiveBar
                 data={formattedData}
-                keys={['flujo_real', 'flujo_esperado']}
+                keys={['Real', 'Esperado']}
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
@@ -206,14 +211,27 @@ function BarChart() {
                         ]
                     ]
                 }}
-               tooltip={({ id, value, color }) => (
+              /*  tooltip={({ id, value, color }) => (
                     <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
                         <strong >
                             {id}: {formatNumberTooltip(value)}
                         </strong>
 
                     </div>
-                )} 
+                )}  */
+                tooltip={(point) => {
+                    const date = new Date(point.data.fecha);
+                    const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                    const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+    
+                    return (
+                        <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+                            <strong>{formattedDate}</strong>
+                            <div>{point.id}: {formattedValue}</div>
+                        </div>
+                    );
+                }}
+    
                /*  tooltip={(point) => {
                     const date = new Date(point.point.data.x);
                     const formattedValue = typeof point.point.data.y === 'number' ? `${point.point.data.y / 1000000}M` : 'N/A';

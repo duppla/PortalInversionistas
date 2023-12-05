@@ -52,6 +52,15 @@ function Layout({ children }: { children: ReactNode; }) {
                             textTransform: 'none',
                             width: '120px',
                             borderColor: '#5682F2',
+                            '&:hover': {
+                              backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
+                              borderColor: '#3158A3', // Cambia el borde al pasar el mouse
+                          },
+                          '&.Mui-disabled': {
+                              color: '#9A9A9A',
+                              backgroundColor: '#6C9FFF',
+                              // Letra blanca cuando está deshabilitado
+                          },
                           }}>
                             Principal
                           </Button>
@@ -67,6 +76,15 @@ function Layout({ children }: { children: ReactNode; }) {
                             textTransform: 'none',
                             width: '120px',
                             borderColor: '#5682F2',
+                            '&:hover': {
+                              backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
+                              borderColor: '#3158A3', // Cambia el borde al pasar el mouse
+                          },
+                          '&.Mui-disabled': {
+                              color: '#9A9A9A',
+                              backgroundColor: '#6C9FFF',
+                              // Letra blanca cuando está deshabilitado
+                          },
                           }}>
                             Inmuebles
                           </Button>
@@ -82,6 +100,15 @@ function Layout({ children }: { children: ReactNode; }) {
                             textTransform: 'none',
                             width: '120px',
                             borderColor: '#5682F2',
+                            '&:hover': {
+                              backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
+                              borderColor: '#3158A3', // Cambia el borde al pasar el mouse
+                          },
+                          '&.Mui-disabled': {
+                              color: '#9A9A9A',
+                              backgroundColor: '#6C9FFF',
+                              // Letra blanca cuando está deshabilitado
+                          },
                           }}>
                             Clientes
                           </Button>

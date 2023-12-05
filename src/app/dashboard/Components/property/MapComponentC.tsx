@@ -91,20 +91,7 @@ function MapComponentC() {
     }
   };
 
-  // Función para agregar marcadores originales al mapa
-  /*   const addMarkersToMap = () => {
-      Object.keys(data).forEach(city => {
-        data[city].forEach(location => {
-          new mapboxgl.Marker()
-            .setLngLat([location.longitud, location.latitud])
-            .setPopup(new mapboxgl.Popup().setHTML(`<p>${city}</p>`))
-            .addTo(map!);
-        });
-      });
-    }; */
-
-
-
+  // Función para agregar marcadores al mapa
   const addMarkersToMap = () => {
     Object.keys(data).forEach(city => {
       data[city].forEach(location => {
