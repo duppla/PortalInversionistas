@@ -120,7 +120,11 @@ a {
 
   
 }
-
+.grafica-barcharts-des{
+  width: 100% !important;
+  height: 440px;
+  /* background-color: #020101; */
+}
 .grafica-piecharts {
   width: auto !important;
   height: 380px;

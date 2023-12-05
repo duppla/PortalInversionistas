@@ -164,7 +164,7 @@ const BarChartComponentA2 = () => {
         valueScale={{ type: 'linear', min: 0 }}
         indexScale={{ type: 'band', round: true }}
         colors={['#28ACFF', '#00B383', '#5ED1B1']} // Define tus propios colores */
-
+        enableGridY={false}
         theme={{
           axis: {
             ticks: {
@@ -188,19 +188,19 @@ const BarChartComponentA2 = () => {
           },
         }}
 
-  
+
         tooltip={(point) => {
           const date = new Date(point.data.fecha);
           const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
           const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
 
           return (
-              <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                  <strong>{formattedDate}</strong>
-                  <div>{point.id}: {formattedValue}</div>
-              </div>
+            <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+              <strong>{formattedDate}</strong>
+              <div>{point.id}: {formattedValue}</div>
+            </div>
           );
-      }}
+        }}
 
         borderRadius={4}
         borderColor={{
@@ -221,10 +221,10 @@ const BarChartComponentA2 = () => {
           legend: '',
           legendPosition: 'middle',
           legendOffset: 32,
-         format: (value) => {
-                      const date = new Date(value);
-                      return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-                    },
+          format: (value) => {
+            const date = new Date(value);
+            return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+          },
 
         }}
         axisLeft={{
@@ -249,34 +249,34 @@ const BarChartComponentA2 = () => {
             ]
           ]
         }}
-       
+
         legends={[
           {
-              dataFrom: 'keys',
-              anchor: 'bottom-left',
-              direction: 'row',
-              justify: false,
-              translateX: 0,
-              translateY: 54,
-              itemsSpacing: 20,
-              itemDirection: 'left-to-right',
-              itemWidth: 80,
-              itemHeight: 20,
-              itemOpacity: 0.75,
-              symbolSize: 12,
-              symbolShape: 'square',
-              symbolBorderColor: 'rgba(0, 0, 0, .5)',
-              effects: [
-                  {
-                      on: 'hover',
-                      style: {
-                          itemBackground: 'rgba(0, 0, 0, .03)',
-                          itemOpacity: 1
-                      }
-                  }
-              ]
+            dataFrom: 'keys',
+            anchor: 'bottom-left',
+            direction: 'row',
+            justify: false,
+            translateX: 0,
+            translateY: 54,
+            itemsSpacing: 20,
+            itemDirection: 'left-to-right',
+            itemWidth: 80,
+            itemHeight: 20,
+            itemOpacity: 0.75,
+            symbolSize: 12,
+            symbolShape: 'square',
+            symbolBorderColor: 'rgba(0, 0, 0, .5)',
+            effects: [
+              {
+                on: 'hover',
+                style: {
+                  itemBackground: 'rgba(0, 0, 0, .03)',
+                  itemOpacity: 1
+                }
+              }
+            ]
           }
-      ]}
+        ]}
         role="application"
         ariaLabel="Nivo bar chart demo"
         barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
@@ -288,3 +288,6 @@ const BarChartComponentA2 = () => {
 
 export default BarChartComponentA2
 
+/* {
+  render: () => <Bar {...divergingCommonProps} keys={['gained <= 100$', 'gained > 100$', 'lost <= 100$', 'lost > 100$']} padding={0.4} colors={['#97e3d5', '#61cdbb', '#f47560', '#e25c3b']} valueFormat={v => `${v}%`} />
+} */

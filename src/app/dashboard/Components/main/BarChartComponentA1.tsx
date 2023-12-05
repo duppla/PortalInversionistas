@@ -1,6 +1,6 @@
 'use client'
 import { ResponsiveBar } from '@nivo/bar'
-import { useEffect, useState , ReactNode} from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -84,17 +84,17 @@ function BarChart() {
     /* data del enpoint para renderizar la grafica por un map */
 
     const formattedData = responseData
-    ? responseData[selectedDataKey]
-        ? responseData[selectedDataKey].map((item: ItemType) => {
-        
-            return {
-                fecha: item.fecha,
-                Real: item.flujo_real, // Cambia la leyenda de flujo_real a Flujo
-                Esperado: item.flujo_esperado, // Cambia la leyenda de flujo_esperado a Esperado
-            };
-        })
-        : []
-    : [];
+        ? responseData[selectedDataKey]
+            ? responseData[selectedDataKey].map((item: ItemType) => {
+
+                return {
+                    fecha: item.fecha,
+                    Real: item.flujo_real, // Cambia la leyenda de flujo_real a Flujo
+                    Esperado: item.flujo_esperado, // Cambia la leyenda de flujo_esperado a Esperado
+                };
+            })
+            : []
+        : [];
 
     /* prueba de formateo data a legible */
 
@@ -142,11 +142,11 @@ function BarChart() {
                                 id="demo-simple-select"
                                 value={selectedValue}
                                 label="Age"
-                                 onChange={handleSelectChange} 
+                                onChange={handleSelectChange}
                                 /*  IconComponent={() => <KeyboardArrowDownIcon />} */
-                               
+
                                 sx={{
-                                    color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill:'#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
+                                    color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill: '#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
                                     '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
                                     '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
 
@@ -211,19 +211,11 @@ function BarChart() {
                         ]
                     ]
                 }}
-              /*  tooltip={({ id, value, color }) => (
-                    <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                        <strong >
-                            {id}: {formatNumberTooltip(value)}
-                        </strong>
-
-                    </div>
-                )}  */
                 tooltip={(point) => {
                     const date = new Date(point.data.fecha);
                     const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
                     const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-    
+
                     return (
                         <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
                             <strong>{formattedDate}</strong>
@@ -231,17 +223,8 @@ function BarChart() {
                         </div>
                     );
                 }}
-    
-               /*  tooltip={(point) => {
-                    const date = new Date(point.point.data.x);
-                    const formattedValue = typeof point.point.data.y === 'number' ? `${point.point.data.y / 1000000}M` : 'N/A';
-                    return (
-                        <div style={{ background: '#272727', color: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
-                            <div style={{ color: '#C5F5CA' }}><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
-                            <div style={{ color: '#FF864B' }}>{`Valor: ${formattedValue}`}</div>
-                        </div>
-                    );
-                }} */
+
+                enableGridY={false}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -255,9 +238,9 @@ function BarChart() {
                     format: (value) => {
                         const date = new Date(value);
                         return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-                      },
+                    },
                 }}
-              
+
                 axisLeft={{
                     tickSize: 5,
                     tickPadding: 5,
@@ -280,32 +263,32 @@ function BarChart() {
                         ]
                     ]
                 }}
-               /*  legends={[
-                    {
-                        dataFrom: 'keys',
-                        anchor: 'bottom-right',
-                        direction: 'column',
-                        justify: false,
-                        translateX: 120,
-                        translateY: 0,
-                        itemsSpacing: 2,
-                        itemWidth: 100,
-                        itemHeight: 20,
-                        itemDirection: 'left-to-right',
-                        itemOpacity: 0.85,
-                        symbolSize: 20,
-
-
-                        effects: [
-                            {
-                                on: 'hover',
-                                style: {
-                                    itemOpacity: 1
-                                }
-                            }
-                        ]
-                    }
-                ]} */
+                /*  legends={[
+                     {
+                         dataFrom: 'keys',
+                         anchor: 'bottom-right',
+                         direction: 'column',
+                         justify: false,
+                         translateX: 120,
+                         translateY: 0,
+                         itemsSpacing: 2,
+                         itemWidth: 100,
+                         itemHeight: 20,
+                         itemDirection: 'left-to-right',
+                         itemOpacity: 0.85,
+                         symbolSize: 20,
+ 
+ 
+                         effects: [
+                             {
+                                 on: 'hover',
+                                 style: {
+                                     itemOpacity: 1
+                                 }
+                             }
+                         ]
+                     }
+                 ]} */
                 legends={[
                     {
                         dataFrom: 'keys',

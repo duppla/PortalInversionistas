@@ -4,6 +4,8 @@ import { Grid, Container, Box, Button, ButtonGroup, Typography, Stack } from '@m
 import Link from 'next/link';
 import PieChartComponentk1 from '@/app/dashboard/Components/customer/PieChartComponentK1';
 import PieChartComponentK2 from '@/app/dashboard/Components/customer/PieChartComponentK2';
+import BarChartComponentO from '@/app/dashboard/Components/customer/BarChartComponentO';
+
 
 
 const Customer = () => {
@@ -67,8 +69,7 @@ const Customer = () => {
             height: '560px',
             backgroundColor: '#212126',
             borderRadius: '20px',
-            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-
+           
         }}>
             {/*Grafica principal-datos del inmueble*/}
             <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
@@ -92,7 +93,7 @@ const Customer = () => {
             height: '460px',
             backgroundColor: '#212126',
             borderRadius: '20px',
-            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+            
 
         }}>
             {/*Grafica principal-datos del inmueble*/}
@@ -101,7 +102,7 @@ const Customer = () => {
                 height: '460px',
                 backgroundColor: '#212126',
                 borderRadius: '20px',
-                boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                
             }}>
                 <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
                     Componente L
@@ -117,10 +118,10 @@ const Customer = () => {
             justifyContent: 'center',
             justifyItems: 'center',
             width: '100%',
-            height: '460px',
+            height: '520px',
             backgroundColor: '#212126',
             borderRadius: '20px',
-            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+       
 
         }}>
             {/*Grafica principal-datos del inmueble*/}
@@ -129,12 +130,10 @@ const Customer = () => {
                 height: '460px',
                 backgroundColor: '#212126',
                 borderRadius: '20px',
-                boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                
             }}>
-                <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
-                    Componente O
-                </Typography>
-             {/*  <Prueba />   */}
+               
+                <BarChartComponentO />
             </Grid>
 
         </Grid>
