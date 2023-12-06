@@ -65,8 +65,8 @@ function BarChartComponentO() {
     const formattedData = responseData
         ? responseData[selectedDataKey].map((item: { fecha: string; pagado: number; mora: number; }) => ({
             fecha: item.fecha,
-            Inflow: Math.max(item.pagado, 0),  // Solo valores positivos o cero
-            Outflow: -item.mora,      // Solo valores negativos
+            Inflow: item.pagado,  // Solo valores positivos o cero
+            Outflow: -Math.abs(item.mora)    // Solo valores negativos
         }))
         : [];
 
@@ -145,6 +145,7 @@ function BarChartComponentO() {
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.4}
                 colors={['#12CA98', '#E54B2E',]}
+     
                 theme={{
                     axis: {
                         ticks: {
@@ -168,7 +169,8 @@ function BarChartComponentO() {
                     },
                 }}
 
-                valueFormat={(v) => (typeof v === 'number' ? v.toString() : '')}
+                /* valueFormat={(v) => (typeof v === 'number' ? v.toString() : '')} */
+                valueFormat={(v) => (typeof v === 'number' ? Math.abs(v).toString() : '')} // Convertir valores a positivos antes de formatear
                 axisLeft={{
                     tickSize: 5,
                     tickPadding: 5,
