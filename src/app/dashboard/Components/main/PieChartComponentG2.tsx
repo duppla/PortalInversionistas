@@ -79,34 +79,6 @@ const getColorByKey = (key: string): string => {
   }
 };
 
-/* const formattedDataPieG2 = responseData
-? responseData[selectedDataKey]
-  ? Object.keys(responseData[selectedDataKey])
-      .filter((key) => key !== 'total') // Filtra la categoría 'total'
-      .map((key: string) => {
-        const item = responseData[selectedDataKey][key];
-        let categoryLabel = key;
-
-        // Personaliza los nombres de las categorías
-        if (key === 'menor_30') {
-          categoryLabel = 'Menor a 30 días';
-        } else if (key === 'mayor_30') {
-          categoryLabel = 'Mayor a 30 días';
-        }
-
-        return {
-          id: key,
-          label: categoryLabel,
-          value: item * 100,
-          formattedValue: `${(item * 100).toFixed()}%`,
-          color: getColorByKey(key), // Reemplaza getColorByKey con tu lógica de asignación de colores
-        };
-      })
-  : []
-: [];
-
-
- */
 
 const formattedDataPieG2 = responseData
   ? responseData[selectedDataKey]

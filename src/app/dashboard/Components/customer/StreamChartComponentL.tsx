@@ -1,18 +1,20 @@
 'use client'
-import { ResponsiveBar } from '@nivo/bar'
+import { ResponsiveStream } from '@nivo/stream'
 import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 
 type DataApiType = {
     fecha: string;
-    clientes: any;
-    duppla: any;
-    inversionistas: any;
+    alto: any;
+    medio: any;
+    bajo: any;
+    muy_bajo: any;
 };
 
 type DataType = {
@@ -21,16 +23,15 @@ type DataType = {
     ult_6_meses: DataApiType[];
 };
 
-
 type ItemType = {
     fecha: string;
-    clientes: number;
-    duppla: number;
-    inversionistas: number;
-    // otras propiedades que los objetos en dataApi pueden tener...
-}
-const BarChartComponentA2 = () => {
+    alto: number;
+    medio: number;
+    bajo: number;
+    muy_bajo: number;
+};
 
+function StreamChartComponentL() {
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
@@ -38,11 +39,12 @@ const BarChartComponentA2 = () => {
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
 
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/e?investor=skandia`, options);
+                const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/clientes/l?investor=skandia`, options);
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
@@ -67,27 +69,49 @@ const BarChartComponentA2 = () => {
         handleDataSelection(selectedDataKey);
     };
 
-    const colors: Record<string, string> = {
-        Clientes: '#28ACFF',
-        duppla: '#5ED1B1',
-        Inversionistas: '#723DFD',
-    };
 
+    /*     const formattedDataa = responseData
+            ? Object.keys(responseData[selectedDataKey]).map((category: string) => {
+                const value = responseData[selectedDataKey][category];
+                return {
+                    fecha: category,
+                    Alto: category === "alto" ? value : 0,
+                    Medio: category === "medio" ? value : 0,
+                    Bajo: category === "bajo" ? value : 0,
+                    Muy_bajo: category === "muy_bajo" ? value : 0,
+                };
+            })
+            : [];
+     */
 
-    /* data del enpoint para renderizar la grafica por un map */
-
-    const formattedDataa = responseData
-        ? responseData[selectedDataKey].map((item: ItemType) => ({
-            fecha: item.fecha,
-            Clientes: item.clientes,
-            duppla: item.duppla,
-            Inversionistas: item.inversionistas,
-        }))
+   /*  const formattedDataa = responseData
+        ? responseData[selectedDataKey].map((dataItem: any) => {
+            const { fecha, alto, medio, bajo, muy_bajo } = dataItem;
+            return {
+                fecha,
+                Alto: alto ? alto : 0,
+                Medio: medio ? medio : 0,
+                Bajo: bajo ? bajo : 0,
+                Muy_bajo: muy_bajo ? muy_bajo : 0,
+            };
+        })
         : [];
+ */
+        const formattedData = responseData
+        ? responseData[selectedDataKey].map((dataItem: any) => ({
+            fecha: new Date(dataItem.fecha),
+            Alto: dataItem.alto ? dataItem.alto : 0,
+            Medio: dataItem.medio ? dataItem.medio : 0,
+            Bajo: dataItem.bajo ? dataItem.bajo : 0,
+            Muy_bajo: dataItem.muy_bajo ? dataItem.muy_bajo : 0,
+          }))
+        : [];
+      
+      
+/* 
+    console.log(JSON.stringify(formattedData)); */
 
-    const keys = ['duppla', 'Clientes', 'Inversionistas'];
 
-    /* función para formateo data según requerimiento de la gráfica */ 
 
     /* Función para formatear números como porcentajes sin decimales y ceros */
     function formatNumber(value: number): string {
@@ -98,33 +122,24 @@ const BarChartComponentA2 = () => {
 
     /* prueba de formateo data a legible tooltip */
     function formatNumberTooltip(value: number): string {
-        if (value < 1) {
-            // Formato para valores menores que 1
-            return (value * 100).toFixed(0) + '';
-        } else {
-            // Formato para valores mayores o iguales a 1
-            const suffixes = ['', 'K', 'M', 'B', 'T'];
-            const suffixNum = Math.floor(('' + value).length / 3);
-            let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
+        const suffixes = ['', 'K', 'M', 'B', 'T'];
+        const suffixNum = Math.floor(('' + value).length / 3);
+        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
 
-            if (shortValue.endsWith('.0')) {
-                shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
-            }
-
-            return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+        if (shortValue.endsWith('.0')) {
+            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
         }
+
+        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
 
-
-
-
     return (
-        <div className='grafica-barcharts nivo-text'>
+        <div className='grafica-barcharts-des nivo-text'>
             <div>
                 <FormControl fullWidth>
-                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt:1 }}>
+                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ color: '#ffffff', }}>Porcentaje de propiedad del portafolio</Typography>
+                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Evaluaciones puntaje crediticio</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -151,24 +166,64 @@ const BarChartComponentA2 = () => {
                 </FormControl>
             </div>
 
-            <ResponsiveBar
-                data={formattedDataa}
-                keys={['Inversionistas', 'Clientes', 'duppla']}
-                indexBy="fecha"
-                label={() => ''}
-                margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-                padding={0.3}
-                valueScale={{ type: 'linear', min: 0 }}
-                indexScale={{ type: 'band', round: true }}
-                colors={['#723DFD', '#28ACFF', '#5ED1B1']} // Define tus propios colores
+            <ResponsiveStream
+                animate={true}
+                data={formattedData}
+                keys={[
+                    'Muy_bajo', 'Bajo', 'Medio', 'Alto',
+                ]}
+                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+                axisTop={null}
+                axisRight={null}
+                axisBottom={
+                    null
+                    /* tickSize: 5,
+                    tickPadding: 5,
+                    tickRotation: 0,
+                    legend: '',
+                    legendPosition: 'middle',
+                    legendOffset: 32, */
+                   /*  format: (value) => {
+                        const date = new Date(value); // No es necesario convertir nuevamente, ya es un objeto Date
+                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                      }, */
+                      /* format: "%b %Y", */
+                   
+                }
+                /*   axisBottom={null} */
+
+
+                axisLeft={{
+                    tickSize: 5,
+                    tickPadding: 5,
+                    tickRotation: 0,
+                    tickValues: 5,
+                    legend: '',
+                    legendPosition: 'middle',
+                    legendOffset: -40,
+                    format: value => formatNumber(value),
+
+                }}
+                enableGridY={false}
+                curve="catmullRom"
+                /*    offsetType="diverging" */
+
+                /*  offsetType="expand" */
+                /*   offsetType="wiggle" */
+                /*     offsetType="silhouette"  */
+                offsetType="none"
+
+                borderWidth={2}  // Grosor del borde
+                borderColor={{ from: 'color', }} 
+
+                colors={['#FF1818',  '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
+                fillOpacity={0.3}
+                /*  borderColor={['#00FF29', '#FD7F23', '#FFD600', '#FF1818']} */
                 theme={{
                     axis: {
                         ticks: {
                             text: {
                                 fill: '#9B9EAB', // Color del texto en los ejes
-                            },
-                            line: {
-                                stroke: '#723DFD', // Color de las líneas en los ejes
                             },
                         },
                     },
@@ -185,78 +240,37 @@ const BarChartComponentA2 = () => {
                     },
                 }}
 
-                tooltip={(point) => {
-                    const date = new Date(point.data.fecha);
-                    const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-                    const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-    
-                    return (
-                        <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                            <strong>{formattedDate}</strong>
-                            <div>{point.id}: {formattedValue}%</div>
-                        </div>
-                    );
-                }}
+                defs={[
+                    {
+                        id: 'text',
+                        type: 'text',
+                        color: 'white',
+                    },
+                ]}
 
-                borderRadius={2}
-                borderColor={{
+
+                dotSize={8}
+                dotColor={{ from: 'color' }}
+                dotBorderWidth={2}
+                dotBorderColor={{
                     from: 'color',
                     modifiers: [
                         [
                             'darker',
-                            1.6
+                            0.7
                         ]
                     ]
                 }}
-                
-                axisTop={null}
-                axisRight={null}
-                axisBottom={{
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    legend: '',
-                    legendPosition: 'middle',
-                    legendOffset: 32,
-                    format: (value) => {
-                        const date = new Date(value);
-                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-                      },
 
-                }}
-                axisLeft={{
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    tickValues: 5,
-                    legend: '',
-                    legendPosition: 'middle',
-                    legendOffset: -40,
-                    format: value => formatNumber(value),
-                    
-
-                }}
-                enableGridY={false} 
-                labelSkipWidth={12}
-                labelSkipHeight={12}
-                labelTextColor={{
-                    from: 'color',
-                    modifiers: [
-                        [
-                            'darker',
-                            1.6
-                        ]
-                    ]
-                }}
                 legends={[
                     {
-                        dataFrom: 'keys',
+
                         anchor: 'bottom-left',
                         direction: 'row',
                         justify: false,
-                        translateX: 10,
+                        translateX: 0,
                         translateY: 54,
-                        itemsSpacing: 16,
+                        itemsSpacing: 0,
                         itemDirection: 'left-to-right',
                         itemWidth: 80,
                         itemHeight: 20,
@@ -269,20 +283,16 @@ const BarChartComponentA2 = () => {
                                 on: 'hover',
                                 style: {
                                     itemBackground: 'rgba(0, 0, 0, .03)',
+                                    itemTextColor: '#000000',
                                     itemOpacity: 1
                                 }
                             }
                         ]
                     }
                 ]}
-
-                role="application"
-                ariaLabel="Nivo bar chart demo"
-                barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
             />
         </div>
     )
 }
 
-export default BarChartComponentA2
-
+export default StreamChartComponentL

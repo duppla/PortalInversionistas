@@ -5,6 +5,8 @@ import Link from 'next/link';
 import PieChartComponentk1 from '@/app/dashboard/Components/customer/PieChartComponentK1';
 import PieChartComponentK2 from '@/app/dashboard/Components/customer/PieChartComponentK2';
 import BarChartComponentO from '@/app/dashboard/Components/customer/BarChartComponentO';
+import BarChartComponentN from '@/app/dashboard/Components/customer/BarChartComponentN';
+import StreamChartComponentL from '@/app/dashboard/Components/customer/StreamChartComponentL';
 
 
 
@@ -79,7 +81,8 @@ const Customer = () => {
                 borderRadius: '20px',
 
             }}>
-                Componenet N
+                <BarChartComponentN />
+               
             </Grid>
 
         </Grid>
@@ -90,7 +93,7 @@ const Customer = () => {
             justifyContent: 'center',
             justifyItems: 'center',
             width: '100%',
-            height: '460px',
+            height: '560px',
             backgroundColor: '#212126',
             borderRadius: '20px',
             
@@ -104,10 +107,7 @@ const Customer = () => {
                 borderRadius: '20px',
                 
             }}>
-                <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
-                    Componente L
-                </Typography>
-             {/*  <Prueba />   */}
+                <StreamChartComponentL />
             </Grid>
 
         </Grid>

@@ -6,13 +6,13 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 
 type DataApiType = {
     fecha: string;
-    clientes: any;
-    duppla: any;
-    inversionistas: any;
+    arriendo: any;
+    capital: any;
 };
 
 type DataType = {
@@ -21,16 +21,14 @@ type DataType = {
     ult_6_meses: DataApiType[];
 };
 
-
 type ItemType = {
     fecha: string;
-    clientes: number;
-    duppla: number;
-    inversionistas: number;
-    // otras propiedades que los objetos en dataApi pueden tener...
-}
-const BarChartComponentA2 = () => {
+    arriendo: number;
+    capital: number;
+};
 
+
+function BarChartComponentN() {
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
@@ -38,11 +36,12 @@ const BarChartComponentA2 = () => {
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
 
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/e?investor=skandia`, options);
+                const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/clientes/n?investor=skandia`, options);
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
@@ -67,64 +66,49 @@ const BarChartComponentA2 = () => {
         handleDataSelection(selectedDataKey);
     };
 
-    const colors: Record<string, string> = {
-        Clientes: '#28ACFF',
-        duppla: '#5ED1B1',
-        Inversionistas: '#723DFD',
-    };
-
-
     /* data del enpoint para renderizar la grafica por un map */
 
     const formattedDataa = responseData
         ? responseData[selectedDataKey].map((item: ItemType) => ({
             fecha: item.fecha,
-            Clientes: item.clientes,
-            duppla: item.duppla,
-            Inversionistas: item.inversionistas,
+            Arriendo: item.arriendo,
+            Capital: item.capital,           
         }))
         : [];
 
-    const keys = ['duppla', 'Clientes', 'Inversionistas'];
+    /* prueba de formateo data a legible */
 
-    /* función para formateo data según requerimiento de la gráfica */ 
-
-    /* Función para formatear números como porcentajes sin decimales y ceros */
     function formatNumber(value: number): string {
-        const percentageValue = (value * 100).toFixed(1).replace(/\.0$/, ''); // Elimina el .0
-        return `${percentageValue}%`;
-    }
+        const suffixes = ['', 'K', 'M', 'B', 'T'];
+        const suffixNum = Math.floor(('' + value).length / 3);
+        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
 
-
-    /* prueba de formateo data a legible tooltip */
-    function formatNumberTooltip(value: number): string {
-        if (value < 1) {
-            // Formato para valores menores que 1
-            return (value * 100).toFixed(0) + '';
-        } else {
-            // Formato para valores mayores o iguales a 1
-            const suffixes = ['', 'K', 'M', 'B', 'T'];
-            const suffixNum = Math.floor(('' + value).length / 3);
-            let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
-
-            if (shortValue.endsWith('.0')) {
-                shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
-            }
-
-            return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+        if (shortValue.endsWith('.0')) {
+            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
         }
-    }
 
+        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+    } 
+    /* prueba de formateo data a legible tooltip */
+ function formatNumberTooltip(value: number): string {
+        const suffixes = ['', 'K', 'M', 'B', 'T'];
+        const suffixNum = Math.floor(('' + value).length / 3);
+        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
 
+        if (shortValue.endsWith('.0')) {
+            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
+        }
 
+        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+    } 
 
     return (
         <div className='grafica-barcharts nivo-text'>
             <div>
                 <FormControl fullWidth>
-                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt:1 }}>
+                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ color: '#ffffff', }}>Porcentaje de propiedad del portafolio</Typography>
+                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Pagos mensuales y destino</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -153,29 +137,29 @@ const BarChartComponentA2 = () => {
 
             <ResponsiveBar
                 data={formattedDataa}
-                keys={['Inversionistas', 'Clientes', 'duppla']}
+                keys={[  'Capital', 'Arriendo',]}
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.3}
                 valueScale={{ type: 'linear', min: 0 }}
                 indexScale={{ type: 'band', round: true }}
-                colors={['#723DFD', '#28ACFF', '#5ED1B1']} // Define tus propios colores
+                colors={[ '#5782F2', '#5ED1B1',]} // Define tus propios colores */
+                enableGridY={false}
                 theme={{
                     axis: {
                         ticks: {
                             text: {
                                 fill: '#9B9EAB', // Color del texto en los ejes
                             },
-                            line: {
-                                stroke: '#723DFD', // Color de las líneas en los ejes
-                            },
                         },
                     },
+
                     legends: {
                         text: {
                             fill: '#9B9EAB', // Color del texto de las leyendas
                         },
+
                     },
                     tooltip: {
                         container: {
@@ -185,20 +169,21 @@ const BarChartComponentA2 = () => {
                     },
                 }}
 
-                tooltip={(point) => {
+
+             tooltip={(point) => {
                     const date = new Date(point.data.fecha);
                     const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
                     const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-    
+
                     return (
                         <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
                             <strong>{formattedDate}</strong>
-                            <div>{point.id}: {formattedValue}%</div>
+                            <div>{point.id}: {formattedValue}</div>
                         </div>
                     );
-                }}
+                }} 
 
-                borderRadius={2}
+                borderRadius={4}
                 borderColor={{
                     from: 'color',
                     modifiers: [
@@ -208,7 +193,6 @@ const BarChartComponentA2 = () => {
                         ]
                     ]
                 }}
-                
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -221,7 +205,7 @@ const BarChartComponentA2 = () => {
                     format: (value) => {
                         const date = new Date(value);
                         return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-                      },
+                    },
 
                 }}
                 axisLeft={{
@@ -232,11 +216,9 @@ const BarChartComponentA2 = () => {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
-                    format: value => formatNumber(value),
-                    
+                    format: value => formatNumber(value), 
 
                 }}
-                enableGridY={false} 
                 labelSkipWidth={12}
                 labelSkipHeight={12}
                 labelTextColor={{
@@ -248,15 +230,16 @@ const BarChartComponentA2 = () => {
                         ]
                     ]
                 }}
+
                 legends={[
                     {
                         dataFrom: 'keys',
                         anchor: 'bottom-left',
                         direction: 'row',
                         justify: false,
-                        translateX: 10,
+                        translateX: 0,
                         translateY: 54,
-                        itemsSpacing: 16,
+                        itemsSpacing: 20,
                         itemDirection: 'left-to-right',
                         itemWidth: 80,
                         itemHeight: 20,
@@ -275,14 +258,13 @@ const BarChartComponentA2 = () => {
                         ]
                     }
                 ]}
-
                 role="application"
                 ariaLabel="Nivo bar chart demo"
                 barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
             />
+
         </div>
     )
 }
 
-export default BarChartComponentA2
-
+export default BarChartComponentN
