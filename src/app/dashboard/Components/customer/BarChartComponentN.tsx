@@ -72,7 +72,7 @@ function BarChartComponentN() {
         ? responseData[selectedDataKey].map((item: ItemType) => ({
             fecha: item.fecha,
             Arriendo: item.arriendo,
-            Capital: item.capital,           
+            Capital: item.capital,
         }))
         : [];
 
@@ -88,9 +88,9 @@ function BarChartComponentN() {
         }
 
         return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
-    } 
+    }
     /* prueba de formateo data a legible tooltip */
- function formatNumberTooltip(value: number): string {
+    function formatNumberTooltip(value: number): string {
         const suffixes = ['', 'K', 'M', 'B', 'T'];
         const suffixNum = Math.floor(('' + value).length / 3);
         let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
@@ -100,7 +100,7 @@ function BarChartComponentN() {
         }
 
         return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
-    } 
+    }
 
     return (
         <div className='grafica-barcharts nivo-text'>
@@ -137,14 +137,14 @@ function BarChartComponentN() {
 
             <ResponsiveBar
                 data={formattedDataa}
-                keys={[  'Capital', 'Arriendo',]}
+                keys={['Capital', 'Arriendo',]}
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.3}
                 valueScale={{ type: 'linear', min: 0 }}
                 indexScale={{ type: 'band', round: true }}
-                colors={[ '#5782F2', '#5ED1B1',]} // Define tus propios colores */
+                colors={['#5782F2', '#5ED1B1',]} // Define tus propios colores */
                 enableGridY={false}
                 theme={{
                     axis: {
@@ -170,18 +170,22 @@ function BarChartComponentN() {
                 }}
 
 
-             tooltip={(point) => {
-                    const date = new Date(point.data.fecha);
-                    const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-                    const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-
-                    return (
+                tooltip={(point) => {
+                    if (typeof point.data.fecha === 'string') {
+                      const [year, month] = point.data.fecha.split('-');
+                      const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                      const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                      const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+                  
+                      return (
                         <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                            <strong>{formattedDate}</strong>
-                            <div>{point.id}: {formattedValue}</div>
+                          <strong>{formattedDate}</strong>
+                          <div>{point.id}: {formattedValue}</div>
                         </div>
-                    );
-                }} 
+                      );
+                    }
+                    return null; // Devolver null si point.data.fecha no es una cadena
+                  }}
 
                 borderRadius={4}
                 borderColor={{
@@ -202,9 +206,11 @@ function BarChartComponentN() {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: 32,
+                    tickValues: formattedDataa.map((item: { fecha: string }) => item.fecha),
                     format: (value) => {
-                        const date = new Date(value);
-                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                        const [year, month] = value.split('-');
+                        const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                        return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
                     },
 
                 }}
@@ -216,7 +222,7 @@ function BarChartComponentN() {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
-                    format: value => formatNumber(value), 
+                    format: value => formatNumber(value),
 
                 }}
                 labelSkipWidth={12}

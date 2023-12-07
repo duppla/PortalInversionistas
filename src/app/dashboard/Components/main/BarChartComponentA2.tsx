@@ -69,27 +69,36 @@ const BarChartComponentA2 = () => {
     handleDataSelection(selectedDataKey);
   };
 
-  /* data del enpoint para renderizar la grafica por un map */
-
-  const formattedDataa = responseData
-    ? responseData[selectedDataKey].map((item: ItemType) => ({
-      fecha: item.fecha,
-      Arriendo: item.arriendo,
-      Compraventa: item.compra_venta,
-      Prepago: item.prepago,
-    }))
-    : [];
 
 
-
-  const colors: Record<string, string> = {
-    compra_venta: '#28ACFF',
-    prepago: '#00B383',
-    arriendo: '#5ED1B1',
+  /* Función para ordenar por fecha */
+  const sortByDate = (a: DataApiType, b: DataApiType) => {
+    return new Date(a.fecha).getTime() - new Date(b.fecha).getTime();
   };
 
+  /* Obtén los datos ordenados por fecha */
+  const sortedData = responseData
+    ? responseData[selectedDataKey].sort(sortByDate)
+    : [];
 
-  const keys = ['prepago', 'arriendo', 'compra_venta'];
+  /* data del enpoint para renderizar la grafica por un map */
+  /* Formatea los datos para la gráfica */
+  const formattedDataa = sortedData.map((item: ItemType) => ({
+    fecha: item.fecha,
+    Arriendo: item.arriendo,
+    Compraventa: item.compra_venta,
+    Prepago: item.prepago,
+  }));
+
+  /*   const formattedDataa = responseData
+      ? responseData[selectedDataKey].map((item: ItemType) => ({
+        fecha: item.fecha,
+        Arriendo: item.arriendo,
+        Compraventa: item.compra_venta,
+        Prepago: item.prepago,
+      }))
+      : []; */
+
 
 
   /* prueba de formateo data a legible */
@@ -119,7 +128,7 @@ const BarChartComponentA2 = () => {
   }
 
 
-
+ 
 
   return (
     <div className='grafica-barcharts nivo-text'>
@@ -164,7 +173,6 @@ const BarChartComponentA2 = () => {
         valueScale={{ type: 'linear', min: 0 }}
         indexScale={{ type: 'band', round: true }}
         colors={['#28ACFF', '#00B383', '#5ED1B1']} // Define tus propios colores */
-        enableGridY={false}
         theme={{
           axis: {
             ticks: {
@@ -186,22 +194,31 @@ const BarChartComponentA2 = () => {
               color: '#9B9EAB', // Color del texto del tooltip
             },
           },
+          grid: {
+            line: {
+              stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+            },
+          },
         }}
-
 
         tooltip={(point) => {
-          const date = new Date(point.data.fecha);
-          const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-          const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-
-          return (
-            <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-              <strong>{formattedDate}</strong>
-              <div>{point.id}: {formattedValue}</div>
-            </div>
-          );
+          if (typeof point.data.fecha === 'string') {
+            const [year, month] = point.data.fecha.split('-');
+            const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+            const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+        
+            return (
+              <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+                <strong>{formattedDate}</strong>
+                <div>{point.id}: {formattedValue}</div>
+              </div>
+            );
+          }
+          return null; // Devolver null si point.data.fecha no es una cadena
         }}
-
+      
+        
         borderRadius={4}
         borderColor={{
           from: 'color',
@@ -221,10 +238,14 @@ const BarChartComponentA2 = () => {
           legend: '',
           legendPosition: 'middle',
           legendOffset: 32,
+          tickValues: formattedDataa.map((item: { fecha: string }) => item.fecha),      
           format: (value) => {
-            const date = new Date(value);
-            return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+            const [year, month] = value.split('-');
+            const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
           },
+          
+          
 
         }}
         axisLeft={{

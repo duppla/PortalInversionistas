@@ -74,8 +74,6 @@ export default function Home() {
     }
 
     catch (error) {
-
-
       if (error instanceof Error && 'code' in error && typeof error.code === 'string') {
         if (error.code === 'auth/user-not-found') {
 
@@ -86,7 +84,6 @@ export default function Home() {
             timer: 5000,
           });
         } else if (error.code === 'auth/invalid-email') {
-
           swal({
             text: 'El correo es inválido',
             icon: "info",

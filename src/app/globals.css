@@ -135,16 +135,16 @@ a {
   height: 300px; /* O el valor que desees para pantallas más grandes */
 }
 
-.miInput {
+/* .miInput {
   color: #272727;
   background-color: #272727;
  
   border-radius: 12px;
-}
+} 
 
 .miInput::placeholder {
-  color: white;
-}
+  color: rgb(202, 21, 21) !important;
+} */
 
 /* Estilo para los elementos text dentro del gráfico */
 .nivo-text {
@@ -206,5 +206,15 @@ a {
     margin-top: 4px;
     margin-bottom: 2px;
     margin-left: 700px !important;
+  }
+}
+
+@media screen and (min-width: 2200px) {
+
+
+  .icon-setting-navbar{    
+    margin-top: 4px;
+    margin-bottom: 2px;
+    margin-left: 1100px !important;
   }
 }

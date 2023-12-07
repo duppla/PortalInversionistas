@@ -87,7 +87,7 @@ const BarChartComponentA2 = () => {
 
     const keys = ['duppla', 'Clientes', 'Inversionistas'];
 
-    /* función para formateo data según requerimiento de la gráfica */ 
+    /* función para formateo data según requerimiento de la gráfica */
 
     /* Función para formatear números como porcentajes sin decimales y ceros */
     function formatNumber(value: number): string {
@@ -122,7 +122,7 @@ const BarChartComponentA2 = () => {
         <div className='grafica-barcharts nivo-text'>
             <div>
                 <FormControl fullWidth>
-                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt:1 }}>
+                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt: 1 }}>
                         <Grid xs={6} md={6} lg={6}>
                             <Typography variant="subtitle1" sx={{ color: '#ffffff', }}>Porcentaje de propiedad del portafolio</Typography>
                         </Grid>
@@ -186,17 +186,21 @@ const BarChartComponentA2 = () => {
                 }}
 
                 tooltip={(point) => {
-                    const date = new Date(point.data.fecha);
-                    const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-                    const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-    
-                    return (
+                    if (typeof point.data.fecha === 'string') {
+                      const [year, month] = point.data.fecha.split('-');
+                      const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                      const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                      const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+                  
+                      return (
                         <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                            <strong>{formattedDate}</strong>
-                            <div>{point.id}: {formattedValue}%</div>
+                          <strong>{formattedDate}</strong>
+                          <div>{point.id}: {formattedValue}</div>
                         </div>
-                    );
-                }}
+                      );
+                    }
+                    return null; // Devolver null si point.data.fecha no es una cadena
+                  }}
 
                 borderRadius={2}
                 borderColor={{
@@ -208,7 +212,7 @@ const BarChartComponentA2 = () => {
                         ]
                     ]
                 }}
-                
+
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -218,10 +222,12 @@ const BarChartComponentA2 = () => {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: 32,
+                    tickValues: formattedDataa.map((item: { fecha: string }) => item.fecha),
                     format: (value) => {
-                        const date = new Date(value);
-                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-                      },
+                        const [year, month] = value.split('-');
+                        const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                        return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                    },
 
                 }}
                 axisLeft={{
@@ -233,10 +239,10 @@ const BarChartComponentA2 = () => {
                     legendPosition: 'middle',
                     legendOffset: -40,
                     format: value => formatNumber(value),
-                    
+
 
                 }}
-                enableGridY={false} 
+                enableGridY={false}
                 labelSkipWidth={12}
                 labelSkipHeight={12}
                 labelTextColor={{

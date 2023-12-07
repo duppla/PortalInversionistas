@@ -108,8 +108,8 @@ function StreamChartComponentL() {
         : [];
       
       
-/* 
-    console.log(JSON.stringify(formattedData)); */
+
+    console.log(JSON.stringify(formattedData)); 
 
 
 
@@ -175,21 +175,22 @@ function StreamChartComponentL() {
                 margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
                 axisTop={null}
                 axisRight={null}
-                axisBottom={
-                    null
-                    /* tickSize: 5,
+                axisBottom={{
+                   
+                    tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
                     legend: '',
                     legendPosition: 'middle',
-                    legendOffset: 32, */
+                    legendOffset: 32, 
+                    tickValues: formattedData.map((item: { fecha: string }) => item.fecha),                     
                    /*  format: (value) => {
-                        const date = new Date(value); // No es necesario convertir nuevamente, ya es un objeto Date
-                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-                      }, */
-                      /* format: "%b %Y", */
+                      const [year, month] = value.split('-');
+                      const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                      return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                    }, */
                    
-                }
+                 } }
                 /*   axisBottom={null} */
 
 
@@ -219,6 +220,22 @@ function StreamChartComponentL() {
                 colors={['#FF1818',  '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
                 fillOpacity={0.3}
                 /*  borderColor={['#00FF29', '#FD7F23', '#FFD600', '#FF1818']} */
+           /*      tooltip={(point) => {
+                    if (typeof point.data.fecha === 'string') {
+                      const [year, month] = point.data.fecha.split('-');
+                      const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                      const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                      const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+                  
+                      return (
+                        <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+                          <strong>{formattedDate}</strong>
+                          <div>{point.id}: {formattedValue}</div>
+                        </div>
+                      );
+                    }
+                    return null; // Devolver null si point.data.fecha no es una cadena
+                  }} */
                 theme={{
                     axis: {
                         ticks: {

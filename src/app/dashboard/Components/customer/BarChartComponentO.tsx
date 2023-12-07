@@ -65,13 +65,13 @@ function BarChartComponentO() {
     const formattedData = responseData
         ? responseData[selectedDataKey].map((item: { fecha: string; pagado: number; mora: number; }) => ({
             fecha: item.fecha,
-            Inflow: item.pagado,  // Solo valores positivos o cero
-            Outflow: -Math.abs(item.mora)    // Solo valores negativos
+            'Pago a tiempo': item.pagado,  // Solo valores positivos o cero
+            'En mora': -Math.abs(item.mora)    // Solo valores negativos
         }))
         : [];
 
 
-  /*   console.log(JSON.stringify(formattedData)); */
+    /*   console.log(JSON.stringify(formattedData)); */
 
     /* prueba de formateo data a legible */
 
@@ -139,13 +139,14 @@ function BarChartComponentO() {
 
             <ResponsiveBar
                 data={formattedData}
-                keys={['Inflow', 'Outflow']}
+                keys={['Pago a tiempo', 'En mora']}
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.4}
                 colors={['#12CA98', '#E54B2E',]}
-     
+                /*  enableGridY={false} */
+
                 theme={{
                     axis: {
                         ticks: {
@@ -167,6 +168,11 @@ function BarChartComponentO() {
                             color: '#9B9EAB', // Color del texto del tooltip
                         },
                     },
+                    grid: {
+                        line: {
+                            stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                        },
+                    },
                 }}
 
                 /* valueFormat={(v) => (typeof v === 'number' ? v.toString() : '')} */
@@ -181,18 +187,22 @@ function BarChartComponentO() {
                     format: value => formatNumber(value),
 
                 }}
-                  tooltip={(point) => {
-                    const date = new Date(point.data.fecha);
-                    const formattedDate = `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
-                    const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-            
-                    return (
+                tooltip={(point) => {
+                    if (typeof point.data.fecha === 'string') {
+                      const [year, month] = point.data.fecha.split('-');
+                      const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                      const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                      const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+                  
+                      return (
                         <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                            <strong>{formattedDate}</strong>
-                            <div>{point.id}: {formattedValue}</div>
+                          <strong>{formattedDate}</strong>
+                          <div>{point.id}: {formattedValue}</div>
                         </div>
-                    );
-                }} 
+                      );
+                    }
+                    return null; // Devolver null si point.data.fecha no es una cadena
+                  }}
 
                 borderRadius={4}
                 borderColor={{
@@ -213,9 +223,11 @@ function BarChartComponentO() {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: 32,
+                    tickValues: formattedData.map((item: { fecha: string }) => item.fecha),
                     format: (value) => {
-                        const date = new Date(value);
-                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                        const [year, month] = value.split('-');
+                        const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                        return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
                     },
 
                 }}
@@ -224,7 +236,6 @@ function BarChartComponentO() {
                 labelSkipHeight={12}
                 layout="vertical"
                 groupMode="stacked"
-                enableGridY={false}
 
                 legends={[
                     {
