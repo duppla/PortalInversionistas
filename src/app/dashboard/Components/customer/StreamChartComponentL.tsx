@@ -70,46 +70,28 @@ function StreamChartComponentL() {
     };
 
 
-    /*     const formattedDataa = responseData
-            ? Object.keys(responseData[selectedDataKey]).map((category: string) => {
-                const value = responseData[selectedDataKey][category];
-                return {
-                    fecha: category,
-                    Alto: category === "alto" ? value : 0,
-                    Medio: category === "medio" ? value : 0,
-                    Bajo: category === "bajo" ? value : 0,
-                    Muy_bajo: category === "muy_bajo" ? value : 0,
-                };
-            })
-            : [];
-     */
-
-   /*  const formattedDataa = responseData
-        ? responseData[selectedDataKey].map((dataItem: any) => {
-            const { fecha, alto, medio, bajo, muy_bajo } = dataItem;
-            return {
-                fecha,
-                Alto: alto ? alto : 0,
-                Medio: medio ? medio : 0,
-                Bajo: bajo ? bajo : 0,
-                Muy_bajo: muy_bajo ? muy_bajo : 0,
-            };
-        })
-        : [];
- */
-        const formattedData = responseData
+    // Este código podría ir en el lugar donde obtienes las fechas del servidor
+    const formattedData = responseData
         ? responseData[selectedDataKey].map((dataItem: any) => ({
-            fecha: new Date(dataItem.fecha),
+            id: dataItem.fecha, // El identificador de cada serie es la fecha
             Alto: dataItem.alto ? dataItem.alto : 0,
             Medio: dataItem.medio ? dataItem.medio : 0,
             Bajo: dataItem.bajo ? dataItem.bajo : 0,
             Muy_bajo: dataItem.muy_bajo ? dataItem.muy_bajo : 0,
-          }))
+        }))
         : [];
-      
-      
 
-    console.log(JSON.stringify(formattedData)); 
+    function formatDate(dateString: string): string {
+        const date = new Date(dateString);
+        return date.toISOString(); // Puedes personalizar este método según el formato que necesites
+    }
+
+
+
+    const sortedFormattedData = formattedData.slice().sort((a: { fecha: number }, b: { fecha: number }) => a.fecha - b.fecha);
+
+    /*  console.log(JSON.stringify(formattedData));
+     console.log('Formatted Data:', formattedData); */
 
 
 
@@ -176,22 +158,32 @@ function StreamChartComponentL() {
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
-                   
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
                     legend: '',
                     legendPosition: 'middle',
-                    legendOffset: 32, 
-                    tickValues: formattedData.map((item: { fecha: string }) => item.fecha),                     
-                   /*  format: (value) => {
-                      const [year, month] = value.split('-');
-                      const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                      return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
-                    }, */
-                   
-                 } }
-                /*   axisBottom={null} */
+                    legendOffset: 32,
+
+                    tickValues: sortedFormattedData.length > 0 ?
+                        sortedFormattedData.map((item: { id: string }, index: number) => index) : [],
+
+                    format: (index) => {
+                        if (sortedFormattedData.length > 0 && index < sortedFormattedData.length) {
+                            const { id } = sortedFormattedData[index];
+                            const [year, month] = id.split('-');
+                            const monthIndex = parseInt(month, 10) - 1;
+                            const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+                            return `${monthNames[monthIndex]} ${year}`;
+                        }
+                        return ''; // Retorna una cadena vacía si no hay datos o el índice es inválido
+                    },
+
+
+
+                }}
+
 
 
                 axisLeft={{
@@ -215,27 +207,27 @@ function StreamChartComponentL() {
                 offsetType="none"
 
                 borderWidth={2}  // Grosor del borde
-                borderColor={{ from: 'color', }} 
+                borderColor={{ from: 'color', }}
 
-                colors={['#FF1818',  '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
+                colors={['#FF1818', '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
                 fillOpacity={0.3}
                 /*  borderColor={['#00FF29', '#FD7F23', '#FFD600', '#FF1818']} */
-           /*      tooltip={(point) => {
-                    if (typeof point.data.fecha === 'string') {
-                      const [year, month] = point.data.fecha.split('-');
-                      const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                      const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
-                      const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-                  
-                      return (
+                /*      tooltip={(point) => {
+                if (typeof point.data.fecha === 'string') {
+                    const [year, month] = point.data.fecha.split('-');
+                    const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                    const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                    const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+
+                    return (
                         <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                          <strong>{formattedDate}</strong>
-                          <div>{point.id}: {formattedValue}</div>
+                            <strong>{formattedDate}</strong>
+                            <div>{point.id}: {formattedValue}</div>
                         </div>
-                      );
-                    }
-                    return null; // Devolver null si point.data.fecha no es una cadena
-                  }} */
+                    );
+                }
+                return null; // Devolver null si point.data.fecha no es una cadena
+            }} */
                 theme={{
                     axis: {
                         ticks: {
