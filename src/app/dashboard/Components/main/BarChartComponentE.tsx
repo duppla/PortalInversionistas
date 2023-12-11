@@ -168,7 +168,7 @@ const BarChartComponentA2 = () => {
                                 fill: '#9B9EAB', // Color del texto en los ejes
                             },
                             line: {
-                                stroke: '#723DFD', // Color de las líneas en los ejes
+                                stroke: '#9B9EAB', // Color de las líneas en los ejes
                             },
                         },
                     },
@@ -183,6 +183,11 @@ const BarChartComponentA2 = () => {
                             color: '#9B9EAB', // Color del texto del tooltip
                         },
                     },
+                    grid: {
+                        line: {
+                          stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                        },
+                      },
                 }}
 
                 tooltip={(point) => {
@@ -242,7 +247,7 @@ const BarChartComponentA2 = () => {
 
 
                 }}
-                enableGridY={false}
+              /*   enableGridY={false} */
                 labelSkipWidth={12}
                 labelSkipHeight={12}
                 labelTextColor={{

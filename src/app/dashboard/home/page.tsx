@@ -72,13 +72,13 @@ const Page = () => {
                 <Container maxWidth="xl" sx={{ mt: 4, mb: 4, }}
                     className=''>
                     {/* primera fila  componente D*/}
-                    < Grid container sx={{
+                    < Grid container  className='size-card-main'sx={{
                         marginTop: '10px',
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                        height: '280px',
+                      
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
@@ -210,13 +210,13 @@ const Page = () => {
 
                     </Grid>
                     {/* componente F*/}
-                    < Grid container sx={{
+                    < Grid container  className='size-card-main' sx={{
                         marginTop: '10px',
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                        height: '280px',
+                      
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',

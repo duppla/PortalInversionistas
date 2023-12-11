@@ -32,15 +32,16 @@ function Layout({ children }: { children: ReactNode; }) {
                 <Container maxWidth="xl" sx={{ mt: 4, }}>
                   <Grid container spacing={1}>
                     {/*Segunda columna principal*/}
-                    <Grid item xs={12} sm={6} md={6} lg={6}>                    
+                    <Grid item xs={12} sm={12} md={6} lg={6}>                    
                     </Grid>
                     {/*Segunda columna principal*/}
-                    <Grid xs={6} sm={6} md={6} lg={6} sx={{
+                    <Grid xs={12} sm={12} md={6} lg={6} sx={{
                       display: 'flex', justifyContent: 'end',
                       justifyItems: 'end',
                       alignItems: 'end',
+                      ml:2
                     }}>
-                      <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-end' }}>
+                      <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end' }}>
                         <Link href="/dashboard/home">
                           <Button variant="outlined" sx={{
                             backgroundColor: '#272727',

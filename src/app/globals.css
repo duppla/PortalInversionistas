@@ -163,16 +163,32 @@ a {
 
 @media screen and (min-width: 300px) {
  
+  .size-card-main{
+    width: 100% !important;
+    height: 980px !important;
   
+  }
 }
 @media screen and (min-width: 375px) {
  
+  .size-card-main{
+    width: 100% !important;
+    height: 980px !important;
+  
+  }
 }
 @media screen and (min-width: 425px) {
- 
+  .size-card-main{
+    width: 100% !important;
+    height: 980px !important;
+   margin-bottom: 50px !important;
+  }
 }
 @media screen and (min-width: 768px) {
- 
+  .size-card-main{
+    width: 100% !important;
+    height: 580px !important;  
+  }
 }
 @media screen and (min-width: 1000px) {
   .div-center-pie{
@@ -181,6 +197,11 @@ a {
     left: 24%;
     translate: translate(-50%, -50%);
     z-index: 1;   
+  }
+  .size-card-main{
+    width: 100% !important;
+    height: 280px !important;
+  
   }
 
 }
@@ -191,6 +212,11 @@ a {
     left: 31%;
     translate: translate(-50%, -50%);
     z-index: 1;   
+  }
+  .size-card-main{
+    width: 100% !important;
+    height: 280px !important;
+  
   }
 }
 @media screen and (min-width: 1600px) {
@@ -207,6 +233,11 @@ a {
     margin-bottom: 2px;
     margin-left: 700px !important;
   }
+  .size-card-main{
+    width: 100% !important;
+    height: 280px !important;
+  
+  }
 }
 
 @media screen and (min-width: 2200px) {
@@ -216,5 +247,11 @@ a {
     margin-top: 4px;
     margin-bottom: 2px;
     margin-left: 1100px !important;
+  }
+
+  .size-card-main{
+    width: 100% !important;
+    height: 280px !important;
+  
   }
 }

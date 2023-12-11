@@ -191,6 +191,12 @@ function BarChart() {
                             color: '#9B9EAB', // Color del texto del tooltip
                         },
                     },
+                    grid: {
+                        line: {
+                          stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                        },
+                      },
+                    
                 }}
 
                 defs={[
@@ -228,7 +234,7 @@ function BarChart() {
                     return null; // Devolver null si point.data.fecha no es una cadena
                   }}
 
-                enableGridY={false}
+             /*    enableGridY={false} */
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
