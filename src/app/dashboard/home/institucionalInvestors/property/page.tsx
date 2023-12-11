@@ -115,7 +115,7 @@ const page = () => {
 
                 </Grid>
                 {/* Componente J */}
-                <Grid container sx={{
+               {/*  <Grid container sx={{
                     marginTop: '40px',
                     display: 'flex',
                     justifyContent: 'center',
@@ -127,7 +127,7 @@ const page = () => {
                     boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
 
                 }}>
-                    {/*Grafica principal-datos del inmueble*/}
+                    
                     <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                         width: '100%',
                         height: '460px',
@@ -138,10 +138,10 @@ const page = () => {
                         <Typography component="h1" variant="h5" sx={{ color: '#fffff', fontFamily: 'Roboto', }}>
                             Componente J
                         </Typography>
-                        {/*  <Prueba />   */}
+                        
                     </Grid>
 
-                </Grid>
+                </Grid> */}
 
 
 

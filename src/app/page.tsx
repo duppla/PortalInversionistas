@@ -91,7 +91,6 @@ export default function Home() {
             timer: 5000,
           });
         } else if (error.code === 'auth/wrong-password') {
-
           swal({
             text: 'La contraseña es incorrecta, intente nuevamente',
             icon: "info",
@@ -115,17 +114,17 @@ export default function Home() {
         <CssBaseline />
         <Box
           sx={{
-            mt: 2,
+            
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
           <div>
-            <Image src={LogoInversionistas} alt="" width={492} height={287} />
+            <Image  className='img-login-logo' src={LogoInversionistas} alt=""  />
           </div>
           <Typography component="h1" variant='h5' sx={{
-            marginTop: '18px',
+           
             color: '#ffffff',
             fontFamily: 'Roboto',
             fontStyle: 'normal',
@@ -135,7 +134,7 @@ export default function Home() {
           }}>
             Portal Inversionistas
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ marginTop: '35px' }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ marginTop: '25px' }}>
             <TextField
               className='miInput'
               margin="normal"

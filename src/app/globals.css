@@ -76,7 +76,7 @@ a {
   text-decoration: none;
 }
 
-.centrado{
+.centrado {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -90,14 +90,14 @@ a {
   background-repeat: no-repeat;
 
   border-bottom-left-radius: 35px;
-  border-bottom-right-radius: 35px;  
+  border-bottom-right-radius: 35px;
   border-bottom: 2px solid #7DA0FB;
-  background: radial-gradient(151.92% 127.02% at 15.32% 21.04%, rgba(165, 239, 255, 0.20) 0%, rgba(110, 191, 244, 0.04) 77.08%, rgba(70, 144, 212, 0.00) 100%)!important;
+  background: radial-gradient(151.92% 127.02% at 15.32% 21.04%, rgba(165, 239, 255, 0.20) 0%, rgba(110, 191, 244, 0.04) 77.08%, rgba(70, 144, 212, 0.00) 100%) !important;
 
   background-blend-mode: overlay, normal;
   backdrop-filter: blur(40px);
 
-  }
+}
 
 .img-home {
   width: 130px;
@@ -118,21 +118,25 @@ a {
   height: 480px;
   /* background-color: #020101; */
 
-  
+
 }
-.grafica-barcharts-des{
+
+.grafica-barcharts-des {
   width: 100% !important;
   height: 440px;
   /* background-color: #020101; */
 }
+
 .grafica-piecharts {
   width: auto !important;
   height: 380px;
-  
+
 }
+
 .grafica-Linecharts {
   width: 100%;
-  height: 300px; /* O el valor que desees para pantallas más grandes */
+  height: 300px;
+  /* O el valor que desees para pantallas más grandes */
 }
 
 /* .miInput {
@@ -148,13 +152,16 @@ a {
 
 /* Estilo para los elementos text dentro del gráfico */
 .nivo-text {
-  fill: #ffffff !important; /* Cambia el color del texto a blanco */
+  fill: #ffffff !important;
+  /* Cambia el color del texto a blanco */
 }
-.ChartContainerSizeManager{
+
+.ChartContainerSizeManager {
   width: 100% !important;
   height: 480px;
 
 }
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -162,96 +169,208 @@ a {
 }
 
 @media screen and (min-width: 300px) {
- 
-  .size-card-main{
+
+  /* clases login */
+  .img-login-logo {
+    width: 100%;
+    height: 287px;
+  }
+
+  .size-card-main {
     width: 100% !important;
     height: 980px !important;
-  
   }
+
+  .size-card-main-d-f {
+    width: 300 !important;
+    height: 220px !important;
+  }
+
 }
+
 @media screen and (min-width: 375px) {
- 
-  .size-card-main{
+
+  /* clases login */
+  .img-login-logo {
+    width: 100% !important;
+    height: 287px;
+  }
+
+  .size-card-main {
     width: 100% !important;
     height: 980px !important;
-  
+  }
+
+  .size-card-main-d-f {
+    width: 320 !important;
+    height: 220px !important;
   }
 }
+
 @media screen and (min-width: 425px) {
-  .size-card-main{
+
+  /* clases login */
+  .img-login-logo {
+    width: 100% !important;
+    height: 287px;
+  }
+
+  .size-card-main {
     width: 100% !important;
     height: 980px !important;
-   margin-bottom: 50px !important;
+  }
+
+  .size-card-main-d-f {
+    width: 350 !important;
+    height: 220px !important;
   }
 }
+
 @media screen and (min-width: 768px) {
-  .size-card-main{
+
+  /* clases login */
+  .img-login-logo {
+    width: 492px !important;
+    height: 287px;
+  }
+  
+  .div-center-pie {
+    position: absolute;
+    top: 47%;
+    margin-left: 2% ;
+    translate: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  .size-card-main {
     width: 100% !important;
-    height: 580px !important;  
+    height: 980px !important;
+  }
+
+  .size-card-main-d-f {
+    width: 360 !important;
+    height: 220px !important;
   }
 }
+
 @media screen and (min-width: 1000px) {
-  .div-center-pie{
+
+  /* Clases login */
+  .img-login-logo {
+    width: 492px !important;
+    height: 287px;
+  }
+
+  .div-center-pie {
     position: absolute;
     top: 46%;
-    left: 24%;
+    margin-left: -2% !important;
     translate: translate(-50%, -50%);
-    z-index: 1;   
-  }
-  .size-card-main{
-    width: 100% !important;
-    height: 280px !important;
-  
+    z-index: 1;
   }
 
+  /* Ajustes sesión main */
+  .size-card-main {
+    width: 100% !important;
+    height: 300px !important;
+
+  }
+
+  .size-card-main-d-f {
+    width: 360px !important;
+    height: 200px !important;
+  }
+
+
 }
+
 @media screen and (min-width: 1200px) {
-  .div-center-pie{
-    position: absolute;
-    top: 47%;
-    left: 31%;
-    translate: translate(-50%, -50%);
-    z-index: 1;   
-  }
-  .size-card-main{
-    width: 100% !important;
-    height: 280px !important;
-  
-  }
-}
-@media screen and (min-width: 1600px) {
-  .div-center-pie{
-    position: absolute;
-    top: 47%;
-    left: 34%;
-    translate: translate(-50%, -50%);
-    z-index: 1;   
+
+  /* Clases login */
+  .img-login-logo {
+    width: 492px !important;
+    height: 287px;
   }
 
-  .icon-setting-navbar{    
+  .div-center-pie {
+    position: absolute;
+    top: 47%;
+    margin-left: 31%;
+    translate: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+
+  /* Ajustes sesión main */
+  .size-card-main {
+    width: 100% !important;
+    height: 300px !important;
+  }
+
+  .size-card-main-d-f {
+    width: 400 !important;
+    height: 200px !important;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+
+  /* Clases login */
+  .img-login-logo {
+    width: 492px !important;
+    height: 287px;
+  }
+
+  .div-center-pie {
+    position: absolute;
+    top: 47%;
+    margin-left: 0% !important;
+    translate: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  .icon-setting-navbar {
     margin-top: 4px;
     margin-bottom: 2px;
     margin-left: 700px !important;
   }
-  .size-card-main{
+
+  /* Ajustes sesión main */
+  /* Ajustes sesión main */
+  .size-card-main {
     width: 100% !important;
     height: 280px !important;
-  
+
+  }
+
+  .size-card-main-d-f {
+    width: 400 !important;
+    height: 220px !important;
   }
 }
 
 @media screen and (min-width: 2200px) {
 
+  /* Clases login */
+  .img-login-logo {
+    width: 492px !important;
+    height: 287px;
+  }
 
-  .icon-setting-navbar{    
+  .icon-setting-navbar {
     margin-top: 4px;
     margin-bottom: 2px;
     margin-left: 1100px !important;
   }
 
-  .size-card-main{
+  /* Ajustes sesión main */
+  .size-card-main {
     width: 100% !important;
     height: 280px !important;
-  
+  }
+
+  .size-card-main-d-f {
+    width: 400 !important;
+    height: 220px !important;
   }
 }

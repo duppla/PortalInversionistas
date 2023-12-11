@@ -77,7 +77,7 @@ const Page = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
-                        width: '100%',
+                     
                       
                         backgroundColor: '#212126',
                         borderRadius: '20px',

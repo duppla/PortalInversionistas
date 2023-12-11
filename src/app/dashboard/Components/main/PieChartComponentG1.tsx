@@ -134,7 +134,7 @@ function PieChartComponentG1() {
 
 
     return (
-        <div className="grafica-piecharts" style={{ position: 'relative', width: '100%', height: '380px' }}>
+        <div className="grafica-piecharts " style={{ position: 'relative', width: '100%', height: '380px' }}>
             <div>
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
@@ -267,7 +267,7 @@ function PieChartComponentG1() {
 
             )
             }
-            <div className="centrado" style={{ position: 'absolute', top: '60%', left: '40%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
+            <div className="centrado div-center-pie" style={{ position: 'absolute', top: '60%', left: '40%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Typography sx={{ color: "#ffffff", marginBottom: '8px', textAlign: 'center', fontWeight: '600', fontStyle: 'normal', fontSize: '36px' }}>
                     {responseData[selectedDataKey].total.toLocaleString()}

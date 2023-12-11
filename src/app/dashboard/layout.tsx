@@ -39,7 +39,7 @@ function Layout({ children }: { children: ReactNode; }) {
                       display: 'flex', justifyContent: 'end',
                       justifyItems: 'end',
                       alignItems: 'end',
-                      ml:2
+                      
                     }}>
                       <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end' }}>
                         <Link href="/dashboard/home">
