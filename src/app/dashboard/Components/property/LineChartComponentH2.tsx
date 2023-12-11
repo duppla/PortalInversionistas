@@ -39,6 +39,8 @@ const LineChartComponentH2 = () => {
     const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
 
+    const [transformedData, setTransformedData] = useState<{ x: string; y: number }[]>([]);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -47,13 +49,8 @@ const LineChartComponentH2 = () => {
                 const newData = await response.json();
 
                 setData((prevData) => {
-                    const updatedData = { ...prevData, [selectedValue.toString()]: newData[selectedValue.toString()] };
-
-                    // Verificar si la propiedad ya existe antes de agregarla
-                    if (!prevData[selectedValue.toString()]) {
-                        updatedData[selectedValue.toString()] = newData[selectedValue.toString()];
-                    }
-
+                    const updatedData = { ...prevData };
+                    updatedData[selectedValue.toString()] = newData[selectedValue.toString()];
                     return updatedData;
                 });
 
@@ -65,6 +62,12 @@ const LineChartComponentH2 = () => {
 
         fetchData();
     }, [selectedValue]);
+
+    useEffect(() => {
+        // Actualización de datos de gráfico aquí
+        const transformedData = tranformeDataApi(data, selectedDataKey);
+        setTransformedData(transformedData);
+    }, [data, selectedDataKey]);
 
     const handleDataSelection = (dataKey: string) => {
         setSelectedDataKey(dataKey);
@@ -135,7 +138,7 @@ const LineChartComponentH2 = () => {
                 axisLeft={{
                     /*  legend: 'linear scale', */
                     legendOffset: 12,
-                    tickValues: 5,
+                    tickValues: 4,
 
 
                 }}
@@ -146,7 +149,12 @@ const LineChartComponentH2 = () => {
                                 fill: '#9B9EAB' // Cambia aquí al color que desees para el texto de las marcas en el eje Y
                             }
                         }
-                    }
+                    },
+                    grid: {
+                        line: {
+                          stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                        },
+                      },
                 }}
                 lineWidth={6}
                 tooltip={(point) => {

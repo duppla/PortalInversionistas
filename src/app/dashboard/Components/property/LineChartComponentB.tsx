@@ -18,7 +18,7 @@ type DataType = {
     este_anho: any[];
     ult_6_meses: any[];
     [key: string]: any;
-  };
+};
 
 type DataApiType = {
     fecha: string;
@@ -33,8 +33,10 @@ const LineChartComponentB = () => {
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
     const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
+    const [transformedDataContractual, setTransformedDataContractual] = useState<{ x: string; y: number }[]>([]);
+    const [transformedDataFairMarket, setTransformedDataFairMarket] = useState<{ x: string; y: number }[]>([]);
 
- 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -42,14 +44,14 @@ const LineChartComponentB = () => {
                 const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/b?investor=skandia', options);
                 const newData = await response.json();
 
+                /*  setData((prevData) => {
+                     const updatedData = { ...prevData };
+                     updatedData[selectedValue.toString()] = newData[selectedValue.toString()];
+                     return updatedData;
+                 }); */
                 setData((prevData) => {
-                    const updatedData = { ...prevData, [selectedValue.toString()]: newData[selectedValue.toString()] };
-
-                    // Verificar si la propiedad ya existe antes de agregarla
-                    if (!prevData[selectedValue.toString()]) {
-                        updatedData[selectedValue.toString()] = newData[selectedValue.toString()];
-                    }
-
+                    const updatedData = { ...prevData };
+                    updatedData[selectedValue.toString()] = newData[selectedValue.toString()];
                     return updatedData;
                 });
 
@@ -60,6 +62,9 @@ const LineChartComponentB = () => {
         };
 
         fetchData();
+        // Actualización de datos de gráfico aquí
+        /* const transformedDataContractual = transformData(data, selectedDataKey, 'valor_contractual');
+        const transformedDataFairMarket = transformData(data, selectedDataKey, 'fair_market_price'); */
     }, [selectedValue]);
 
 
@@ -78,16 +83,23 @@ const LineChartComponentB = () => {
     const transformData = (data: DataType, selectedDataKey: string, field: keyof DataApiType) => {
         return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
             x: item.fecha,
-            y: item[field],
+           /*  y: item[field], */
+           y: Number(item[field]),
+           
         }));
     };
 
-    const transformedDataContractual = transformData(data, selectedDataKey, 'valor_contractual');
-    const transformedDataFairMarket = transformData(data, selectedDataKey, 'fair_market_price');
+    useEffect(() => {
+        // Actualización de datos de gráfico aquí
+        setTransformedDataContractual(transformData(data, selectedDataKey, 'valor_contractual'));
+        setTransformedDataFairMarket(transformData(data, selectedDataKey, 'fair_market_price'));
+    }, [data, selectedDataKey]);
 
+       
+    
 
-/*     console.log("Transformed data:", transformedDataContractual);
-    console.log("Transformed data Market:", transformedDataFairMarket); */
+    console.log("Transformed data:", transformedDataContractual);
+        console.log("Transformed data Market:", transformedDataFairMarket); 
 
 
     return (
@@ -183,6 +195,11 @@ const LineChartComponentB = () => {
                             color: '#9B9EAB', // Color del texto del tooltip
                         },
                     },
+                    grid: {
+                        line: {
+                          stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                        },
+                      },
                 }}
                 colors={['#C5F5CA', '#FF864B']}
                 enablePointLabel={false}

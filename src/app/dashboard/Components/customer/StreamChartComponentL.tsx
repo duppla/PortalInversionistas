@@ -4,9 +4,12 @@ import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { TooltipProps as NivoTooltipProps } from '@nivo/stream';
 
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
+
+
 
 
 type DataApiType = {
@@ -103,7 +106,7 @@ function StreamChartComponentL() {
 
 
     /* prueba de formateo data a legible tooltip */
-    function formatNumberTooltip(value: number): string {
+   /*  function formatNumberTooltip(value: number): string {
         const suffixes = ['', 'K', 'M', 'B', 'T'];
         const suffixNum = Math.floor(('' + value).length / 3);
         let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
@@ -111,9 +114,17 @@ function StreamChartComponentL() {
         if (shortValue.endsWith('.0')) {
             shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
         }
-
         return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+    } */
+
+
+    function formatNumberTooltip(value: number): string {
+        const percentageValue = (value * 100).toFixed(0); // Multiplica por 100 y redondea
+        return `${percentageValue}%`;
     }
+    
+    
+
 
     return (
         <div className='grafica-barcharts-des nivo-text'>
@@ -147,7 +158,6 @@ function StreamChartComponentL() {
                     </Grid>
                 </FormControl>
             </div>
-
             <ResponsiveStream
                 animate={true}
                 data={formattedData}
@@ -183,9 +193,6 @@ function StreamChartComponentL() {
 
 
                 }}
-
-
-
                 axisLeft={{
                     tickSize: 5,
                     tickPadding: 5,
@@ -198,36 +205,40 @@ function StreamChartComponentL() {
 
                 }}
                 enableGridY={false}
-                curve="catmullRom"
-                /*    offsetType="diverging" */
-
-                /*  offsetType="expand" */
-                /*   offsetType="wiggle" */
-                /*     offsetType="silhouette"  */
+                curve="catmullRom"              
                 offsetType="none"
-
                 borderWidth={2}  // Grosor del borde
                 borderColor={{ from: 'color', }}
 
                 colors={['#FF1818', '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
-                fillOpacity={0.3}
-                /*  borderColor={['#00FF29', '#FD7F23', '#FFD600', '#FF1818']} */
-                /*      tooltip={(point) => {
-                if (typeof point.data.fecha === 'string') {
-                    const [year, month] = point.data.fecha.split('-');
-                    const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                    const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
-                    const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-
+                fillOpacity={0.3} 
+              /*   
+                tooltip={({ node, layer }) => {
+                    const formatNumberTooltip = (value: number) => (value * 100).toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%';
+                  
+                    const altoValue = formatNumberTooltip(node.data.alto);
+                    const medioValue = formatNumberTooltip(node.data.medio);
+                    const bajoValue = formatNumberTooltip(node.data.bajo);
+                    const muyBajoValue = formatNumberTooltip(node.data.muy_bajo);
+                  
                     return (
-                        <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                            <strong>{formattedDate}</strong>
-                            <div>{point.id}: {formattedValue}</div>
-                        </div>
+                      <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+                        <div>{layer.id}</div>
+                        <div>Alto: {altoValue}</div>
+                        <div>Medio: {medioValue}</div>
+                        <div>Bajo: {bajoValue}</div>
+                        <div>Muy Bajo: {muyBajoValue}</div>
+                      </div>
                     );
-                }
-                return null; // Devolver null si point.data.fecha no es una cadena
-            }} */
+                  }}
+                 */
+                
+                
+                
+                
+                
+                
+                
                 theme={{
                     axis: {
                         ticks: {
@@ -248,7 +259,6 @@ function StreamChartComponentL() {
                         },
                     },
                 }}
-
                 defs={[
                     {
                         id: 'text',
@@ -256,8 +266,6 @@ function StreamChartComponentL() {
                         color: 'white',
                     },
                 ]}
-
-
                 dotSize={8}
                 dotColor={{ from: 'color' }}
                 dotBorderWidth={2}
@@ -270,10 +278,8 @@ function StreamChartComponentL() {
                         ]
                     ]
                 }}
-
                 legends={[
                     {
-
                         anchor: 'bottom-left',
                         direction: 'row',
                         justify: false,
