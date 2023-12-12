@@ -186,6 +186,12 @@ a {
     height: 220px !important;
   }
 
+/* Responsive inmueble */
+  .size-container-h1-h2{
+    width: 100% !important;
+    height: 980px !important;
+  
+  }
 }
 
 @media screen and (min-width: 375px) {
@@ -205,6 +211,17 @@ a {
     width: 320 !important;
     height: 220px !important;
   }
+/* Responsive inmueble */
+  .size-container-h1-h2{
+    width: 100% !important;
+    height: 980px !important;
+  
+  }
+  .size-container-k1-k2{
+    width: 100% !important;
+    height: 980px !important;
+  
+  }
 }
 
 @media screen and (min-width: 425px) {
@@ -223,6 +240,17 @@ a {
   .size-card-main-d-f {
     width: 350 !important;
     height: 220px !important;
+  }
+  /* Responsive inmueble */
+  .size-container-h1-h2{
+    width: 100% !important;
+    height: 980px !important;
+  
+  }
+  .size-container-k1-k2{
+    width: 100% !important;
+    height: 980px !important;
+  
   }
 }
 
@@ -250,6 +278,18 @@ a {
   .size-card-main-d-f {
     width: 360 !important;
     height: 220px !important;
+  }
+
+  /* Responsive inmueble */
+  .size-container-h1-h2{
+    width: 100% !important;
+    height: 980px !important;
+  
+  }
+  .size-container-k1-k2{
+    width: 100% !important;
+    height: 980px !important;
+  
   }
 }
 
@@ -289,6 +329,17 @@ a {
     width: 360px !important;
     height: 200px !important;
   }
+  /* Responsive inmueble */
+  .size-container-h1-h2{
+    width: 100% !important;
+    height: 480px !important;
+  
+  }
+  .size-container-k1-k2{
+    width: 100% !important;
+    height: 480px !important;
+  
+  }
 
 
 }
@@ -326,6 +377,17 @@ a {
   .size-card-main-d-f {
     width: 400 !important;
     height: 200px !important;
+  }
+  /* Responsive inmueble */
+  .size-container-h1-h2{
+    width: 100% !important;
+    height: 480px !important;
+  
+  }
+  .size-container-k1-k2{
+    width: 100% !important;
+    height: 480px !important;
+  
   }
 }
 
@@ -371,6 +433,18 @@ a {
     width: 400 !important;
     height: 220px !important;
   }
+
+  /* Responsive inmueble */
+  .size-container-h1-h2{
+    width: 100% !important;
+    height: 480px !important;
+  
+  }
+  .size-container-k1-k2{
+    width: 100% !important;
+    height: 480px !important;
+  
+  }
 }
 
 @media screen and (min-width: 2200px) {
@@ -397,4 +471,18 @@ a {
     width: 400 !important;
     height: 220px !important;
   }
+
+  /* Responsive inmueble */
+  .size-container-h1-h2{
+    width: 100% !important;
+    height: 480px !important;
+  
+  }
+
+    /* Responsive inmueble */
+    .size-container-k1-k2{
+      width: 100% !important;
+      height: 480px !important;
+    
+    }
 }

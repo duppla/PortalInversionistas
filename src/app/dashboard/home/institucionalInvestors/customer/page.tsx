@@ -30,13 +30,12 @@ const Customer = () => {
     <Container maxWidth="xl" sx={{ mt: 2, mb: 4, }}
         className=''>
         {/* Componente K1 -K2 */}
-        <Grid container sx={{
+        <Grid className='size-container-k1-k2' container sx={{
             marginTop: '10px',
             display: 'flex',
             justifyContent: 'center',
             justifyItems: 'center',
-            width: '100%',
-            height: '480px',
+          
             backgroundColor: '#0B0B0D',
             borderRadius: '20px',
             

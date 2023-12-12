@@ -31,14 +31,13 @@ const page = () => {
             <Container maxWidth="xl" sx={{ mt: 2, mb: 4, }}
                 className=''>
                 {/* Componente H */}
-                <Grid container sx={{
+                <Grid  className='size-container-h1-h2' container sx={{
 
                     marginTop: '10px',
                     display: 'flex',
                     justifyContent: 'center',
                     justifyItems: 'center',
-                    width: '100%',
-                    height: '430px',
+                   
                     backgroundColor: '#0B0B0D',
                     borderRadius: '20px',
                     
