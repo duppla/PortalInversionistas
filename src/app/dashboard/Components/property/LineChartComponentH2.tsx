@@ -156,7 +156,7 @@ const LineChartComponentH2 = () => {
                         },
                       },
                 }}
-                lineWidth={6}
+                lineWidth={5}
                 tooltip={(point) => {
                     const date = new Date(point.point.data.x);
 

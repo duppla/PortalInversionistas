@@ -201,6 +201,8 @@ const LineChartComponentB = () => {
                         },
                       },
                 }}
+                enableGridX={false}
+                lineWidth={5}
                 colors={['#C5F5CA', '#FF864B']}
                 enablePointLabel={false}
                 margin={{
