@@ -168,7 +168,7 @@ const BarChartComponentA2 = () => {
         keys={['Compraventa', 'Arriendo', 'Prepago']}
         indexBy="fecha"
         label={() => ''}
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
         padding={0.3}
         valueScale={{ type: 'linear', min: 0 }}
         indexScale={{ type: 'band', round: true }}
@@ -242,7 +242,8 @@ const BarChartComponentA2 = () => {
           format: (value) => {
             const [year, month] = value.split('-');
             const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-            return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+            const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
+            return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
           },
           
           

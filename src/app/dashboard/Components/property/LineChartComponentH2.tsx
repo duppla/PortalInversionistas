@@ -13,19 +13,12 @@ type DataApiType = {
     unidades: number;
 };
 
-
-/* type DataType = {
-    ult_12_meses: DataApiType[];
-    este_anho: DataApiType[];
-    ult_6_meses: DataApiType[];
-}; */
-
 type DataType = {
     ult_12_meses: any[];
     este_anho: any[];
     ult_6_meses: any[];
     [key: string]: any;
-  };
+};
 
 
 interface Item {
@@ -73,7 +66,7 @@ const LineChartComponentH2 = () => {
         setSelectedDataKey(dataKey);
     };
 
-/* Función dropdown */
+    /* Función dropdown */
     const handleSelectChange = (event: SelectChangeEvent<string | number>) => {
         const selectedOption = event.target.value as string;
         setSelectedValue(selectedOption);
@@ -132,15 +125,15 @@ const LineChartComponentH2 = () => {
                     tickValues: 'every month',
                     format: (value) => {
                         const date = new Date(value);
-                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                        const month = new Intl.DateTimeFormat('es', { month: 'short' }).format(date);
+                        return `${month.charAt(0).toUpperCase()}${month.slice(1)} ${date.getFullYear().toString().slice(2)}`;
+                        /* return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
                     },
                 }}
                 axisLeft={{
                     /*  legend: 'linear scale', */
                     legendOffset: 12,
                     tickValues: 4,
-
-
                 }}
                 theme={{
                     axis: {
@@ -152,11 +145,11 @@ const LineChartComponentH2 = () => {
                     },
                     grid: {
                         line: {
-                          stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                            stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
                         },
-                      },
+                    },
                 }}
-                lineWidth={5}
+                lineWidth={7}
                 tooltip={(point) => {
                     const date = new Date(point.point.data.x);
 
@@ -168,7 +161,9 @@ const LineChartComponentH2 = () => {
                         </div>
                     );
                 }}
-
+                enableGridX={false}
+               /*  gridYValues={[15, 20, 25, 30]} */
+              
                 curve="monotoneX"
                 data={[
                     {
@@ -213,11 +208,11 @@ const LineChartComponentH2 = () => {
                     max: 'auto',
                     stacked: false,
                     reverse: false,
-                    
-                  
-                    
+
+
+
                 }}
-                
+
             />
 
 

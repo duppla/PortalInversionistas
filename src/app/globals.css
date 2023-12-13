@@ -95,7 +95,7 @@ a {
   background: radial-gradient(151.92% 127.02% at 15.32% 21.04%, rgba(165, 239, 255, 0.20) 0%, rgba(110, 191, 244, 0.04) 77.08%, rgba(70, 144, 212, 0.00) 100%) !important;
 
   background-blend-mode: overlay, normal;
-  backdrop-filter: blur(40px);
+  backdrop-filter: blur(1.5rem) !important;
 
 }
 
@@ -135,7 +135,12 @@ a {
 
 .grafica-Linecharts {
   width: 100%;
-  height: 300px;
+  height: 340px;
+  /* O el valor que desees para pantallas más grandes */
+}
+.grafica-linecharts-b {
+  width: 100%;
+  height: 420px;
   /* O el valor que desees para pantallas más grandes */
 }
 

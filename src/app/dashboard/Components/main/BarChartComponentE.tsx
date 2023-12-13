@@ -29,7 +29,7 @@ type ItemType = {
     inversionistas: number;
     // otras propiedades que los objetos en dataApi pueden tener...
 }
-const BarChartComponentA2 = () => {
+const BarChartComponentE = () => {
 
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
@@ -156,7 +156,7 @@ const BarChartComponentA2 = () => {
                 keys={['Inversionistas', 'Clientes', 'duppla']}
                 indexBy="fecha"
                 label={() => ''}
-                margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+                margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                 padding={0.3}
                 valueScale={{ type: 'linear', min: 0 }}
                 indexScale={{ type: 'band', round: true }}
@@ -194,13 +194,14 @@ const BarChartComponentA2 = () => {
                     if (typeof point.data.fecha === 'string') {
                       const [year, month] = point.data.fecha.split('-');
                       const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                      const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
                       const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
                       const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
                   
                       return (
                         <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
                           <strong>{formattedDate}</strong>
-                          <div>{point.id}: {formattedValue}</div>
+                          <div>{point.id}: {formattedValue}%</div>
                         </div>
                       );
                     }
@@ -231,7 +232,9 @@ const BarChartComponentA2 = () => {
                     format: (value) => {
                         const [year, month] = value.split('-');
                         const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                        return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                      /*   return `${monthNames[parseInt(month, 10) - 1]} ${year}`; */
+                      const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
+                      return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
                     },
 
                 }}
@@ -295,5 +298,5 @@ const BarChartComponentA2 = () => {
     )
 }
 
-export default BarChartComponentA2
+export default BarChartComponentE
 

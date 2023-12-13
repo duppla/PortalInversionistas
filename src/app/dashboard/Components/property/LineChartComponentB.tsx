@@ -44,11 +44,6 @@ const LineChartComponentB = () => {
                 const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/b?investor=skandia', options);
                 const newData = await response.json();
 
-                /*  setData((prevData) => {
-                     const updatedData = { ...prevData };
-                     updatedData[selectedValue.toString()] = newData[selectedValue.toString()];
-                     return updatedData;
-                 }); */
                 setData((prevData) => {
                     const updatedData = { ...prevData };
                     updatedData[selectedValue.toString()] = newData[selectedValue.toString()];
@@ -62,9 +57,7 @@ const LineChartComponentB = () => {
         };
 
         fetchData();
-        // Actualización de datos de gráfico aquí
-        /* const transformedDataContractual = transformData(data, selectedDataKey, 'valor_contractual');
-        const transformedDataFairMarket = transformData(data, selectedDataKey, 'fair_market_price'); */
+
     }, [selectedValue]);
 
 
@@ -83,9 +76,9 @@ const LineChartComponentB = () => {
     const transformData = (data: DataType, selectedDataKey: string, field: keyof DataApiType) => {
         return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
             x: item.fecha,
-           /*  y: item[field], */
-           y: Number(item[field]),
-           
+            /*  y: item[field], */
+            y: Number(item[field]),
+
         }));
     };
 
@@ -95,15 +88,15 @@ const LineChartComponentB = () => {
         setTransformedDataFairMarket(transformData(data, selectedDataKey, 'fair_market_price'));
     }, [data, selectedDataKey]);
 
-       
-    
 
-    console.log("Transformed data:", transformedDataContractual);
-        console.log("Transformed data Market:", transformedDataFairMarket); 
 
+
+    /*     console.log("Transformed data:", transformedDataContractual);
+            console.log("Transformed data Market:", transformedDataFairMarket); 
+     */
 
     return (
-        <div className='grafica-barcharts nivo-text'>
+        <div className='grafica-linecharts-b nivo-text'>
             <div>
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt: 1 }}>
@@ -141,7 +134,10 @@ const LineChartComponentB = () => {
                     tickValues: 'every month',
                     format: (value) => {
                         const date = new Date(value);
-                        return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`;
+                        const month = new Intl.DateTimeFormat('es', { month: 'short' }).format(date);
+                        return `${month.charAt(0).toUpperCase()}${month.slice(1)} ${date.getFullYear().toString().slice(2)}`;
+                        /*  return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
+
                     },
                 }}
                 axisLeft={{
@@ -197,19 +193,22 @@ const LineChartComponentB = () => {
                     },
                     grid: {
                         line: {
-                          stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                            stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
                         },
-                      },
+                    },
                 }}
                 enableGridX={false}
-                lineWidth={5}
+                /*  gridYValues={[15, 20, 25, 30]} */
+
+
+                lineWidth={7}
                 colors={['#C5F5CA', '#FF864B']}
                 enablePointLabel={false}
                 margin={{
-                    bottom: 60,
-                    left: 80,
-                    right: 20,
-                    top: 20
+                    bottom: 50,
+                    left: 50,
+                    right: 50,
+                    top: 50
                 }}
                 pointBorderColor={{
                     from: 'color',
@@ -242,6 +241,33 @@ const LineChartComponentB = () => {
                     reverse: false,
 
                 }}
+                legends={[
+                    {
+
+                        anchor: 'bottom-left',
+                        direction: 'row',
+                        justify: false,
+                        translateX: 10,
+                        translateY: 55,
+                        itemsSpacing: 32,
+                        itemDirection: 'left-to-right',
+                        itemWidth: 80,
+                        itemHeight: 20,
+                        itemOpacity: 0.75,
+                        symbolSize: 12,
+                        symbolShape: 'square',
+                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
+                        effects: [
+                            {
+                                on: 'hover',
+                                style: {
+                                    itemBackground: 'rgba(0, 0, 0, .03)',
+                                    itemOpacity: 1
+                                }
+                            }
+                        ]
+                    }
+                ]}
 
 
             />

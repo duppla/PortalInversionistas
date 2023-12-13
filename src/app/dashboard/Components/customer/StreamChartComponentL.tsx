@@ -1,18 +1,18 @@
 'use client'
-import { ResponsiveStream, StreamDatum, } from '@nivo/stream'
-/* import { TooltipProps } from '@nivo/core'; */
+import { ResponsiveStream, StreamDatum, TooltipProps } from '@nivo/stream'
+import { StreamSvgProps } from '@nivo/stream';
+/* import { StreamSlice } from '@nivo/stream'; */
+
 
 import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { TooltipProps as NivoTooltipProps } from '@nivo/stream';
-
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 
-
+import { FunctionComponent } from 'react';
 
 type DataApiType = {
     fecha: string;
@@ -22,25 +22,63 @@ type DataApiType = {
     muy_bajo: any;
 };
 
-type DataType = {
+/* type DataType = {
+    id: string,
     ult_12_meses: DataApiType[];
     este_anho: DataApiType[];
     ult_6_meses: DataApiType[];
-};
-
-type ItemType = {
-    fecha: string;
-    alto: number;
-    medio: number;
-    bajo: number;
-    muy_bajo: number;
-};
-interface PointType {
-    serieId: string;
+}; */
+/* 
+interface StreamData {
+    id: string | number;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
     data: {
-        [key: string]: number;
+      id: string | number;
+      value: number;
+    }[];
+    points?: {
+      id: string;
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+      data: {
+        id: string | number;
+        value: number;
+      }[];
+    }[];
+  }
+  
+  interface StreamSlice {
+    slice: StreamData[];
+  }
+  interface CustomTooltipProps {
+    slice: StreamSlice;
+  }
+   */
+
+interface StreamData {
+    id: string | number;
+    data: {
+        Alto: number;
+        Medio: number;
+        Bajo: number;
+        Muy_bajo: number;
     };
 }
+interface DataType {
+    [key: string]: any; // Esto es una firma de índice.
+    id: string,
+    ult_12_meses: DataApiType[];
+    este_anho: DataApiType[];
+    ult_6_meses: DataApiType[];
+    // Aquí puedes agregar las demás propiedades de DataType.
+}
+
+
 function StreamChartComponentL() {
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
@@ -79,7 +117,6 @@ function StreamChartComponentL() {
         handleDataSelection(selectedDataKey);
     };
 
-
     // Este código podría ir en el lugar donde obtienes las fechas del servidor
     const formattedData = responseData
         ? responseData[selectedDataKey].map((dataItem: any) => ({
@@ -111,43 +148,34 @@ function StreamChartComponentL() {
         return `${percentageValue}%`;
     }
 
-
-    /* prueba de formateo data a legible tooltip */
-    /*  function formatNumberTooltip(value: number): string {
-         const suffixes = ['', 'K', 'M', 'B', 'T'];
-         const suffixNum = Math.floor(('' + value).length / 3);
-         let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
- 
-         if (shortValue.endsWith('.0')) {
-             shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
-         }
-         return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
-     } */
-
-
-
-    function formatNumberTooltip(value: number): string {
-        const percentageValue = (value * 100).toFixed(0); // Multiplica por 100 y redondea
+    function formatNumberTooltip(value: string | number): string {
+        const percentageValue = (Number(value) * 100).toFixed(0);
         return `${percentageValue}%`;
     }
 
-    // Componente de formato de tooltip
-    const TooltipFormatter: React.FC<{ data: PointType['data'] }> = ({ data }) => {
-        const formatNumberTooltip = (value: number): string => {
-            const percentageValue = (value * 100).toFixed(0);
-            return `${percentageValue}%`;
-        };
 
-        return (
-            <div style={{ background: 'white', padding: '10px', border: '1px solid #ccc' }}>
-                {Object.entries(data).map(([key, value]) => (
-                    <div key={key}>
-                        <div>{key}: {formatNumberTooltip(value)}</div>
-                    </div>
-                ))}
-            </div>
-        );
-    };
+
+
+    /*  const CustomTooltip: FunctionComponent<TooltipProps> = ({ slice }) => {
+       if (slice && 'points' in slice) {
+         const dataPoint = slice.points[0].data as { [key: string]: any };
+     
+         const formattedValue = formatNumberTooltip(dataPoint[selectedDataKey as string]);
+     
+         return (
+           <div style={{ background: 'white', padding: '10px', border: '1px solid black' }}>
+             <div>Valor: {formattedValue}</div>
+             <div>Alto: {dataPoint.alto}</div>
+             <div>Medio: {dataPoint.medio}</div>
+             <div>Bajo: {dataPoint.bajo}</div>
+             <div>Muy_bajo: {dataPoint.muy_bajo}</div>
+           </div>
+         );
+       }
+     
+       return null;
+     }; */
+
 
 
 
@@ -189,7 +217,7 @@ function StreamChartComponentL() {
                 keys={[
                     'Muy_bajo', 'Bajo', 'Medio', 'Alto',
                 ]}
-                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+                margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -209,8 +237,10 @@ function StreamChartComponentL() {
                             const [year, month] = id.split('-');
                             const monthIndex = parseInt(month, 10) - 1;
                             const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                            const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
+ ;
 
-                            return `${monthNames[monthIndex]} ${year}`;
+                            return `${monthNames[monthIndex]} ${shortYear}`;
                         }
                         return ''; // Retorna una cadena vacía si no hay datos o el índice es inválido
                     },
@@ -237,8 +267,38 @@ function StreamChartComponentL() {
 
                 colors={['#FF1818', '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
                 fillOpacity={0.3}
-                /* tooltip={({ point }) => <TooltipFormatter point={point as PointType} />} */
-               /*  tooltip={({ point }: TooltipProps<StreamDatum>) => <TooltipFormatter data={point.data} />} */
+
+                enableStackTooltip={false}
+
+                tooltip={(data: any) => {
+                    if (data && data.data) {
+                      const layers = data.data;
+                  
+                      // Filtra las capas relevantes (puedes ajustar según tus necesidades)
+                      const relevantLayers = layers.filter((layer: any) => {
+                        return layer.layerId === "Alto" || layer.layerId === "Medio" || layer.layerId === "Bajo" || layer.layerId === "Muy_bajo";
+                      });
+                  
+                      // Formatea el valor para el tooltip
+                      const formattedValue = formatNumberTooltip(data.value);
+                  
+                      return (
+                        <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
+                          <div>{`Valor: ${formattedValue}`}</div>
+                          {/* Muestra información para capas específicas */}
+                          {relevantLayers.map((layer: any) => (
+                            <div key={layer.layerId}>{`${layer.layerLabel}: ${layer.value}`}</div>
+                          ))}
+                        </div>
+                      );
+                    }
+                  
+                    return null;
+                  }}
+                  
+                  
+                  
+
                 theme={{
                     axis: {
                         ticks: {
@@ -285,7 +345,7 @@ function StreamChartComponentL() {
                         justify: false,
                         translateX: 0,
                         translateY: 54,
-                        itemsSpacing: 0,
+                        itemsSpacing: -20,
                         itemDirection: 'left-to-right',
                         itemWidth: 80,
                         itemHeight: 20,

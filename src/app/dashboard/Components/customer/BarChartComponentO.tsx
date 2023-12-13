@@ -142,7 +142,7 @@ function BarChartComponentO() {
                 keys={['Pago a tiempo', 'En mora']}
                 indexBy="fecha"
                 label={() => ''}
-                margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+                margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                 padding={0.4}
                 colors={['#12CA98', '#E54B2E',]}
                 /*  enableGridY={false} */
@@ -189,20 +189,20 @@ function BarChartComponentO() {
                 }}
                 tooltip={(point) => {
                     if (typeof point.data.fecha === 'string') {
-                      const [year, month] = point.data.fecha.split('-');
-                      const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                      const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
-                      const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-                  
-                      return (
-                        <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                          <strong>{formattedDate}</strong>
-                          <div>{point.id}: {formattedValue}</div>
-                        </div>
-                      );
+                        const [year, month] = point.data.fecha.split('-');
+                        const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                        const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                        const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+
+                        return (
+                            <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+                                <strong>{formattedDate}</strong>
+                                <div>{point.id}: {formattedValue}</div>
+                            </div>
+                        );
                     }
                     return null; // Devolver null si point.data.fecha no es una cadena
-                  }}
+                }}
 
                 borderRadius={4}
                 borderColor={{
@@ -227,7 +227,8 @@ function BarChartComponentO() {
                     format: (value) => {
                         const [year, month] = value.split('-');
                         const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                        return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                        const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
+                        return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
                     },
 
                 }}
