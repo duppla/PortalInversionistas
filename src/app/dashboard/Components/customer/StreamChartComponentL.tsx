@@ -13,6 +13,7 @@ import { styled } from '@mui/material/styles';
 
 
 import { FunctionComponent } from 'react';
+import { getApiUrl } from '@/app/url/ApiConfig';
 
 type DataApiType = {
     fecha: string;
@@ -92,7 +93,7 @@ function StreamChartComponentL() {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/clientes/l?investor=skandia`, options);
+                const response = await fetch(getApiUrl(`/clientes/l?investor=skandia`), options);
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
@@ -152,31 +153,6 @@ function StreamChartComponentL() {
         const percentageValue = (Number(value) * 100).toFixed(0);
         return `${percentageValue}%`;
     }
-
-
-
-
-    /*  const CustomTooltip: FunctionComponent<TooltipProps> = ({ slice }) => {
-       if (slice && 'points' in slice) {
-         const dataPoint = slice.points[0].data as { [key: string]: any };
-     
-         const formattedValue = formatNumberTooltip(dataPoint[selectedDataKey as string]);
-     
-         return (
-           <div style={{ background: 'white', padding: '10px', border: '1px solid black' }}>
-             <div>Valor: {formattedValue}</div>
-             <div>Alto: {dataPoint.alto}</div>
-             <div>Medio: {dataPoint.medio}</div>
-             <div>Bajo: {dataPoint.bajo}</div>
-             <div>Muy_bajo: {dataPoint.muy_bajo}</div>
-           </div>
-         );
-       }
-     
-       return null;
-     }; */
-
-
 
 
     return (

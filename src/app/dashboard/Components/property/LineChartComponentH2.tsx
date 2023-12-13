@@ -6,6 +6,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FormControl, Typography, Select, MenuItem } from '@mui/material';
 import { ResponsiveLine } from '@nivo/line';
+import { getApiUrl } from '@/app/url/ApiConfig';
 
 
 type DataApiType = {
@@ -38,7 +39,7 @@ const LineChartComponentH2 = () => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/h2?investor=skandia', options);
+                const response = await fetch(getApiUrl('/inmuebles/h2?investor=skandia'), options);
                 const newData = await response.json();
 
                 setData((prevData) => {

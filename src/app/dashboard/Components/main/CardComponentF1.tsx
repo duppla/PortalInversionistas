@@ -6,6 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { Container, Box, Card, CardActions, CardContent, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { getApiUrl } from '@/app/url/ApiConfig';
 
 
 interface ApiResponse {
@@ -19,7 +20,7 @@ function CardComponentF1() {
     useEffect(() => {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-        fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/f1?investor=skandia', options)
+        fetch(getApiUrl('/main/f1?investor=skandia'), options)
             .then(response => response.json())
             .then(response => {
                 if (typeof response.data === 'number') {

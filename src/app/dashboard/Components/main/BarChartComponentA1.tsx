@@ -4,6 +4,7 @@ import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { getApiUrl } from '@/app/url/ApiConfig';
 
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
@@ -40,7 +41,7 @@ function BarChart() {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/a1?investor=skandia`, options);
+                const response = await fetch(getApiUrl(`/main/a1?investor=skandia`), options);
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega

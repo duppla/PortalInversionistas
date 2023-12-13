@@ -5,6 +5,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FormControl, Typography, Select, MenuItem } from '@mui/material';
 import { ResponsiveLine } from '@nivo/line';
 import { DatumValue } from '@nivo/core';
+import { getApiUrl } from '@/app/url/ApiConfig';
 
 interface Item {
     [key: string]: any;
@@ -41,7 +42,7 @@ const LineChartComponentB = () => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/b?investor=skandia', options);
+                const response = await fetch(getApiUrl('/inmuebles/b?investor=skandia'), options);
                 const newData = await response.json();
 
                 setData((prevData) => {

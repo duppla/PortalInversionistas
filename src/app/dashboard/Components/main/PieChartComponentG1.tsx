@@ -7,6 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ResponsivePie } from '@nivo/pie'
+import { getApiUrl } from '@/app/url/ApiConfig';
 
 
 
@@ -49,7 +50,7 @@ function PieChartComponentG1() {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/g1?investor=skandia`, options);
+                const response = await fetch( getApiUrl(`/main/g1?investor=skandia`), options);
                 const responseData = await response.json();
 
                 if (responseData) {

@@ -7,6 +7,7 @@ import RoomIcon from '@mui/icons-material/Room';
 import ReactDOM from 'react-dom';
 import { SelectChangeEvent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { getApiUrl } from '@/app/url/ApiConfig';
 
 const themeBtn = createTheme({
   palette: {
@@ -47,7 +48,7 @@ function MapComponentC() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://salesforce-gdrive-conn.herokuapp.com/inversionistas/inmuebles/c?investor=skandia'); // Reemplaza 'TU_ENDPOINT' con la URL real de tu endpoint
+        const response = await fetch(getApiUrl('/inmuebles/c?investor=skandia')); // Reemplaza 'TU_ENDPOINT' con la URL real de tu endpoint
         const result: CityData = await response.json();
         setData(result);
       } catch (error) {

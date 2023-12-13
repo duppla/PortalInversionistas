@@ -6,6 +6,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { getApiUrl } from '@/app/url/ApiConfig';
 
 
 type DataApiType = {
@@ -42,7 +43,7 @@ const BarChartComponentE = () => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(`https://salesforce-gdrive-conn.herokuapp.com/inversionistas/main/e?investor=skandia`, options);
+                const response = await fetch(getApiUrl('/main/e?investor=skandia'), options);
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
