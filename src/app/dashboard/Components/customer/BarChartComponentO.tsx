@@ -178,11 +178,12 @@ function BarChartComponentO() {
 
                 /* valueFormat={(v) => (typeof v === 'number' ? v.toString() : '')} */
                 valueFormat={(v) => (typeof v === 'number' ? Math.abs(v).toString() : '')} // Convertir valores a positivos antes de formatear
-                
+                gridYValues={[-1000000, -3000000, -5000000, -7000000,  0, 1000000, 3000000, 5000000, 7000000]} 
                 axisLeft={{
                     tickSize: 2,
                     tickPadding: 5,
                     tickRotation: 0,
+                    tickValues: [-1000000, -3000000, -5000000, -7000000,  0, 1000000, 3000000, 5000000, 7000000 ],
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,

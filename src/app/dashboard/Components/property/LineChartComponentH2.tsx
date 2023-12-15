@@ -134,7 +134,7 @@ const LineChartComponentH2 = () => {
                 axisLeft={{
                     /*  legend: 'linear scale', */
                     legendOffset: 12,
-                    tickValues: 4,
+                    tickValues: [ 5, 15, 25, 35],
                 }}
                 theme={{
                     axis: {
@@ -163,7 +163,7 @@ const LineChartComponentH2 = () => {
                     );
                 }}
                 enableGridX={false}
-                gridYValues={[15, 20, 25, 30]} 
+                gridYValues={[5, 15, 25, 35]} 
               
                 curve="monotoneX"
                 data={[
