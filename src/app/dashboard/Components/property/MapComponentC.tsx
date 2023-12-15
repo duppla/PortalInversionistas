@@ -1,4 +1,4 @@
-import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
+import mapboxgl, { LngLatLike } from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import React, { useEffect, useRef, useState } from 'react'
 import { Map } from 'mapbox-gl'
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import { SelectChangeEvent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrlFinal } from '@/app/url/ApiConfig';
 
 const themeBtn = createTheme({
   palette: {
@@ -44,43 +45,49 @@ function MapComponentC() {
   const [map, setMap] = useState<Map | null>(null);
   const [data, setData] = useState<CityData>({});
   const [selectedCity, setSelectedCity] = useState<string>('BOGOTÁ D.C.');
+  const [centroid, setCentroid] = useState<LngLatLike | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl('/inmuebles/c?investor=skandia')); // Reemplaza 'TU_ENDPOINT' con la URL real de tu endpoint
-        const result: CityData = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error('Error al obtener datos:', error);
+ 
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          
+          const response = await fetch(getApiUrlFinal('/inmuebles/c?investor=skandia')); // Reemplaza 'TU_ENDPOINT' con la URL real de tu endpoint
+          const result: CityData = await response.json();
+          console.log(result) + 'resultado de data ';
+          setData(result);
+        } catch (error) {
+          console.error('Error al obtener datos:', error);
+        }
+      };  
+
+
+      const initializeMap = () => {
+        const newMap = new mapboxgl.Map({
+          container: mapDivC.current!, // container ID
+          style: 'mapbox://styles/mapbox/streets-v12', // style URL
+          center: [-74.5, 4], // Posición por defecto en Colombia (centrado en Bogotá)
+          zoom: 12, // Zoom por defecto
+        });
+        // Desactiva el marcador por defecto
+        newMap.once('load', () => {
+          newMap.setLayoutProperty('country-label', 'visibility', 'none');
+        });
+        setMap(newMap);
+        // Llamar a la función fetchData para obtener datos del endpoint
+        fetchData();
+      };
+  
+      if (!map) {
+        initializeMap();
       }
-    };
-
-    const initializeMap = () => {
-      const newMap = new mapboxgl.Map({
-        container: mapDivC.current!, // container ID
-        style: 'mapbox://styles/mapbox/streets-v12', // style URL
-        center: [-74.5, 4], // Posición por defecto en Colombia (centrado en Bogotá)
-        zoom: 12, // Zoom por defecto
-      });
-      // Desactiva el marcador por defecto
-      newMap.once('load', () => {
-        newMap.setLayoutProperty('country-label', 'visibility', 'none');
-      });
-      setMap(newMap);
-      // Llamar a la función fetchData para obtener datos del endpoint
-      fetchData();
-    };
-
-    if (!map) {
-      initializeMap();
-    }
-    // Limpieza al desmontar el componente
-    return () => {
-      map && map.remove()
-    };
-  }, [map]);
-
+      // Limpieza al desmontar el componente
+      return () => {
+        map && map.remove()
+      };
+    }, [map]); 
+ 
 
   // Función para cambiar la ciudad seleccionada y centrar el mapa en esa ciudad
   const handleCityChange = (city: string) => {
@@ -129,7 +136,7 @@ function MapComponentC() {
     <ThemeProvider theme={themeBtn}>
       <div style={{ width: '100%', height: '400px' }}>
         <div ref={mapDivC} style={{ width: '100%', height: '100%', borderRadius: '20px' }} />
-        
+
         <div>
           <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-start', mt: 2 }}>
             <Button
@@ -144,21 +151,49 @@ function MapComponentC() {
                 fontWeight: '500',
                 fontSize: '16px',
                 textTransform: 'none',
-                width: '140px',
+                width: '160px',
                 backgroundColor: '#6C9FFF',
                 borderColor: '#6C9FFF', // Color de borde normal
                 '&:hover': {
-                    backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
-                    borderColor: '#3158A3', // Cambia el borde al pasar el mouse
+                  backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
+                  borderColor: '#3158A3', // Cambia el borde al pasar el mouse
                 },
                 '&.Mui-disabled': {
-                    color: '#9A9A9A',
-                    backgroundColor: '#3158A3',
-                    // Letra blanca cuando está deshabilitado
+                  color: '#9A9A9A',
+                  backgroundColor: '#3158A3',
+                  // Letra blanca cuando está deshabilitado
                 },
-            }}
+              }}
             >
               Bogotá
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => handleCityChange('MOSQUERA')}
+              disabled={selectedCity === 'MOSQUERA'}
+              sx={{
+                borderRadius: '10px',
+                color: '#ffffff', // Letra blanca
+                fontFamily: 'Roboto',
+                fontStyle: 'normal',
+                fontWeight: '500',
+                fontSize: '16px',
+                textTransform: 'none',
+                width: '160px',
+                backgroundColor: '#6C9FFF',
+                borderColor: '#6C9FFF', // Color de borde normal
+                '&:hover': {
+                  backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
+                  borderColor: '#3158A3', // Cambia el borde al pasar el mouse
+                },
+                '&.Mui-disabled': {
+                  color: '#9A9A9A',
+                  backgroundColor: '#3158A3',
+                  // Letra blanca cuando está deshabilitado
+                },
+              }}
+            >
+            Sus alrededores
             </Button>
 
             <Button
@@ -173,19 +208,19 @@ function MapComponentC() {
                 fontWeight: '500',
                 fontSize: '16px',
                 textTransform: 'none',
-                width: '140px',
+                width: '160px',
                 backgroundColor: '#6C9FFF',
                 borderColor: '#6C9FFF', // Color de borde normal
                 '&:hover': {
-                    backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
-                    borderColor: '#3158A3', // Cambia el borde al pasar el mouse
+                  backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
+                  borderColor: '#3158A3', // Cambia el borde al pasar el mouse
                 },
                 '&.Mui-disabled': {
-                    color: '#9A9A9A',
-                    backgroundColor: '#3158A3',
-                    // Letra blanca cuando está deshabilitado
+                  color: '#9A9A9A',
+                  backgroundColor: '#3158A3',
+                  // Letra blanca cuando está deshabilitado
                 },
-            }}
+              }}
             >
               Medellín
             </Button>

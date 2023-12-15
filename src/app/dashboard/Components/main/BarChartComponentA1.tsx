@@ -255,12 +255,12 @@ function BarChart() {
                         return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
                     },
                 }}
-
+                gridYValues={[ 0, 5000000, 10000000, 15000000, 20000000]}
                 axisLeft={{
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    tickValues: 5,
+                    tickValues: [ 0, 5000000, 10000000, 15000000, 20000000],
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,

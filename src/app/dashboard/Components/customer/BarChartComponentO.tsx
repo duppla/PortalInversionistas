@@ -178,8 +178,9 @@ function BarChartComponentO() {
 
                 /* valueFormat={(v) => (typeof v === 'number' ? v.toString() : '')} */
                 valueFormat={(v) => (typeof v === 'number' ? Math.abs(v).toString() : '')} // Convertir valores a positivos antes de formatear
+                
                 axisLeft={{
-                    tickSize: 5,
+                    tickSize: 2,
                     tickPadding: 5,
                     tickRotation: 0,
                     legend: '',

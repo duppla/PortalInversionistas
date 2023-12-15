@@ -250,11 +250,12 @@ const BarChartComponentA2 = () => {
           
 
         }}
+        gridYValues={[ 0, 4000000, 8000000, 12000000, 16000000]}
         axisLeft={{
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          tickValues: 5,
+          tickValues: [ 0, 4000000, 8000000, 12000000, 16000000],
           legend: '',
           legendPosition: 'middle',
           legendOffset: -40,

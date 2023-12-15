@@ -163,7 +163,7 @@ const LineChartComponentH2 = () => {
                     );
                 }}
                 enableGridX={false}
-               /*  gridYValues={[15, 20, 25, 30]} */
+                gridYValues={[15, 20, 25, 30]} 
               
                 curve="monotoneX"
                 data={[

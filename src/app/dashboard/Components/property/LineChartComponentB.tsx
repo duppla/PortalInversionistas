@@ -141,10 +141,11 @@ const LineChartComponentB = () => {
 
                     },
                 }}
+                gridYValues={[ 200000000, 300000000, 400000000, 500000000, 600000000]}
                 axisLeft={{
                     legend: '',
                     legendOffset: 12,
-                    tickValues: 5,
+                    tickValues: [ 200000000, 300000000, 400000000, 500000000, 600000000],
                     format: (value) => `${value / 1000000}M`,
                 }}
                 tooltip={(point) => {

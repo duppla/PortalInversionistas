@@ -219,7 +219,7 @@ const BarChartComponentE = () => {
                         ]
                     ]
                 }}
-
+                gridYValues={[0, 0.25, 0.5, 0.75, 1]}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -243,7 +243,7 @@ const BarChartComponentE = () => {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    tickValues: 5,
+                    tickValues: [0, 0.25, 0.5, 0.75 , 1],
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
