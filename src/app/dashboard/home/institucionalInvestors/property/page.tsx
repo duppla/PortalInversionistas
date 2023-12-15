@@ -94,7 +94,7 @@ const page = () => {
                     justifyContent: 'center',
                     justifyItems: 'center',
                     width: '100%',
-                    height: '480px',
+                    height: '640px',
                     backgroundColor: '#212126',
                     borderRadius: '20px',
                     boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',

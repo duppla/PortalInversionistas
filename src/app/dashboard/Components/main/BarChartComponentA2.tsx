@@ -220,7 +220,7 @@ const BarChartComponentA2 = () => {
         }}
       
         
-        borderRadius={4}
+        borderRadius={8}
         borderColor={{
           from: 'color',
           modifiers: [

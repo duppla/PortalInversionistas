@@ -245,10 +245,10 @@ const Page = () => {
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                         mt: 4
-                    }} rowSpacing={2} gap={5.8} columnSpacing={{ md: 2, lg: 2, }}
+                    }} rowSpacing={0} gap={13.2} columnSpacing={{ md: 2, lg: 2, }}
                     >
 
-                        <Grid xs={12} sm={12} md={5} lg={5} sx={{
+                        <Grid xs={12} sm={12} md={5.5} lg={5.5}  sx={{
                             borderRadius: '10px',
                             backgroundColor: '#212126',
                             mt: 2, mb: 2,
@@ -258,13 +258,13 @@ const Page = () => {
                             <GraficacomponenteG1 />
 
                         </Grid>
-                        <Grid className='' xs={12} sm={12} md={1} lg={1} sx={{                       
+                        {/* <Grid className='' xs={12} sm={12} md={1} lg={1} sx={{                       
                           
                            
                         }}>
                            
-                        </Grid>
-                        <Grid className='' xs={12} sm={12} md={5} lg={5} sx={{
+                        </Grid> */}
+                        <Grid className='' xs={12} sm={12} md={5.5} lg={5.5}  sx={{
                             borderRadius: '10px',
                             backgroundColor: '#212126',
                             mt: 2, mb: 2,

@@ -131,6 +131,8 @@ const LineChartComponentH2 = () => {
                         /* return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
                     },
                 }}
+                enableGridX={false}
+                gridYValues={[5, 15, 25, 35]} 
                 axisLeft={{
                     /*  legend: 'linear scale', */
                     legendOffset: 12,
@@ -162,8 +164,7 @@ const LineChartComponentH2 = () => {
                         </div>
                     );
                 }}
-                enableGridX={false}
-                gridYValues={[5, 15, 25, 35]} 
+               
               
                 curve="monotoneX"
                 data={[

@@ -243,7 +243,7 @@ function StreamChartComponentL() {
                 borderColor={{ from: 'color', }}
 
                 colors={['#FF1818', '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
-                fillOpacity={0.3}
+                fillOpacity={0.099}
 
                 enableStackTooltip={false}
 
@@ -271,11 +271,9 @@ function StreamChartComponentL() {
                     }
                   
                     return null;
-                  }}
+                  }}             
                   
                   
-                  
-
                 theme={{
                     axis: {
                         ticks: {
