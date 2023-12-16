@@ -125,7 +125,7 @@ const BarChartComponentE = () => {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt: 1 }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ color: '#ffffff', }}>Porcentaje de propiedad del portafolio</Typography>
+                            <Typography variant="subtitle1" sx={{ fontFamily:'Roboto', color: '#ffffff' , fontSize:'26px', mt:2 }}>Porcentaje de propiedad del portafolio</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select

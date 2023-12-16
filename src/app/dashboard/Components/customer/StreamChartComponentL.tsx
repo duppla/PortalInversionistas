@@ -161,7 +161,7 @@ function StreamChartComponentL() {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Evaluaciones puntaje crediticio</Typography>
+                            <Typography variant="subtitle1" sx={{ fontFamily:'Roboto', color: '#ffffff' , fontSize:'26px', mt:2 }}>Evaluaciones puntaje crediticio</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -245,9 +245,9 @@ function StreamChartComponentL() {
                 colors={['#FF1818', '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
                 fillOpacity={0.099}
 
-                enableStackTooltip={false}
+                enableStackTooltip={true}
 
-                tooltip={(data: any) => {
+                /* tooltip={(data: any) => {
                     if (data && data.data) {
                       const layers = data.data;
                   
@@ -262,7 +262,7 @@ function StreamChartComponentL() {
                       return (
                         <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
                           <div>{`Valor: ${formattedValue}`}</div>
-                          {/* Muestra información para capas específicas */}
+                         
                           {relevantLayers.map((layer: any) => (
                             <div key={layer.layerId}>{`${layer.layerLabel}: ${layer.value}`}</div>
                           ))}
@@ -271,7 +271,7 @@ function StreamChartComponentL() {
                     }
                   
                     return null;
-                  }}             
+                  }}  */            
                   
                   
                 theme={{

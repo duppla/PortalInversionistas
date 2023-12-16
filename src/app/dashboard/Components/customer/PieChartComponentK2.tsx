@@ -118,7 +118,7 @@ const PieChartComponentK2 = () => {
             <FormControl fullWidth>
                 <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                     <Grid xs={6} md={6} lg={6}>
-                        <Typography variant="subtitle1" sx={{ color: '#ffffff', ml:1 }}>Porcentaje ownership</Typography>
+                        <Typography variant="subtitle1" sx={{ fontFamily:'Roboto', color: '#ffffff' , fontSize:'26px', mt:2 }}>Porcentaje ownership</Typography>
                     </Grid>
                     <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                         <Select

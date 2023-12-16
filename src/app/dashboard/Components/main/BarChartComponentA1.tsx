@@ -135,7 +135,7 @@ function BarChart() {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ color: '#ffffff' }}>Flujo real vs. flujo esperado</Typography>
+                            <Typography variant="subtitle1" sx={{ fontFamily:'Roboto', color: '#ffffff' , fontSize:'26px', mt:2 }}>Flujo real vs. flujo esperado</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select

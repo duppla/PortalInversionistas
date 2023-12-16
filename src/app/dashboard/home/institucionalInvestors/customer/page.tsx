@@ -120,7 +120,7 @@ const Customer = () => {
                     justifyContent: 'center',
                     justifyItems: 'center',
                     width: '100%',
-                    height: '520px',
+                    height: '600px',
                     backgroundColor: '#212126',
                     borderRadius: '20px',
 
@@ -129,7 +129,7 @@ const Customer = () => {
                     {/*Grafica principal-datos del inmueble*/}
                     <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                         width: '100%',
-                        height: '460px',
+                        height: '520px',
                         backgroundColor: '#212126',
                         borderRadius: '20px',
 

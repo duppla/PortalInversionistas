@@ -86,7 +86,7 @@ function MapComponentC() {
       console.log('Efecto ejecutado');
       const fetchData = async () => {
         try {
-          const response = await fetch(getApiUrlFinal('/inmuebles/c?investor=skandia'));
+          const response = await fetch(getApiUrl('/inmuebles/c?investor=skandia'));
           if (!response.ok) {
             console.error('Error en la respuesta del servidor:', response.status, response.statusText);
             return;
@@ -104,7 +104,7 @@ function MapComponentC() {
 
       const initializeMap = () => {
         const locations = data[selectedCity];
-        let defaultCenter: mapboxgl.LngLatLike = { lng: -74.5, lat: 4 };
+        let defaultCenter: mapboxgl.LngLatLike /* = { lng: -74.5, lat: 4 } */| undefined = undefined;
       
         if (locations && locations.length > 0) {
           // Calcular el centro promedio si hay ubicaciones
