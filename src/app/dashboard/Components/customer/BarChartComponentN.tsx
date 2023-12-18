@@ -4,10 +4,14 @@ import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+
 
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { getApiUrl } from '@/app/url/ApiConfig';
+
 
 
 type DataApiType = {
@@ -126,6 +130,27 @@ function BarChartComponentN() {
                                     '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
 
                                 }}
+                                MenuProps={{
+                                    anchorOrigin: {
+                                      vertical: 'bottom',
+                                      horizontal: 'right',
+                                    },
+                                    transformOrigin: {
+                                      vertical: 'top',
+                                      horizontal: 'right',
+                                    },
+                                  /*   getContentAnchorEl: null, */
+                                    PaperProps: {
+                                      sx: {
+                                        backgroundColor: '#212126', // Fondo del menú desplegado
+                                        border: '1px solid #5682F2', // Borde azul
+                                        color: '#9B9EAB', // Letra blanca
+                                      },
+                                    },
+                                  }}
+                                   IconComponent={() => < ArrowDropDownIcon style={{ color: '##9B9EAB', marginLeft:'-20px' }} />} 
+                               
+                            
                             >
                                 <MenuItem value='este_anho'>Este año</MenuItem>
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>

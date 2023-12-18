@@ -10,6 +10,8 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 
 import { FunctionComponent } from 'react';
@@ -86,6 +88,7 @@ function StreamChartComponentL() {
     const [dataApi, setDataApi] = useState<DataType[]>([]);
     const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
+    const [arrowSelected, setArrowSelected] = useState<boolean>(false);
 
 
 
@@ -158,7 +161,7 @@ function StreamChartComponentL() {
     return (
         <div className='grafica-barcharts-des nivo-text'>
             <div>
-                <FormControl fullWidth>
+                <FormControl   fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
                             <Typography variant="subtitle1" sx={{ fontFamily:'Roboto', color: '#ffffff' , fontSize:'26px', mt:2 }}>Evaluaciones puntaje crediticio</Typography>
@@ -173,15 +176,38 @@ function StreamChartComponentL() {
                                 /*  IconComponent={() => <KeyboardArrowDownIcon />} */
 
                                 sx={{
-                                    color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill: '#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
+                                    color: '#9B9EAB', justifyContent: 'flex-end',
+                                     textAlign: 'end', fill: '#ffffff', 
+                                    '&.MuiSelect-select': { color: '#9B9EAB', fill: '#ffffff' },
+                                    '&.MuiSelect-icon': { color: '#9B9EAB', fill: '#ffffff'},
                                     '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
                                     '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
-
                                 }}
+                                 MenuProps={{
+                                    anchorOrigin: {
+                                      vertical: 'bottom',
+                                      horizontal: 'right',
+                                    },
+                                    transformOrigin: {
+                                      vertical: 'top',
+                                      horizontal: 'right',
+                                    },
+                                  /*   getContentAnchorEl: null, */
+                                    PaperProps: {
+                                      sx: {
+                                        backgroundColor: '#212126', // Fondo del menú desplegado
+                                        border: '1px solid #5682F2', // Borde azul
+                                        color: '#9B9EAB', // Letra blanca
+                                      },
+                                    },
+                                  }}
+                                   IconComponent={() => < ArrowDropDownIcon style={{ color: '##9B9EAB', marginLeft:'-20px' }} />} 
                             >
+                               
                                 <MenuItem value='este_anho'>Este año</MenuItem>
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
+                              
                             </Select>
                         </Grid>
                     </Grid>

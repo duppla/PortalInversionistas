@@ -32,19 +32,19 @@ function Layout({ children }: { children: ReactNode; }) {
                 <Container maxWidth="xl" sx={{ mt: 4, }}>
                   <Grid container spacing={1}>
                     {/*Segunda columna principal*/}
-                    <Grid item xs={12} sm={12} md={6} lg={6}>                    
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
                     </Grid>
                     {/*Segunda columna principal*/}
                     <Grid xs={12} sm={12} md={6} lg={6} sx={{
                       display: 'flex', justifyContent: 'end',
                       justifyItems: 'end',
                       alignItems: 'end',
-                      
+
                     }}>
                       <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end' }}>
                         <Link href="/dashboard/home">
                           <Button variant="outlined" sx={{
-                            backgroundColor: '#272727',
+                            backgroundColor: '#212126',
                             color: '#ffffff',
                             fontFamily: 'Roboto',
                             fontStyle: 'normal',
@@ -56,19 +56,19 @@ function Layout({ children }: { children: ReactNode; }) {
                             '&:hover': {
                               backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
                               borderColor: '#3158A3', // Cambia el borde al pasar el mouse
-                          },
-                          '&.Mui-disabled': {
+                            },
+                            '&.Mui-disabled': {
                               color: '#9A9A9A',
                               backgroundColor: '#6C9FFF',
                               // Letra blanca cuando está deshabilitado
-                          },
+                            },
                           }}>
                             Principal
                           </Button>
                         </Link>
                         <Link href="/dashboard/home/institucionalInvestors/property">
                           <Button variant="outlined" sx={{
-                            backgroundColor: '#272727',
+                            backgroundColor: '#212126',
                             color: '#ffffff',
                             fontFamily: 'Roboto',
                             fontStyle: 'normal',
@@ -80,19 +80,19 @@ function Layout({ children }: { children: ReactNode; }) {
                             '&:hover': {
                               backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
                               borderColor: '#3158A3', // Cambia el borde al pasar el mouse
-                          },
-                          '&.Mui-disabled': {
+                            },
+                            '&.Mui-disabled': {
                               color: '#9A9A9A',
                               backgroundColor: '#6C9FFF',
                               // Letra blanca cuando está deshabilitado
-                          },
+                            },
                           }}>
                             Inmuebles
                           </Button>
                         </Link>
                         <Link href="/dashboard/home/institucionalInvestors/customer">
                           <Button variant="outlined" sx={{
-                            backgroundColor: '#272727',
+                            backgroundColor: '#212126',
                             color: '#ffffff',
                             fontFamily: 'Roboto',
                             fontStyle: 'normal',
@@ -104,12 +104,12 @@ function Layout({ children }: { children: ReactNode; }) {
                             '&:hover': {
                               backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
                               borderColor: '#3158A3', // Cambia el borde al pasar el mouse
-                          },
-                          '&.Mui-disabled': {
+                            },
+                            '&.Mui-disabled': {
                               color: '#9A9A9A',
                               backgroundColor: '#6C9FFF',
                               // Letra blanca cuando está deshabilitado
-                          },
+                            },
                           }}>
                             Clientes
                           </Button>
@@ -120,16 +120,9 @@ function Layout({ children }: { children: ReactNode; }) {
                   </Grid>
                 </Container>
               </Container>
-
             </Box>
-
-
             {children}
-          
           </Box>
-
-          {/*------------------------------------------------------------------------ */}
-
 
         </Box>
       </Box>

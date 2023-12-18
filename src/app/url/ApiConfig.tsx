@@ -3,8 +3,9 @@ const BASE_URL = 'https://salesforce-gdrive-conn.herokuapp.com/inversionistas';
 
 export const getApiUrl = (endpoint: string) => `${BASE_URL}${endpoint}`;
 
-const BASE_URL_F = 'https://ngya0krkm1.execute-api.us-east-1.amazonaws.com/prod/data';
-/* https://ngya0krkm1.execute-api.us-east-1.amazonaws.com/prod/data/inmuebles/c?investor=skandia */
+/* https://backend-portal-inversionistas-c6f90ae68a14.herokuapp.com/inversionistas/inmuebles/c/?investor=Skandia */
+const BASE_URL_F = 'https://backend-portal-inversionistas-c6f90ae68a14.herokuapp.com/inversionistas';
+
 
 
 

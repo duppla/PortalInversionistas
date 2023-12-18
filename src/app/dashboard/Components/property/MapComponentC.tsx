@@ -59,41 +59,21 @@ function MapComponentC() {
     return [avgLng, avgLat]; // Devolver un objeto LngLatLike
   }
   
-/*   useEffect(() => {
-    console.log('Efecto ejecutado');
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://0kkwdwxhm2.execute-api.us-east-1.amazonaws.com/data/inmuebles/c?investor=skandia ');
-        if (!response.ok) {
-          console.error('Error en la respuesta del servidor:', response.status, response.statusText);
-          return;
-        }
-        
-        const result = await response.json();
-        console.log('Resultado de data:', result);
-        setData(result);
-      } catch (error) {
-        console.error('Error al obtener datos:', error);
-      }
-    };
-  
-    fetchData();
-
  
-  }, []);   */
-  
      useEffect(() => {
       console.log('Efecto ejecutado');
       const fetchData = async () => {
         try {
-          const response = await fetch(getApiUrl('/inmuebles/c?investor=skandia'));
+           const response = await fetch(getApiUrlFinal('/inmuebles/c/?investor=Skandia')); 
+         /*  const response = await fetch('https://backend-portal-inversionistas-c6f90ae68a14.herokuapp.com/inversionistas/inmuebles/c/?investor=Skandia'); */
+          
           if (!response.ok) {
             console.error('Error en la respuesta del servidor:', response.status, response.statusText);
             return;
           }
           
           const result = await response.json();
-          console.log('Resultado de data:', result);
+         /*  console.log('Resultado de data:', result); */
           setData(result);
         } catch (error) {
           console.error('Error al obtener datos:', error);
@@ -125,7 +105,7 @@ function MapComponentC() {
         });
         setMap(newMap);
         // Llamar a la función fetchData para obtener datos del endpoint
-        console.log('Ejecutando fetchData...'+ setMap(newMap));
+       
         fetchData();
       };
   

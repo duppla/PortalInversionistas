@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Image from 'next/image';
 import LogoInversionistas from './../../../img/logoinversionistas.svg';
 import SettingDupplaMenu from './../../../img/setting-icon.svg';
+import { Paper } from '@mui/material';
 
 
 
@@ -44,27 +45,21 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static" className='colorBackgroundPrincipal'  sx={{ width: '100%' }}>
+    <AppBar position="static" className='colorBackgroundPrincipal' sx={{ width: '100%' }}>
       <Box maxWidth="xl">
         <Toolbar disableGutters sx={{ width: '100%' }}>
-
           <Container sx={{
             display: 'flex',
             justifyContent: 'start',
             alignItems: 'center',
             height: '100%',
             width: '100%',
-          /*   maxWidth: '100%', */
             padding: '0px',
             margin: '0px',
-            /*  backgroundColor: 'red', */
 
           }} >
-
             <Image src={LogoInversionistas} alt="" className='img-home' width={492} height={287} />
           </Container>
-
-
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
           </Box>
@@ -77,15 +72,70 @@ function ResponsiveAppBar() {
             width: '100%',
             marginRight: '8px',
             marginLeft: '60%',   // añade esta línea 
-             // Ajusta el espacio derecho según sea necesario
+
+            // Ajusta el espacio derecho según sea necesario
           }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Open settings" >
               <IconButton onClick={handleOpenUserMenu} className='icon-setting-navbar' sx={{ p: 0, }}>
                 <Image src={SettingDupplaMenu} alt="" className='' width={48} height={48} />
               </IconButton>
             </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
+            <Box
+              sx={{
+                mt: '45px',
+
+                // Fondo del contenedor
+              }}
+            >
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+                sx={{
+                  // Fondo del menú
+                  mt: '45px',                
+                }}
+                /*  MenuProps={{
+                   sx: {
+                     backgroundColor:'blue',
+                     mt: '45px',
+                   },
+                 }} */
+                // Utiliza slotProps.paper en lugar de PaperProps
+                slotProps={{
+                  paper: {
+                    sx: {
+                      backgroundColor: '#212126', // Fondo del menú desplegado
+                      border: '1px solid #5682F2', // Borde azul
+                      color: '#9B9EAB', // Letra blanca
+
+                    },
+                  },
+                }}
+              >
+                {settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={setting === 'Cerrar Sesión' ? handleLogout : handleCloseUserMenu}
+                  >
+                    <Typography sx={{ fontFamily: 'Roboto', color: '#ffffff', /* fontSize:'26px', mt:2 */ }} textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+
+            {/* <Menu
+              sx={{ mt: '45px',  backgroundColor: 'yellow',}}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -96,16 +146,19 @@ function ResponsiveAppBar() {
               transformOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
+
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={setting === 'Cerrar Sesión' ? handleLogout : handleCloseUserMenu}>
+                <MenuItem key={setting}
+                  sx={{ backgroundColor: 'blue' }}
+                  onClick={setting === 'Cerrar Sesión' ? handleLogout : handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </Menu> */}
           </Box>
         </Toolbar>
       </Box>

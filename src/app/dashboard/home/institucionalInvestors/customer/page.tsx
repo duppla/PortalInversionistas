@@ -14,10 +14,10 @@ const Customer = () => {
     return (
         <Box sx={{ flexGrow: 1, mt: 1, ml: 2, mr: 2, borderRadius: '20px' }} >
             {/* sección 1 titulo */}
-            <Box maxWidth="xl" sx={{ ml: 4 }}>
+            <Box maxWidth="xl" sx={{  }}>
                 <Grid container spacing={2}>
                     <Grid xs={12} sm={6} md={6} lg={6}>
-                        <Typography sx={{ mt: 0.3, mb: 1.5, color: '#5682F2', fontStyle: 'normal', fontWeight: '700' }}>
+                        <Typography className='title-component' sx={{ mt: 0.3, mb: 1.5, /* color: '#5682F2', fontStyle: 'normal', fontWeight: '700' */ }}>
                             <h1>Clientes</h1>
                         </Typography>
                     </Grid>

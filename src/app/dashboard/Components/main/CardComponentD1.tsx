@@ -37,8 +37,8 @@ function CardComponentD1() {
 
     return (
         <Box className='size-card-main-d-f' sx={{ backgroundColor:'#020101', borderRadius:'14px' ,  }}>
-            <Card sx={{ mt:4, backgroundColor:'#020101', borderRadius:'14px', display:'flex', justifyContent:'center', alignContent: 'center', textAlign:'center'}}>
-                <CardContent sx={{mt:4}}>
+            <Card sx={{ mt:4, mb:4, backgroundColor:'#020101', borderRadius:'14px', display:'flex', justifyContent:'center', alignContent: 'center', textAlign:'center'}}>
+                <CardContent sx={{mt:4, }}>
                     <Typography  component="div" sx={{color: '#5782F2', fontFamily: 'Roboto', fontSize:'30px',fontWeight:'500'}}>
                       <p> Inversión  original </p> 
                     </Typography>
@@ -46,8 +46,7 @@ function CardComponentD1() {
                     <h2> $ {dataPrueba?.data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                         </h2> 
                     </Typography>                    
-                </CardContent>
-               
+                </CardContent>               
             </Card>
         </Box>
     )
