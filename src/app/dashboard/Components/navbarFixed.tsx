@@ -128,7 +128,7 @@ function ResponsiveAppBar() {
                     key={setting}
                     onClick={setting === 'Cerrar Sesión' ? handleLogout : handleCloseUserMenu}
                   >
-                    <Typography sx={{ fontFamily: 'Roboto', color: '#ffffff', /* fontSize:'26px', mt:2 */ }} textAlign="center">{setting}</Typography>
+                    <Typography sx={{ fontFamily: 'Rustica', color: '#ffffff', /* fontSize:'26px', mt:2 */ }} textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
               </Menu>

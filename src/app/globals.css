@@ -51,6 +51,31 @@
   }
 }
 
+
+
+@font-face{
+  font-family: 'Rustica';
+  src: url('../fonts/RusticaMedium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face{
+  font-family: 'Rustica';
+  src: url('../fonts/RusticaMedium.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face{
+  font-family: 'Rustica';
+  src: url('../fonts/RusticaBold.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -163,8 +188,16 @@ a {
 
 .ChartContainerSizeManager {
   width: 100% !important;
-  height: 480px;
-  
+  height: 480px; 
+}
+
+/* Estilos titulos componentes Dy F main */
+.title-D-F{
+  font-family: 'Rustica', sans-serif !important;
+  font-style: normal;
+  color: #5682F2;
+  font-weight: 500;
+  font-size: 28px;  
 
 }
 
@@ -178,6 +211,7 @@ a {
 
   /* clases login */
   .img-login-logo {
+    margin-top: 6.25rem;
     width: 100%;
     height: 287px;
   }
@@ -200,10 +234,11 @@ a {
   }
        /* Clase titulos sección */
        .title-component{
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: 'Rustica', sans-serif;
         font-style: normal;
         color: #5682F2;
-        font-weight: 700;
+        font-weight: 500;  
+        font-size: 38px;      
         margin-left: 8px !important;
   
       }
@@ -213,6 +248,7 @@ a {
 
   /* clases login */
   .img-login-logo {
+    margin-top: 6.25rem;
     width: 100% !important;
     height: 287px;
   }
@@ -239,10 +275,11 @@ a {
   }
        /* Clase titulos sección */
        .title-component{
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: 'Rustica', sans-serif;
         font-style: normal;
         color: #5682F2;
-        font-weight: 700;
+        font-weight: 500;
+        font-size: 38px;  
         margin-left: 8px !important;
   
       }
@@ -252,6 +289,7 @@ a {
 
   /* clases login */
   .img-login-logo {
+    margin-top: 6.25rem;
     width: 100% !important;
     height: 287px;
   }
@@ -279,10 +317,11 @@ a {
 
        /* Clase titulos sección */
        .title-component{
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: 'Rustica', sans-serif;
         font-style: normal;
         color: #5682F2;
-        font-weight: 700;
+        font-weight: 500;
+        font-size: 38px;  
         margin-left: 8px !important;
   
       }
@@ -292,6 +331,7 @@ a {
 
   /* clases login */
   .img-login-logo {
+    margin-top: 6.25rem;
     width: 492px !important;
     height: 287px;
   }
@@ -327,10 +367,11 @@ a {
   }
        /* Clase titulos sección */
        .title-component{
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: 'Rustica', sans-serif;
         font-style: normal;
         color: #5682F2;
-        font-weight: 700;
+        font-weight: 500;
+        font-size: 38px;  
         margin-left: 16px !important;
   
       }
@@ -340,6 +381,7 @@ a {
 
   /* Clases login */
   .img-login-logo {
+    margin-top: 6.25rem;
     width: 492px !important;
     height: 287px;
   }
@@ -384,10 +426,11 @@ a {
   }
      /* Clase titulos sección */
      .title-component{
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: 'Rustica', sans-serif;
       font-style: normal;
       color: #5682F2;
-      font-weight: 700;
+      font-weight: 500;
+      font-size: 38px;  
       margin-left: 22px !important;
     }
 
@@ -397,6 +440,7 @@ a {
 
   /* Clases login */
   .img-login-logo {
+    margin-top: 6.25rem;
     width: 492px !important;
     height: 287px;
   }
@@ -422,7 +466,7 @@ a {
   }
 
   .size-card-main-d-f {
-    width: 400 !important;
+    width: 440 !important;
     height: 200px !important;
   }
   /* Responsive inmueble */
@@ -439,10 +483,11 @@ a {
 
      /* Clase titulos sección */
      .title-component{
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: 'Rustica', sans-serif;
       font-style: normal;
       color: #5682F2;
-      font-weight: 700;
+      font-weight: 500;
+      font-size: 38px;  
       margin-left: 30px !important;
 
     }
@@ -452,6 +497,7 @@ a {
 
   /* Clases login */
   .img-login-logo {
+    margin-top: 6.25rem;
     width: 492px !important;
     height: 287px;
   }
@@ -487,7 +533,7 @@ a {
   }
 
   .size-card-main-d-f {
-    width: 400 !important;
+    width: 440 !important;
     height: 220px !important;
   }
 
@@ -505,10 +551,11 @@ a {
 
     /* Clase titulos sección */
     .title-component{
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: 'Rustica', sans-serif;
       font-style: normal;
       color: #5682F2;
-      font-weight: 700;
+      font-weight: 500;
+      font-size: 38px;  
       margin-left: 205px !important;
 
     }
@@ -518,6 +565,7 @@ a {
 
   /* Clases login */
   .img-login-logo {
+    margin-top: 6.25rem;
     width: 492px !important;
     height: 287px;
   }
@@ -535,7 +583,7 @@ a {
   }
 
   .size-card-main-d-f {
-    width: 400 !important;
+    width: 440 !important;
     height: 220px !important;
   }
 
@@ -555,10 +603,11 @@ a {
 
     /* Clase titulos sección */
     .title-component{
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: 'Rustica', sans-serif;
       font-style: normal;
       color: #5682F2;
-      font-weight: 700;
+      font-weight: 500;
+      font-size: 38px;  
       margin-left: 382px !important;
 
     }

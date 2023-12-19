@@ -123,18 +123,18 @@ export default function Home() {
           <div>
             <Image  className='img-login-logo' src={LogoInversionistas} alt=""  />
           </div>
-          <Typography component="h1" variant='h5' sx={{
+         {/*  <Typography component="h1" variant='h5' sx={{
            
             color: '#ffffff',
-            fontFamily: 'Roboto',
+            fontFamily: 'Rustica',
             fontStyle: 'normal',
             fontSize: '36px',
             fontWeight: 'bold',
 
           }}>
             Portal Inversionistas
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ marginTop: '25px' }}>
+          </Typography> */}
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ marginTop: -2 }}>
             <TextField
               className='miInput'
               margin="normal"
@@ -151,8 +151,10 @@ export default function Home() {
                   color: '#5782F2', // Estilo del texto del label
                 },
                 '& .MuiOutlinedInput-input': {
-                  color: '#ffffff', // Estilo del texto del input
+                  color: '#DADADA', // Estilo del texto del input
                   backgroundColor: '#1E1E1E', // Fondo del input
+                  fontFamily: 'Rustica',
+                  
                 },
                 '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: '#ffffff', // Estilo del borde del input
@@ -163,7 +165,9 @@ export default function Home() {
               }}
               InputProps={{
                 sx: {
-                  color: '#ffffff', // Estilo del texto del input (placeholder)
+                  color: '#DADADA', // Estilo del texto del input (placeholder)
+                  fontFamily: 'Rustica',
+                  
                 },
                 'inputProps': { // Para estilos adicionales del input
                   'aria-label': 'Email',
@@ -188,8 +192,10 @@ export default function Home() {
                   color: '#5782F2', // Estilo del texto del label
                 },
                 '& .MuiOutlinedInput-input': {
-                  color: '#ffffff', // Estilo del texto del input
+                  color: '#DADADA', // Estilo del texto del input
                   backgroundColor: '#1E1E1E', // Fondo del input
+                  fontFamily: 'Rustica',
+                 
                 },
                 '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: '#ffffff', // Estilo del borde del input
@@ -201,7 +207,9 @@ export default function Home() {
               }}
               InputProps={{
                 sx: {
-                  color: '#ffffff', // Estilo del texto del input (placeholder)
+                  color: '#DADADA', // Estilo del texto del input (placeholder)
+                  fontFamily: 'Rustica',
+                  
                 },
                 'inputProps': { // Para estilos adicionales del input
                   'aria-label': 'Password',
@@ -236,6 +244,8 @@ export default function Home() {
                 borderRadius: '10px',
                 color: '#FFFFFF',
                 textTransform: 'none',
+                fontFamily: 'Rustica',
+                fontWeight: '400',
               }}
 
             >
