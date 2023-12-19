@@ -58,7 +58,7 @@ const Page = () => {
                 <Box maxWidth="xl" sx={{ }}>
                     <Grid container spacing={2}>
                         <Grid xs={12} sm={6} md={6} lg={6}>
-                            <Typography className='title-component' sx={{ mt: 0.3, mb: 1.5, /* color: '#5682F2', fontStyle: 'normal', fontWeight: '700' */ }}>
+                            <Typography className='title-component' sx={{ mt: 0.3, mb: 1.5, color: '#5682F2', fontStyle: 'normal', fontWeight: '500', fontSize:'3rem' }}>
                                 Dashboard principal
                             </Typography>
                         </Grid>

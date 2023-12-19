@@ -39,6 +39,7 @@ const BarChartComponentE = () => {
     const [dataApi, setDataApi] = useState<DataType[]>([]);
     const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
+    const [menuOpen, setMenuOpen] = useState(false);
 
 
     useEffect(() => {
@@ -162,7 +163,24 @@ const BarChartComponentE = () => {
                                       },
                                     },
                                   }}
-                                   IconComponent={() => < ArrowDropDownIcon style={{ color: '##9B9EAB', marginLeft:'-20px' }} />} 
+                                  open={menuOpen}
+                                  onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
+                                  onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
+                                 
+                                  IconComponent={() => (
+                                    // Cambia el ícono según el estado del menú
+                                    menuOpen ? (
+                                      <ArrowDropUpIcon
+                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
+                                        onClick={() => setMenuOpen(!menuOpen)}
+                                      />
+                                    ) : (
+                                      <ArrowDropDownIcon
+                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
+                                        onClick={() => setMenuOpen(!menuOpen)}
+                                      />
+                                    )
+                                  )}
                             >
                                 <MenuItem value='este_anho'>Este año</MenuItem>
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
