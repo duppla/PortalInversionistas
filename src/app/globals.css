@@ -53,7 +53,7 @@
 
 
 
-@font-face{
+/* @font-face{
   font-family: 'Rustica';
   src: url('../fonts/RusticaMedium.ttf') format('truetype');
   font-weight: 500;
@@ -72,9 +72,41 @@
   src: url('../fonts/RusticaBold.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
+} */
+
+@font-face{
+  font-family: 'Rustica';
+  src: url('../fonts/RusticaSemiLight.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
 }
 
+@font-face{
+  font-family: 'Rustica';
+  src: url('../fonts/RusticaSemiLight.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
 
+@font-face{
+  font-family: 'Rustica';
+  src: url('../fonts/RusticaSemiLightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face{
+  font-family: 'HelveticaNowText';
+  src: url('../fonts/HelveticaNowTextMedium.otf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face{
+  font-family: 'Helvetica';
+  src: url('../fonts/HelveticaNowTextRegular.otf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
 
 * {
   box-sizing: border-box;
@@ -142,8 +174,6 @@ a {
   width: 100% !important;
   height: 480px;
   /* background-color: #020101; */
-
-
 }
 
 .grafica-barcharts-des {
@@ -169,17 +199,6 @@ a {
   /* O el valor que desees para pantallas más grandes */
 }
 
-/* .miInput {
-  color: #272727;
-  background-color: #272727;
- 
-  border-radius: 12px;
-} 
-
-.miInput::placeholder {
-  color: rgb(202, 21, 21) !important;
-} */
-
 /* Estilo para los elementos text dentro del gráfico */
 .nivo-text {
   fill: #ffffff !important;
@@ -197,7 +216,16 @@ a {
   font-style: normal;
   color: #5682F2;
   font-weight: 500;
-  font-size: 28px;  
+  font-size: 18px;
+  margin-top: -8px !important; 
+}
+
+.title-dropdown-menu-container{
+  font-family: 'Helvetica';
+  font-style: normal;
+  color: #ffffff;
+  font-weight: 300;
+  font-size: 22px; 
 
 }
 
@@ -223,7 +251,7 @@ a {
 
   .size-card-main-d-f {
     width: 300 !important;
-    height: 220px !important;
+    height: 120px !important;
   }
 
 /* Responsive inmueble */
@@ -259,8 +287,8 @@ a {
   }
 
   .size-card-main-d-f {
-    width: 320 !important;
-    height: 220px !important;
+    width: 340 !important;
+    height: 120px !important;
   }
 /* Responsive inmueble */
   .size-container-h1-h2{
@@ -300,8 +328,8 @@ a {
   }
 
   .size-card-main-d-f {
-    width: 350 !important;
-    height: 220px !important;
+    width: 340 !important;
+    height: 120px !important;
   }
   /* Responsive inmueble */
   .size-container-h1-h2{
@@ -347,11 +375,13 @@ a {
   .size-card-main {
     width: 100% !important;
     height: 980px !important;
+    
   }
 
   .size-card-main-d-f {
-    width: 360 !important;
-    height: 220px !important;
+    width: 340 !important;
+    height: 140px !important;
+   
   }
 
   /* Responsive inmueble */
@@ -377,7 +407,7 @@ a {
       }
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1020px) {
 
   /* Clases login */
   .img-login-logo {
@@ -406,13 +436,14 @@ a {
   /* Ajustes sesión main */
   .size-card-main {
     width: 100% !important;
-    height: 300px !important;
-
+    height: 140px !important;
+   
   }
 
   .size-card-main-d-f {
-    width: 360px !important;
-    height: 200px !important;
+    width: 340px !important;
+    height: 100px !important;
+    
   }
   /* Responsive inmueble */
   .size-container-h1-h2{
@@ -462,12 +493,14 @@ a {
   /* Ajustes sesión main */
   .size-card-main {
     width: 100% !important;
-    height: 280px !important;
+    height: 140px !important;
+    
   }
 
   .size-card-main-d-f {
     width: 440 !important;
-    height: 200px !important;
+    height: 100px !important;
+   
   }
   /* Responsive inmueble */
   .size-container-h1-h2{
@@ -528,13 +561,14 @@ a {
   /* Ajustes sesión main */
   .size-card-main {
     width: 100% !important;
-    height: 300px !important;
+    height: 140px !important;
 
   }
 
   .size-card-main-d-f {
     width: 440 !important;
-    height: 220px !important;
+    height: 100px !important;
+    
   }
 
   /* Responsive inmueble */
@@ -559,6 +593,8 @@ a {
       margin-left: 205px !important;
 
     }
+
+
 }
 
 @media screen and (min-width: 2200px) {
@@ -579,12 +615,13 @@ a {
   /* Ajustes sesión main */
   .size-card-main {
     width: 100% !important;
-    height: 300px !important;
+    height: 140px !important;
   }
 
   .size-card-main-d-f {
     width: 440 !important;
-    height: 220px !important;
+    height: 100px !important;
+    
   }
 
   /* Responsive inmueble */

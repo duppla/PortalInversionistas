@@ -24,10 +24,10 @@ function Layout({ children }: { children: ReactNode; }) {
           {/*Nabvar fixed Mui*/}
           <Navbar />
           {/*----------------------------visualización dashboard-------------------------------------------- */}
-          <Box sx={{ flexGrow: 1, backgroundColor: '#OBOBOD', mt: 4, borderTopLeftRadius: '39px', borderTopRightRadius: '39px' }}>
+          <Box sx={{ flexGrow: 1, backgroundColor: '#OBOBOD', mt: 2, borderTopLeftRadius: '39px', borderTopRightRadius: '39px' }}>
 
             <Box >
-              <Container maxWidth="xl" sx={{ mt: 4, mb: 4, }}
+              <Container maxWidth="xl" sx={{ mt: 4, mb: 2, }}
                 className=''>
                 <Container maxWidth="xl" sx={{ mt: 4, }}>
                   <Grid container spacing={1}>
@@ -51,7 +51,7 @@ function Layout({ children }: { children: ReactNode; }) {
                             fontWeight: '400',
                             fontSize: '16px',
                             textTransform: 'none',
-                            width: '120px',
+                            width: '200px',
                             borderColor: '#5682F2',
                             '&:hover': {
                               backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
@@ -63,7 +63,7 @@ function Layout({ children }: { children: ReactNode; }) {
                               // Letra blanca cuando está deshabilitado
                             },
                           }}>
-                            Principal
+                           Dashboard principal
                           </Button>
                         </Link>
                         <Link href="/dashboard/home/institucionalInvestors/property">
@@ -114,7 +114,6 @@ function Layout({ children }: { children: ReactNode; }) {
                             Clientes
                           </Button>
                         </Link>
-
                       </Stack>
                     </Grid>
                   </Grid>

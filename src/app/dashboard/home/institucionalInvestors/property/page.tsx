@@ -12,9 +12,9 @@ import Prueba from '../../../Components/property/Prueba'
 const page = () => {
     return (
 
-        <Box sx={{ flexGrow: 1, mt: 1, ml: 2, mr: 2, borderRadius: '20px' }} >
+        <Box sx={{ flexGrow: 1, mt: 1, ml: 1, mr: 1, borderRadius: '20px' }} >
             {/* sección 1 titulo */}
-            <Box maxWidth="xl" sx={{ }}>
+           {/*  <Box maxWidth="xl" sx={{ }}>
                 <Grid container spacing={2}>
                     <Grid xs={12} sm={6} md={6} lg={6}>
                         <Typography className='title-component' sx={{ mt: 0.3, mb: 1.5, color: '#5682F2', fontStyle: 'normal', fontWeight: '500', fontSize:'3rem' }}>
@@ -25,29 +25,26 @@ const page = () => {
                     }}>
                     </Grid>
                 </Grid>
-            </Box>
+            </Box> */}
             {/* Sección dashborad */}
 
             <Container maxWidth="xl" sx={{ mt: 2, mb: 4, }}
                 className=''>
                 {/* Componente H */}
                 <Grid  className='size-container-h1-h2' container sx={{
-
                     marginTop: '10px',
                     display: 'flex',
                     justifyContent: 'center',
-                    justifyItems: 'center',
-                   
+                    justifyItems: 'center',                   
                     backgroundColor: '#0B0B0D',
                     borderRadius: '20px',
                     
-                    mt: 4
                 }} rowSpacing={2} gap={12.6} columnSpacing={{ md: 1, lg: 1, }}
                 >
                     <Grid xs={12} sm={12} md={5} lg={5} sx={{
                         borderRadius: '10px',
                         backgroundColor: '#212126',
-                        mt: 2, mb: 2,
+                       /*  mt: 2, */ mb: 2,
                         p:2
                     }}>
                         <GraficacomponenteH1 />
@@ -56,7 +53,7 @@ const page = () => {
                     <Grid className='' xs={12} sm={12} md={6} lg={6} sx={{
                         borderRadius: '10px',
                         backgroundColor: '#212126',
-                        mt: 2, mb: 2,
+                       /*  mt: 2, */ mb: 2,
                         p:2
                     }}>
                         <GraficacomponenteH2 />

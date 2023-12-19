@@ -14,7 +14,7 @@ const Customer = () => {
     return (
         <Box sx={{ flexGrow: 1, mt: 1, ml: 2, mr: 2, borderRadius: '20px' }} >
             {/* sección 1 titulo */}
-            <Box maxWidth="xl" sx={{  }}>
+            {/* <Box maxWidth="xl" sx={{  }}>
                 <Grid container spacing={2}>
                     <Grid xs={12} sm={6} md={6} lg={6}>
                         <Typography className='title-component' sx={{ mt: 0.3, mb: 1.5, color: '#5682F2', fontStyle: 'normal', fontWeight: '500', fontSize:'3rem' }}>
@@ -25,7 +25,7 @@ const Customer = () => {
                     }}>
                     </Grid>
                 </Grid>
-            </Box>
+            </Box> */}
             {/* Sección dashborad Clientes*/}
             <Container maxWidth="xl" sx={{ mt: 2, mb: 4, }}
                 className=''>
@@ -38,13 +38,13 @@ const Customer = () => {
                     backgroundColor: '#0B0B0D',
                     borderRadius: '20px',
 
-                    mt: 4
+                    mt: 2
                 }} /* rowSpacing={2}  */ gap={13.2} columnSpacing={{ md: 1, lg: 1, }}
                 >
                     <Grid xs={12} sm={12} md={5.5} lg={5.5} sx={{
                         borderRadius: '10px',
                         backgroundColor: '#212126',
-                        mt: 2, mb: 2,
+                      /*   mt: 2 */ mb: 2,
                         p: 3
                     }}>
                         <PieChartComponentk1 />
@@ -57,7 +57,7 @@ const Customer = () => {
                     <Grid className='' xs={12} sm={12} md={5.5} lg={5.5} sx={{
                         borderRadius: '10px',
                         backgroundColor: '#212126',
-                        mt: 2, mb: 2,
+                       /*  mt: 2, */ mb: 2,
                         p: 3
                     }}>
                         <PieChartComponentK2 />

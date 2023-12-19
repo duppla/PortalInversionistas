@@ -184,7 +184,7 @@ function BarChartComponentO() {
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-                padding={0.4}
+                padding={0.9}
                 colors={['#12CA98', '#E54B2E',]}
                 /*  enableGridY={false} */
 

@@ -154,6 +154,7 @@ export default function Home() {
                   color: '#DADADA', // Estilo del texto del input
                   backgroundColor: '#1E1E1E', // Fondo del input
                   fontFamily: 'Rustica',
+                  fontWeight: '300',
                   
                 },
                 '& .MuiOutlinedInput-notchedOutline': {

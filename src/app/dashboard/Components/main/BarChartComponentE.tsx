@@ -128,7 +128,7 @@ const BarChartComponentE = () => {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt: 1 }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ fontFamily:'Roboto', color: '#ffffff' , fontSize:'26px', mt:2 }}>Porcentaje de propiedad del portafolio</Typography>
+                            <Typography className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Roboto', color: '#ffffff' , fontSize:'26px', mt:2 }}>Porcentaje de propiedad del portafolio</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -197,7 +197,7 @@ const BarChartComponentE = () => {
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-                padding={0.3}
+                padding={0.5}
                 valueScale={{ type: 'linear', min: 0 }}
                 indexScale={{ type: 'band', round: true }}
                 colors={['#723DFD', '#28ACFF', '#5ED1B1']} // Define tus propios colores
