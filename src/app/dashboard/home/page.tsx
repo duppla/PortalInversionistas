@@ -109,7 +109,7 @@ const Page = () => {
                             width: 'auto',
                             height: '600px',
                             borderRadius: '20px',
-                            mt: 2,
+                           
                             mb: 2,
                         }}>
 
@@ -126,7 +126,7 @@ const Page = () => {
                                             sx={{
                                                 borderRadius: '10px',
                                                 color: '#ffffff', // Letra blanca
-                                                fontFamily: 'Roboto',
+                                                fontFamily: 'Rustica',
                                                 fontStyle: 'normal',
                                                 fontWeight: '500',
                                                 fontSize: '16px',
@@ -155,7 +155,7 @@ const Page = () => {
                                             sx={{
                                                 borderRadius: '10px',
                                                 color: '#ffffff', // Letra blanca
-                                                fontFamily: 'Roboto',
+                                                fontFamily: 'Rustica',
                                                 fontStyle: 'normal',
                                                 fontWeight: '500',
                                                 fontSize: '16px',

@@ -227,7 +227,7 @@ function MapComponentC() {
               sx={{
                 borderRadius: '10px',
                 color: '#ffffff', // Letra blanca
-                fontFamily: 'Roboto',
+                fontFamily: 'Rustica',
                 fontStyle: 'normal',
                 fontWeight: '500',
                 fontSize: '16px',

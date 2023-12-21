@@ -162,10 +162,11 @@ function StreamChartComponentL() {
     return (
         <div className='grafica-barcharts-des nivo-text'>
             <div>
-                <FormControl   fullWidth>
+                <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ fontFamily:'Roboto', color: '#ffffff' , fontSize:'26px', mt:2 }}>Evaluaciones puntaje crediticio</Typography>
+                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Evaluaciones puntaje crediticio</Typography>
+
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -178,55 +179,55 @@ function StreamChartComponentL() {
 
                                 sx={{
                                     color: '#9B9EAB', justifyContent: 'flex-end',
-                                     textAlign: 'end', fill: '#ffffff', 
+                                    textAlign: 'end', fill: '#ffffff',
                                     '&.MuiSelect-select': { color: '#9B9EAB', fill: '#ffffff' },
-                                    '&.MuiSelect-icon': { color: '#9B9EAB', fill: '#ffffff'},
+                                    '&.MuiSelect-icon': { color: '#9B9EAB', fill: '#ffffff' },
                                     '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
                                     '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
                                 }}
-                                 MenuProps={{
+                                MenuProps={{
                                     anchorOrigin: {
-                                      vertical: 'bottom',
-                                      horizontal: 'right',
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
                                     },
                                     transformOrigin: {
-                                      vertical: 'top',
-                                      horizontal: 'right',
+                                        vertical: 'top',
+                                        horizontal: 'right',
                                     },
-                                  /*   getContentAnchorEl: null, */
+                                    /*   getContentAnchorEl: null, */
                                     PaperProps: {
-                                      sx: {
-                                        backgroundColor: '#212126', // Fondo del menú desplegado
-                                        border: '1px solid #5682F2', // Borde azul
-                                        color: '#9B9EAB', // Letra blanca
-                                      },
+                                        sx: {
+                                            backgroundColor: '#212126', // Fondo del menú desplegado
+                                            border: '1px solid #5682F2', // Borde azul
+                                            color: '#9B9EAB', // Letra blanca
+                                        },
                                     },
-                                  }}
-                                  open={menuOpen}
-                                  onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                                  onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
-                                 
-                                  IconComponent={() => (
+                                }}
+                                open={menuOpen}
+                                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
+                                onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
+
+                                IconComponent={() => (
                                     // Cambia el ícono según el estado del menú
                                     menuOpen ? (
-                                      <ArrowDropUpIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropUpIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     ) : (
-                                      <ArrowDropDownIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropDownIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     )
-                                  )}
-                
+                                )}
+
                             >
-                               
+
                                 <MenuItem value='este_anho'>Este año</MenuItem>
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
-                              
+
                             </Select>
                         </Grid>
                     </Grid>
@@ -259,7 +260,7 @@ function StreamChartComponentL() {
                             const monthIndex = parseInt(month, 10) - 1;
                             const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
                             const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
- ;
+                            ;
 
                             return `${monthNames[monthIndex]} ${shortYear}`;
                         }
@@ -316,9 +317,9 @@ function StreamChartComponentL() {
                     }
                   
                     return null;
-                  }}  */            
-                  
-                  
+                  }}  */
+
+
                 theme={{
                     axis: {
                         ticks: {
@@ -346,45 +347,47 @@ function StreamChartComponentL() {
                         color: 'white',
                     },
                 ]}
-                dotSize={8}
-                dotColor={{ from: 'color' }}
-                dotBorderWidth={2}
-                dotBorderColor={{
-                    from: 'color',
-                    modifiers: [
-                        [
-                            'darker',
-                            0.7
-                        ]
+                
+            dotSize={8}
+            dotColor={{ from: 'color' }}
+            dotBorderWidth={2}
+            dotBorderColor={{
+                from: 'color',
+                modifiers: [
+                    [
+                        'darker',
+                        0.7
                     ]
-                }}
-                legends={[
-                    {
-                        anchor: 'bottom-left',
-                        direction: 'row',
-                        justify: false,
-                        translateX: 0,
-                        translateY: 54,
-                        itemsSpacing: -20,
-                        itemDirection: 'left-to-right',
-                        itemWidth: 80,
-                        itemHeight: 20,
-                        itemOpacity: 0.75,
-                        symbolSize: 12,
-                        symbolShape: 'square',
-                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                        effects: [
-                            {
-                                on: 'hover',
-                                style: {
-                                    itemBackground: 'rgba(0, 0, 0, .03)',
-                                    itemTextColor: '#000000',
-                                    itemOpacity: 1
-                                }
+                ]
+            }}
+            legends={[
+                {
+                    anchor: 'bottom-left',
+                    direction: 'row',
+                    justify: false,
+                    translateX: 0,
+                    translateY: 54,
+                    itemsSpacing: -20,
+                    itemDirection: 'left-to-right',
+                    itemWidth: 80,
+                    itemHeight: 20,
+                    itemOpacity: 0.75,
+                    symbolSize: 12,
+                    symbolShape: 'square',
+                    symbolBorderColor: 'rgba(0, 0, 0, .5)',
+                 
+                    effects: [
+                        {
+                            on: 'hover',
+                            style: {
+                                itemBackground: 'rgba(0, 0, 0, .03)',
+                                itemTextColor: '#000000',
+                                itemOpacity: 1
                             }
-                        ]
-                    }
-                ]}
+                        }
+                    ]
+                }
+            ]}
             />
         </div>
     )

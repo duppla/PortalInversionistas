@@ -115,7 +115,8 @@ function BarChartComponentO() {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography variant="subtitle1" sx={{ fontFamily:'Roboto', color: '#ffffff' , fontSize:'26px', mt:2 }}>Default de pagos</Typography>
+                        <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Default de pagos</Typography>
+  
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -184,7 +185,7 @@ function BarChartComponentO() {
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-                padding={0.9}
+                padding={0.8}
                 colors={['#12CA98', '#E54B2E',]}
                 /*  enableGridY={false} */
 
@@ -218,12 +219,12 @@ function BarChartComponentO() {
 
                 /* valueFormat={(v) => (typeof v === 'number' ? v.toString() : '')} */
                 valueFormat={(v) => (typeof v === 'number' ? Math.abs(v).toString() : '')} // Convertir valores a positivos antes de formatear
-                gridYValues={[-2000000, -4000000, /* -6000000, -8000000, */  0, 2000000, 2000000, 4000000, 8000000]} 
+                gridYValues={[-2000000, -4000000, /* -6000000, -8000000, */  0, 2000000, 4000000, /* 6000000, 8000000 */]} 
                 axisLeft={{
                     tickSize: 2,
                     tickPadding: 5,
                     tickRotation: 0,
-                    tickValues: [-2000000, -4000000, /* -6000000, -8000000 */,  0, 2000000, 2000000, 4000000, 8000000 ],
+                    tickValues: [-2000000, -4000000, /* -6000000, -8000000 */,  0, 2000000, 4000000, /* 6000000, 8000000  */],
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
