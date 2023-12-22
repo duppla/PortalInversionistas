@@ -203,6 +203,8 @@ const PieChartComponentK2 = () => {
                         from: 'color',
                         modifiers: [['darker', 0.2]],
                     }}
+                    /* animate={false} */
+                    motionConfig="gentle" 
                     enableArcLinkLabels={false}
                     arcLinkLabelsSkipAngle={10}
                     arcLinkLabelsTextColor="#333333"

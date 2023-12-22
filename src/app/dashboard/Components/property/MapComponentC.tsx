@@ -52,99 +52,104 @@ function MapComponentC() {
     const totalCoordinates = locations.length;
     const sumLat = locations.reduce((sum, location) => sum + location.latitud, 0);
     const sumLng = locations.reduce((sum, location) => sum + location.longitud, 0);
-  
+
     const avgLat = sumLat / totalCoordinates;
     const avgLng = sumLng / totalCoordinates;
-  
+
     return [avgLng, avgLat]; // Devolver un objeto LngLatLike
   }
-  
- 
-     useEffect(() => {
-      console.log('Efecto ejecutado');
-      const fetchData = async () => {
-        try {
-           const response = await fetch(getApiUrlFinal('/inmuebles/c/?investor=Skandia')); 
-         /*  const response = await fetch('https://backend-portal-inversionistas-c6f90ae68a14.herokuapp.com/inversionistas/inmuebles/c/?investor=Skandia'); */
-          
-          if (!response.ok) {
-            console.error('Error en la respuesta del servidor:', response.status, response.statusText);
-            return;
-          }
-          
-          const result = await response.json();
-         /*  console.log('Resultado de data:', result); */
-          setData(result);
-        } catch (error) {
-          console.error('Error al obtener datos:', error);
-        }
-      };
-    
-      fetchData();
 
-      const initializeMap = () => {
-        const locations = data[selectedCity];
-        let defaultCenter: mapboxgl.LngLatLike /* = { lng: -74.5, lat: 4 } */| undefined = undefined;
-      
-        if (locations && locations.length > 0) {
-          // Calcular el centro promedio si hay ubicaciones
-          const center = calculateAverageCoordinates(locations);
-          defaultCenter = { lng: (center as [number, number])[0], lat: (center as [number, number])[1] };
-        }
-      
-        const newMap = new mapboxgl.Map({
-          container: mapDivC.current!, // container ID
-          style: 'mapbox://styles/mapbox/streets-v12', // style URL
-          center: defaultCenter, // Usar el centro calculado o el por defecto
-          zoom: 12, // Zoom por defecto
-        });
 
-        // Desactiva el marcador por defecto
-        newMap.once('load', () => {
-          newMap.setLayoutProperty('country-label', 'visibility', 'none');
-        });
-        setMap(newMap);
-        // Llamar a la función fetchData para obtener datos del endpoint
-       
-        fetchData();
-      };
-  
-      if (!map) {
-        initializeMap();
-      }  
-      // Limpieza al desmontar el componente
-      return () => {
-        map && map.remove()
-      }; 
-    }, [map,]);   
-    
-       
-    const calculateCityCenter = (city: string) => {
-      const locations = data[city];
-      if (locations && locations.length > 0 && map) {
-        const center = calculateAverageCoordinates(locations);
-        // Realizar un nuevo flyTo para actualizar el centro del mapa
-        map.flyTo({ center, zoom: 10 });
+  useEffect(() => {
+    console.log('Efecto ejecutado');
+    const fetchData = async () => {
+      try {
+        const response = await fetch(getApiUrlFinal('/inmuebles/c/?investor=Skandia'));
+        /*  const response = await fetch('https://backend-portal-inversionistas-c6f90ae68a14.herokuapp.com/inversionistas/inmuebles/c/?investor=Skandia'); */
+
+        if (!response.ok) {
+          console.error('Error en la respuesta del servidor:', response.status, response.statusText);
+          return;
+        }
+
+        const result = await response.json();
+        /*  console.log('Resultado de data:', result); */
+        setData(result);
+      } catch (error) {
+        console.error('Error al obtener datos:', error);
       }
     };
-        
-    useEffect(() => {
-      if (map && selectedCity && data[selectedCity]) {
-        calculateCityCenter(selectedCity);
-        addMarkersToMap();
+
+    fetchData();
+
+    const initializeMap = () => {
+      const locations = data[selectedCity];
+      let defaultCenter: mapboxgl.LngLatLike /* = { lng: -74.5, lat: 4 } */ | undefined = undefined;
+
+      if (locations && locations.length > 0) {
+        // Calcular el centro promedio si hay ubicaciones
+        const center = calculateAverageCoordinates(locations);
+        defaultCenter = { lng: (center as [number, number])[0], lat: (center as [number, number])[1] };
+
       }
-    }, [map, selectedCity, data]);
+      // Establecer el valor por defecto en la mitad de Colombia si no hay ubicaciones
+      if (!defaultCenter) {
+        defaultCenter = { lng: -74.2973, lat: 4.7709 }; // Bogotá
+      }
+
+      const newMap = new mapboxgl.Map({
+        container: mapDivC.current!, // container ID
+        style: 'mapbox://styles/mapbox/streets-v12', // style URL
+        center: defaultCenter, // Usar el centro calculado o el por defecto
+        zoom: 12, // Zoom por defecto
+      });
+
+      // Desactiva el marcador por defecto
+      newMap.once('load', () => {
+        newMap.setLayoutProperty('country-label', 'visibility', 'none');
+      });
+      setMap(newMap);
+      // Llamar a la función fetchData para obtener datos del endpoint
+
+      fetchData();
+    };
+
+    if (!map) {
+      initializeMap();
+    }
+    // Limpieza al desmontar el componente
+    return () => {
+      map && map.remove()
+    };
+  }, [map,]);
+
+
+  const calculateCityCenter = (city: string) => {
+    const locations = data[city];
+    if (locations && locations.length > 0 && map) {
+      const center = calculateAverageCoordinates(locations);
+      // Realizar un nuevo flyTo para actualizar el centro del mapa
+      map.flyTo({ center, zoom: 10 });
+    }
+  };
+
+  useEffect(() => {
+    if (map && selectedCity && data[selectedCity]) {
+      calculateCityCenter(selectedCity);
+      addMarkersToMap();
+    }
+  }, [map, selectedCity, data]);
 
 
   // Función para cambiar la ciudad seleccionada y centrar el mapa en esa ciudad
- /*  const handleCityChange = (city: string) => {
-    setSelectedCity(city);
-    if (map && data[city] && data[city].length > 0) {
-      const center = data[city][0]; // Tomar la primera ubicación como referencia
-      map.setCenter([center.longitud, center.latitud]);
-      map.setZoom(80); // Puedes ajustar el zoom según tus necesidades
-    }
-  }; */
+  /*  const handleCityChange = (city: string) => {
+     setSelectedCity(city);
+     if (map && data[city] && data[city].length > 0) {
+       const center = data[city][0]; // Tomar la primera ubicación como referencia
+       map.setCenter([center.longitud, center.latitud]);
+       map.setZoom(80); // Puedes ajustar el zoom según tus necesidades
+     }
+   }; */
   const handleCityChange = (city: string) => {
     setSelectedCity(city);
     if (map && data[city] && data[city].length > 0) {
@@ -152,43 +157,49 @@ function MapComponentC() {
       map.flyTo({ center, zoom: 12 }); // Ajusta el zoom según tus necesidades
     }
   };
-  
+
   // Función para agregar marcadores al mapa
-/*   const addMarkersToMap = () => {
-    Object.keys(data).forEach(city => {
-      data[city].forEach(location => {
-        // Crear un elemento de marcador personalizado con una clase específica
-        const markerElement = document.createElement('div');
-        markerElement.className = 'custom-marker';
-
-        // Puedes personalizar el estilo del marcador aquí
-        markerElement.style.backgroundColor = '#FF864B'; // Cambia el color del fondo
-        markerElement.style.width = '18px'; // Cambia el ancho del marcador
-        markerElement.style.height = '18px'; // Cambia la altura del marcador
-        markerElement.style.borderRadius = '80%'; // Hace que el marcador sea circular
-
-        new mapboxgl.Marker({ element: markerElement })
-          .setLngLat([location.longitud, location.latitud])
-          .setPopup(new mapboxgl.Popup().setHTML(`<p>${city}</p>`))
-          .addTo(map!);
+  /*   const addMarkersToMap = () => {
+      Object.keys(data).forEach(city => {
+        data[city].forEach(location => {
+          // Crear un elemento de marcador personalizado con una clase específica
+          const markerElement = document.createElement('div');
+          markerElement.className = 'custom-marker';
+  
+          // Puedes personalizar el estilo del marcador aquí
+          markerElement.style.backgroundColor = '#FF864B'; // Cambia el color del fondo
+          markerElement.style.width = '18px'; // Cambia el ancho del marcador
+          markerElement.style.height = '18px'; // Cambia la altura del marcador
+          markerElement.style.borderRadius = '80%'; // Hace que el marcador sea circular
+  
+          new mapboxgl.Marker({ element: markerElement })
+            .setLngLat([location.longitud, location.latitud])
+            .setPopup(new mapboxgl.Popup().setHTML(`<p>${city}</p>`))
+            .addTo(map!);
+        });
       });
-    });
-  }; */
+    }; */
   const addMarkersToMap = () => {
     Object.keys(data).forEach(city => {
       data[city].forEach((location, index) => {
         const markerElement = document.createElement('div');
         markerElement.className = 'custom-marker';
-        markerElement.style.backgroundColor = '#FF864B';
+       
+        markerElement.innerHTML = '🏠'; // Puedes cambiar este emoji según tus necesidades
+        markerElement.style.fontSize = '26px'; // Ajusta el tamaño según tus necesidades
+  
+      /*   markerElement.style.backgroundColor = '#FF864B';
         markerElement.style.width = '18px';
         markerElement.style.height = '18px';
-        markerElement.style.borderRadius = '80%';
-  
+        markerElement.style.borderRadius = '80%'; */
+
         new mapboxgl.Marker({ element: markerElement })
           .setLngLat([location.longitud, location.latitud])
-          .setPopup(new mapboxgl.Popup().setHTML(`<p>${city}</p>`))
+         /*  .setPopup(new mapboxgl.Popup().setHTML(`<p>${city}</p>`)) */
+/*          .setPopup(new mapboxgl.Popup().setHTML(`<p>Dirección: ${location.direccion}</p><p>Barrio: ${location.barrio}</p>`)) */
+         .setPopup(new mapboxgl.Popup().setHTML(`<p>Dirección: 'prueba '</p><p>Barrio:' prueba'</p>`))
           .addTo(map!);
-  
+
         // Agregar evento de clic al marcador
         markerElement.addEventListener('click', () => handleMarkerClick(location));
       });
@@ -274,7 +285,7 @@ function MapComponentC() {
                 },
               }}
             >
-            Alrededores Bogotá
+              Alrededores Bogotá
             </Button>
 
             <Button

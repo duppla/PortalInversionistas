@@ -15,6 +15,13 @@ import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 /* type DataType = {
     [key: string]: any;
 }; */
+type PieData = {
+  id: string;
+  label: string;
+  value: number;
+  formattedValue: string;
+  color: string;
+};
 
 function PieChartComponentK1() {
   /* const [responseData, setResponseData] = useState<DataType>({
@@ -37,7 +44,7 @@ function PieChartComponentK1() {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
         /*  const response = await fetch( getApiUrl(`/clientes/k1?investor=skandia`), options); */
         const response = await fetch(getApiUrlFinal(`/inmuebles/k1?investor=skandia`), options);
-      
+
         const responseData = await response.json();
 
         if (responseData) {
@@ -98,33 +105,108 @@ function PieChartComponentK1() {
         })
     : []
   : []; */
-  const formattedDataPie = Object.entries(responseData).map(([key, value]) => {
-    // Personalizar nombres de categorías según tu lógica
-    let categoryLabel = key;
-    if (key === 'empleado') {
-      categoryLabel = 'Empleado';
-    } else if (key === 'pensionado') {
-      categoryLabel = 'Pensionado';
-    } else if (key === 'independiente') {
-      categoryLabel = 'Independiente';
-    }else if (key === 'rentista de capital') {
-      categoryLabel = 'Rentista de capital';
-    }else if (key === 'no registra') {
-      categoryLabel = 'No registra';
+
+  const formattedDataPie: PieData[] = Object.entries(responseData).map(([key, value]) => ({
+    id: key,
+    label: getCategoryLabel(key),
+    value: typeof value === 'number' ? value : 0,  // Asegurar que value sea un número
+    formattedValue: `${value}`,
+    color: getColorByKey(key),
+  }));
+
+  function getCategoryLabel(key: string): string {
+    switch (key) {
+      case 'empleado':
+        return 'Empleado';
+      case 'pensionado':
+        return 'Pensionado';
+      case 'independiente':
+        return 'Independiente';
+      case 'rentista de capital':
+        return 'Rentista de capital';
+      case 'no registra':
+        return 'No registra';
+      default:
+        return key;
     }
+  }
 
+  /* let formattedDataPie: PieData[] = [];
   
-    return {
-      id: key,
-      label: categoryLabel,
-      value: value,
-      formattedValue: `${value}`,
-      color: getColorByKey(key), // Utiliza tu lógica para asignar colores
-    };
-  });
+  if (Array.isArray(responseData)) {
+    formattedDataPie = responseData.map(([key, value]: [string, number]): PieData => {
+      // Personalizar nombres de categorías según tu lógica
+      let categoryLabel = key;
+      if (key === 'empleado') {
+        categoryLabel = 'Empleado';
+      } else if (key === 'pensionado') {
+        categoryLabel = 'Pensionado';
+      } else if (key === 'independiente') {
+        categoryLabel = 'Independiente';
+      } else if (key === 'rentista de capital') {
+        categoryLabel = 'Rentista de capital';
+      } else if (key === 'no registra') {
+        categoryLabel = 'No registra';
+      }
   
+      return {
+        id: key,
+        label: categoryLabel,
+        value: value,
+        formattedValue: `${value}`,
+        color: getColorByKey(key), // Utiliza tu lógica para asignar colores
+      };
+    });
+  } */
+  /*   const formattedDataPie = (responseData as Array<[string, number]>).map(([key, value]: [string, number]) => {
+      // Personalizar nombres de categorías según tu lógica
+      let categoryLabel = key;
+      if (key === 'empleado') {
+        categoryLabel = 'Empleado';
+      } else if (key === 'pensionado') {
+        categoryLabel = 'Pensionado';
+      } else if (key === 'independiente') {
+        categoryLabel = 'Independiente';
+      } else if (key === 'rentista de capital') {
+        categoryLabel = 'Rentista de capital';
+      } else if (key === 'no registra') {
+        categoryLabel = 'No registra';
+      }
+    
+      return {
+        id: key,
+        label: categoryLabel,
+        value: value,
+        formattedValue: `${value}`,
+        color: getColorByKey(key), // Utiliza tu lógica para asignar colores
+      };
+    }); */
+  /*   const formattedDataPie = objetc.es(responseData).map(([key, value]) => {
+      // Personalizar nombres de categorías según tu lógica
+      let categoryLabel = key;
+      if (key === 'empleado') {
+        categoryLabel = 'Empleado';
+      } else if (key === 'pensionado') {
+        categoryLabel = 'Pensionado';
+      } else if (key === 'independiente') {
+        categoryLabel = 'Independiente';
+      }else if (key === 'rentista de capital') {
+        categoryLabel = 'Rentista de capital';
+      }else if (key === 'no registra') {
+        categoryLabel = 'No registra';
+      }
+  
+    
+      return {
+        id: key,
+        label: categoryLabel,
+        value: value,
+        formattedValue: `${value}`,
+        color: getColorByKey(key), // Utiliza tu lógica para asignar colores
+      };
+    } ) */
 
- /*  console.log(formattedDataPie + ' formattedDataPie en k1'); */
+  /*  console.log(formattedDataPie + ' formattedDataPie en k1'); */
 
   /* Función para actualizar la selección del usuario */
   /* const handleDataSelection = (dataKey: string) => {
@@ -139,38 +221,46 @@ function PieChartComponentK1() {
   };
    */
 
-
+  const makeAnimationPerceptible = (data: PieData[]) => {
+    const newData = [...data];
+    // Añadir un pequeño incremento al primer valor
+    newData[0].value += 0;
+    return newData;
+  };
 
   return (
     <div className="grafica-piecharts" style={{ position: 'relative', width: '100%', height: '380px' }}>
-<div>
-            <FormControl fullWidth>
-                <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
-                    <Grid xs={6} md={6} lg={6}>
-                    <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Actividad económica</Typography>
-                    </Grid>
-                    <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
-                       
-                    </Grid>
-                </Grid>
-            </FormControl>
-        </div>
+      <div>
+        <FormControl fullWidth>
+          <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
+            <Grid xs={6} md={6} lg={6}>
+              <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Actividad económica</Typography>
+            </Grid>
+            <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
+
+            </Grid>
+          </Grid>
+        </FormControl>
+      </div>
 
       {formattedDataPie.length > 0 && (
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
           <ResponsivePie
-            data={formattedDataPie}
+            data={makeAnimationPerceptible(formattedDataPie)}
             margin={{ top: 40, right: 80, bottom: 80, left: -40 }}
             startAngle={0}
             innerRadius={0.7}
             padAngle={1}
             activeInnerRadiusOffset={3}
             activeOuterRadiusOffset={8}
-            colors={['#5782F2', '#FFB024', '#5ED1B1']}
+            colors={['#5782F2', '#FFB024', '#5ED1B1', '#723DFD', '#28ACFF']}
             borderColor={{
               from: 'color',
               modifiers: [['darker', 0.2]],
             }}
+           
+            motionConfig="gentle" 
+          
             enableArcLinkLabels={false}
             arcLinkLabelsSkipAngle={10}
             arcLinkLabelsTextColor="#333333"
