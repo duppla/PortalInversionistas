@@ -71,6 +71,8 @@ export default function Home() {
     try {
       await login(datos.email, datos.password);
       navigate.push('/dashboard/home');
+      console.log('Usuario logueado');
+      
     }
 
     catch (error) {
@@ -85,18 +87,26 @@ export default function Home() {
           });
         } else if (error.code === 'auth/invalid-email') {
           swal({
-            text: 'El correo es inválido',
+            text: 'Ingrese datos validos',
             icon: "info",
             buttons: ["Cerrar"],
             timer: 5000,
           });
-        } else if (error.code === 'auth/wrong-password') {
+        } else if (error.code === 'auth/invalid-login-credentials') /* auth/wrong-password */ { 
           swal({
-            text: 'La contraseña es incorrecta, intente nuevamente',
+            text: 'La contraseña o correo es incorrecto, intente nuevamente',
             icon: "info",
             buttons: ["Cerrar"],
             timer: 5000,
           });
+        }
+          else if (error.code === 'auth/missing-password') /* auth/wrong-password */ { 
+            swal({
+              text: 'Contraseña requerida, intente nuevamente',
+              icon: "info",
+              buttons: ["Cerrar"],
+              timer: 5000,
+            });
         } else {
           // Otro manejo de errores de autenticación de Firebase
           console.error('Error de autenticación:', error);

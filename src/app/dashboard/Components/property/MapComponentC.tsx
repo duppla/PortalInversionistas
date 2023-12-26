@@ -185,8 +185,8 @@ function MapComponentC() {
         const markerElement = document.createElement('div');
         markerElement.className = 'custom-marker';
        
-        markerElement.innerHTML = '🏠'; // Puedes cambiar este emoji según tus necesidades
-        markerElement.style.fontSize = '26px'; // Ajusta el tamaño según tus necesidades
+        markerElement.innerHTML = '🏠'; // Puedes cambiar este emoji 
+        markerElement.style.fontSize = '26px'; // Ajusta el tamaño emoji
   
       /*   markerElement.style.backgroundColor = '#FF864B';
         markerElement.style.width = '18px';
@@ -197,7 +197,7 @@ function MapComponentC() {
           .setLngLat([location.longitud, location.latitud])
          /*  .setPopup(new mapboxgl.Popup().setHTML(`<p>${city}</p>`)) */
 /*          .setPopup(new mapboxgl.Popup().setHTML(`<p>Dirección: ${location.direccion}</p><p>Barrio: ${location.barrio}</p>`)) */
-         .setPopup(new mapboxgl.Popup().setHTML(`<p>Dirección: 'prueba '</p><p>Barrio:' prueba'</p>`))
+         .setPopup(new mapboxgl.Popup().setHTML(`<p> Valor inmueble: $0000000</p><p>Días en mora: 77 </p><p>Barrio:${city}</p>`))
           .addTo(map!);
 
         // Agregar evento de clic al marcador
