@@ -9,7 +9,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ResponsivePie } from '@nivo/pie'
-import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
 
 
@@ -53,7 +53,8 @@ function PieChartComponentG1() {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch( getApiUrl(`/main/g1?investor=skandia`), options);
+                const response = await fetch( getApiUrlFinal(`/principal/g1?investor=skandia`), options);
+              /*   https://backend-portal-inversionistas-c6f90ae68a14.herokuapp.com/inversionistas/inmuebles/g1?investor=skandia */
                 const responseData = await response.json();
 
                 if (responseData) {
@@ -136,6 +137,21 @@ function PieChartComponentG1() {
         handleDataSelection(selectedDataKey);
     };
 
+    const formatNumber = (num: number) => {
+      const suffixes = ["", "K", "M", "B", "T"];
+      const tier = Math.log10(Math.abs(num)) / 3 | 0;
+    
+      if (tier === 0) return num;
+    
+      const suffix = suffixes[tier];
+      const scale = Math.pow(10, tier * 3);
+    
+      const scaled = num / scale;
+      return Math.round(scaled) + suffix;
+    
+      /* return scaled.toFixed(1) + suffix; */
+    };
+    
 
     return (
         <div className="grafica-piecharts " style={{ position: 'relative', width: '100%', height: '380px' }}>
@@ -310,8 +326,9 @@ function PieChartComponentG1() {
             }
             <div className="centrado div-center-pie" style={{ position: 'absolute', top: '60%', left: '40%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography sx={{ color: "#ffffff", marginBottom: '8px', textAlign: 'center', fontWeight: '600', fontStyle: 'normal', fontSize: '36px' }}>
-                    {responseData[selectedDataKey].total.toLocaleString()}
+                    <Typography sx={{ color: "#ffffff", marginBottom: '8px', textAlign: 'center', fontWeight: '600', fontStyle: 'normal', fontSize: '28px' }}>
+                   {/*  ${responseData[selectedDataKey].total.toLocaleString()}M */}
+                   ${formatNumber(responseData[selectedDataKey].total)}
                     </Typography>
                     <Typography sx={{ color: '#6E7880', textAlign: 'center', fontWeight: '400', fontStyle: 'normal', fontSize: '24px' }}>
                         Total

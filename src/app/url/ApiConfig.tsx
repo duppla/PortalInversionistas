@@ -10,4 +10,5 @@ const BASE_URL_F = 'https://backend-portal-inversionistas-c6f90ae68a14.herokuapp
 
 
 
+
 export const getApiUrlFinal = (endpoint: string) => `${BASE_URL_F}${endpoint}`;
