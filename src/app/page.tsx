@@ -71,7 +71,7 @@ export default function Home() {
     try {
       await login(datos.email, datos.password);
       navigate.push('/dashboard/home');
-      console.log('Usuario logueado');
+    
       
     }
 

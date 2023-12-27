@@ -61,7 +61,7 @@ function MapComponentC() {
 
 
   useEffect(() => {
-    console.log('Efecto ejecutado');
+   
     const fetchData = async () => {
       try {
         const response = await fetch(getApiUrlFinal('/inmuebles/c/?investor=Skandia'));

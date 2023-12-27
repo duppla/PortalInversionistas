@@ -69,12 +69,12 @@ const LineChartComponentB = () => {
         }));
     };
 
-    const transformedDataContractual = transformData(data, selectedDataKey, 'valor_contractual');
-    const transformedDataFairMarket = transformData(data, selectedDataKey, 'fair_market_price');
+/*     const transformedDataContractual = transformData(data, selectedDataKey, 'valor_contractual');
+    const transformedDataFairMarket = transformData(data, selectedDataKey, 'fair_market_price'); */
 
 
-    console.log("Transformed data:", transformedDataContractual);
-    console.log("Transformed data Market:", transformedDataFairMarket);
+/*     console.log("Transformed data:", transformedDataContractual);
+    console.log("Transformed data Market:", transformedDataFairMarket); */
 
 
     return (
