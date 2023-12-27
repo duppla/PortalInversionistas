@@ -8,7 +8,7 @@ import GraficacomponenteH2 from '../../../Components/property/LineChartComponent
 import MapacomponenteC from '../../../Components/property/MapComponentC'
 import GraficacomponenteJ from '../../../Components/property/SankeyChartComponentJ'
 import TablacomponenteJ from '../../../Components/property/TableComponentJ'
-import Prueba from '../../../Components/property/Prueba'
+
 
 
 const page = () => {
