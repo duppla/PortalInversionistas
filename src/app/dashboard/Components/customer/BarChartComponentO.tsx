@@ -64,8 +64,8 @@ function BarChartComponentO() {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                 const response = await fetch(getApiUrl(`/clientes/o?investor=skandia`), options); 
-                /* const response = await fetch(getApiUrlFinal(`/clientes/o?investor=skandia`), options); */
+               /*   const response = await fetch(getApiUrl(`/clientes/o?investor=skandia`), options);  */
+                const response = await fetch(getApiUrlFinal(`/clientes/o?investor=skandia`), options); 
 
                 const responseData = await response.json();
                 setResponseData(responseData);
