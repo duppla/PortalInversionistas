@@ -12,31 +12,23 @@ import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
 
 
-/* type DataType = {
+type DataType = {
     [key: string]: any;
-}; */
-type PieData = {
-  id: string;
-  label: string;
-  value: number;
-  formattedValue: string;
-  color: string;
-};
+}; 
 
 function PieChartComponentK1() {
-  /* const [responseData, setResponseData] = useState<DataType>({
-      ult_12_meses: { en_mora: 0, a_tiempo: 0, total: 0 },
-      este_anho: { en_mora: 0, a_tiempo: 0, total: 0 },
-      ult_6_meses: { en_mora: 0, a_tiempo: 0, total: 0 },
+  const [responseData, setResponseData] = useState<DataType>({
+    ult_12_meses: { en_mora: 0, a_tiempo: 0, total: 0 },
+    este_anho: { en_mora: 0, a_tiempo: 0, total: 0 },
+    ult_6_meses: { en_mora: 0, a_tiempo: 0, total: 0 },
+});
 
-  }); */
 
+  const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
+  const [selectedValue, setSelectedValue] = useState<string | number>('este_anho'); 
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  /*     const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
-      const [selectedValue, setSelectedValue] = useState<string | number>('este_anho'); */
-  /*     const [menuOpen, setMenuOpen] = useState(false); */
-
-  const [responseData, setResponseData] = useState<any>({});
+ /* const [responseData, setResponseData] = useState<any>({});  */
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,28 +65,28 @@ function PieChartComponentK1() {
     }
   };
 
-  /* const formattedDataPie = responseData
-  ? responseData[selectedDataKey]
-    ? Object.keys(responseData[selectedDataKey])
+  const formattedDataPie = responseData
+    ? responseData[selectedDataKey]
+      ? Object.keys(responseData[selectedDataKey])
         .filter((key) => key !== 'total') // Filtra la categoría 'total'
         .map((key: string) => {
           const item = responseData[selectedDataKey][key];
           let categoryLabel = key;
-  
+
           // Personaliza los nombres de las categorías
           if (key === 'independiente') {
             categoryLabel = 'Independiente';
           } else if (key === 'empleado') {
             categoryLabel = 'Empleado';
           } else if (key === 'pensionado') {
-              categoryLabel = 'Pensionado';
-            }else if (key === 'rentista de capital') {
-              categoryLabel = 'Rentista de capital';
-            }else if (key === 'no registra') {
-              categoryLabel = 'No registra';
-            }
-            
-  
+            categoryLabel = 'Pensionado';
+          } else if (key === 'rentista de capital') {
+            categoryLabel = 'Rentista de capital';
+          } else if (key === 'no registra') {
+            categoryLabel = 'No registra';
+          }
+
+
           return {
             id: key,
             label: categoryLabel,
@@ -103,16 +95,16 @@ function PieChartComponentK1() {
             color: getColorByKey(key), // Reemplaza getColorByKey con tu lógica de asignación de colores
           };
         })
-    : []
-  : []; */
+      : []
+    : [];
 
-  const formattedDataPie: PieData[] = Object.entries(responseData).map(([key, value]) => ({
-    id: key,
-    label: getCategoryLabel(key),
-    value: typeof value === 'number' ? value : 0,  // Asegurar que value sea un número
-    formattedValue: `${value}`,
-    color: getColorByKey(key),
-  }));
+  /*   const formattedDataPie: PieData[] = Object.entries(responseData).map(([key, value]) => ({
+      id: key,
+      label: getCategoryLabel(key),
+      value: typeof value === 'number' ? value : 0,  // Asegurar que value sea un número
+      formattedValue: `${value}`,
+      color: getColorByKey(key),
+    })); */
 
   function getCategoryLabel(key: string): string {
     switch (key) {
@@ -131,102 +123,22 @@ function PieChartComponentK1() {
     }
   }
 
-  /* let formattedDataPie: PieData[] = [];
-  
-  if (Array.isArray(responseData)) {
-    formattedDataPie = responseData.map(([key, value]: [string, number]): PieData => {
-      // Personalizar nombres de categorías según tu lógica
-      let categoryLabel = key;
-      if (key === 'empleado') {
-        categoryLabel = 'Empleado';
-      } else if (key === 'pensionado') {
-        categoryLabel = 'Pensionado';
-      } else if (key === 'independiente') {
-        categoryLabel = 'Independiente';
-      } else if (key === 'rentista de capital') {
-        categoryLabel = 'Rentista de capital';
-      } else if (key === 'no registra') {
-        categoryLabel = 'No registra';
-      }
-  
-      return {
-        id: key,
-        label: categoryLabel,
-        value: value,
-        formattedValue: `${value}`,
-        color: getColorByKey(key), // Utiliza tu lógica para asignar colores
-      };
-    });
-  } */
-  /*   const formattedDataPie = (responseData as Array<[string, number]>).map(([key, value]: [string, number]) => {
-      // Personalizar nombres de categorías según tu lógica
-      let categoryLabel = key;
-      if (key === 'empleado') {
-        categoryLabel = 'Empleado';
-      } else if (key === 'pensionado') {
-        categoryLabel = 'Pensionado';
-      } else if (key === 'independiente') {
-        categoryLabel = 'Independiente';
-      } else if (key === 'rentista de capital') {
-        categoryLabel = 'Rentista de capital';
-      } else if (key === 'no registra') {
-        categoryLabel = 'No registra';
-      }
-    
-      return {
-        id: key,
-        label: categoryLabel,
-        value: value,
-        formattedValue: `${value}`,
-        color: getColorByKey(key), // Utiliza tu lógica para asignar colores
-      };
-    }); */
-  /*   const formattedDataPie = objetc.es(responseData).map(([key, value]) => {
-      // Personalizar nombres de categorías según tu lógica
-      let categoryLabel = key;
-      if (key === 'empleado') {
-        categoryLabel = 'Empleado';
-      } else if (key === 'pensionado') {
-        categoryLabel = 'Pensionado';
-      } else if (key === 'independiente') {
-        categoryLabel = 'Independiente';
-      }else if (key === 'rentista de capital') {
-        categoryLabel = 'Rentista de capital';
-      }else if (key === 'no registra') {
-        categoryLabel = 'No registra';
-      }
-  
-    
-      return {
-        id: key,
-        label: categoryLabel,
-        value: value,
-        formattedValue: `${value}`,
-        color: getColorByKey(key), // Utiliza tu lógica para asignar colores
-      };
-    } ) */
-
   /*  console.log(formattedDataPie + ' formattedDataPie en k1'); */
 
   /* Función para actualizar la selección del usuario */
-  /* const handleDataSelection = (dataKey: string) => {
-  setSelectedDataKey(dataKey);
-  }; */
+  const handleDataSelection = (dataKey: string) => {
+    setSelectedDataKey(dataKey);
+  };
 
   /* Función que controla la selección del dropdown */
-  /* const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-  const selectedDataKey = event.target.value as string;
-  setSelectedValue(selectedDataKey);
-  handleDataSelection(selectedDataKey);
+  const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
+    const selectedDataKey = event.target.value as string;
+    setSelectedValue(selectedDataKey);
+    handleDataSelection(selectedDataKey);
   };
-   */
 
-  const makeAnimationPerceptible = (data: PieData[]) => {
-    const newData = [...data];
-    // Añadir un pequeño incremento al primer valor
-    newData[0].value += 0;
-    return newData;
-  };
+
+
 
   return (
     <div className="grafica-piecharts" style={{ position: 'relative', width: '100%', height: '380px' }}>
@@ -234,47 +146,104 @@ function PieChartComponentK1() {
         <FormControl fullWidth>
           <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
             <Grid xs={6} md={6} lg={6}>
+
               <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Actividad económica</Typography>
-            </Grid>
-            <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
 
             </Grid>
+          {/*   <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedValue}
+                label="Age"
+                onChange={handleSelectChange}
+                sx={{
+                  color: '#9B9EAB',
+                  justifyContent: 'flex-end',
+                  textAlign: 'end',
+                  fill: '#ffffff',
+                  '&.MuiSelect-icon': { color: '#FFFFFF !important' },
+                  '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                  '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                }}
+                MenuProps={{
+                  anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  },
+                  transformOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right',
+                  },
+                  
+                  PaperProps: {
+                    sx: {
+                      backgroundColor: '#212126', // Fondo del menú desplegado
+                      border: '1px solid #5682F2', // Borde azul
+                      color: '#9B9EAB', // Letra blanca
+                    },
+                  },
+                }}
+                open={menuOpen}
+                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
+                onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
+
+                IconComponent={() => (
+                  // Cambia el ícono según el estado del menú
+                  menuOpen ? (
+                    <ArrowDropUpIcon
+                      style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                      onClick={() => setMenuOpen(!menuOpen)}
+                    />
+                  ) : (
+                    <ArrowDropDownIcon
+                      style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                      onClick={() => setMenuOpen(!menuOpen)}
+                    />
+                  )
+                )}
+              >
+                <MenuItem value='este_anho'>Este año</MenuItem>
+                <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
+                <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
+              </Select>
+            </Grid> */}
           </Grid>
         </FormControl>
       </div>
 
       {formattedDataPie.length > 0 && (
+
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-          <ResponsivePie
-            data={makeAnimationPerceptible(formattedDataPie)}
-            margin={{ top: 40, right: 80, bottom: 80, left: -40 }}
-            startAngle={0}
-            innerRadius={0.7}
-            padAngle={1}
-            activeInnerRadiusOffset={3}
-            activeOuterRadiusOffset={8}
-            colors={['#5782F2', '#FFB024', '#5ED1B1', '#723DFD', '#28ACFF']}
-            borderColor={{
-              from: 'color',
-              modifiers: [['darker', 0.2]],
-            }}
-           
-            motionConfig="gentle" 
-          
-            enableArcLinkLabels={false}
-            arcLinkLabelsSkipAngle={10}
-            arcLinkLabelsTextColor="#333333"
-            arcLinkLabelsThickness={2}
-            arcLinkLabelsColor={{ from: 'color' }}
-            enableArcLabels={false}
-            arcLabelsRadiusOffset={0.1}
-            arcLabelsSkipAngle={10}
-            arcLabelsTextColor={{
-              from: 'color',
-              modifiers: [['darker', 2]],
-            }}
-            defs={[
-              {
+                  <ResponsivePie
+        data={formattedDataPie}
+        margin={{ top: 40, right: 80, bottom: 80, left: -40 }}
+        startAngle={0}
+        innerRadius={0.7}
+        padAngle={1}
+        activeInnerRadiusOffset={3}
+        activeOuterRadiusOffset={8}
+        colors={['#5782F2', '#FFB024', '#5ED1B1', '#723DFD', '#28ACFF']}
+        borderColor={{
+            from: 'color',
+            modifiers: [['darker', 0.2]],
+        }}
+        /* animate={false} */
+       /*  motionConfig="gentle"  */
+        enableArcLinkLabels={false}
+        arcLinkLabelsSkipAngle={10}
+        arcLinkLabelsTextColor="#333333"
+        arcLinkLabelsThickness={2}
+        arcLinkLabelsColor={{ from: 'color' }}
+        enableArcLabels={false}
+        arcLabelsRadiusOffset={0.1}
+        arcLabelsSkipAngle={10}
+        arcLabelsTextColor={{
+            from: 'color',
+            modifiers: [['darker', 2]],
+        }}
+        defs={[
+            {
                 id: 'dots',
                 type: 'patternDots',
                 background: 'inherit',
@@ -282,8 +251,8 @@ function PieChartComponentK1() {
                 size: 4,
                 padding: 1,
                 stagger: true,
-              },
-              {
+            },
+            {
                 id: 'lines',
                 type: 'patternLines',
                 background: 'inherit',
@@ -291,30 +260,30 @@ function PieChartComponentK1() {
                 rotation: -45,
                 lineWidth: 6,
                 spacing: 10,
-              },
-            ]}
-            tooltip={(tooltipProps) => {
-              const { id, value, color, formattedValue, label } = tooltipProps.datum;
-
-              return (
-                <div
-                  style={{
-                    background: '#000',
-                    color: color, // Usa el color personalizado asignado
-                    padding: '10px',
-                    borderRadius: '5px',
-                    fontSize: '14px',
-                  }}
-                >
-                  <div>
-                    <strong> {label}: {formattedValue}</strong>
-                  </div>
-                </div>
-              );
-            }}
-
-            legends={[
-              {
+            },
+        ]}
+       tooltip={(tooltipProps) => {
+            const { id, value, color, formattedValue , label} = tooltipProps.datum;
+          
+            return (
+              <div
+                style={{
+                  background: '#000',
+                  color: color, // Usa el color personalizado asignado
+                  padding: '10px',
+                  borderRadius: '5px',
+                  fontSize: '14px',
+                }}
+              >
+                <div>
+                  <strong> {label}: {formattedValue}</strong>
+                </div>                                
+              </div>
+            );
+          }} 
+          
+        legends={[
+            {
                 anchor: 'right',
                 direction: 'column',
                 justify: false,
@@ -330,16 +299,16 @@ function PieChartComponentK1() {
                 symbolShape: 'circle',
 
                 effects: [
-                  {
-                    on: 'hover',
-                    style: {
-                      itemTextColor: '#000'
+                    {
+                        on: 'hover',
+                        style: {
+                            itemTextColor: '#000'
+                        }
                     }
-                  }
                 ]
-              }
-            ]}
-          />
+            }
+        ]}
+    />
 
 
         </div>

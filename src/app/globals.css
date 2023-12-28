@@ -74,34 +74,35 @@
   font-style: normal;
 } */
 
-@font-face{
+@font-face {
   font-family: 'Rustica';
   src: url('../fonts/RusticaSemiLight.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
 }
 
-@font-face{
+@font-face {
   font-family: 'Rustica';
   src: url('../fonts/RusticaSemiLight.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 
-@font-face{
+@font-face {
   font-family: 'Rustica';
   src: url('../fonts/RusticaSemiLightItalic.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
 }
 
-@font-face{
+@font-face {
   font-family: 'HelveticaNowText';
   src: url('../fonts/HelveticaNowTextMedium.otf') format('truetype');
   font-weight: 300;
   font-style: normal;
 }
-@font-face{
+
+@font-face {
   font-family: 'Helvetica';
   src: url('../fonts/HelveticaNowTextRegular.otf') format('truetype');
   font-weight: 400;
@@ -193,6 +194,7 @@ a {
   height: 340px;
   /* O el valor que desees para pantallas más grandes */
 }
+
 .grafica-linecharts-b {
   width: 100%;
   height: 420px;
@@ -207,25 +209,25 @@ a {
 
 .ChartContainerSizeManager {
   width: 100% !important;
-  height: 480px; 
+  height: 480px;
 }
 
 /* Estilos titulos componentes Dy F main */
-.title-D-F{
+.title-D-F {
   font-family: 'Rustica', sans-serif !important;
   font-style: normal;
   color: #5682F2;
   font-weight: 500;
   font-size: 18px !important;
-  margin-top: -8px !important; 
+  margin-top: -8px !important;
 }
 
-.title-dropdown-menu-container{
+.title-dropdown-menu-container {
   font-family: 'Helvetica';
   font-style: normal;
   color: #ffffff;
   font-weight: 300;
-  font-size: 22px; 
+  font-size: 22px;
 
 }
 
@@ -254,22 +256,23 @@ a {
     height: 120px !important;
   }
 
-/* Responsive inmueble */
-  .size-container-h1-h2{
+  /* Responsive inmueble */
+  .size-container-h1-h2 {
     width: 100% !important;
     height: 980px !important;
-  
+
   }
-       /* Clase titulos sección */
-       .title-component{
-        font-family: 'Rustica', sans-serif;
-        font-style: normal;
-        color: #5682F2;
-        font-weight: 500;  
-        font-size: 38px;      
-        margin-left: 8px !important;
-  
-      }
+
+  /* Clase titulos sección */
+  .title-component {
+    font-family: 'Rustica', sans-serif;
+    font-style: normal;
+    color: #5682F2;
+    font-weight: 500;
+    font-size: 38px;
+    margin-left: 8px !important;
+
+  }
 }
 
 @media screen and (min-width: 375px) {
@@ -290,27 +293,39 @@ a {
     width: 340 !important;
     height: 120px !important;
   }
-/* Responsive inmueble */
-  .size-container-h1-h2{
+
+  /* Responsive inmueble */
+  .size-container-h1-h2 {
     width: 100% !important;
     height: 980px !important;
-  
+
   }
-  .size-container-k1-k2{
+
+  .size-container-k1-k2 {
     width: 100% !important;
     height: 980px !important;
+
+  }
+
+  /* Clase titulos sección */
+  .title-component {
+    font-family: 'Rustica', sans-serif;
+    font-style: normal;
+    color: #5682F2;
+    font-weight: 500;
+    font-size: 38px;
+    margin-left: 8px !important;
+
+  }
+
+  .title-dropdown-menu-container{
+    font-family: 'Helvetica' !important;
+    font-style: normal;
+    color: #ffffff;
+    font-weight: 300;
+    font-size: 16px !important; 
   
   }
-       /* Clase titulos sección */
-       .title-component{
-        font-family: 'Rustica', sans-serif;
-        font-style: normal;
-        color: #5682F2;
-        font-weight: 500;
-        font-size: 38px;  
-        margin-left: 8px !important;
-  
-      }
 }
 
 @media screen and (min-width: 425px) {
@@ -331,28 +346,39 @@ a {
     width: 340 !important;
     height: 120px !important;
   }
+
   /* Responsive inmueble */
-  .size-container-h1-h2{
+  .size-container-h1-h2 {
     width: 100% !important;
     height: 980px !important;
-  
-  }
-  .size-container-k1-k2{
-    width: 100% !important;
-    height: 980px !important;
-  
+
   }
 
-       /* Clase titulos sección */
-       .title-component{
-        font-family: 'Rustica', sans-serif;
-        font-style: normal;
-        color: #5682F2;
-        font-weight: 500;
-        font-size: 38px;  
-        margin-left: 8px !important;
+  .size-container-k1-k2 {
+    width: 100% !important;
+    height: 980px !important;
+
+  }
+
+  /* Clase titulos sección */
+  .title-component {
+    font-family: 'Rustica', sans-serif;
+    font-style: normal;
+    color: #5682F2;
+    font-weight: 500;
+    font-size: 38px;
+    margin-left: 8px !important;
+
+  }
+
+  .title-dropdown-menu-container{
+    font-family: 'Helvetica' !important;
+    font-style: normal;
+    color: #ffffff;
+    font-weight: 300;
+    font-size: 18px !important; 
   
-      }
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -363,11 +389,11 @@ a {
     width: 492px !important;
     height: 287px;
   }
-  
+
   .div-center-pie {
     position: absolute;
     top: 47%;
-    margin-left: 2% ;
+    margin-left: 2%;
     translate: translate(-50%, -50%);
     z-index: 1;
   }
@@ -375,36 +401,47 @@ a {
   .size-card-main {
     width: 100% !important;
     height: 980px !important;
-    
+
   }
 
   .size-card-main-d-f {
     width: 340 !important;
     height: 140px !important;
-   
+
   }
 
   /* Responsive inmueble */
-  .size-container-h1-h2{
+  .size-container-h1-h2 {
     width: 100% !important;
     height: 980px !important;
-  
+
   }
-  .size-container-k1-k2{
+
+  .size-container-k1-k2 {
     width: 100% !important;
     height: 980px !important;
-  
+
   }
-       /* Clase titulos sección */
-       .title-component{
-        font-family: 'Rustica', sans-serif;
-        font-style: normal;
-        color: #5682F2;
-        font-weight: 500;
-        font-size: 38px;  
-        margin-left: 16px !important;
-  
-      }
+
+  /* Clase titulos sección */
+  .title-component {
+    font-family: 'Rustica', sans-serif;
+    font-style: normal;
+    color: #5682F2;
+    font-weight: 500;
+    font-size: 38px;
+    margin-left: 16px !important;
+
+  }
+
+  .title-dropdown-menu-container {
+    font-family: 'Helvetica' !important;
+    font-style: normal;
+    color: #ffffff;
+    font-weight: 300;
+    font-size: 18px !important;
+
+  }
 }
 
 @media screen and (min-width: 1020px) {
@@ -437,33 +474,45 @@ a {
   .size-card-main {
     width: 100% !important;
     height: 140px !important;
-   
+
   }
 
   .size-card-main-d-f {
     width: 340px !important;
     height: 100px !important;
-    
+
   }
+
   /* Responsive inmueble */
-  .size-container-h1-h2{
+  .size-container-h1-h2 {
     width: 100% !important;
     height: 480px !important;
-  
+
   }
-  .size-container-k1-k2{
+
+  .size-container-k1-k2 {
     width: 100% !important;
-    height: 480px !important;  
+    height: 480px !important;
   }
-     /* Clase titulos sección */
-     .title-component{
-      font-family: 'Rustica', sans-serif;
-      font-style: normal;
-      color: #5682F2;
-      font-weight: 500;
-      font-size: 38px;  
-      margin-left: 22px !important;
-    }
+
+  /* Clase titulos sección */
+  .title-component {
+    font-family: 'Rustica', sans-serif;
+    font-style: normal;
+    color: #5682F2;
+    font-weight: 500;
+    font-size: 38px;
+    margin-left: 22px !important;
+  }
+
+  .title-dropdown-menu-container {
+    font-family: 'Helvetica' !important;
+    font-style: normal;
+    color: #ffffff;
+    font-weight: 300;
+    font-size: 20px !important;
+
+  }
 
 }
 
@@ -475,6 +524,7 @@ a {
     width: 492px !important;
     height: 287px;
   }
+
   .div-center-pie {
     position: absolute;
     top: 47%;
@@ -482,6 +532,7 @@ a {
     translate: translate(-50%, -50%);
     z-index: 1;
   }
+
   .div-center-pie-h1 {
     position: absolute;
     top: 47%;
@@ -494,36 +545,47 @@ a {
   .size-card-main {
     width: 100% !important;
     height: 140px !important;
-    
+
   }
 
   .size-card-main-d-f {
     width: 440 !important;
     height: 100px !important;
-   
+
   }
+
   /* Responsive inmueble */
-  .size-container-h1-h2{
+  .size-container-h1-h2 {
     width: 100% !important;
     height: 480px !important;
-  
+
   }
-  .size-container-k1-k2{
+
+  .size-container-k1-k2 {
     width: 100% !important;
     height: 480px !important;
-  
+
   }
 
-     /* Clase titulos sección */
-     .title-component{
-      font-family: 'Rustica', sans-serif;
-      font-style: normal;
-      color: #5682F2;
-      font-weight: 500;
-      font-size: 38px;  
-      margin-left: 30px !important;
+  /* Clase titulos sección */
+  .title-component {
+    font-family: 'Rustica', sans-serif;
+    font-style: normal;
+    color: #5682F2;
+    font-weight: 500;
+    font-size: 38px;
+    margin-left: 30px !important;
 
-    }
+  }
+
+  .title-dropdown-menu-container {
+    font-family: 'Helvetica' !important;
+    font-style: normal;
+    color: #ffffff;
+    font-weight: 300;
+    font-size: 20px !important;
+
+  }
 }
 
 @media screen and (min-width: 1600px) {
@@ -568,31 +630,41 @@ a {
   .size-card-main-d-f {
     width: 440 !important;
     height: 100px !important;
-    
+
   }
 
   /* Responsive inmueble */
-  .size-container-h1-h2{
+  .size-container-h1-h2 {
     width: 100% !important;
     height: 480px !important;
-  
+
   }
-  .size-container-k1-k2{
+
+  .size-container-k1-k2 {
     width: 100% !important;
     height: 480px !important;
-  
+
   }
 
-    /* Clase titulos sección */
-    .title-component{
-      font-family: 'Rustica', sans-serif;
-      font-style: normal;
-      color: #5682F2;
-      font-weight: 500;
-      font-size: 38px;  
-      margin-left: 205px !important;
+  /* Clase titulos sección */
+  .title-component {
+    font-family: 'Rustica', sans-serif;
+    font-style: normal;
+    color: #5682F2;
+    font-weight: 500;
+    font-size: 38px;
+    margin-left: 205px !important;
 
-    }
+  }
+
+  .title-dropdown-menu-container {
+    font-family: 'Helvetica' !important;
+    font-style: normal;
+    color: #ffffff;
+    font-weight: 300;
+    font-size: 26px !important;
+
+  }
 
 
 }
@@ -621,32 +693,40 @@ a {
   .size-card-main-d-f {
     width: 440 !important;
     height: 100px !important;
-    
+
   }
 
   /* Responsive inmueble */
-  .size-container-h1-h2{
+  .size-container-h1-h2 {
     width: 100% !important;
     height: 480px !important;
-  
+
   }
 
-    /* Responsive inmueble */
-    .size-container-k1-k2{
-      width: 100% !important;
-      height: 480px !important;
-    
-    }
+  /* Responsive inmueble */
+  .size-container-k1-k2 {
+    width: 100% !important;
+    height: 480px !important;
 
-    /* Clase titulos sección */
-    .title-component{
-      font-family: 'Rustica', sans-serif;
-      font-style: normal;
-      color: #5682F2;
-      font-weight: 500;
-      font-size: 38px;  
-      margin-left: 382px !important;
+  }
 
-    }
+  /* Clase titulos sección */
+  .title-component {
+    font-family: 'Rustica', sans-serif;
+    font-style: normal;
+    color: #5682F2;
+    font-weight: 500;
+    font-size: 38px;
+    margin-left: 382px !important;
 
+  }
+
+  .title-dropdown-menu-container {
+    font-family: 'Helvetica' !important;
+    font-style: normal;
+    color: #ffffff;
+    font-weight: 300;
+    font-size: 26px !important;
+
+  }
 }

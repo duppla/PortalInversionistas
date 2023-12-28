@@ -161,7 +161,7 @@ function PieChartComponentG2() {
               <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Cartera en mora</Typography>
 
             </Grid>
-             <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
+           {/*   <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -218,7 +218,7 @@ function PieChartComponentG2() {
                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
               </Select>
-            </Grid> 
+            </Grid>  */}
           </Grid>
         </FormControl>
       </div>

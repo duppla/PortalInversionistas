@@ -259,7 +259,7 @@ function MapComponentC() {
             >
               Bogotá
             </Button>
-            <Button
+           {/*  <Button
               variant="outlined"
               onClick={() => handleCityChange('MOSQUERA')}
               disabled={selectedCity === 'MOSQUERA'}
@@ -286,7 +286,7 @@ function MapComponentC() {
               }}
             >
               Alrededores Bogotá
-            </Button>
+            </Button> */}
 
             <Button
               variant="outlined"

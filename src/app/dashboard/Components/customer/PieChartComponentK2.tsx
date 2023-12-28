@@ -128,7 +128,7 @@ const PieChartComponentK2 = () => {
                     <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Porcentaje ownership</Typography>
 
                     </Grid>
-                    <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
+                 {/*    <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -153,7 +153,7 @@ const PieChartComponentK2 = () => {
                                   vertical: 'top',
                                   horizontal: 'right',
                                 },
-                              /*   getContentAnchorEl: null, */
+                              
                                 PaperProps: {
                                   sx: {
                                     backgroundColor: '#212126', // Fondo del menú desplegado
@@ -185,7 +185,7 @@ const PieChartComponentK2 = () => {
                             <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                             <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
                         </Select>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </FormControl>
         </div>
@@ -206,7 +206,7 @@ const PieChartComponentK2 = () => {
                         modifiers: [['darker', 0.2]],
                     }}
                     /* animate={false} */
-                    motionConfig="gentle" 
+                   /*  motionConfig="gentle"  */
                     enableArcLinkLabels={false}
                     arcLinkLabelsSkipAngle={10}
                     arcLinkLabelsTextColor="#333333"
@@ -253,7 +253,7 @@ const PieChartComponentK2 = () => {
                             }}
                           >
                             <div>
-                              <strong> {label}: {formattedValue}%</strong>
+                              <strong> {label}: {formattedValue}</strong>
                             </div>                                
                           </div>
                         );
