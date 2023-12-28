@@ -11,6 +11,8 @@ import { styled } from '@mui/material/styles';
 import { ResponsivePie } from '@nivo/pie'
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
+import { PieTooltipProps } from '@nivo/pie';
+
 
 
 type DataApiType = {
@@ -100,7 +102,7 @@ function PieChartComponentG1() {
                 return {
                   id: key,
                   label: categoryLabel,
-                  value: item * 100,
+                  value: item,
                   formattedValue: `${(item * 100).toFixed(2)}%`,
                   color: getColorByKey(key), // Reemplaza getColorByKey con tu lógica de asignación de colores
                 };
@@ -108,19 +110,38 @@ function PieChartComponentG1() {
           : []
         : [];
       
-
-        const formatTooltip = ({ id, value }: { id: string; value: number }) => {
-            let categoryLabel = id;
-          
-            // Personaliza los nombres de las categorías
-            if (id === 'a_tiempo') {
-              categoryLabel = 'Tiempo';
-            } else if (id === 'en_mora') {
-              categoryLabel = 'Mora';
-            }
-          
-            return `${categoryLabel}: ${value}`;
-          };
+        const formatTooltip: React.FC<PieTooltipProps<{ id: string; label: string; value: number; formattedValue: string; color: string; }>> = ({ datum }) => {
+          const { id, value, color, formattedValue, label } = datum;
+        
+          let categoryLabel = label;
+        
+          // Personaliza los nombres de las categorías
+          if (id === 'a_tiempo') {
+            categoryLabel = 'Tiempo';
+          } else if (id === 'en_mora') {
+            categoryLabel = 'Mora';
+          }
+        
+          return (
+            <div
+              style={{
+                background: '#000',
+                color: color,
+                padding: '10px',
+                borderRadius: '5px',
+                fontSize: '14px',
+              }}
+            >
+              <div>
+                <strong>{categoryLabel}: {Math.round(value * 100)}%</strong>
+              </div>
+            </div>
+          );
+        };
+        
+        
+        
+        
           
     
        
@@ -271,7 +292,7 @@ function PieChartComponentG1() {
                                 spacing: 10,
                             },
                         ]}
-                       tooltip={(tooltipProps) => {
+                        /* tooltip={(tooltipProps) => {
                             const { id, value, color, formattedValue , label} = tooltipProps.datum;
                           
                             return (
@@ -289,7 +310,9 @@ function PieChartComponentG1() {
                                 </div>                                
                               </div>
                             );
-                          }} 
+                          }}  */ 
+                       tooltip={formatTooltip} 
+                          /*  tooltip={(tooltipProps) => formatTooltip(tooltipProps)}  */
                           
                         legends={[
                             {

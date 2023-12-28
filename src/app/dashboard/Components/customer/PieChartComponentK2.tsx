@@ -9,7 +9,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ResponsivePie } from '@nivo/pie'
-import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
 
 type DataType = {
@@ -31,7 +31,9 @@ const PieChartComponentK2 = () => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrl(`/clientes/k2?investor=skandia`), options);
+                /* const response = await fetch(getApiUrl(`/clientes/k2?investor=skandia`), options); */
+                const response = await fetch(getApiUrlFinal(`/clientes/k2?investor=skandia`), options);
+
                 const responseData = await response.json();
 
                 if (responseData) {
@@ -251,7 +253,7 @@ const PieChartComponentK2 = () => {
                             }}
                           >
                             <div>
-                              <strong> {label}: {formattedValue}</strong>
+                              <strong> {label}: {formattedValue}%</strong>
                             </div>                                
                           </div>
                         );

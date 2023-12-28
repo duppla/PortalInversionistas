@@ -7,7 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
@@ -36,12 +36,37 @@ function BarChartComponentO() {
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
     const [menuOpen, setMenuOpen] = useState(false);
 
+    const [gridYValues, setGridYValues] = useState<number[]>([]);
+    const [tickValues, setTickValues] = useState<number[]>([]);
+
+    const calculateAxisValues = (data: DataApiType[]) => {
+        const maxValue = Math.max(...data.map(item => Math.max(item.pagado, item.mora)));
+        const minValue = Math.min(...data.map(item => Math.min(item.pagado, item.mora)));
+        const numTicks = 7; // Número total de ticks
+    
+        const range = maxValue - minValue;
+        const step = range / (numTicks - 1);
+        
+        // Calcula los valores de los ticks en un rango que incluya el 0
+        const gridYValues = Array.from({ length: numTicks }, (_, index) => {
+            const tickValue = minValue + index * step;
+            return Math.round(tickValue);
+        });
+    
+        return { gridYValues, tickValues: gridYValues };
+    };
+    
+    
+    
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrl(`/clientes/o?investor=skandia`), options);
+                 const response = await fetch(getApiUrl(`/clientes/o?investor=skandia`), options); 
+                /* const response = await fetch(getApiUrlFinal(`/clientes/o?investor=skandia`), options); */
+
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
@@ -52,6 +77,14 @@ function BarChartComponentO() {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+        if (responseData) {
+            const { gridYValues, tickValues } = calculateAxisValues(responseData[selectedDataKey]);
+            setGridYValues(gridYValues);
+            setTickValues(tickValues);
+        }
+    }, [responseData, selectedDataKey]);
 
     /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
@@ -80,32 +113,32 @@ function BarChartComponentO() {
 
     /* prueba de formateo data a legible */
 
-    function formatNumber(value: number): string {
+      function formatNumber(value: number): string {
         const suffixes = ['', 'K', 'M', 'B', 'T'];
-        const suffixNum = Math.floor(('' + value).length / 3);
-        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
-
+        const suffixNum = Math.floor(('' + Math.abs(value)).length / 3);
+        let shortValue = (suffixNum !== 0 ? (Math.abs(value) / Math.pow(1000, suffixNum)) : Math.abs(value)).toFixed(1);
+    
         if (shortValue.endsWith('.0')) {
             shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
         }
-
-        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
-
-
+    
+        return (value < 0 ? '-' : '') + shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
-
+    
     /* prueba de formateo data a legible tooltip */
     function formatNumberTooltip(value: number): string {
         const suffixes = ['', 'K', 'M', 'B', 'T'];
-        const suffixNum = Math.floor(('' + value).length / 3);
-        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
-
+        const suffixNum = Math.floor(('' + Math.abs(value)).length / 3);
+        let shortValue = (suffixNum !== 0 ? (Math.abs(value) / Math.pow(1000, suffixNum)) : Math.abs(value)).toFixed(1);
+    
         if (shortValue.endsWith('.0')) {
             shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
         }
-
-        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+    
+        return (value < 0 ? '-' : '') + shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
+    
+
 
 
 
@@ -115,8 +148,8 @@ function BarChartComponentO() {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                        <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Default de pagos</Typography>
-  
+                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Default de pagos</Typography>
+
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -135,40 +168,40 @@ function BarChartComponentO() {
                                 }}
                                 MenuProps={{
                                     anchorOrigin: {
-                                      vertical: 'bottom',
-                                      horizontal: 'right',
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
                                     },
                                     transformOrigin: {
-                                      vertical: 'top',
-                                      horizontal: 'right',
+                                        vertical: 'top',
+                                        horizontal: 'right',
                                     },
-                                  /*   getContentAnchorEl: null, */
+                                    /*   getContentAnchorEl: null, */
                                     PaperProps: {
-                                      sx: {
-                                        backgroundColor: '#212126', // Fondo del menú desplegado
-                                        border: '1px solid #5682F2', // Borde azul
-                                        color: '#9B9EAB', // Letra blanca
-                                      },
+                                        sx: {
+                                            backgroundColor: '#212126', // Fondo del menú desplegado
+                                            border: '1px solid #5682F2', // Borde azul
+                                            color: '#9B9EAB', // Letra blanca
+                                        },
                                     },
-                                  }}
-                                  open={menuOpen}
-                                  onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                                  onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
-                                 
-                                  IconComponent={() => (
+                                }}
+                                open={menuOpen}
+                                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
+                                onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
+
+                                IconComponent={() => (
                                     // Cambia el ícono según el estado del menú
                                     menuOpen ? (
-                                      <ArrowDropUpIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropUpIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     ) : (
-                                      <ArrowDropDownIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropDownIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     )
-                                  )}
+                                )}
                             >
                                 <MenuItem value='este_anho'>Este año</MenuItem>
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
@@ -219,12 +252,14 @@ function BarChartComponentO() {
 
                 /* valueFormat={(v) => (typeof v === 'number' ? v.toString() : '')} */
                 valueFormat={(v) => (typeof v === 'number' ? Math.abs(v).toString() : '')} // Convertir valores a positivos antes de formatear
-                gridYValues={[-2000000, -4000000, /* -6000000, -8000000, */  0, 2000000, 4000000, /* 6000000, 8000000 */]} 
+               
+                gridYValues={gridYValues}
                 axisLeft={{
                     tickSize: 2,
                     tickPadding: 5,
                     tickRotation: 0,
-                    tickValues: [-2000000, -4000000, /* -6000000, -8000000 */,  0, 2000000, 4000000, /* 6000000, 8000000  */],
+                    
+                    tickValues: tickValues,
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
