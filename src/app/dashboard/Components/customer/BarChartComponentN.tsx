@@ -86,30 +86,22 @@ function BarChartComponentN() {
             return {
                 fecha: item.fecha,
                 Arriendo: item.arriendo,
-                Intereses: item.intereses,
+                'Intereses moratorios': item.intereses,
                 Prepago: item.prepago,
             };
         })
         : [];
 
 
-    const normalizedData = responseData
-        ? responseData[selectedDataKey].map((item: ItemType) => ({
-            fecha: item.fecha,
-            Arriendo: item.arriendo,
-            Intereses: item.intereses / 1000000, // Normaliza dividiendo por un millón
-            Prepago: item.prepago,
-        }))
-        : [];
 
     /* prueba de formateo data a legible */
 
-    console.log(formattedDataa + ' formattedDataa en point n');
+  /*   console.log(formattedDataa + ' formattedDataa en point n'); */
 
     function formatNumber(value: number): string {
         const suffixes = ['', 'K', 'M', 'B', 'T'];
         const suffixNum = Math.floor(('' + value).length / 3);
-        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
+        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(0);
 
         if (shortValue.endsWith('.0')) {
             shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
@@ -129,7 +121,7 @@ function BarChartComponentN() {
 
         return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
-    console.log('Datos formateados para el gráfico:', formattedDataa);
+/*     console.log('Datos formateados para el gráfico:', formattedDataa); */
     // Dentro de tu componente, después de obtener los datos del API
 
     // Dentro de tu componente, después de obtener los datos del API
@@ -226,14 +218,14 @@ function BarChartComponentN() {
 
             <ResponsiveBar
                 data={formattedDataa}
-                keys={['Arriendo', 'Prepago', 'Intereses',]}
+                keys={['Arriendo', 'Prepago', 'Intereses moratorios',]}
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                 padding={0.5}
                 valueScale={{ type: 'linear', min: 0 }}
                 indexScale={{ type: 'band', round: true }}
-                colors={['#5782F2', '#5ED1B1', '#00B383']} // Define tus propios colores */
+                colors={['#5782F2', '#5ED1B1', ' #FFB024']} // Define tus propios colores */
                 /* colors={['#28ACFF', '#00B383', '#5ED1B1']}  */
 
                 theme={{

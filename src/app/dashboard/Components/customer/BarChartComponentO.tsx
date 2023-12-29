@@ -39,7 +39,7 @@ function BarChartComponentO() {
     const [gridYValues, setGridYValues] = useState<number[]>([]);
     const [tickValues, setTickValues] = useState<number[]>([]);
 
-    const calculateAxisValues = (data: DataApiType[]) => {
+/*     const calculateAxisValues = (data: DataApiType[]) => {
         const maxValue = Math.max(...data.map(item => Math.max(item.pagado, item.mora)));
         const minValue = Math.min(...data.map(item => Math.min(item.pagado, item.mora)));
         const numTicks = 7; // Número total de ticks
@@ -54,8 +54,23 @@ function BarChartComponentO() {
         });
     
         return { gridYValues, tickValues: gridYValues };
+    }; */
+    const calculateAxisValues = (data: DataApiType[]) => {
+        // Calcula la suma máxima de ambos valores en positivo
+        const maxSum = Math.max(...data.map(item => item.pagado + Math.abs(item.mora)));
+    
+        // Define el número total de ticks
+        const numTicks = 5;
+    
+        // Calcula los valores de los ticks en un rango que incluya el 0 y el valor máximo
+        const gridYValues = Array.from({ length: numTicks }, (_, index) => {
+            const tickValue = (index / (numTicks - 1)) * maxSum;
+            return Math.round(tickValue);
+        });
+    
+        return { gridYValues, tickValues: gridYValues };
     };
-        
+    
 
 
     useEffect(() => {
@@ -78,6 +93,7 @@ function BarChartComponentO() {
 
     useEffect(() => {
         if (responseData) {
+            // Utiliza los datos relevantes para el cálculo
             const { gridYValues, tickValues } = calculateAxisValues(responseData[selectedDataKey]);
             setGridYValues(gridYValues);
             setTickValues(tickValues);
@@ -102,7 +118,7 @@ function BarChartComponentO() {
         ? responseData[selectedDataKey].map((item: { fecha: string; pagado: number; mora: number; }) => ({
             fecha: item.fecha,
             'Pago a tiempo': item.pagado,  // Solo valores positivos o cero
-            'Atrasado': -Math.abs(item.mora)    // Solo valores negativos
+            'Pago con Atraso': Math.abs(item.mora)    // Solo valores negativos
         }))
         : [];
 
@@ -114,7 +130,7 @@ function BarChartComponentO() {
       function formatNumber(value: number): string {
         const suffixes = ['', 'K', 'M', 'B', 'T'];
         const suffixNum = Math.floor(('' + Math.abs(value)).length / 3);
-        let shortValue = (suffixNum !== 0 ? (Math.abs(value) / Math.pow(1000, suffixNum)) : Math.abs(value)).toFixed(1);
+        let shortValue = (suffixNum !== 0 ? (Math.abs(value) / Math.pow(1000, suffixNum)) : Math.abs(value)).toFixed(0);
     
         if (shortValue.endsWith('.0')) {
             shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
@@ -146,7 +162,7 @@ function BarChartComponentO() {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Default de pagos</Typography>
+                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Comportamiento de pago</Typography>
 
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
@@ -212,12 +228,12 @@ function BarChartComponentO() {
 
             <ResponsiveBar
                 data={formattedData}
-                keys={['Pago a tiempo', 'Atrasado']}
+                keys={['Pago a tiempo', 'Pago con Atraso']}
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                 padding={0.8}
-                colors={['#12CA98', '#E54B2E',]}
+                colors={['#12CA98', '#FFB024',]}
                 /*  enableGridY={false} */
 
                 theme={{
@@ -256,9 +272,9 @@ function BarChartComponentO() {
                     tickSize: 2,
                     tickPadding: 5,
                     tickRotation: 0,
-                    
                     tickValues: tickValues,
                     legend: '',
+                    
                     legendPosition: 'middle',
                     legendOffset: -40,
                     format: value => formatNumber(value),

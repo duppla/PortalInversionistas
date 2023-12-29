@@ -109,7 +109,7 @@ function BarChart() {
     function formatNumber(value: number): string {
         const suffixes = ['', 'K', 'M', 'B', 'T'];
         const suffixNum = Math.floor(('' + value).length / 3);
-        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
+        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(0);
 
         if (shortValue.endsWith('.0')) {
             shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal

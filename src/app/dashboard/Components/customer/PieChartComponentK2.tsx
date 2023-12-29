@@ -253,7 +253,7 @@ const PieChartComponentK2 = () => {
                             }}
                           >
                             <div>
-                              <strong> {label}: {formattedValue}</strong>
+                              <strong> {label}: {formattedValue} clientes</strong>
                             </div>                                
                           </div>
                         );
