@@ -17,6 +17,7 @@ type DataApiType = {
   arriendo: any;
   compra_venta: any;
   prepago: any;
+  intereses: any;
 };
 
 type DataType = {
@@ -30,6 +31,7 @@ type ItemType = {
   arriendo: number;
   compra_venta: number;
   prepago: number;
+  intereses: number;
 };
 
 
@@ -48,7 +50,9 @@ const BarChartComponentA2 = () => {
     const fetchData = async () => {
       try {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-        const response = await fetch(getApiUrl(`/main/a2?investor=skandia`), options);
+         const response = await fetch(getApiUrl(`/main/a2?investor=skandia`), options); 
+       /*  const response = await fetch(getApiUrl(`/clientes/n?investor=skandia`), options); */
+      
         const responseData = await response.json();
         setResponseData(responseData);
         setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
@@ -91,6 +95,7 @@ const BarChartComponentA2 = () => {
     fecha: item.fecha,
     Arriendo: item.arriendo,
     Compraventa: item.compra_venta,
+   /*  Intereses: item.intereses, */
     Prepago: item.prepago,
   }));
 
@@ -205,7 +210,7 @@ const BarChartComponentA2 = () => {
 
       <ResponsiveBar
         data={formattedDataa}
-        keys={['Compraventa', 'Arriendo', 'Prepago']}
+        keys={[/* 'Intereses', */ 'Compraventa', 'Arriendo', 'Prepago']}
         indexBy="fecha"
         label={() => ''}
         margin={{ top: 50, right: 50, bottom: 50, left: 50 }}

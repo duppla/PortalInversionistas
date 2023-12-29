@@ -1,5 +1,5 @@
 'use client'
-import { ResponsiveStream, StreamDatum, TooltipProps } from '@nivo/stream'
+import { ResponsiveStream, StreamDatum, Tooltip } from '@nivo/stream'
 import { StreamSvgProps } from '@nivo/stream';
 /* import { StreamSlice } from '@nivo/stream'; */
 
@@ -15,7 +15,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 
 import { FunctionComponent } from 'react';
-import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
 type DataApiType = {
     fecha: string;
@@ -25,53 +25,46 @@ type DataApiType = {
     muy_bajo: any;
 };
 
-/* type DataType = {
-    id: string,
-    ult_12_meses: DataApiType[];
-    este_anho: DataApiType[];
-    ult_6_meses: DataApiType[];
-}; */
-/* 
-interface StreamData {
-    id: string | number;
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    data: {
-      id: string | number;
-      value: number;
-    }[];
-    points?: {
-      id: string;
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-      data: {
-        id: string | number;
-        value: number;
-      }[];
-    }[];
-  }
-  
-  interface StreamSlice {
-    slice: StreamData[];
-  }
-  interface CustomTooltipProps {
-    slice: StreamSlice;
-  }
-   */
 
-interface StreamData {
-    id: string | number;
-    data: {
-        Alto: number;
-        Medio: number;
-        Bajo: number;
-        Muy_bajo: number;
+
+/*  interface MyTooltipProps extends TooltipProps {
+   slice: {
+     points: StreamDatum[];
+   };
+ }
+  */
+
+/* interface MyTooltipProps {
+    slice: {
+        points: {
+            id: string;
+            value: number;
+            color: string;
+            serieId: string;
+        }[];
+    };
+} */
+import { TooltipProps } from '@nivo/stream';
+
+
+
+interface MyTooltipProps {
+    slice: {
+        id: string;
+        height: number;
+        total: number;
+        color: string;
+        stack: {
+            id: string;
+            points: {
+                id: string;
+                value: number;
+                y: number;
+            }[];
+        };
     };
 }
+
 interface DataType {
     [key: string]: any; // Esto es una firma de índice.
     id: string,
@@ -91,13 +84,12 @@ function StreamChartComponentL() {
     const [menuOpen, setMenuOpen] = useState(false);
 
 
-
-
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrl(`/clientes/l?investor=skandia`), options);
+                const response = await fetch(getApiUrlFinal(`/clientes/l?investor=skandia`), options);
+
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
@@ -133,6 +125,10 @@ function StreamChartComponentL() {
         }))
         : [];
 
+
+
+    // Asegúrate de que tus datos tengan la estructura adecuada
+
     function formatDate(dateString: string): string {
         const date = new Date(dateString);
         return date.toISOString(); // Puedes personalizar este método según el formato que necesites
@@ -157,6 +153,26 @@ function StreamChartComponentL() {
         const percentageValue = (Number(value) * 100).toFixed(0);
         return `${percentageValue}%`;
     }
+
+    const CustomTooltip: React.FC<MyTooltipProps> = ({ slice }) => (
+        <div style={{ background: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
+            <div>
+                <strong>ID:</strong> {slice.id}
+            </div>
+            <div>
+                <strong>Color:</strong> {slice.color}
+            </div>
+            <div>
+                {slice.stack.points.map((point, i) => (
+                    <div key={i}>
+                        <strong>{point.id}:</strong> {`${(point.value * 100).toFixed(0)}%`}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+    
+    
 
 
     return (
@@ -291,33 +307,47 @@ function StreamChartComponentL() {
                 colors={['#FF1818', '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
                 fillOpacity={0.099}
 
-                enableStackTooltip={true}
-
-                /* tooltip={(data: any) => {
-                    if (data && data.data) {
-                      const layers = data.data;
-                  
-                      // Filtra las capas relevantes (puedes ajustar según tus necesidades)
-                      const relevantLayers = layers.filter((layer: any) => {
-                        return layer.layerId === "Alto" || layer.layerId === "Medio" || layer.layerId === "Bajo" || layer.layerId === "Muy_bajo";
-                      });
-                  
-                      // Formatea el valor para el tooltip
-                      const formattedValue = formatNumberTooltip(data.value);
-                  
-                      return (
-                        <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
-                          <div>{`Valor: ${formattedValue}`}</div>
-                         
-                          {relevantLayers.map((layer: any) => (
-                            <div key={layer.layerId}>{`${layer.layerLabel}: ${layer.value}`}</div>
-                          ))}
+                enableStackTooltip={false}
+                isInteractive={true}
+                tooltip={({ layer }) => (
+                    <div style={{ background: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
+                        <div>
+                            <strong>ID:</strong> {layer.id}
                         </div>
-                      );
-                    }
-                  
-                    return null;
-                  }}  */
+                        <div>
+                            <strong>Label:</strong> {layer.label}
+                        </div>
+                        <div>
+                            <strong>Color:</strong> {layer.color}
+                        </div>
+                        {/* Puedes personalizar más según tus necesidades */}
+                    </div>
+                )}
+          /*       tooltip={CustomTooltip} */
+/* 
+                 tooltip={MyTooltip}  */
+               /*  tooltip={({ slice }: MyTooltipProps) => (
+                    <div style={{ background: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
+                       
+                        <div>
+                            <strong>Categoría:</strong> {slice.stack.id}
+                        </div>
+            
+                      
+                        <div>
+                            <strong>Color:</strong> {slice.stack.color}
+                        </div>
+            
+                        
+                        <div>
+                            {slice.stack.points.map((point: { id: string; value: number }, i: number) => (
+                                <div key={i}>
+                                    <strong>{point.id}:</strong> {`${(point.value * 100).toFixed(0)}%`}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )} */
 
 
                 theme={{
@@ -347,47 +377,47 @@ function StreamChartComponentL() {
                         color: 'white',
                     },
                 ]}
-                
-            dotSize={8}
-            dotColor={{ from: 'color' }}
-            dotBorderWidth={2}
-            dotBorderColor={{
-                from: 'color',
-                modifiers: [
-                    [
-                        'darker',
-                        0.7
+
+                dotSize={8}
+                dotColor={{ from: 'color' }}
+                dotBorderWidth={2}
+                dotBorderColor={{
+                    from: 'color',
+                    modifiers: [
+                        [
+                            'darker',
+                            0.7
+                        ]
                     ]
-                ]
-            }}
-            legends={[
-                {
-                    anchor: 'bottom-left',
-                    direction: 'row',
-                    justify: false,
-                    translateX: 0,
-                    translateY: 54,
-                    itemsSpacing: -20,
-                    itemDirection: 'left-to-right',
-                    itemWidth: 80,
-                    itemHeight: 20,
-                    itemOpacity: 0.75,
-                    symbolSize: 12,
-                    symbolShape: 'square',
-                    symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                 
-                    effects: [
-                        {
-                            on: 'hover',
-                            style: {
-                                itemBackground: 'rgba(0, 0, 0, .03)',
-                                itemTextColor: '#000000',
-                                itemOpacity: 1
+                }}
+                legends={[
+                    {
+                        anchor: 'bottom-left',
+                        direction: 'row',
+                        justify: false,
+                        translateX: 0,
+                        translateY: 54,
+                        itemsSpacing: -20,
+                        itemDirection: 'left-to-right',
+                        itemWidth: 80,
+                        itemHeight: 20,
+                        itemOpacity: 0.75,
+                        symbolSize: 12,
+                        symbolShape: 'square',
+                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
+
+                        effects: [
+                            {
+                                on: 'hover',
+                                style: {
+                                    itemBackground: 'rgba(0, 0, 0, .03)',
+                                    itemTextColor: '#000000',
+                                    itemOpacity: 1
+                                }
                             }
-                        }
-                    ]
-                }
-            ]}
+                        ]
+                    }
+                ]}
             />
         </div>
     )

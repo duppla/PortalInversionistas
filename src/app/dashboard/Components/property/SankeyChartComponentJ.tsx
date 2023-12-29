@@ -9,102 +9,51 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-/* const darkTheme = {
-    background: '#212126',
-    axis: {
-        domain: {
-            line: {
-                stroke: '#777777',
-                strokeWidth: 1
-            }
-        },
-        ticks: {
-            line: {
-                stroke: '#777777',
-                strokeWidth: 1
-            },
-            text: {
-                fill: '#FFFFFF'
-            }
-        }
-    },
-    grid: {
-        line: {
-            stroke: '#444444',
-            strokeWidth: 1
-        }
-    },
-    legends: {
-        text: {
-            fill: '#AAAAAA'
-        }
-    },
-    tooltip: {
-        container: {
-            background: '#222222',
-            color: '#FFFFFF',
-        },
-    },
-}; */
-
-
 const SankeyChartComponentJ = () => {
 
     const dataSnkey = {
         "nodes": [
             {
-                "id": "John",
+                "id": "Ingresos",
                 "nodeColor": "#6C9FFF"
             },
             {
-                "id": "Raoul",
+                "id": "Utilidad bruta",
                 "nodeColor": "#BAFCC5"
             },
             {
-                "id": "Jane",
+                "id": "Gastos",
                 "nodeColor": "#FF9900"
             },
             {
-                "id": "Marcel",
-                "nodeColor": "#FFFFBA"
+                "id": "NOI",
+                "nodeColor": "#BAFCC5"
             },
             {
-                "id": "Ibrahim",
-                "nodeColor": "#F4DCFF"
-            },
-
+                "id": "Reservas",
+                "nodeColor": "#FF9900"
+            }
         ],
         "links": [
-
             {
-                "source": "Raoul",
-                "target": "Ibrahim",
-                "value": 115
+                "source": "Ingresos",
+                "target": "Utilidad bruta",
+                "value": 100000000.0
             },
             {
-                "source": "Marcel",
-                "target": "John",
-                "value": 163
+                "source": "Ingresos",
+                "target": "Gastos",
+                "value": 20000000.0
             },
             {
-                "source": "Marcel",
-                "target": "Ibrahim",
-                "value": 195
+                "source": "Utilidad bruta",
+                "target": "NOI",
+                "value": 90000000.0
             },
             {
-                "source": "Marcel",
-                "target": "Jane",
-                "value": 194
-            },
-            {
-                "source": "Ibrahim",
-                "target": "John",
-                "value": 135
-            },
-            {
-                "source": "John",
-                "target": "Jane",
-                "value": 20
+                "source": "Utilidad bruta",
+                "target": "Reservas",
+                "value": 10000000.0
             }
         ]
     }

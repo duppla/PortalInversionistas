@@ -89,7 +89,7 @@ const LineChartComponentB = () => {
 
     const transformData = (data: DataType, selectedDataKey: string, field: keyof DataApiType) => {
         return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => {
-            console.log("Raw value:", item[field]);
+            /* console.log("Raw value:", item[field]); */
 
             const numericValue = typeof item[field] === 'number'
                 ? item[field] as number

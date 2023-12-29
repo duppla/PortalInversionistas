@@ -104,7 +104,7 @@ function BarChartComponentO() {
         ? responseData[selectedDataKey].map((item: { fecha: string; pagado: number; mora: number; }) => ({
             fecha: item.fecha,
             'Pago a tiempo': item.pagado,  // Solo valores positivos o cero
-            'En mora': -Math.abs(item.mora)    // Solo valores negativos
+            'Atrasado': -Math.abs(item.mora)    // Solo valores negativos
         }))
         : [];
 
@@ -214,7 +214,7 @@ function BarChartComponentO() {
 
             <ResponsiveBar
                 data={formattedData}
-                keys={['Pago a tiempo', 'En mora']}
+                keys={['Pago a tiempo', 'Atrasado']}
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
