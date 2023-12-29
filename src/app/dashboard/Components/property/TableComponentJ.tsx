@@ -151,9 +151,16 @@ export default function BasicTable() {
                     </Grid>
                 </FormControl>
             </div>
-            {/* ... (código previo) */}
+          
             <TableContainer sx={{ mt: 4 }} component={Paper}>
                 <Table sx={{ minWidth: 650, background: '#212126' }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow sx={{ '&:last-child th': { border: 0 } }}>
+                            <TableCell sx={{ color: '#9B9EAB', textAlign: 'start', fontFamily: 'Rustica', fontSize: '20px', width: 'auto', flexBasis: '50%' }}></TableCell>
+                            <TableCell sx={{ color: '#9B9EAB', textAlign: 'center', fontFamily: 'Rustica', fontSize: '20px', width: '33%' }} align="right">Fecha 1</TableCell>
+                            <TableCell sx={{ color: '#9B9EAB', textAlign: 'center', fontFamily: 'Rustica', fontSize: '20px', width: '33%' }} align="right">Fecha 2</TableCell>
+                        </TableRow>
+                    </TableHead>
                     <TableBody>
                         {data?.nodes.map((node: any) => (
                             <TableRow key={node.id} sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>

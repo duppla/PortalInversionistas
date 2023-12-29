@@ -250,10 +250,19 @@ a {
     width: 100% !important;
     height: 980px !important;
   }
+  .size-card-main-f {
+    width: 100% !important;
+    height: 980px !important;
+  }
 
   .size-card-main-d-f {
     width: 300 !important;
     height: 120px !important;
+  }
+
+  .size-card-main-componentF {
+    width: 300 !important;
+    height: 140px !important;
   }
 
   /* Responsive inmueble */
@@ -289,9 +298,19 @@ a {
     height: 980px !important;
   }
 
+  .size-card-main-f{
+    width: 100% !important;
+    height: 980px !important;
+  }
+
   .size-card-main-d-f {
     width: 340 !important;
     height: 120px !important;
+  }
+
+  .size-card-main-componentF {
+    width: 340 !important;
+    height: 140px !important;
   }
 
   /* Responsive inmueble */
@@ -341,10 +360,18 @@ a {
     width: 100% !important;
     height: 980px !important;
   }
-
+  .size-card-main-f {
+    width: 100% !important;
+    height: 980px !important;
+  }
   .size-card-main-d-f {
     width: 340 !important;
     height: 120px !important;
+  }
+
+  .size-card-main-componentF {
+    width: 340 !important;
+    height: 140px !important;
   }
 
   /* Responsive inmueble */
@@ -404,10 +431,20 @@ a {
 
   }
 
+  .size-card-main-f {
+    width: 100% !important;
+    height: 980px !important;
+
+  }
+
   .size-card-main-d-f {
     width: 340 !important;
     height: 140px !important;
 
+  }
+  .size-card-main-componentF {
+    width: 340 !important;
+    height: 160px !important;
   }
 
   /* Responsive inmueble */
@@ -476,11 +513,20 @@ a {
     height: 140px !important;
 
   }
+  .size-card-main-f {
+    width: 100% !important;
+    height: 180px !important;
+
+  }
 
   .size-card-main-d-f {
     width: 340px !important;
     height: 100px !important;
 
+  }
+  .size-card-main-componentF {
+    width: 340 !important;
+    height: 120px !important;
   }
 
   /* Responsive inmueble */
@@ -547,11 +593,20 @@ a {
     height: 140px !important;
 
   }
+  .size-card-main-f {
+    width: 100% !important;
+    height: 160px !important;
+
+  }
 
   .size-card-main-d-f {
     width: 440 !important;
     height: 100px !important;
 
+  }
+  .size-card-main-componentF {
+    width: 440 !important;
+    height: 120px !important;
   }
 
   /* Responsive inmueble */
@@ -626,12 +681,21 @@ a {
     height: 140px !important;
 
   }
+  .size-card-main-f {
+    width: 100% !important;
+    height: 160px !important;
 
+  }
   .size-card-main-d-f {
     width: 440 !important;
     height: 100px !important;
 
   }
+  .size-card-main-componentF {
+    width: 440 !important;
+    height: 120px !important;
+  }
+
 
   /* Responsive inmueble */
   .size-container-h1-h2 {
@@ -689,11 +753,20 @@ a {
     width: 100% !important;
     height: 140px !important;
   }
+  .size-card-main-f {
+    width: 100% !important;
+    height: 160px !important;
+
+  }
 
   .size-card-main-d-f {
     width: 440 !important;
     height: 100px !important;
 
+  }
+  .size-card-main-componentF {
+    width: 440 !important;
+    height: 120px !important;
   }
 
   /* Responsive inmueble */

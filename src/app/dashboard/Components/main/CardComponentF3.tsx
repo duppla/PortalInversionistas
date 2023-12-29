@@ -8,10 +8,23 @@ import { Container, Box, Card, CardActions, CardContent, Button, ButtonGroup, Ty
 import { styled } from '@mui/material/styles';
 import { getApiUrl } from '@/app/url/ApiConfig';
 
-
 interface ApiResponse {
     data: number;
+    fecha: string;
 }
+
+function formatFecha(inputFecha: string): string {
+    const meses = [
+      'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+      'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+    ];
+  
+    const [year, month, day] = inputFecha.split('-');
+    const monthIndex = parseInt(month, 10) - 1;
+    const monthAbbr = meses[monthIndex];
+  
+    return `${monthAbbr} ${year}`;
+  }
 function CardComponentF3() {
 const [dataApiF3, setDataApiF3] = useState<ApiResponse | null>(null);
 
@@ -32,13 +45,17 @@ useEffect(() => {
 
    // Accede directamente al primer elemento del array
    const dataPrueba = dataApiF3;
+   const formattedDate = dataApiF3 ? formatFecha(dataApiF3.fecha) : '';
    /*   console.log(dataPrueba + ' dataPrueba en point d1'); */
   return (
-    <Box className='size-card-main-d-f' sx={{ backgroundColor:'#020101', borderRadius:'14px' , /* width: '360px', height:'220px' */ }}>
-            <Card className='size-card-main-d-f' sx={{ mt:2, mb:2, backgroundColor:'#020101', borderRadius:'14px', display:'flex', justifyContent:'center', alignContent: 'center', textAlign:'center'}}>
+    <Box className='size-card-main-componentF' sx={{ backgroundColor:'#020101', borderRadius:'14px' , /* width: '360px', height:'220px' */ }}>
+            <Card className='size-card-main-componentF' sx={{ mt:2, mb:2, backgroundColor:'#020101', borderRadius:'14px', display:'flex', justifyContent:'center', alignContent: 'center', textAlign:'center'}}>
                 <CardContent sx={{mt:1, mb:1}}>
                     <Typography className='title-D-F' component="div" sx={{color: '#5782F2', fontFamily: 'Rustica', fontSize:'30px',fontWeight:'500'}}>
                       <p>Prepago</p> 
+                    </Typography>
+                    <Typography   component="div" sx={{color: '#5782F2', fontFamily: 'Rustica', fontSize:'12px',fontWeight:'500'}}>
+                    <p>{formattedDate}</p>
                     </Typography>
                     <Typography variant="h5"sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700' }} >
                     <h3> $ {dataPrueba?.data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}

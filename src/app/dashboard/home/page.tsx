@@ -107,14 +107,14 @@ const Page = () => {
                         {/*Grafica principal-datos del inmueble*/}
                         <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                             width: 'auto',
-                            height: '600px',
+                            height: '540px',
                             borderRadius: '20px',
                            
                             mb: 2,
                         }}>
 
                             {/* Condicionalmente renderiza las gráficas */}
-                            {selectedView === 'general' && <Graficaprueba />}
+                            {/* {selectedView === 'general' && <Graficaprueba />}
                             {selectedView === 'detalle' && <GraficacomponenteA2 />}
                             <br /><br />
                             <div className='centrado'>
@@ -180,7 +180,8 @@ const Page = () => {
                                         </Button>
                                     </Stack>
                                 </div>
-                            </div>
+                            </div> */}
+                            <Graficaprueba />
                         </Grid>
                     </Grid>
                     {/* Componente E*/}
@@ -209,8 +210,8 @@ const Page = () => {
 
                     </Grid>
                     {/* componente F*/}
-                    < Grid container  className='size-card-main' sx={{
-                        marginTop: '10px',
+                    < Grid container  className='size-card-main-f' sx={{
+                        marginTop: '20px',
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',

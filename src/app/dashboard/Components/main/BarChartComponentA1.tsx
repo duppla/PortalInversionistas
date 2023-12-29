@@ -6,7 +6,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
@@ -40,11 +40,15 @@ function BarChart() {
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
     const [menuOpen, setMenuOpen] = useState(false);
 
+    const [gridYValues, setGridYValues] = useState<number[]>([]);
+    const [tickValues, setTickValues] = useState<number[]>([]);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrl(`/main/a1?investor=skandia`), options);
+                /* const response = await fetch(getApiUrl(`/main/a1?investor=skandia`), options); */
+                const response = await fetch(getApiUrlFinal(`/principal/a?investor=skandia`), options);
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
@@ -114,19 +118,50 @@ function BarChart() {
         return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
     /* prueba de formateo data a legible tooltip */
-    function formatNumberTooltip(value: number): string {
-        const suffixes = ['', 'K', 'M', 'B', 'T'];
-        const suffixNum = Math.floor(('' + value).length / 3);
-        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
-
-        if (shortValue.endsWith('.0')) {
-            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
+    function formatNumberTooltip(value: number | undefined): string {
+        if (value === undefined) {
+            return 'N/A'; // Manejar el caso cuando el valor es undefined
         }
-
-        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+    
+        const suffixes = ['', 'K', 'M', 'B', 'T'];
+    
+        const absoluteValue = Math.abs(value); // Tomar el valor absoluto para evitar problemas con números negativos
+        const suffixNum = Math.floor(Math.log10(absoluteValue) / 3);
+        const shortValue = (absoluteValue / Math.pow(10, suffixNum * 3)).toFixed(1);
+    
+        const formattedValue = shortValue.endsWith('.0') ? shortValue.slice(0, -2) : shortValue;
+        const formattedNumber = value < 0 ? `-${formattedValue}` : formattedValue;
+    
+        return formattedNumber + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
+    
+    
+
+    useEffect(() => {
+        const dataForSelectedKey = getDataForSelectedKey();
+        const { gridYValues, tickValues } = calculateAxisValues(dataForSelectedKey);
+        setGridYValues(gridYValues);
+        setTickValues(tickValues);
+    }, [selectedDataKey, responseData]);
+
+    const calculateAxisValues = (data: ItemType[]) => {
+        const maxValue = Math.max(...data.map(item => Math.max(item.flujo_real, item.flujo_esperado)));
+        const minValue = Math.min(...data.map(item => Math.min(item.flujo_real, item.flujo_esperado)));
+        const numTicks = 5;
+
+        const range = maxValue - minValue;
+        const step = range / (numTicks - 1);
+
+        const gridYValues = Array.from({ length: numTicks }, (_, index) => {
+            const tickValue = minValue + index * step;
+            return Math.round(tickValue);
+        });
+
+        return { gridYValues, tickValues: gridYValues };
+    }; 
 
 
+    
 
     return (
         <div className='grafica-barcharts nivo-text'>
@@ -290,12 +325,12 @@ function BarChart() {
                         return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
                     },
                 }}
-                gridYValues={[ 0, 5000000, 10000000, 15000000, 20000000]}
+                gridYValues={gridYValues}
                 axisLeft={{
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    tickValues: [ 0, 5000000, 10000000, 15000000, 20000000],
+                    tickValues: tickValues,
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,

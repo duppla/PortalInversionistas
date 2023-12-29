@@ -55,9 +55,7 @@ function BarChartComponentO() {
     
         return { gridYValues, tickValues: gridYValues };
     };
-    
-    
-    
+        
 
 
     useEffect(() => {
