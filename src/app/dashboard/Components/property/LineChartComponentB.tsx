@@ -143,10 +143,6 @@ const LineChartComponentB = () => {
         }
     }, [data, selectedDataKey]);
 
-    /* 
-        console.log("Grid Y Values:", gridYValues);
-        console.log("Tick Values:", tickValues); */
-
 
     useEffect(() => {
         if (data[selectedDataKey]) {

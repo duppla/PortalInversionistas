@@ -34,6 +34,9 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYWFyZXZhbG8iLCJhIjoiY2xwaWxxNGgwMDBtZDJwdGo0Y
 interface Location {
   latitud: number;
   longitud: number;
+  barrio: string,
+  dias_mora: number,
+  valor_inmueble: number,
 }
 
 interface CityData {
@@ -158,27 +161,20 @@ function MapComponentC() {
     }
   };
 
-  // Función para agregar marcadores al mapa
-  /*   const addMarkersToMap = () => {
-      Object.keys(data).forEach(city => {
-        data[city].forEach(location => {
-          // Crear un elemento de marcador personalizado con una clase específica
-          const markerElement = document.createElement('div');
-          markerElement.className = 'custom-marker';
+  const formatNumber = (value: any) => {
+    const suffixes = ["", "K", "M", "B", "T"];
+    let suffixNum = 0;
   
-          // Puedes personalizar el estilo del marcador aquí
-          markerElement.style.backgroundColor = '#FF864B'; // Cambia el color del fondo
-          markerElement.style.width = '18px'; // Cambia el ancho del marcador
-          markerElement.style.height = '18px'; // Cambia la altura del marcador
-          markerElement.style.borderRadius = '80%'; // Hace que el marcador sea circular
+    while (value >= 1000 && suffixNum < suffixes.length - 1) {
+      value /= 1000;
+      suffixNum++;
+    }
   
-          new mapboxgl.Marker({ element: markerElement })
-            .setLngLat([location.longitud, location.latitud])
-            .setPopup(new mapboxgl.Popup().setHTML(`<p>${city}</p>`))
-            .addTo(map!);
-        });
-      });
-    }; */
+    return value.toFixed(0) + suffixes[suffixNum];
+  };
+  
+  
+
   const addMarkersToMap = () => {
     Object.keys(data).forEach(city => {
       data[city].forEach((location, index) => {
@@ -186,19 +182,26 @@ function MapComponentC() {
         markerElement.className = 'custom-marker';
        
         markerElement.innerHTML = '🏠'; // Puedes cambiar este emoji 
-        markerElement.style.fontSize = '26px'; // Ajusta el tamaño emoji
-  
-      /*   markerElement.style.backgroundColor = '#FF864B';
-        markerElement.style.width = '18px';
-        markerElement.style.height = '18px';
-        markerElement.style.borderRadius = '80%'; */
-
+        markerElement.style.fontSize = '26px'; // Ajusta el tamaño emoji  
+     
         new mapboxgl.Marker({ element: markerElement })
           .setLngLat([location.longitud, location.latitud])
-         /*  .setPopup(new mapboxgl.Popup().setHTML(`<p>${city}</p>`)) */
-/*          .setPopup(new mapboxgl.Popup().setHTML(`<p>Dirección: ${location.direccion}</p><p>Barrio: ${location.barrio}</p>`)) */
-         .setPopup(new mapboxgl.Popup().setHTML(`<p> Valor inmueble: $0000000</p><p>Días en mora: 77 </p><p>Barrio:${city}</p>`))
-          .addTo(map!);
+          .setPopup(new mapboxgl.Popup().setHTML(`
+          <p>${city}</p>
+          <p>Barrio: ${location.barrio}</p>
+          <p>Días de mora: ${location.dias_mora}</p>
+          <p>Valor del inmueble:${formatNumber(location.valor_inmueble)}</p>
+        `))
+
+    /*      .setPopup(new mapboxgl.Popup().setHTML(`
+         <div style="color: #9B9EAB; background-color: #212126; border: 1px solid #5682F2; ">
+            <p>${city}</p>
+            <p style="color: #9B9EAB;">Barrio: ${location.barrio}</p>
+            <p style="color: #9B9EAB;">Días de mora: ${location.dias_mora}</p>
+            <p style="color: #9B9EAB;">Valor del inmueble: ${location.valor_inmueble}</p>
+          </div>
+        `))*/
+          .addTo(map!); 
 
         // Agregar evento de clic al marcador
         markerElement.addEventListener('click', () => handleMarkerClick(location));

@@ -156,7 +156,7 @@ const SankeyChartComponentJ = () => {
                              anchor: 'bottom-left',
                              direction: 'row',
                              translateX: 30,
-                             translateY: 30,
+                             translateY: 28,
                              itemWidth: 100,
                              itemHeight: 14,
                              itemDirection: 'left-to-right',

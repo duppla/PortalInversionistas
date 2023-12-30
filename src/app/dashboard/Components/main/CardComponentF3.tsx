@@ -6,10 +6,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { Container, Box, Card, CardActions, CardContent, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
 interface ApiResponse {
-    data: number;
+    prepago: number;
     fecha: string;
 }
 
@@ -31,10 +31,10 @@ const [dataApiF3, setDataApiF3] = useState<ApiResponse | null>(null);
 useEffect(() => {
     const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-    fetch(getApiUrl('/main/f3?investor=skandia'), options)
+    fetch(getApiUrlFinal('/principal/f2_f3?investor=skandia'), options)
         .then(response => response.json())
         .then(response => {
-            if (typeof response.data === 'number') {
+            if (typeof response.prepago === 'number') {
                 setDataApiF3(response); // Coloca el objeto en un array para mantener consistencia
                 /*  console.log(response); */
             } else {
@@ -58,7 +58,7 @@ useEffect(() => {
                     <p>{formattedDate}</p>
                     </Typography>
                     <Typography variant="h5"sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700' }} >
-                    <h3> $ {dataPrueba?.data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    <h3> $ {dataPrueba?.prepago.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                         </h3> 
                     </Typography>                    
                 </CardContent>

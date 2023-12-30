@@ -25,7 +25,7 @@ function CardComponentD2() {
                     setDataApiD2(response); // Coloca el objeto en un array para mantener consistencia
                     /* console.log(response); */
                 } else {
-                    console.error('El valor de data no es un número:', response);
+                    console.error('El valor de data no es un número:',);
                 }
             }).catch(err => console.error(err));
     }, []);

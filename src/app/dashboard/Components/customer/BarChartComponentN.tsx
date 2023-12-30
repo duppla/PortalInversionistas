@@ -82,7 +82,7 @@ function BarChartComponentN() {
 
     const formattedDataa = responseData
         ? responseData[selectedDataKey].map((item: ItemType) => {
-            console.log('Intereses:', item.intereses); // Agregar esta línea
+           
             return {
                 fecha: item.fecha,
                 Arriendo: item.arriendo,

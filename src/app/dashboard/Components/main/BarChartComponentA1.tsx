@@ -144,7 +144,7 @@ function BarChart() {
         setTickValues(tickValues);
     }, [selectedDataKey, responseData]);
 
-    const calculateAxisValues = (data: ItemType[]) => {
+ /*    const calculateAxisValues = (data: ItemType[]) => {
         const maxValue = Math.max(...data.map(item => Math.max(item.flujo_real, item.flujo_esperado)));
         const minValue = Math.min(...data.map(item => Math.min(item.flujo_real, item.flujo_esperado)));
         const numTicks = 5;
@@ -158,8 +158,44 @@ function BarChart() {
         });
 
         return { gridYValues, tickValues: gridYValues };
-    }; 
+    };  */
 
+// ... (resto del código)
+
+const calculateAxisValues = (data: ItemType[]) => {
+    const maxValue = Math.max(...data.map(item => Math.max(item.flujo_real, item.flujo_esperado)));
+    const minValue = Math.min(...data.map(item => Math.min(item.flujo_real, item.flujo_esperado)));
+    const numTicks = 5;
+
+    // Verificar si se trata de los últimos 6 meses
+    if (selectedDataKey === 'ult_6_meses') {
+        // Establecer manualmente los valores para los últimos 6 meses
+        const gridYValues = [0, 4000000, 8000000, 12000000, 18000000, 23000000];
+        const tickValues = [0, 4000000, 8000000, 12000000, 18000000, 23000000];
+        return { gridYValues, tickValues };
+    }
+
+    // Lógica para el resto de los casos
+    const range = maxValue - minValue;
+    const step = range / (numTicks - 1);
+
+    // Calcular dinámicamente los valores para gridYValues y tickValues
+    const gridYValues = Array.from({ length: numTicks }, (_, index) => {
+        const tickValue = minValue + index * step;
+        return Math.round(tickValue);
+    });
+
+       // Asegurarse de que 0 esté incluido
+       if (!gridYValues.includes(0)) {
+        gridYValues.unshift(0);
+    }
+
+    return { gridYValues, tickValues: gridYValues };
+};
+
+// ... (resto del código)
+
+    
 
     
 

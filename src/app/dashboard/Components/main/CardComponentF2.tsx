@@ -6,10 +6,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { Container, Box, Card, CardActions, CardContent, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
 interface ApiResponse {
-    data: number;
+    tasa_mora: number;
     fecha: string;
 }
 
@@ -31,10 +31,11 @@ function CardComponentF2() {
     useEffect(() => {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-        fetch(getApiUrl('/main/f2?investor=skandia'), options)
+        fetch(getApiUrlFinal('/principal/f2_f3?investor=skandia'), options)
+
             .then(response => response.json())
             .then(response => {
-                if (typeof response.data === 'number') {
+                if (typeof response.tasa_mora === 'number') {
                     setDataApiF2(response); // Coloca el objeto en un array para mantener consistencia
                     /* console.log(response); */
                 } else {
@@ -44,7 +45,7 @@ function CardComponentF2() {
     }, []);
       // Accede directamente al primer elemento del array
       const dataPrueba = dataApiF2;
-      const porcentaje = dataApiF2?.data ? (dataApiF2.data * 100).toFixed(1) + '%' : null;
+      const porcentaje = dataApiF2?.tasa_mora ? (dataApiF2.tasa_mora * 100).toFixed(0) + '%' : null;
       /* console.log(dataPrueba + ' dataPrueba en point d2'); */
 
       const formattedDate = dataApiF2 ? formatFecha(dataApiF2.fecha) : '';
