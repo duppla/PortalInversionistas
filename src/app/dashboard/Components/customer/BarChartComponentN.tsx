@@ -42,8 +42,8 @@ function BarChartComponentN() {
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
-    const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
+    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [menuOpen, setMenuOpen] = useState(false);
 
 
@@ -207,7 +207,7 @@ function BarChartComponentN() {
 
 
                             >
-                                <MenuItem value='este_anho'>Este año</MenuItem>
+                                {/* <MenuItem value='este_anho'>Este año</MenuItem> */}
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
                             </Select>

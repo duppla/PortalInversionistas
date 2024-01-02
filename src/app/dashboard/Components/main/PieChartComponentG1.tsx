@@ -46,8 +46,8 @@ function PieChartComponentG1() {
         este_anho: { en_mora: 0, a_tiempo: 0, total: 0 },
         ult_6_meses: { en_mora: 0, a_tiempo: 0, total: 0 },
     });
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
-    const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
+    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [menuOpen, setMenuOpen] = useState(false);
 
 
@@ -236,7 +236,7 @@ function PieChartComponentG1() {
                                     )
                                   )}
                             >
-                                <MenuItem value='este_anho'>Este año</MenuItem>
+                              {/*   <MenuItem value='este_anho'>Este año</MenuItem> */}
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
                             </Select>

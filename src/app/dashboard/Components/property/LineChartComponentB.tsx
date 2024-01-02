@@ -35,8 +35,8 @@ type DataApiType = {
 const LineChartComponentB = () => {
 
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
-    const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
+    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [transformedDataContractual, setTransformedDataContractual] = useState<{ x: string; y: number }[]>([]);
     const [transformedDataFairMarket, setTransformedDataFairMarket] = useState<{ x: string; y: number }[]>([]);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -232,7 +232,7 @@ const LineChartComponentB = () => {
                                             )
                                         )}
                                     >
-                                        <MenuItem value='este_anho'>Este año</MenuItem>
+                                       {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
                                         <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                         <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
                                     </Select>

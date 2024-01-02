@@ -36,8 +36,8 @@ function BarChart() {
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
-    const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
+    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [menuOpen, setMenuOpen] = useState(false);
 
     const [gridYValues, setGridYValues] = useState<number[]>([]);
@@ -80,8 +80,8 @@ function BarChart() {
         switch (selectedDataKey) {
             case 'ult_12_meses':
                 return responseData.ult_12_meses;
-            case 'este_anho':
-                return responseData.este_anho;
+            /* case 'este_anho':
+                return responseData.este_anho; */
             case 'ult_6_meses':
                 return responseData.ult_6_meses;
             default:
@@ -259,7 +259,7 @@ const calculateAxisValues = (data: ItemType[]) => {
                                     )
                                   )}
                             >
-                                <MenuItem value='este_anho'>Este año</MenuItem>
+                                {/* <MenuItem value='este_anho'>Este año</MenuItem> */}
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
                             </Select>

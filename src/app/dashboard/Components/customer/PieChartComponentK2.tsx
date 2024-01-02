@@ -17,14 +17,17 @@ type DataType = {
 };
 
 const PieChartComponentK2 = () => {
-    const [responseData, setResponseData] = useState<DataType>({
+ /*    const [responseData, setResponseData] = useState<DataType>({
         ult_12_meses: { en_mora: 0, a_tiempo: 0, total: 0 },
         este_anho: { en_mora: 0, a_tiempo: 0, total: 0 },
         ult_6_meses: { en_mora: 0, a_tiempo: 0, total: 0 },
-    });
+    }); */
     const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const [responseData, setResponseData] = useState<any>({}); 
+
 
 
     useEffect(() => {
