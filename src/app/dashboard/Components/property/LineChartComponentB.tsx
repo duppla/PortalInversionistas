@@ -135,7 +135,7 @@ const LineChartComponentB = () => {
             const { minValue, maxValue } = calculateMinMaxValues(data[selectedDataKey]);
 
             // Calcula los nuevos valores para el eje y
-            const newGridYValues = Array.from({ length: 6 }, (_, i) => minValue + (i / 5) * (maxValue - minValue));
+            const newGridYValues = Array.from({ length: 5 }, (_, i) => minValue + (i / 4) * (maxValue - minValue));
 
             // Actualiza los valores en el componente
             setGridYValues(newGridYValues);

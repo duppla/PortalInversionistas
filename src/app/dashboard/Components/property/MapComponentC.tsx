@@ -144,15 +144,7 @@ function MapComponentC() {
   }, [map, selectedCity, data]);
 
 
-  // Función para cambiar la ciudad seleccionada y centrar el mapa en esa ciudad
-  /*  const handleCityChange = (city: string) => {
-     setSelectedCity(city);
-     if (map && data[city] && data[city].length > 0) {
-       const center = data[city][0]; // Tomar la primera ubicación como referencia
-       map.setCenter([center.longitud, center.latitud]);
-       map.setZoom(80); // Puedes ajustar el zoom según tus necesidades
-     }
-   }; */
+
   const handleCityChange = (city: string) => {
     setSelectedCity(city);
     if (map && data[city] && data[city].length > 0) {
@@ -175,7 +167,7 @@ function MapComponentC() {
   
   
 
-  const addMarkersToMap = () => {
+ /*  const addMarkersToMap = () => {
     Object.keys(data).forEach(city => {
       data[city].forEach((location, index) => {
         const markerElement = document.createElement('div');
@@ -192,22 +184,62 @@ function MapComponentC() {
           <p>Días de mora: ${location.dias_mora}</p>
           <p>Valor del inmueble:${formatNumber(location.valor_inmueble)}</p>
         `))
+        
 
-    /*      .setPopup(new mapboxgl.Popup().setHTML(`
-         <div style="color: #9B9EAB; background-color: #212126; border: 1px solid #5682F2; ">
-            <p>${city}</p>
-            <p style="color: #9B9EAB;">Barrio: ${location.barrio}</p>
-            <p style="color: #9B9EAB;">Días de mora: ${location.dias_mora}</p>
-            <p style="color: #9B9EAB;">Valor del inmueble: ${location.valor_inmueble}</p>
-          </div>
-        `))*/
           .addTo(map!); 
 
         // Agregar evento de clic al marcador
         markerElement.addEventListener('click', () => handleMarkerClick(location));
       });
     });
+  }; */
+
+
+  const addMarkersToMap = () => {
+    Object.keys(data).forEach(city => {
+      data[city].forEach((location, index) => {
+        const markerElement = document.createElement('div');
+        markerElement.className = 'custom-marker';
+       
+        markerElement.innerHTML = '🏠'; // Puedes cambiar este emoji 
+        markerElement.style.fontSize = '26px'; // Ajusta el tamaño emoji  
+      
+        const popupContent = `
+          <p>${city}</p>
+          <p>Barrio: ${location.barrio}</p>
+          <p>Días de mora: ${location.dias_mora}</p>
+          <p>Valor del inmueble:${formatNumber(location.valor_inmueble)}</p>
+        `;
+  
+        const popup = new mapboxgl.Popup().setHTML(popupContent);
+  
+        new mapboxgl.Marker({ element: markerElement })
+          .setLngLat([location.longitud, location.latitud])
+          .setPopup(popup)
+          .addTo(map!);
+  
+        // Agregar evento de clic al marcador
+        markerElement.addEventListener('click', () => handleMarkerClick(location));
+  
+        // Agregar evento close al popup
+        popup.on('close', () => handlePopupClose());
+      });
+    });
   };
+  
+  const handlePopupClose = () => {
+    // Acción a realizar cuando se cierra el tooltip
+    if (map && selectedCity && data[selectedCity]) {
+      map.flyTo({
+        center: calculateAverageCoordinates(data[selectedCity]),
+        zoom: 11,
+      });
+      // Puedes agregar más acciones si es necesario
+    }
+  };
+
+  
+
   const handleMarkerClick = (location: Location) => {
     if (map) {
       map.flyTo({ center: [location.longitud, location.latitud], zoom: 15 });
