@@ -205,10 +205,10 @@ function MapComponentC() {
         markerElement.style.fontSize = '26px'; // Ajusta el tamaño emoji  
       
         const popupContent = `
-          <p>${city}</p>
-          <p>Barrio: ${location.barrio}</p>
-          <p>Días de mora: ${location.dias_mora}</p>
-          <p>Valor del inmueble:${formatNumber(location.valor_inmueble)}</p>
+          <p style="color: black;>${city}</p>
+          <p style="color: black;>Barrio: ${location.barrio}</p>
+          <p style="color: black;>Días de mora: ${location.dias_mora}</p>
+          <p style="color: black;>Valor del inmueble:${formatNumber(location.valor_inmueble)}</p>
         `;
   
         const popup = new mapboxgl.Popup().setHTML(popupContent);

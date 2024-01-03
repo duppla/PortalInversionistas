@@ -15,7 +15,7 @@ import { styled } from '@mui/material/styles';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
-import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
 
 type DataApiType = {
@@ -67,10 +67,10 @@ export default function BasicTable() {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrl(`/inmuebles/j?investor=skandia`), options);
+                const response = await fetch(getApiUrlFinal(`/inmuebles/j2?investor=skandia`), options);
                 const responseData = await response.json();
                 setResponseData(responseData);
-                setData(responseData);
+                setData(responseData.data);
             } catch (error) {
                 console.error(error);
             }
@@ -89,7 +89,7 @@ export default function BasicTable() {
                             <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Perdidas y Ganancias portafolio</Typography>
 
                         </Grid>
-                      {/*   <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
+                        {/*   <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -151,31 +151,68 @@ export default function BasicTable() {
                     </Grid>
                 </FormControl>
             </div>
-          
+
             <TableContainer sx={{ mt: 4 }} component={Paper}>
                 <Table sx={{ minWidth: 650, background: '#212126' }} aria-label="simple table">
                     <TableHead>
+                        {/* <TableRow>
+                            {data && Array.isArray(data) && data.length > 0 &&
+                                Object.keys(data[0]).map((key) => (
+                                    <TableCell key={key} sx={{ textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
+                                        {key}
+                                    </TableCell>
+                                ))}
+                        </TableRow> */}
+                        {/* 
+                        
                         <TableRow sx={{ '&:last-child th': { border: 0 } }}>
                             <TableCell sx={{ color: '#9B9EAB', textAlign: 'start', fontFamily: 'Rustica', fontSize: '20px', width: 'auto', flexBasis: '50%' }}></TableCell>
                             <TableCell sx={{ color: '#9B9EAB', textAlign: 'center', fontFamily: 'Rustica', fontSize: '20px', width: '33%' }} align="right">Fecha 1</TableCell>
                             <TableCell sx={{ color: '#9B9EAB', textAlign: 'center', fontFamily: 'Rustica', fontSize: '20px', width: '33%' }} align="right">Fecha 2</TableCell>
-                        </TableRow>
+                        </TableRow> */}
                     </TableHead>
-                    <TableBody>
+                    {/* <TableBody>
                         {data?.nodes.map((node: any) => (
                             <TableRow key={node.id} sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
-                                <TableCell sx={{ color: '#6C9FFF' , textAlign: 'start', fontFamily: 'Rustica', fontSize: '20px', width: 'auto', flexBasis: '50%' }} component="th" scope="row">
+                                <TableCell sx={{ color: '#6C9FFF', textAlign: 'start', fontFamily: 'Rustica', fontSize: '20px', width: 'auto', flexBasis: '50%' }} component="th" scope="row">
                                     {node.id}
                                 </TableCell>
-                               
-                                <TableCell sx={{  color: '#EEF0F4', textAlign: 'center', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
-                                   ${data.links.find((link: any) => link.source === node.id)?.value || 0}
+
+                                <TableCell sx={{ color: '#EEF0F4', textAlign: 'center', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
+                                    ${data.links.find((link: any) => link.source === node.id)?.value || 0}
                                 </TableCell>
-                                <TableCell sx={{  color: '#EEF0F4', textAlign: 'center', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
-                                   ${data.links.find((link: any) => link.source === node.id)?.value || 0}
+                                <TableCell sx={{ color: '#EEF0F4', textAlign: 'center', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
+                                    ${data.links.find((link: any) => link.source === node.id)?.value || 0}
                                 </TableCell>
                             </TableRow>
                         ))}
+                    </TableBody> */}
+                    {/* <TableBody>
+                        {data && Array.isArray(data) && data.length > 0 &&
+                            data.map((row: any) => (
+                                <TableRow key={row.fecha} sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
+                                    {Object.values(row).map((value: any, index) => (
+                                        <TableCell key={index} sx={{ textAlign: 'center', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
+                                            {value}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                    </TableBody> */}
+                    <TableBody>
+                        {data && Array.isArray(data) && data.length > 0 &&
+                            Object.keys(data[0]).map((key, index) => (
+                                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
+                                    <TableCell sx={{  color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
+                                        {key}
+                                    </TableCell>
+                                    {data.map((row: any, rowIndex) => (
+                                        <TableCell key={rowIndex} sx={{ textAlign: 'center', color: '#9B9EAB', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
+                                            {row[key]}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>
