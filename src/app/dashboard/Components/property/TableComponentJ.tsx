@@ -167,7 +167,7 @@ export default function BasicTable() {
                                 <TableCell sx={{ color: '#6C9FFF' , textAlign: 'start', fontFamily: 'Rustica', fontSize: '20px', width: 'auto', flexBasis: '50%' }} component="th" scope="row">
                                     {node.id}
                                 </TableCell>
-                                {/* Puedes ajustar esta parte dependiendo de cómo quieras mostrar el valor en la tabla */}
+                               
                                 <TableCell sx={{  color: '#EEF0F4', textAlign: 'center', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
                                    ${data.links.find((link: any) => link.source === node.id)?.value || 0}
                                 </TableCell>

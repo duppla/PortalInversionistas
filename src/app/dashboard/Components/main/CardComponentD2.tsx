@@ -32,8 +32,13 @@ function CardComponentD2() {
 
     // Accede directamente al primer elemento del array
     const dataPrueba = dataApiD2;
-    const porcentaje = dataApiD2?.data ? (dataApiD2.data * 100).toFixed(1) + '%' : null;
+   /*  const porcentaje = dataApiD2?.data ? (dataApiD2.data * 100).toFixed(1) + '%' : null; */
     /* console.log(dataPrueba + ' dataPrueba en point d2'); */
+    const porcentaje = dataApiD2?.data != null
+    ? dataApiD2.data % 1 === 0 // Verifica si es un número entero
+        ? `${Math.round(dataApiD2.data * 100)}%` // Si es entero, multiplica por 100 y agrega %
+        : `${(dataApiD2.data * 100).toFixed(1)}%` // Si tiene decimales, multiplica por 100 y muestra un decimal
+    : null;
 
   return (
     <Box className='size-card-main-d-f' sx={{  backgroundColor:'#020101' , borderRadius:'14px'  /* width: '360px', height:'220px' */ }}>

@@ -15,6 +15,7 @@ import Image from 'next/image';
 import LogoInversionistas from './../../../img/logoinversionistas.svg';
 import SettingDupplaMenu from './../../../img/setting-icon.svg';
 import { Paper } from '@mui/material';
+import Link from 'next/link';
 
 
 
@@ -58,7 +59,10 @@ function ResponsiveAppBar() {
             margin: '0px',
 
           }} >
-            <Image src={LogoInversionistas} alt="" className='img-home' width={492} height={287} />
+              <Link href="/dashboard/home">
+
+            <Image src={LogoInversionistas} alt="" className='img-home' /* width={492} height={287} */ />
+              </Link>
           </Container>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>

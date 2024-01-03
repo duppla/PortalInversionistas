@@ -158,8 +158,8 @@ a {
 }
 
 .img-home {
-  width: 130px;
-  height: 48px;
+  width: 230px; 
+  height: 98px;
   margin-top: 4px;
   margin-bottom: 2px;
 }
@@ -671,7 +671,7 @@ a {
   .icon-setting-navbar {
     margin-top: 4px;
     margin-bottom: 2px;
-    margin-left: 700px !important;
+    margin-left: 620px !important;
   }
 
   /* Ajustes sesión main */
@@ -745,7 +745,7 @@ a {
   .icon-setting-navbar {
     margin-top: 4px;
     margin-bottom: 2px;
-    margin-left: 1100px !important;
+    margin-left: 1060px !important;
   }
 
   /* Ajustes sesión main */

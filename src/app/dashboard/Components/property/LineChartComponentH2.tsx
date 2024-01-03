@@ -8,7 +8,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { FormControl, Typography, Select, MenuItem } from '@mui/material';
 import { ResponsiveLine } from '@nivo/line';
-import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
 
 type DataApiType = {
@@ -37,12 +37,17 @@ const LineChartComponentH2 = () => {
 
     const [transformedData, setTransformedData] = useState<{ x: string; y: number }[]>([]);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [yAxisValues, setYAxisValues] = useState<number[]>([]);
+
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrl('/inmuebles/h2?investor=skandia'), options);
+                const response = await fetch(getApiUrlFinal('/inmuebles/h2?investor=skandia'), options);
+                
                 const newData = await response.json();
 
                 setData((prevData) => {
@@ -54,16 +59,33 @@ const LineChartComponentH2 = () => {
                 handleDataSelection(selectedValue.toString());
             } catch (error) {
                 console.error(error);
+            } finally {
+                setLoading(false);
             }
         };
-
+        setLoading(true); // Iniciar la carga
         fetchData();
     }, [selectedValue]);
+
+  /*   useEffect(() => {
+        // Actualización de datos de gráfico aquí
+        const transformedData = tranformeDataApi(data, selectedDataKey);
+        setTransformedData(transformedData);
+    }, [data, selectedDataKey]); */
 
     useEffect(() => {
         // Actualización de datos de gráfico aquí
         const transformedData = tranformeDataApi(data, selectedDataKey);
         setTransformedData(transformedData);
+
+        // Calcular el mínimo y máximo de unidades para generar los valores del eje Y
+        const units = data[selectedDataKey].map((item: any) => item.unidades);
+        const minUnits = Math.min(...units);
+        const maxUnits = Math.max(...units);
+
+        // Generar un conjunto de valores para la escala del eje Y
+        const yAxisValues = Array.from({ length: 6 }, (_, index) => minUnits + Math.floor((maxUnits - minUnits) * (index / 5)));
+        setYAxisValues(yAxisValues);
     }, [data, selectedDataKey]);
 
     const handleDataSelection = (dataKey: string) => {
@@ -157,7 +179,8 @@ const LineChartComponentH2 = () => {
                     </Grid>
                 </FormControl>
             </div>
-
+            {loading && <Typography sx={{color: '#212126'}}>Cargando...</Typography>}
+            {!loading && (
             <ResponsiveLine
                 animate
                 axisBottom={{
@@ -172,11 +195,12 @@ const LineChartComponentH2 = () => {
                     },
                 }}
                 enableGridX={false}
-                gridYValues={[5, 15, 25, 35]} 
+                gridYValues={yAxisValues}
+               /*  gridYValues={[5, 15, 25, 35]}  */
                 axisLeft={{
                     /*  legend: 'linear scale', */
                     legendOffset: 12,
-                    tickValues: [ 5, 15, 25, 35],
+                    tickValues: yAxisValues,
                 }}
                 theme={{
                     axis: {
@@ -256,9 +280,10 @@ const LineChartComponentH2 = () => {
                 }}
 
             />
-
+            )}
 
         </div>
+
     );
 };
 

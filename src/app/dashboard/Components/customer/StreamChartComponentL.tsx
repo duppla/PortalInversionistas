@@ -298,8 +298,9 @@ function StreamChartComponentL() {
                 colors={['#FF1818', '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
                 fillOpacity={0.099}
 
-                enableStackTooltip={true}
-                isInteractive={true}
+               /*  enableStackTooltip={true} */
+          
+               /*  isInteractive={true} */
               /*   tooltip={({ layer }) => (
                     <div style={{ background: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
                         <div>
