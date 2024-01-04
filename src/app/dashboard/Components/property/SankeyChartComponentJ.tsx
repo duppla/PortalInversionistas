@@ -41,7 +41,7 @@ const SankeyChartComponentJ = () => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrl(`/inmuebles/j?investor=skandia`), options);
+                const response = await fetch(getApiUrlFinal(`/inmuebles/j1?investor=skandia`), options);
                 const responseData = await response.json();
 
                 // Adaptar la estructura de la respuesta de la API a la gráfica Sankey

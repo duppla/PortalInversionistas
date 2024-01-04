@@ -64,10 +64,12 @@ const PieChartComponentK2 = () => {
         }
     };
 
+
+    const excludedKeys = ['total', 'porcent_0_33', 'porcent_33_66', 'porcent_66_100'];
     const formattedDataPie = responseData
         ? responseData[selectedDataKey]
             ? Object.keys(responseData[selectedDataKey])
-                .filter((key) => key !== 'total') // Filtra la categoría 'total'
+                .filter((key) => !excludedKeys.includes(key)) // Filtra la categoría 'total'
                 .map((key: string) => {
                     const item = responseData[selectedDataKey][key];
                     let categoryLabel = key;
@@ -92,21 +94,29 @@ const PieChartComponentK2 = () => {
             : []
         : [];
 
-    const formatTooltip = ({ id, value }: { id: string; value: number }) => {
+/*     const formatTooltip = ({ id, value }: { id: string; value: number }) => {
         let categoryLabel = id;
 
-        // Personaliza los nombres de las categorías
-        if (id === 'entre_0_33') {
-            categoryLabel = 'Entre 0% y 33%';
-        } else if (id === 'entre_33_66') {
-            categoryLabel = 'Entre 33% y 66%';
-        } else if (id === 'entre_66_100') {
-            categoryLabel = 'Entre 66% y 99%';
-        }
-
-        return `${categoryLabel}: ${value}`;
+         return `${categoryLabel}: ${value}`;
     };
+ */
 
+    const formatTooltip = ({ id, value, percentage }: { id: string; value: number; percentage: number }) => {
+        let categoryLabel = id;
+        let excludedKeys = [ 'porcent_0_33', 'porcent_33_66', 'porcent_66_100'];
+        // Personaliza los nombres de las categorías
+        if (id.startsWith('porcent_')) {
+            categoryLabel = `${excludedKeys}`;
+        } else if (id.startsWith('entre_')) {
+            const [lower, upper] = id.split('_').slice(1);
+            categoryLabel = `${lower}% - ${upper}%`;
+        }
+    
+        return `${categoryLabel}: ${value} clientes`;
+    };
+    
+
+    
     /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
         setSelectedDataKey(dataKey);
@@ -242,7 +252,7 @@ const PieChartComponentK2 = () => {
                             spacing: 10,
                         },
                     ]}
-                   tooltip={(tooltipProps) => {
+                 /*   tooltip={(tooltipProps) => {
                         const { id, value, color, formattedValue , label} = tooltipProps.datum;
                       
                         return (
@@ -260,7 +270,34 @@ const PieChartComponentK2 = () => {
                             </div>                                
                           </div>
                         );
-                      }} 
+                      }}  */
+
+                      tooltip={(tooltipProps) => {
+                        const { id, value, color, formattedValue } = tooltipProps.datum;
+                        const percentage = responseData[selectedDataKey][id];
+                       /*  const categoryLabel = `${(percentage * 100).toFixed(0)}%`; */
+                        const categoryLabel = `${percentage}`;
+                    
+                        return (
+                            <div
+                                style={{
+                                    background: '#000',
+                                    color: color,
+                                    padding: '10px',
+                                    borderRadius: '5px',
+                                    fontSize: '14px',
+                                }}
+                            >
+                                <div>
+                                    <strong>{categoryLabel}: {value} clientes</strong>
+                                </div>
+                            </div>
+                        );
+                    }}
+                    
+                    
+                    
+                    
                       
                     legends={[
                         {

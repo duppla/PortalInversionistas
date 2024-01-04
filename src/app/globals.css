@@ -479,6 +479,12 @@ a {
     font-size: 18px !important;
 
   }
+
+  .custom-table {
+    width: 680px !important;
+    height: 480px !important;
+  }
+
 }
 
 @media screen and (min-width: 1020px) {
@@ -560,6 +566,12 @@ a {
 
   }
 
+  .custom-table {
+    width: 900px !important;
+    height: 480px !important;
+  }
+
+
 }
 
 @media screen and (min-width: 1200px) {
@@ -640,6 +652,11 @@ a {
     font-weight: 300;
     font-size: 20px !important;
 
+  }
+
+  .custom-table {
+    width: 1080px !important;
+    height: 480px !important;
   }
 }
 
@@ -730,6 +747,11 @@ a {
 
   }
 
+  .custom-table {
+    width: 1240px !important;
+    height: 480px !important;
+  }
+
 
 }
 
@@ -801,5 +823,9 @@ a {
     font-weight: 300;
     font-size: 26px !important;
 
+  }
+  .custom-table {
+    width: 1280px !important;
+    height: 480px !important;
   }
 }
