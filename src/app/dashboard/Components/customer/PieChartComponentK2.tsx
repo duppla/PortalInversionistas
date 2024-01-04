@@ -270,13 +270,32 @@ const PieChartComponentK2 = () => {
                             </div>                                
                           </div>
                         );
+                        
+                                                console.log(percentageValue + ' prueba de porcentaje existente k2' + isValidPercentage + ' este es el id ' + id + ' este es el value ' + value + ' este es el color ' + color + ' este es el formattedValue ' + formattedValue + ' este es el percentageKey ' + percentageKey + ' este es el percentageValue ' + percentageValue);
                       }}  */
 
                       tooltip={(tooltipProps) => {
                         const { id, value, color, formattedValue } = tooltipProps.datum;
-                        const percentage = responseData[selectedDataKey][id];
-                       /*  const categoryLabel = `${(percentage * 100).toFixed(0)}%`; */
-                        const categoryLabel = `${percentage}`;
+                        
+                        // Utiliza una expresión regular para obtener la parte numérica del id
+                        const match = id.toString().match(/(\d+_\d+)/);
+                        
+                        // Construye la clave del porcentaje
+                        const percentageKey = match ? `porcent_${match[1]}` : null;
+                        
+                        // Obtiene el valor de porcentaje
+                        const percentageValue = percentageKey ? responseData[selectedDataKey][percentageKey] : null;
+                    
+                        // Verifica si la clave del porcentaje existe y es un número válido
+                        const isValidPercentage = !isNaN(percentageValue) && typeof percentageValue === 'number';
+                    
+                        // Si no hay porcentaje válido, establece un valor predeterminado
+                        const fallbackPercentage = 0;
+                    
+                        // Construye el label del tooltip con o sin porcentaje, según la validez de los datos
+                        const categoryLabel = isValidPercentage
+                            ? `${(percentageValue * 100).toFixed(0)}%: ${value} clientes`
+                            : `${(fallbackPercentage * 100).toFixed(0)}%: ${value} clientes`;
                     
                         return (
                             <div
@@ -289,11 +308,13 @@ const PieChartComponentK2 = () => {
                                 }}
                             >
                                 <div>
-                                    <strong>{categoryLabel}: {value} clientes</strong>
+                                    <strong>{categoryLabel}</strong>
                                 </div>
                             </div>
                         );
                     }}
+                    
+                    
                     
                     
                     

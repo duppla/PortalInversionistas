@@ -68,7 +68,7 @@ const SankeyChartComponentJ = () => {
 
         fetchData();
     }, []);
-    
+
 
 
 
@@ -88,6 +88,16 @@ const SankeyChartComponentJ = () => {
         return '#cccccc'; // Color por defecto si no se cumplen las condiciones
     };
 
+    // Función para dar formato a los valores de los nodos
+    const formatValue = (value: any) => {
+        if (value >= 1000000) {
+            return `${(value / 1000000).toFixed(1)}M`;
+        } else {
+            return value.toString();
+        }
+    };
+
+
     return (
         <div className='grafica-barcharts-des nivo-text'>
             <div>
@@ -102,84 +112,134 @@ const SankeyChartComponentJ = () => {
                     </Grid>
                 </FormControl>
             </div>
-            <Typography  variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '18px', mt: 2 }}>Mes actual</Typography>
+            <Typography variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '18px', mt: 2 }}>Mes actual</Typography>
             {dataSnkey && (
-            <ResponsiveSankey
-                        data={dataSnkey}
-                        margin={{ top: 20, right: 50, bottom: 80, left: 50 }}
-                        align="justify"
+                <ResponsiveSankey
+                    data={dataSnkey}
+                    margin={{ top: 20, right: 50, bottom: 80, left: 50 }}
+                    align="justify"
 
-                        /*  colors={['#FFFFBA','#6C9FFF', '#F4DCFF','#FF9900',  '#BAFCC5',]}   */
-                        /* colors={{ scheme: 'set2' }} */
-                        colors={getColor}
+                    /*  colors={['#FFFFBA','#6C9FFF', '#F4DCFF','#FF9900',  '#BAFCC5',]}   */
+                    /* colors={{ scheme: 'set2' }} */
+                    colors={getColor}
 
-                        nodeOpacity={1}
-                        nodeHoverOthersOpacity={0.35}
-                        nodeThickness={18}
-                        nodeSpacing={24}
-                        nodeBorderWidth={1}
+                    nodeOpacity={1}
+                    nodeHoverOthersOpacity={0.35}
+                    nodeThickness={18}
+                    nodeSpacing={24}
+                    nodeBorderWidth={1}
 
-                        nodeBorderColor={{ from: 'color', modifiers: [['brighter', 0.5]] }}
-                        nodeBorderRadius={3}
-                        linkOpacity={0.3}
-                        linkHoverOpacity={0.5}
-                        linkHoverOthersOpacity={0.2}
-                        linkContract={4}
-                        linkBlendMode="color-dodge"
-                        enableLinkGradient={true}
-                        enableLabels={false}
-                        labelPadding={16}
+                    nodeBorderColor={{ from: 'color', modifiers: [['brighter', 0.5]] }}
+                    nodeBorderRadius={3}
+                    linkOpacity={0.3}
+                    linkHoverOpacity={0.5}
+                    linkHoverOthersOpacity={0.2}
+                    linkContract={4}
+                    linkBlendMode="color-dodge"
+                    enableLinkGradient={true}
+                    enableLabels={true}
+                    labelPadding={16}
+                    labelOrientation="horizontal"
+                    /*  label={node => `${node.id} 😁`}  */
+                    /*  label={datum => `${datum.id} (fontSize: 42)`} */
 
-                        theme={{
-                            axis: {
-                                ticks: {
-                                    text: {
-                                        fill: '#9B9EAB', // Color del texto en los ejes
-                                    },
-                                },
-                            },
-                            legends: {
+
+                    /*  tooltip={(node: any) => {
+                       return (
+                         <div>
+                           <strong>{node.id}</strong>: {formatValue(node.value)}
+                         </div>
+                       );
+                     }} */
+
+                    /*   linkTooltip={({ link }) => (
+                          <div>
+                              Custom tooltip for link:
+                              <br />
+                              <strong>{link.source.label}</strong> to <strong>{link.target.label}</strong>
+                              <br />
+                              Value: {formatValue(link.value)}
+                          </div>
+                      )} */
+
+                    nodeTooltip={({
+                        node
+                    }) => <div style={{ backgroundColor: 'black', color: '#9B9EAB', padding: '10px' }}>
+                            <strong>{node.label}</strong>
+                            <div style={{ backgroundColor: node.color, width: '10px', height: '10px', display: 'inline-block', marginRight: '5px' }}></div>
+                            Value: {formatValue(node.value)}
+
+                        </div>} linkTooltip={({
+                            link
+                        }) => <div style={{ backgroundColor: 'black', color: '#9B9EAB', padding: '10px' }}>
+                               <p>  <strong>{link.source.label}</strong> to <strong>{link.target.label}</strong></p>
+                               <div style={{ backgroundColor: link.color, width: '10px', height: '10px', display: 'inline-block', marginRight: '5px' }}></div>
+                                Value: {formatValue(link.value)}
+                            </div>
+                        }
+
+
+                    labelTextColor={{
+
+                        from: 'color',
+                        modifiers: [
+                            [
+                                'darker',
+                                0.2
+                            ]
+                        ]
+                    }}
+
+                    theme={{
+                        axis: {
+                            ticks: {
                                 text: {
-                                    fill: '#9B9EAB', // Color del texto de las leyendas
+                                    fill: '#9B9EAB', // Color del texto en los ejes
                                 },
                             },
-                            tooltip: {
-                                container: {
-                                    background: 'black', // Fondo del tooltip
-                                    color: '#9B9EAB', // Color del texto del tooltip
-                                },
+                        },
+                        legends: {
+                            text: {
+                                fill: '#9B9EAB', // Color del texto de las leyendas
                             },
-                        }}
+                        },
+                        tooltip: {
+                            container: {
+                                background: 'black', // Fondo del tooltip
+                                color: '#9B9EAB', // Color del texto del tooltip
+                            },
+                        },
+                    }}
 
-                     legends={[
-                         {
-                             anchor: 'bottom-left',
-                             direction: 'row',
-                             translateX: 30,
-                             translateY: 28,
-                             itemWidth: 100,
-                             itemHeight: 14,
-                             itemDirection: 'left-to-right',
-                             itemsSpacing: 2,
-                             itemTextColor: '#999',
-                             symbolShape: 'square',
-                             symbolSize: 14,/* 
+                    legends={[
+                        {
+                            anchor: 'bottom-left',
+                            direction: 'row',
+                            translateX: 30,
+                            translateY: 28,
+                            itemWidth: 100,
+                            itemHeight: 14,
+                            itemDirection: 'left-to-right',
+                            itemsSpacing: 2,
+                            itemTextColor: '#999',
+                            symbolShape: 'square',
+                            symbolSize: 14,/* 
                              textSize: 20, */
-                             effects: [
-                                 {
-                                     on: 'hover',
-                                     style: {
-                                         itemTextColor: '#cccccc'
-                                     }
-                                 }
-                             ],
-                            
-                         }
+                            effects: [
+                                {
+                                    on: 'hover',
+                                    style: {
+                                        itemTextColor: '#cccccc'
+                                    }
+                                }
+                            ],
 
-                        
-                     ]} 
+                        }
 
-                    /> 
+
+                    ]}
+
+                />
             )}
         </div>
     );
