@@ -274,15 +274,59 @@ const PieChartComponentK2 = () => {
                                                 console.log(percentageValue + ' prueba de porcentaje existente k2' + isValidPercentage + ' este es el id ' + id + ' este es el value ' + value + ' este es el color ' + color + ' este es el formattedValue ' + formattedValue + ' este es el percentageKey ' + percentageKey + ' este es el percentageValue ' + percentageValue);
                       }}  */
 
-                      tooltip={(tooltipProps) => {
+                /*       tooltip={(tooltipProps) => {
                         const { id, value, color, formattedValue } = tooltipProps.datum;
                         
                         // Utiliza una expresión regular para obtener la parte numérica del id
                         const match = id.toString().match(/(\d+_\d+)/);
+                        console.log(match);
                         
                         // Construye la clave del porcentaje
                         const percentageKey = match ? `porcent_${match[1]}` : null;
+                        console.log(percentageKey + `prueba de porcentaje key`);
                         
+                        // Obtiene el valor de porcentaje
+                        const percentageValue = percentageKey ? responseData[selectedDataKey][percentageKey] : null;
+                    
+                        // Verifica si la clave del porcentaje existe y es un número válido
+                        const isValidPercentage = !isNaN(percentageValue) && typeof percentageValue === 'number';
+                    
+                        // Si no hay porcentaje válido, establece un valor predeterminado
+                        const fallbackPercentage = 0;
+                    
+                        console.log(percentageValue + ' prueba de porcentaje existente k2' + isValidPercentage + ' este es el id ' );
+                        // Construye el label del tooltip con o sin porcentaje, según la validez de los datos
+                        const categoryLabel = isValidPercentage
+                            ? `${(percentageValue * 100).toFixed(0)}%: ${value} clientes`
+                            : `${(fallbackPercentage * 100).toFixed(0)}%: ${value} clientes`;
+                    console.log(categoryLabel + 'prueba de categoria');
+                        return (
+                            <div
+                                style={{
+                                    background: '#000',
+                                    color: color,
+                                    padding: '10px',
+                                    borderRadius: '5px',
+                                    fontSize: '14px',
+                                }}
+                            >
+                                <div>
+                                    <strong>{categoryLabel}</strong>
+                                </div>
+                            </div>
+                        );
+                    }} */
+                    
+                    tooltip={(tooltipProps) => {
+                        const { id, value, color, formattedValue } = tooltipProps.datum;
+                    
+                        // Utiliza una expresión regular para encontrar números y caracteres relacionados con el porcentaje en el id
+                        const match = id.toString().match(/[\d.%]+/);
+                    
+                        // Construye la clave del porcentaje
+                        const percentageKey = match ? `porcent_${match[0]}` : null;
+                        console.log(percentageKey + `prueba de porcentaje key`);
+                    
                         // Obtiene el valor de porcentaje
                         const percentageValue = percentageKey ? responseData[selectedDataKey][percentageKey] : null;
                     
@@ -313,7 +357,6 @@ const PieChartComponentK2 = () => {
                             </div>
                         );
                     }}
-                    
                     
                     
                     

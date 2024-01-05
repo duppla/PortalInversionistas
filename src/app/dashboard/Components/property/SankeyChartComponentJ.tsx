@@ -120,8 +120,8 @@ const SankeyChartComponentJ = () => {
                     align="justify"
 
                     /*  colors={['#FFFFBA','#6C9FFF', '#F4DCFF','#FF9900',  '#BAFCC5',]}   */
-                    /* colors={{ scheme: 'set2' }} */
-                    colors={getColor}
+                    colors={{ scheme: 'set2' }} 
+                 /*    colors={getColor} */
 
                     nodeOpacity={1}
                     nodeHoverOthersOpacity={0.35}
@@ -135,11 +135,14 @@ const SankeyChartComponentJ = () => {
                     linkHoverOpacity={0.5}
                     linkHoverOthersOpacity={0.2}
                     linkContract={4}
-                    linkBlendMode="color-dodge"
+                    linkBlendMode="screen"
                     enableLinkGradient={true}
                     enableLabels={true}
                     labelPadding={16}
                     labelOrientation="horizontal"
+
+
+                  
                     /*  label={node => `${node.id} 😁`}  */
                     /*  label={datum => `${datum.id} (fontSize: 42)`} */
 
@@ -165,27 +168,27 @@ const SankeyChartComponentJ = () => {
                     nodeTooltip={({
                         node
                     }) => <div style={{ backgroundColor: 'black', color: '#9B9EAB', padding: '10px' }}>
-                            <strong>{node.label}</strong>
                             <div style={{ backgroundColor: node.color, width: '10px', height: '10px', display: 'inline-block', marginRight: '5px' }}></div>
-                            Value: {formatValue(node.value)}
+                            <strong>{node.label}</strong>
+                            <br />
+                           {formatValue(node.value)}
 
                         </div>} linkTooltip={({
                             link
                         }) => <div style={{ backgroundColor: 'black', color: '#9B9EAB', padding: '10px' }}>
-                               <p>  <strong>{link.source.label}</strong> to <strong>{link.target.label}</strong></p>
+                               <p>  <strong>{link.source.label}</strong> a <strong>{link.target.label}</strong></p>
                                <div style={{ backgroundColor: link.color, width: '10px', height: '10px', display: 'inline-block', marginRight: '5px' }}></div>
-                                Value: {formatValue(link.value)}
+                                {formatValue(link.value)}
                             </div>
                         }
 
 
                     labelTextColor={{
-
                         from: 'color',
                         modifiers: [
                             [
                                 'darker',
-                                0.2
+                                0.1
                             ]
                         ]
                     }}

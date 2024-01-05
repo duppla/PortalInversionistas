@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
 interface ApiResponse {
-    prepago: number;
+    data: number;
     fecha: string;
 }
 
@@ -26,17 +26,18 @@ function formatFecha(inputFecha: string): string {
     return `${monthAbbr} ${year}`;
   }
 function CardComponentF3() {
+
 const [dataApiF3, setDataApiF3] = useState<ApiResponse | null>(null);
 
 useEffect(() => {
     const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-    fetch(getApiUrlFinal('/principal/f2_f3?investor=skandia'), options)
+    fetch(getApiUrlFinal('/principal/f3?investor=skandia'), options)
         .then(response => response.json())
         .then(response => {
-            if (typeof response.prepago === 'number') {
+            if (typeof response.data === 'number') {
                 setDataApiF3(response); // Coloca el objeto en un array para mantener consistencia
-                /*  console.log(response); */
+                 
             } else {
                 console.error('El valor de data no es un número:');
             }
@@ -46,7 +47,7 @@ useEffect(() => {
    // Accede directamente al primer elemento del array
    const dataPrueba = dataApiF3;
    const formattedDate = dataApiF3 ? formatFecha(dataApiF3.fecha) : '';
-   /*   console.log(dataPrueba + ' dataPrueba en point d1'); */
+ 
   return (
     <Box className='size-card-main-componentF' sx={{ backgroundColor:'#020101', borderRadius:'14px' , /* width: '360px', height:'220px' */ }}>
             <Card className='size-card-main-componentF' sx={{ mt:2, mb:2, backgroundColor:'#020101', borderRadius:'14px', display:'flex', justifyContent:'center', alignContent: 'center', textAlign:'center'}}>
@@ -58,7 +59,7 @@ useEffect(() => {
                     <p>{formattedDate}</p>
                     </Typography>
                     <Typography variant="h5"sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700' }} >
-                    <h3> $ {dataPrueba?.prepago.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    <h3> $ {dataPrueba?.data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                         </h3> 
                     </Typography>                    
                 </CardContent>

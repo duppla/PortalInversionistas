@@ -31,13 +31,13 @@ function CardComponentF2() {
     useEffect(() => {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-        fetch(getApiUrlFinal('/principal/f2_f3?investor=skandia'), options)
+        fetch(getApiUrlFinal('/principal/f2?investor=skandia'), options)
 
             .then(response => response.json())
             .then(response => {
                 if (typeof response.tasa_mora === 'number') {
                     setDataApiF2(response); // Coloca el objeto en un array para mantener consistencia
-                    /* console.log(response); */
+                    
                 } else {
                     console.error('El valor de data no es un número:');
                 }

@@ -170,8 +170,6 @@ export default function BasicTable() {
                                         />
                                     )
                                 )}
-
-
                             >
                                 <MenuItem value='este_anho'>Este año</MenuItem>
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
@@ -184,7 +182,6 @@ export default function BasicTable() {
             <div style={{ overflowX: 'auto' }}>
                 <TableContainer sx={{ mt: 4 }} component={Paper}>
                     <Table sx={{ minWidth: 550, background: '#212126' }} aria-label="simple table">
-
                         <TableHead>
                             <TableRow>
                                 <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '20px', width: 'auto', flexBasis: '50%' }} align="right"></TableCell>
@@ -242,7 +239,7 @@ export default function BasicTable() {
                                     </TableRow>
                                     <TableRow key="gastos" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
                                         <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
-                                            Noi
+                                            NOI
                                         </TableCell>
                                         {data.map((row: any, rowIndex) => (
                                             <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">

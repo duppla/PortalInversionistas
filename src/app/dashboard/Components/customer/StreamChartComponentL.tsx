@@ -140,13 +140,13 @@ function StreamChartComponentL() {
         return `${percentageValue}%`;
     }
 
-    function formatNumberTooltip(value: string | number): string {
-        const percentageValue = (Number(value) * 100).toFixed(0);
-        return `${percentageValue}%`;
-    }
+    /*    function formatNumberTooltip(value: string | number): string {
+           const percentageValue = (Number(value) * 100).toFixed(0);
+           return `${percentageValue}%`;
+       } */
 
     const CustomTooltip: React.FC<MyTooltipProps> = ({ slice }) => (
-        <div style={{ background: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
+        <div style={{ background: 'black', color: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
             <div>
                 <strong>ID:</strong> {slice.id}
             </div>
@@ -156,14 +156,22 @@ function StreamChartComponentL() {
             <div>
                 {slice.stack.points.map((point, i) => (
                     <div key={i}>
-                        <strong>{point.id}:</strong> {`${(point.value * 100).toFixed(0)}%`}
+                        <strong>{point.id}:</strong> {formatNumberTooltip(point.value)}
                     </div>
                 ))}
             </div>
         </div>
     );
-    
-    
+
+
+
+    /* Función para formatear números como porcentajes sin decimales y ceros */
+    function formatNumberTooltip(value: number): string {
+        const percentageValue = (value * 100).toFixed(0);
+        return `${percentageValue}%`;
+    }
+
+
 
 
     return (
@@ -231,7 +239,7 @@ function StreamChartComponentL() {
 
                             >
 
-                               {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
+                                {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
 
@@ -298,48 +306,10 @@ function StreamChartComponentL() {
                 colors={['#FF1818', '#FD7F23', '#FFD600', '#00FF29',]} // Define tus propios colores */
                 fillOpacity={0.099}
 
-                enableStackTooltip={false}           
-                 isInteractive={false}
-              /*   tooltip={({ layer }) => (
-                    <div style={{ background: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
-                        <div>
-                            <strong>ID:</strong> {layer.id}
-                        </div>
-                        <div>
-                            <strong>Label:</strong> {layer.label}
-                        </div>
-                        <div>
-                            <strong>Color:</strong> {layer.color}
-                        </div>
-                       
-                    </div>
-                )} */
-          /*       tooltip={CustomTooltip} */
-/* 
-                 tooltip={MyTooltip}  */
-               /*  tooltip={({ slice }: MyTooltipProps) => (
-                    <div style={{ background: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
-                       
-                        <div>
-                            <strong>Categoría:</strong> {slice.stack.id}
-                        </div>
+                enableStackTooltip={true}
+                isInteractive={true}
             
-                      
-                        <div>
-                            <strong>Color:</strong> {slice.stack.color}
-                        </div>
-            
-                        
-                        <div>
-                            {slice.stack.points.map((point: { id: string; value: number }, i: number) => (
-                                <div key={i}>
-                                    <strong>{point.id}:</strong> {`${(point.value * 100).toFixed(0)}%`}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )} */
-
+                valueFormat={value => `${Number(value * 100).toFixed(0)}%`}
 
                 theme={{
                     axis: {
