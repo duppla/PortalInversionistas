@@ -9,6 +9,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import { useAuth } from '@/app/context/authContext';
 
 
 type DataApiType = {
@@ -34,6 +35,25 @@ type ItemType = {
 }
 const BarChartComponentE = () => {
 
+    const { userEmail } = useAuth();
+    const getQueryParameter = (userEmail: string | null): string => {
+        if (!userEmail) {
+            // En caso de que el correo electrónico no esté disponible
+            return "";
+        }
+        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
+        if (userEmail === "fcortes@duppla.co") {
+            return "skandia";
+        } else if (userEmail === "aarevalo@duppla.co") {
+            return "weseed";
+        } else if (userEmail === "scastaneda@duppla.co") {
+            return "disponible";
+        }
+        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
+        return "";
+    };
+
+
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
@@ -43,11 +63,12 @@ const BarChartComponentE = () => {
 
 
     useEffect(() => {
+        const queryParameter = getQueryParameter(userEmail);
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
                /*  const response = await fetch(getApiUrl('/main/e?investor=skandia'), options); */
-                const response = await fetch(getApiUrlFinal('/principal/e?investor=skandia'), options);
+                const response = await fetch(getApiUrlFinal(`/principal/e?investor=${queryParameter}`), options);
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega

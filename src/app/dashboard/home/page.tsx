@@ -6,7 +6,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Graficaprueba from '../Components/main/BarChartComponentA1'
 import GraficacomponenteA2 from '../Components/main/BarChartComponentA2'
 import GraficacomponenteE from '../Components/main/BarChartComponentE'
-import GraficacomponenteG1 from '../Components/main/PieChartComponentG1'
+
+import GraficacomponenteG1 from '../Components/main/LineChartComponentG1'
 import GraficacomponenteG2 from '../Components/main/PieChartComponentG2'
 import CardcomponenteD1 from '../Components/main/CardComponentD1'
 import CardcomponenteD2 from '../Components/main/CardComponentD2'
@@ -14,6 +15,7 @@ import CardcomponenteD3 from '../Components/main/CardComponentD3'
 import CardcomponenteF1 from '../Components/main/CardComponentF1'
 import CardcomponenteF2 from '../Components/main/CardComponentF2'
 import CardcomponenteF3 from '../Components/main/CardComponentF3'
+
 import { useState } from 'react'
 import { SelectChangeEvent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';

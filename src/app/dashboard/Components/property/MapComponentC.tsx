@@ -9,6 +9,7 @@ import { SelectChangeEvent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { getApiUrl } from '@/app/url/ApiConfig';
 import { getApiUrlFinal } from '@/app/url/ApiConfig';
+import { useAuth } from '@/app/context/authContext';
 
 const themeBtn = createTheme({
   palette: {
@@ -45,6 +46,25 @@ interface CityData {
 }
 
 function MapComponentC() {
+
+  const { userEmail } = useAuth();
+  const getQueryParameter = (userEmail: string | null): string => {
+      if (!userEmail) {
+          // En caso de que el correo electrónico no esté disponible
+          return "";
+      }
+      // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
+      if (userEmail === "fcortes@duppla.co") {
+          return "skandia";
+      } else if (userEmail === "aarevalo@duppla.co") {
+          return "weseed";
+      } else if (userEmail === "scastaneda@duppla.co") {
+          return "disponible";
+      }
+      // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
+      return "";
+    };
+
   const mapDivC = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<Map | null>(null);
   const [data, setData] = useState<CityData>({});
@@ -65,11 +85,11 @@ function MapComponentC() {
 
 
   useEffect(() => {
-   
+    const queryParameter = getQueryParameter(userEmail);   
     const fetchData = async () => {
       try {
-        const response = await fetch(getApiUrlFinal('/inmuebles/c/?investor=Skandia'));
-        /*  const response = await fetch('https://backend-portal-inversionistas-c6f90ae68a14.herokuapp.com/inversionistas/inmuebles/c/?investor=Skandia'); */
+        const response = await fetch(getApiUrlFinal(`/inmuebles/c/?investor=${queryParameter}`));
+        
 
         if (!response.ok) {
           console.error('Error en la respuesta del servidor:', response.status, response.statusText);
@@ -179,9 +199,9 @@ function MapComponentC() {
         const popupContent = `
           <p  style="color: black;"><strong>${city}</strong></p>
           <p style="color: black;"> <strong>Barrio:</strong> ${location.barrio}</p>
-          <p style="color: black;"> <strong>Mora:</strong> ${location.mora}</p>
-          <p style="color: black;"> <strong>¿Está en mora?:</strong> ${location.categoria_mora}</p>
-          <p style="color: black;"> <strong>Valor del inmueble:</strong>${formatNumber(location.valor_inmueble)}</p>
+          <p style="color: black;"> <strong>¿Está en mora?:</strong> ${location.mora}</p>
+          <p style="color: black;"> <strong>¿Cuánto?:</strong> ${location.categoria_mora}</p>
+          <p style="color: black;"> <strong>Valor del inmueble:</strong> ${formatNumber(location.valor_inmueble)}</p>
         `;
   
         const popup = new mapboxgl.Popup().setHTML(popupContent);

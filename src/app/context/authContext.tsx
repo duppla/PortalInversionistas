@@ -12,11 +12,11 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<UserCredential>;
     logout: () => Promise<void>;
     user: User | null;
+    userEmail: string | null;
     loading: boolean;
+    setUserEmail: React.Dispatch<React.SetStateAction<string | null>>;
   }
 const authContext = createContext<AuthContextType | undefined>(undefined);
-
-
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(authContext);
@@ -31,15 +31,18 @@ interface AuthProviderProps {
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   const singUp = async (email: string, password: string): Promise<UserCredential> => {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     setUser(credential.user);
+    setUserEmail(email); 
     return credential;
   };
   const login = async (email: string, password: string): Promise<UserCredential> => {
     const credential = await signInWithEmailAndPassword(auth, email, password);
     setUser(credential.user);
+    setUserEmail(email);
     return credential;
   };
   const logout = async (): Promise<void> => signOut(auth);
@@ -52,12 +55,21 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     return () => unsubscribe();
   }, [])
 
-  const contextValue: AuthContextType = {
+/*   const contextValue: AuthContextType = {
     singUp,
     login,
     logout,
     user,
     loading
+  }; */
+  const contextValue: AuthContextType = {
+    singUp,
+    login,
+    logout,
+    user,
+    userEmail,  // Incluir el correo electrónico en el contexto
+    loading,
+    setUserEmail,  // Incluir la función setUserEmail en el contexto
   };
 
   return (

@@ -8,6 +8,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
+
+import { useAuth } from '../../../context/authContext';
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 
@@ -32,6 +34,23 @@ type ItemType = {
 };
 function BarChart() {
 
+    const { userEmail } = useAuth();
+    const getQueryParameter = (userEmail: string | null): string => {
+        if (!userEmail) {
+            // En caso de que el correo electrónico no esté disponible
+            return "";
+        }
+        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
+        if (userEmail === "fcortes@duppla.co") {
+            return "skandia";
+        } else if (userEmail === "aarevalo@duppla.co") {
+            return "weseed";
+        } else if (userEmail === "scastaneda@duppla.co") {
+            return "disponible";
+        }
+        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
+        return "";
+    };
 
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
@@ -44,11 +63,12 @@ function BarChart() {
     const [tickValues, setTickValues] = useState<number[]>([]);
 
     useEffect(() => {
+       const queryParameter = getQueryParameter(userEmail);
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
                 /* const response = await fetch(getApiUrl(`/main/a1?investor=skandia`), options); */
-                const response = await fetch(getApiUrlFinal(`/principal/a?investor=skandia`), options);
+                const response = await fetch(getApiUrlFinal(`/principal/a?investor=${queryParameter}`), options);
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
@@ -122,20 +142,19 @@ function BarChart() {
         if (value === undefined) {
             return 'N/A'; // Manejar el caso cuando el valor es undefined
         }
-    
+
         const suffixes = ['', 'K', 'M', 'B', 'T'];
-    
+
         const absoluteValue = Math.abs(value); // Tomar el valor absoluto para evitar problemas con números negativos
         const suffixNum = Math.floor(Math.log10(absoluteValue) / 3);
         const shortValue = (absoluteValue / Math.pow(10, suffixNum * 3)).toFixed(1);
-    
+
         const formattedValue = shortValue.endsWith('.0') ? shortValue.slice(0, -2) : shortValue;
         const formattedNumber = value < 0 ? `-${formattedValue}` : formattedValue;
-    
+
         return formattedNumber + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
-    
-    
+
 
     useEffect(() => {
         const dataForSelectedKey = getDataForSelectedKey();
@@ -144,60 +163,31 @@ function BarChart() {
         setTickValues(tickValues);
     }, [selectedDataKey, responseData]);
 
- /*    const calculateAxisValues = (data: ItemType[]) => {
+
+    /* Función para calcular los valores de los ejes */
+    const calculateAxisValues = (data: ItemType[]) => {
         const maxValue = Math.max(...data.map(item => Math.max(item.flujo_real, item.flujo_esperado)));
-        const minValue = Math.min(...data.map(item => Math.min(item.flujo_real, item.flujo_esperado)));
         const numTicks = 5;
 
-        const range = maxValue - minValue;
-        const step = range / (numTicks - 1);
+        // Lógica para el resto de los casos
+        const step = maxValue / (numTicks - 1);
 
+        // Calcular dinámicamente los valores para gridYValues y tickValues
         const gridYValues = Array.from({ length: numTicks }, (_, index) => {
-            const tickValue = minValue + index * step;
+            const tickValue = index * step;
             return Math.round(tickValue);
         });
 
+        // Asegurarse de que 0 esté incluido
+        if (!gridYValues.includes(0)) {
+            gridYValues.unshift(0);
+        }
+
         return { gridYValues, tickValues: gridYValues };
-    };  */
+    };
 
-// ... (resto del código)
 
-const calculateAxisValues = (data: ItemType[]) => {
-    const maxValue = Math.max(...data.map(item => Math.max(item.flujo_real, item.flujo_esperado)));
-    const minValue = Math.min(...data.map(item => Math.min(item.flujo_real, item.flujo_esperado)));
-    const numTicks = 5;
 
-    // Verificar si se trata de los últimos 6 meses
-    if (selectedDataKey === 'ult_6_meses') {
-        // Establecer manualmente los valores para los últimos 6 meses
-        const gridYValues = [0, 4000000, 8000000, 12000000, 18000000, 23000000];
-        const tickValues = [0, 4000000, 8000000, 12000000, 18000000, 23000000];
-        return { gridYValues, tickValues };
-    }
-
-    // Lógica para el resto de los casos
-    const range = maxValue - minValue;
-    const step = range / (numTicks - 1);
-
-    // Calcular dinámicamente los valores para gridYValues y tickValues
-    const gridYValues = Array.from({ length: numTicks }, (_, index) => {
-        const tickValue = minValue + index * step;
-        return Math.round(tickValue);
-    });
-
-       // Asegurarse de que 0 esté incluido
-       if (!gridYValues.includes(0)) {
-        gridYValues.unshift(0);
-    }
-
-    return { gridYValues, tickValues: gridYValues };
-};
-
-// ... (resto del código)
-
-    
-
-    
 
     return (
         <div className='grafica-barcharts nivo-text'>
@@ -205,7 +195,7 @@ const calculateAxisValues = (data: ItemType[]) => {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Flujo real vs. flujo esperado</Typography>
+                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Flujo real vs. flujo esperado</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -224,40 +214,40 @@ const calculateAxisValues = (data: ItemType[]) => {
                                 }}
                                 MenuProps={{
                                     anchorOrigin: {
-                                      vertical: 'bottom',
-                                      horizontal: 'right',
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
                                     },
                                     transformOrigin: {
-                                      vertical: 'top',
-                                      horizontal: 'right',
+                                        vertical: 'top',
+                                        horizontal: 'right',
                                     },
-                                  /*   getContentAnchorEl: null, */
+                                    /*   getContentAnchorEl: null, */
                                     PaperProps: {
-                                      sx: {
-                                        backgroundColor: '#212126', // Fondo del menú desplegado
-                                        border: '1px solid #5682F2', // Borde azul
-                                        color: '#9B9EAB', // Letra blanca
-                                      },
+                                        sx: {
+                                            backgroundColor: '#212126', // Fondo del menú desplegado
+                                            border: '1px solid #5682F2', // Borde azul
+                                            color: '#9B9EAB', // Letra blanca
+                                        },
                                     },
-                                  }}
-                                  open={menuOpen}
-                                  onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                                  onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
-                                 
-                                  IconComponent={() => (
+                                }}
+                                open={menuOpen}
+                                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
+                                onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
+
+                                IconComponent={() => (
                                     // Cambia el ícono según el estado del menú
                                     menuOpen ? (
-                                      <ArrowDropUpIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropUpIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     ) : (
-                                      <ArrowDropDownIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropDownIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     )
-                                  )}
+                                )}
                             >
                                 {/* <MenuItem value='este_anho'>Este año</MenuItem> */}
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>

@@ -9,11 +9,12 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { FormControl, Typography, Select, MenuItem } from '@mui/material';
 import { ResponsiveLine } from '@nivo/line';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import { useAuth } from '@/app/context/authContext';
 
 
 type DataApiType = {
     fecha: string;
-    unidades: number;
+    tasa_morosidad: number;
 };
 
 type DataType = {
@@ -27,10 +28,28 @@ type DataType = {
 interface Item {
     [key: string]: any;
     fecha: string;
-    unidades: number | null;
+    tasa_morosidad: number | null;
 }
 
 const LineChartComponentG1 = () => {
+    const { userEmail } = useAuth();
+    const getQueryParameter = (userEmail: string | null): string => {
+        if (!userEmail) {
+            // En caso de que el correo electrónico no esté disponible
+            return "";
+        }
+        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
+        if (userEmail === "fcortes@duppla.co") {
+            return "skandia";
+        } else if (userEmail === "aarevalo@duppla.co") {
+            return "weseed";
+        } else if (userEmail === "scastaneda@duppla.co") {
+            return "disponible";
+        }
+        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
+        return "";
+    };
+
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
     const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
@@ -43,11 +62,12 @@ const LineChartComponentG1 = () => {
 
 
     useEffect(() => {
+        const queryParameter = getQueryParameter(userEmail);
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrlFinal('/inmuebles/h2?investor=skandia'), options);
-                
+                const response = await fetch(getApiUrlFinal(`/principal/g1?investor=${queryParameter}`), options);
+                               
                 const newData = await response.json();
 
                 setData((prevData) => {
@@ -74,19 +94,20 @@ const LineChartComponentG1 = () => {
     }, [data, selectedDataKey]); */
 
     useEffect(() => {
-        // Actualización de datos de gráfico aquí
-        const transformedData = tranformeDataApi(data, selectedDataKey);
-        setTransformedData(transformedData);
-
-        // Calcular el mínimo y máximo de unidades para generar los valores del eje Y
-        const units = data[selectedDataKey].map((item: any) => item.unidades);
-        const minUnits = Math.min(...units);
-        const maxUnits = Math.max(...units);
-
-        // Generar un conjunto de valores para la escala del eje Y
-        const yAxisValues = Array.from({ length: 6 }, (_, index) => minUnits + Math.floor((maxUnits - minUnits) * (index / 5)));
-        setYAxisValues(yAxisValues);
+        const units = data[selectedDataKey].map((item: any) => item.tasa_morosidad);
+        const maxYValue = Math.max(...units);
+        const minYValue = Math.min(...units);
+        
+        // Ajusta la lógica para manejar valores decimales en porcentaje
+        const yStep = (maxYValue - minYValue) / 5;
+        const yAxisValues = Array.from({ length: 6 }, (_, index) => `${(minYValue + index * yStep * 100).toFixed(2)}`);
+    
+        // Realiza la conversión explícita de cadenas a números
+        setYAxisValues(yAxisValues.map(value => parseFloat(value)));
     }, [data, selectedDataKey]);
+    
+    
+    
 
     const handleDataSelection = (dataKey: string) => {
         setSelectedDataKey(dataKey);
@@ -103,7 +124,7 @@ const LineChartComponentG1 = () => {
     const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
         return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
             x: item.fecha,
-            y: item.unidades,
+            y: item.tasa_morosidad,
         }));
     };
 
@@ -115,7 +136,7 @@ const LineChartComponentG1 = () => {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                        <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Número de unidades</Typography>
+                        <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Histórico tasa de mora</Typography>
 
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
@@ -223,7 +244,7 @@ const LineChartComponentG1 = () => {
                     return (
                         <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
                             <div ><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
-                            <div >{`Unidades: ${point.point.data.y}`}</div>
+                            <div>{`Tasa Morosidad: ${typeof point.point.data.y === 'number' ? point.point.data.y.toFixed(2) : point.point.data.y}`}</div>
 
                         </div>
                     );

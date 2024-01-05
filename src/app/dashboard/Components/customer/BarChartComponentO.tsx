@@ -10,6 +10,7 @@ import { styled } from '@mui/material/styles';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { useAuth } from '@/app/context/authContext';
 
 
 
@@ -28,6 +29,24 @@ type DataType = {
 
 
 function BarChartComponentO() {
+    
+    const { userEmail } = useAuth();
+    const getQueryParameter = (userEmail: string | null): string => {
+        if (!userEmail) {
+            // En caso de que el correo electrónico no esté disponible
+            return "";
+        }
+        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
+        if (userEmail === "fcortes@duppla.co") {
+            return "skandia";
+        } else if (userEmail === "aarevalo@duppla.co") {
+            return "weseed";
+        } else if (userEmail === "scastaneda@duppla.co") {
+            return "disponible";
+        }
+        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
+        return "";
+    };
 
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
@@ -39,22 +58,7 @@ function BarChartComponentO() {
     const [gridYValues, setGridYValues] = useState<number[]>([]);
     const [tickValues, setTickValues] = useState<number[]>([]);
 
-/*     const calculateAxisValues = (data: DataApiType[]) => {
-        const maxValue = Math.max(...data.map(item => Math.max(item.pagado, item.mora)));
-        const minValue = Math.min(...data.map(item => Math.min(item.pagado, item.mora)));
-        const numTicks = 7; // Número total de ticks
-    
-        const range = maxValue - minValue;
-        const step = range / (numTicks - 1);
-        
-        // Calcula los valores de los ticks en un rango que incluya el 0
-        const gridYValues = Array.from({ length: numTicks }, (_, index) => {
-            const tickValue = minValue + index * step;
-            return Math.round(tickValue);
-        });
-    
-        return { gridYValues, tickValues: gridYValues };
-    }; */
+
     const calculateAxisValues = (data: DataApiType[]) => {
         // Calcula la suma máxima de ambos valores en positivo
         const maxSum = Math.max(...data.map(item => item.pagado + Math.abs(item.mora)));
@@ -74,11 +78,12 @@ function BarChartComponentO() {
 
 
     useEffect(() => {
+        const queryParameter = getQueryParameter(userEmail);
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
                /*   const response = await fetch(getApiUrl(`/clientes/o?investor=skandia`), options);  */
-                const response = await fetch(getApiUrlFinal(`/clientes/o?investor=skandia`), options); 
+                const response = await fetch(getApiUrlFinal(`/clientes/o?investor=${queryParameter}`), options); 
 
                 const responseData = await response.json();
                 setResponseData(responseData);

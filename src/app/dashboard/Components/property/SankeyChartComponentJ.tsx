@@ -10,6 +10,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import { useAuth } from '@/app/context/authContext';
 
 
 type DataApiType = {
@@ -26,6 +27,24 @@ type DataType = {
 };
 
 const SankeyChartComponentJ = () => {
+    
+    const { userEmail } = useAuth();
+    const getQueryParameter = (userEmail: string | null): string => {
+        if (!userEmail) {
+            // En caso de que el correo electrónico no esté disponible
+            return "";
+        }
+        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
+        if (userEmail === "fcortes@duppla.co") {
+            return "skandia";
+        } else if (userEmail === "aarevalo@duppla.co") {
+            return "weseed";
+        } else if (userEmail === "scastaneda@duppla.co") {
+            return "disponible";
+        }
+        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
+        return "";
+    };
 
 
     const [dataSnkey, setDataSnkey] = useState<any>(null); // Estado para almacenar la data
@@ -38,10 +57,11 @@ const SankeyChartComponentJ = () => {
 
 
     useEffect(() => {
+        const queryParameter = getQueryParameter(userEmail);
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrlFinal(`/inmuebles/j1?investor=skandia`), options);
+                const response = await fetch(getApiUrlFinal(`/inmuebles/j1?investor=${queryParameter}`), options);
                 const responseData = await response.json();
 
                 // Adaptar la estructura de la respuesta de la API a la gráfica Sankey

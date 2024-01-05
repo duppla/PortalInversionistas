@@ -9,6 +9,7 @@ import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, In
 import { styled } from '@mui/material/styles';
 import { ResponsivePie } from '@nivo/pie'
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import { useAuth } from '@/app/context/authContext';
 
 
 
@@ -17,11 +18,24 @@ type DataType = {
 }; 
 
 function PieChartComponentK1() {
-/*   const [responseData, setResponseData] = useState<DataType>({
-    ult_12_meses: { en_mora: 0, a_tiempo: 0, total: 0 },
-    este_anho: { en_mora: 0, a_tiempo: 0, total: 0 },
-    ult_6_meses: { en_mora: 0, a_tiempo: 0, total: 0 },
-}); */
+
+  const { userEmail } = useAuth();
+    const getQueryParameter = (userEmail: string | null): string => {
+        if (!userEmail) {
+            // En caso de que el correo electrónico no esté disponible
+            return "";
+        }
+        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
+        if (userEmail === "fcortes@duppla.co") {
+            return "skandia";
+        } else if (userEmail === "aarevalo@duppla.co") {
+            return "weseed";
+        } else if (userEmail === "scastaneda@duppla.co") {
+            return "disponible";
+        }
+        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
+        return "";
+    };
 
 
   const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
@@ -31,11 +45,12 @@ function PieChartComponentK1() {
   const [responseData, setResponseData] = useState<any>({}); 
 
   useEffect(() => {
+    const queryParameter = getQueryParameter(userEmail);
     const fetchData = async () => {
       try {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
         /*  const response = await fetch( getApiUrl(`/clientes/k1?investor=skandia`), options); */
-        const response = await fetch(getApiUrlFinal(`/inmuebles/k1?investor=skandia`), options);
+        const response = await fetch(getApiUrlFinal(`/inmuebles/k1?investor=${queryParameter}`), options);
 
         const responseData = await response.json();
 

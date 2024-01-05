@@ -7,6 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Container, Box, Card, CardActions, CardContent, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import { useAuth } from '@/app/context/authContext';
 
 interface ApiResponse {
     tasa_mora: number;
@@ -26,12 +27,31 @@ function formatFecha(inputFecha: string): string {
     return `${monthAbbr} ${year}`;
   }
 function CardComponentF2() {
+    const { userEmail } = useAuth();
+    const getQueryParameter = (userEmail: string | null): string => {
+        if (!userEmail) {
+            // En caso de que el correo electrónico no esté disponible
+            return "";
+        }
+        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
+        if (userEmail === "fcortes@duppla.co") {
+            return "skandia";
+        } else if (userEmail === "aarevalo@duppla.co") {
+            return "weseed";
+        } else if (userEmail === "scastaneda@duppla.co") {
+            return "disponible";
+        }
+        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
+        return "";
+    };
+
     const [dataApiF2, setDataApiF2] = useState<ApiResponse | null>(null);
 
     useEffect(() => {
+        const queryParameter = getQueryParameter(userEmail);
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-        fetch(getApiUrlFinal('/principal/f2?investor=skandia'), options)
+        fetch(getApiUrlFinal(`/principal/f2?investor=${queryParameter}`), options)
 
             .then(response => response.json())
             .then(response => {

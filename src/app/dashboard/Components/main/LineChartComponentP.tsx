@@ -9,7 +9,6 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { FormControl, Typography, Select, MenuItem } from '@mui/material';
 import { ResponsiveLine } from '@nivo/line';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
-import { useAuth } from '@/app/context/authContext';
 
 
 type DataApiType = {
@@ -31,24 +30,8 @@ interface Item {
     unidades: number | null;
 }
 
-const LineChartComponentH2 = () => {
-    const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
-            // En caso de que el correo electrónico no esté disponible
-            return "";
-        }
-        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co") {
-            return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co") {
-            return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
-            return "disponible";
-        }
-        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-        return "";
-    };
+const LineChartComponentP = () => {
+    
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
     const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
@@ -61,13 +44,10 @@ const LineChartComponentH2 = () => {
 
 
     useEffect(() => {
-
-        const queryParameter = getQueryParameter(userEmail);
-
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrlFinal(`/inmuebles/h2?investor=${queryParameter}`), options);
+                const response = await fetch(getApiUrlFinal('/inmuebles/h2?investor=skandia'), options);
                 
                 const newData = await response.json();
 
@@ -308,4 +288,4 @@ const LineChartComponentH2 = () => {
     );
 };
 
-export default LineChartComponentH2;
+export default LineChartComponentP;
