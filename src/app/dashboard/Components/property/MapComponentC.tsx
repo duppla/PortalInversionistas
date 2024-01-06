@@ -186,23 +186,27 @@ function MapComponentC() {
     return value.toFixed(0) + suffixes[suffixNum];
   };
   
-  
+
   const addMarkersToMap = () => {
     Object.keys(data).forEach(city => {
       data[city].forEach((location, index) => {
         const markerElement = document.createElement('div');
         markerElement.className = 'custom-marker';
-       
+  
         markerElement.innerHTML = '🏠'; // Puedes cambiar este emoji 
         markerElement.style.fontSize = '26px'; // Ajusta el tamaño emoji  
-      
-        const popupContent = `
-          <p  style="color: black;"><strong>${city}</strong></p>
-          <p style="color: black;"> <strong>Barrio:</strong> ${location.barrio}</p>
-          <p style="color: black;"> <strong>¿Está en mora?:</strong> ${location.mora}</p>
-          <p style="color: black;"> <strong>¿Cuánto?:</strong> ${location.categoria_mora}</p>
-          <p style="color: black;"> <strong>Valor del inmueble:</strong> ${formatNumber(location.valor_inmueble)}</p>
+  
+        let popupContent = `
+          <p style="color: black;"><strong>${city}</strong></p>
+          <p style="color: black;"><strong>Barrio:</strong> ${location.barrio}</p>
+          <p style="color: black;"><strong>Valor del inmueble:</strong> ${formatNumber(location.valor_inmueble)}</p>
+          <p style="color: black;"><strong>¿Está en mora?:</strong> ${location.mora}</p>
         `;
+  
+        // Agregar categoría de mora si es necesario
+        if (location.mora === 'si') {
+          popupContent += `<p style="color: black;"><strong>¿Cuánto?:</strong> ${location.categoria_mora}</p>`;
+        }
   
         const popup = new mapboxgl.Popup().setHTML(popupContent);
   
@@ -219,6 +223,7 @@ function MapComponentC() {
       });
     });
   };
+  
   
   const handlePopupClose = () => {
     // Acción a realizar cuando se cierra el tooltip

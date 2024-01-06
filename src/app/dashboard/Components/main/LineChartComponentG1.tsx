@@ -87,27 +87,33 @@ const LineChartComponentG1 = () => {
         fetchData();
     }, [selectedValue]);
 
-  /*   useEffect(() => {
-        // Actualización de datos de gráfico aquí
-        const transformedData = tranformeDataApi(data, selectedDataKey);
-        setTransformedData(transformedData);
-    }, [data, selectedDataKey]); */
 
-    useEffect(() => {
-        const units = data[selectedDataKey].map((item: any) => item.tasa_morosidad);
-        const maxYValue = Math.max(...units);
-        const minYValue = Math.min(...units);
-        
-        // Ajusta la lógica para manejar valores decimales en porcentaje
-        const yStep = (maxYValue - minYValue) / 5;
-        const yAxisValues = Array.from({ length: 6 }, (_, index) => `${(minYValue + index * yStep * 100).toFixed(2)}`);
     
-        // Realiza la conversión explícita de cadenas a números
-        setYAxisValues(yAxisValues.map(value => parseFloat(value)));
+    useEffect(() => {
+        const units = data[selectedDataKey].map((item: any) => parseFloat(item.tasa_morosidad));
+    
+        if (units.length > 0) {
+            const maxYValue = Math.max(...units);
+            const minYValue = Math.min(...units);
+    
+            const yStep = (maxYValue - minYValue) / 3;
+            const yAxisValues = Array.from({ length: 4 }, (_, index) => {
+                const roundedValue = (minYValue + index * yStep).toFixed(2);
+                return parseFloat(roundedValue);
+            });
+    
+            setYAxisValues(yAxisValues);
+        } else {
+            // Si no hay datos, establecer valores predeterminados o manejar la situación de otra manera
+            setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);  // Cambia estos valores según tus necesidades
+        }
     }, [data, selectedDataKey]);
     
+    // ...
     
+   
     
+
 
     const handleDataSelection = (dataKey: string) => {
         setSelectedDataKey(dataKey);
@@ -222,7 +228,9 @@ const LineChartComponentG1 = () => {
                     /*  legend: 'linear scale', */
                     legendOffset: 12,
                     tickValues: yAxisValues,
+                    format: (tick) => `${(tick * 100).toFixed(0)}%`,
                 }}
+           
                 theme={{
                     axis: {
                         ticks: {

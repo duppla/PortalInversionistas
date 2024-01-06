@@ -25,8 +25,6 @@ type DataApiType = {
     muy_bajo: any;
 };
 
-
-
 /*  interface MyTooltipProps extends TooltipProps {
    slice: {
      points: StreamDatum[];
