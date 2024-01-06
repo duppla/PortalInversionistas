@@ -248,15 +248,18 @@ const LineChartComponentG1 = () => {
                 lineWidth={7}
                 tooltip={(point) => {
                     const date = new Date(point.point.data.x);
-
+                    const formattedY = (typeof point.point.data.y === 'number')
+                        ? `${(point.point.data.y * 100).toFixed(0)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
+                        : point.point.data.y;
+                
                     return (
                         <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
-                            <div ><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
-                            <div>{`Tasa Morosidad: ${typeof point.point.data.y === 'number' ? point.point.data.y.toFixed(2) : point.point.data.y}`}</div>
-
+                            <div><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
+                            <div>{`Tasa Morosidad: ${formattedY}`}</div>
                         </div>
                     );
                 }}
+                
                
               
                 curve="monotoneX"
