@@ -41,28 +41,13 @@ type ItemType = {
     intereses: number;
 };
 
-function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
-) {
-    return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-    createData('Categoria 1', 159, 6.0, 24, 4.0),
-    createData('Categoria 2', 237, 9.0, 37, 4.3),
-    createData('Categoria 3', 262, 16.0, 24, 6.0),
-    createData('Categoria 4', 305, 3.7, 67, 4.3),
-    createData('Categoria 5', 356, 16.0, 49, 3.9),
-];
+
 
 
 export default function BasicTable() {
 
-    
+
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
         if (!userEmail) {
@@ -101,7 +86,7 @@ export default function BasicTable() {
                     fecha: formatFecha(item.fecha),
                 }));
                 setOrderedKeys(getOrderedKeys(formattedData));
-                setData(formattedData.slice(1));
+                setData(formattedData/* .slice(1) */);
                 setResponseData(responseData);
             } catch (error) {
                 console.error(error);
@@ -211,6 +196,7 @@ export default function BasicTable() {
                                         {row.fecha}
                                     </TableCell>
                                 ))}
+
                             </TableRow>
                         </TableHead>
                         <TableBody>

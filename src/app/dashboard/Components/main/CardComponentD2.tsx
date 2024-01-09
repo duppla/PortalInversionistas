@@ -6,7 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { Container, Box, Card, CardActions, CardContent, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { getApiUrl } from '@/app/url/ApiConfig';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
 
@@ -39,7 +39,7 @@ function CardComponentD2() {
         const queryParameter = getQueryParameter(userEmail);
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-        fetch(getApiUrl(`/main/d2?investor=${queryParameter}`), options)
+        fetch(getApiUrlFinal(`/principal/d2?investor=${queryParameter}`), options)
             .then(response => response.json())
             .then(response => {
                 if (typeof response.data === 'number') {
