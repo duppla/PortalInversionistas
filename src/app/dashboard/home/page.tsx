@@ -15,6 +15,7 @@ import CardcomponenteD3 from '../Components/main/CardComponentD3'
 import CardcomponenteF1 from '../Components/main/CardComponentF1'
 import CardcomponenteF2 from '../Components/main/CardComponentF2'
 import CardcomponenteF3 from '../Components/main/CardComponentF3'
+import GraficacomponenteP from '../Components/main/LineChartComponentP'
 
 import { useState } from 'react'
 import { SelectChangeEvent } from '@mui/material';
@@ -93,6 +94,31 @@ const Page = () => {
                         <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
                             <CardcomponenteD3 />
                         </Grid>
+                    </Grid>
+                    {/* Componente P*/}
+                    <Grid container sx={{
+                        marginTop: '40px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        justifyItems: 'center',
+                        width: '100%',
+                        height: '580px',
+                        backgroundColor: '#212126',
+                        borderRadius: '20px',
+                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+
+                    }}>
+                        {/*Grafica principal-datos del inmueble  A2*/}
+                        <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
+                            width: '100%',
+                            height: '460px',
+                            backgroundColor: '#212126',
+                            borderRadius: '20px',
+
+                        }}>
+                            <GraficacomponenteP />
+                        </Grid>
+
                     </Grid>
                     {/* Componente A y A1 */}
                     <Grid container sx={{

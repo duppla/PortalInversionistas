@@ -138,11 +138,7 @@ function PieChartComponentG1() {
             </div>
           );
         };
-        
-        
-        
-        
-          
+                                   
     
        
 

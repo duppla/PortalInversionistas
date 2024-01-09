@@ -9,11 +9,12 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { FormControl, Typography, Select, MenuItem } from '@mui/material';
 import { ResponsiveLine } from '@nivo/line';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import { useAuth } from '@/app/context/authContext';
 
 
 type DataApiType = {
     fecha: string;
-    unidades: number;
+    rentabilidad: number;
 };
 
 type DataType = {
@@ -27,11 +28,28 @@ type DataType = {
 interface Item {
     [key: string]: any;
     fecha: string;
-    unidades: number | null;
+    rentabilidad: number | null;
 }
 
-const LineChartComponentP = () => {
-    
+const LineChartComponentG1 = () => {
+    const { userEmail } = useAuth();
+    const getQueryParameter = (userEmail: string | null): string => {
+        if (!userEmail) {
+            // En caso de que el correo electrónico no esté disponible
+            return "";
+        }
+        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
+        if (userEmail === "fcortes@duppla.co") {
+            return "skandia";
+        } else if (userEmail === "aarevalo@duppla.co") {
+            return "weseed";
+        } else if (userEmail === "scastaneda@duppla.co") {
+            return "disponible";
+        }
+        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
+        return "";
+    };
+
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
     const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
@@ -44,11 +62,12 @@ const LineChartComponentP = () => {
 
 
     useEffect(() => {
+        const queryParameter = getQueryParameter(userEmail);
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrlFinal('/inmuebles/h2?investor=skandia'), options);
-                
+                const response = await fetch(getApiUrlFinal(`/principal/p?investor=${queryParameter}`), options);
+                               
                 const newData = await response.json();
 
                 setData((prevData) => {
@@ -68,26 +87,32 @@ const LineChartComponentP = () => {
         fetchData();
     }, [selectedValue]);
 
-  /*   useEffect(() => {
-        // Actualización de datos de gráfico aquí
-        const transformedData = tranformeDataApi(data, selectedDataKey);
-        setTransformedData(transformedData);
-    }, [data, selectedDataKey]); */
 
+    
     useEffect(() => {
-        // Actualización de datos de gráfico aquí
-        const transformedData = tranformeDataApi(data, selectedDataKey);
-        setTransformedData(transformedData);
-
-        // Calcular el mínimo y máximo de unidades para generar los valores del eje Y
-        const units = data[selectedDataKey].map((item: any) => item.unidades);
-        const minUnits = Math.min(...units);
-        const maxUnits = Math.max(...units);
-
-        // Generar un conjunto de valores para la escala del eje Y
-        const yAxisValues = Array.from({ length: 6 }, (_, index) => minUnits + Math.floor((maxUnits - minUnits) * (index / 5)));
-        setYAxisValues(yAxisValues);
+        const units = data[selectedDataKey].map((item: any) => parseFloat(item.rentabilidad));
+    
+        if (units.length > 0) {
+            const maxYValue = Math.max(...units);
+            const minYValue = Math.min(...units);
+    
+            const yStep = (maxYValue - minYValue) / 3;
+            const yAxisValues = Array.from({ length: 4 }, (_, index) => {
+                const roundedValue = (minYValue + index * yStep).toFixed(2);
+                return parseFloat(roundedValue);
+            });
+    
+            setYAxisValues(yAxisValues);
+        } else {
+            // Si no hay datos, establecer valores predeterminados o manejar la situación de otra manera
+            setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);  // Cambia estos valores según tus necesidades
+        }
     }, [data, selectedDataKey]);
+    
+    // ...
+    
+       
+
 
     const handleDataSelection = (dataKey: string) => {
         setSelectedDataKey(dataKey);
@@ -104,7 +129,7 @@ const LineChartComponentP = () => {
     const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
         return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
             x: item.fecha,
-            y: item.unidades,
+            y: item.rentabilidad,
         }));
     };
 
@@ -116,7 +141,7 @@ const LineChartComponentP = () => {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                        <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Número de unidades</Typography>
+                        <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Rentabilidad mensual del portafolio</Typography>
 
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
@@ -202,7 +227,9 @@ const LineChartComponentP = () => {
                     /*  legend: 'linear scale', */
                     legendOffset: 12,
                     tickValues: yAxisValues,
+                    format: (tick) => `${(tick * 100).toFixed(0)}%`,
                 }}
+           
                 theme={{
                     axis: {
                         ticks: {
@@ -220,15 +247,18 @@ const LineChartComponentP = () => {
                 lineWidth={7}
                 tooltip={(point) => {
                     const date = new Date(point.point.data.x);
-
+                    const formattedY = (typeof point.point.data.y === 'number')
+                        ? `${(point.point.data.y * 100).toFixed(0)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
+                        : point.point.data.y;
+                
                     return (
                         <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
-                            <div ><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
-                            <div >{`Unidades: ${point.point.data.y}`}</div>
-
+                            <div><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
+                            <div>{`Rentabilidad: ${formattedY}`}</div>
                         </div>
                     );
                 }}
+                
                
               
                 curve="monotoneX"
@@ -288,4 +318,4 @@ const LineChartComponentP = () => {
     );
 };
 
-export default LineChartComponentP;
+export default LineChartComponentG1;
