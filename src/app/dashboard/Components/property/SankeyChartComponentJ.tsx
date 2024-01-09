@@ -94,7 +94,7 @@ const SankeyChartComponentJ = () => {
 
 
     // Definir tus escalas de colores verdes y rojos
-    /*   const greenScale = ["#d4f0d2", "#76b17d", "#1e5631"]; */
+  
     const greenScale = ["#1E5631", "#04c437", "#76B17D", "#8fffad"];
     const redScale = ["#a61b1b", "#f18282", "#a61b1b"];
 

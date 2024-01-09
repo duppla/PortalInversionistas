@@ -109,7 +109,7 @@ function BarChartComponentN() {
                 fecha: item.fecha,
                 Arriendo: item.arriendo,
                 'Intereses moratorios': item.intereses,
-                Prepago: item.prepago,
+                Adelanto: item.prepago,
             };
         })
         : [];
@@ -148,7 +148,7 @@ function BarChartComponentN() {
 
     // Dentro de tu componente, después de obtener los datos del API
     const arriendoValues = formattedDataa.map((item: any) => typeof item.Arriendo === 'number' ? item.Arriendo : 0);
-    const prepagoValues = formattedDataa.map((item: any) => typeof item.Prepago === 'number' ? item.Prepago : 0);
+    const prepagoValues = formattedDataa.map((item: any) => typeof item.Adelanto === 'number' ? item.Adelanto : 0);
     const interesesValues = formattedDataa.map((item: any) => typeof item.Intereses === 'number' ? item.Intereses : 0);
 
     const maxArriendo = Math.max(...arriendoValues);
@@ -240,7 +240,7 @@ function BarChartComponentN() {
 
             <ResponsiveBar
                 data={formattedDataa}
-                keys={['Arriendo', 'Prepago', 'Intereses moratorios',]}
+                keys={['Arriendo', 'Adelanto', 'Intereses moratorios',]}
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}

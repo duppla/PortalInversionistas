@@ -96,9 +96,9 @@ const LineChartComponentG1 = () => {
             const maxYValue = Math.max(...units);
             const minYValue = Math.min(...units);
     
-            const yStep = (maxYValue - minYValue) / 3;
-            const yAxisValues = Array.from({ length: 4 }, (_, index) => {
-                const roundedValue = (minYValue + index * yStep).toFixed(2);
+            const yStep = (maxYValue - minYValue) / 4;
+            const yAxisValues = Array.from({ length: 5 }, (_, index) => {
+                const roundedValue = (minYValue + index * yStep).toFixed(4);
                 return parseFloat(roundedValue);
             });
     
@@ -109,9 +109,8 @@ const LineChartComponentG1 = () => {
         }
     }, [data, selectedDataKey]);
     
-    // ...
     
-       
+    
 
 
     const handleDataSelection = (dataKey: string) => {
@@ -227,7 +226,7 @@ const LineChartComponentG1 = () => {
                     /*  legend: 'linear scale', */
                     legendOffset: 12,
                     tickValues: yAxisValues,
-                    format: (tick) => `${(tick * 100).toFixed(0)}%`,
+                    format: (tick) => `${(tick * 100).toFixed(2)}%`,
                 }}
            
                 theme={{
@@ -248,7 +247,7 @@ const LineChartComponentG1 = () => {
                 tooltip={(point) => {
                     const date = new Date(point.point.data.x);
                     const formattedY = (typeof point.point.data.y === 'number')
-                        ? `${(point.point.data.y * 100).toFixed(0)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
+                        ? `${(point.point.data.y * 100).toFixed(2)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
                         : point.point.data.y;
                 
                     return (

@@ -12,10 +12,13 @@ import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
 
-
 type DataType = {
-    [key: string]: any;
-}; 
+  [key: string]: Array<{
+    actividad_economica: string;
+    count: number;
+    porcentaje: number;
+  }>;
+};
 
 function PieChartComponentK1() {
 
@@ -49,7 +52,7 @@ function PieChartComponentK1() {
     const fetchData = async () => {
       try {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-        /*  const response = await fetch( getApiUrl(`/clientes/k1?investor=skandia`), options); */
+        
         const response = await fetch(getApiUrlFinal(`/inmuebles/k1?investor=${queryParameter}`), options);
 
         const responseData = await response.json();
@@ -80,67 +83,43 @@ function PieChartComponentK1() {
     }
   };
 
-  const formattedDataPie = responseData
+    const formattedDataPie = responseData
     ? responseData[selectedDataKey]
       ? Object.keys(responseData[selectedDataKey])
-        .filter((key) => key !== 'total') // Filtra la categoría 'total'
         .map((key: string) => {
-          const item = responseData[selectedDataKey][key];
-          let categoryLabel = key;
-
-          // Personaliza los nombres de las categorías
-          if (key === 'independiente') {
-            categoryLabel = 'Independiente';
-          } else if (key === 'empleado') {
-            categoryLabel = 'Empleado';
-          } else if (key === 'pensionado') {
-            categoryLabel = 'Pensionado';
-          } else if (key === 'rentista de capital') {
-            categoryLabel = 'Rentista de capital';
-          } else if (key === 'no registra') {
-            categoryLabel = 'No registra';
-          }
-
-
+          const data = responseData[selectedDataKey][key];
+  
           return {
-            id: key,
-            label: categoryLabel,
-            value: item,
-            formattedValue: `${item}`,
-            color: getColorByKey(key), // Reemplaza getColorByKey con tu lógica de asignación de colores
+            id: data.actividad_economica,
+            label: getCategoryLabel(data.actividad_economica),
+            value: data.count,
+            formattedValue: `${data.count}`,
+            color: getColorByKey(data.actividad_economica),
           };
         })
       : []
     : [];
+  
+  
 
-  /*   const formattedDataPie: PieData[] = Object.entries(responseData).map(([key, value]) => ({
-      id: key,
-      label: getCategoryLabel(key),
-      value: typeof value === 'number' ? value : 0,  // Asegurar que value sea un número
-      formattedValue: `${value}`,
-      color: getColorByKey(key),
-    })); */
-
-  function getCategoryLabel(key: string): string {
-    switch (key) {
-      case 'empleado':
-        return 'Empleado';
-      case 'pensionado':
-        return 'Pensionado';
-      case 'independiente':
-        return 'Independiente';
-      case 'rentista de capital':
-        return 'Rentista de capital';
-      case 'no registra':
-        return 'No registra';
-      default:
-        return key;
+    function getCategoryLabel(key: string): string {
+      switch (key.toLowerCase()) {
+        case 'empleado':
+          return 'Empleado';
+        case 'pensionado':
+          return 'Pensionado';
+        case 'independiente':
+          return 'Independiente';
+        case 'rentista de capital':
+          return 'Rentista de capital';
+        case 'no registra':
+          return 'No registra';
+        default:
+          return key; // Devuelve el valor original si no coincide con ninguna etiqueta personalizada
+      }
     }
-  }
-
-  /*  console.log(formattedDataPie + ' formattedDataPie en k1'); */
-
-  /* Función para actualizar la selección del usuario */
+    
+    /* Función para actualizar la selección del usuario */
   const handleDataSelection = (dataKey: string) => {
     setSelectedDataKey(dataKey);
   };
@@ -279,6 +258,9 @@ function PieChartComponentK1() {
         ]}
        tooltip={(tooltipProps) => {
             const { id, value, color, formattedValue , label} = tooltipProps.datum;
+            const originalData = responseData[selectedDataKey].find((data:any) => data.actividad_economica === id);
+            const porcentaje = originalData ? originalData.porcentaje * 100 : 0;
+            console.log( porcentaje + ' porcentaje en k1');
           
             return (
               <div
@@ -291,7 +273,7 @@ function PieChartComponentK1() {
                 }}
               >
                 <div>
-                  <strong> {label}: {formattedValue}</strong>
+                  <strong> {porcentaje.toFixed(0)}% : {formattedValue} {label}</strong>
                 </div>                                
               </div>
             );
