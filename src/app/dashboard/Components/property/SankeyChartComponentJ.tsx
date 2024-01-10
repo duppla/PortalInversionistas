@@ -27,7 +27,7 @@ type DataType = {
 };
 
 const SankeyChartComponentJ = () => {
-    
+
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
         if (!userEmail) {
@@ -68,7 +68,7 @@ const SankeyChartComponentJ = () => {
                 const formattedData = {
                     nodes: responseData.nodes.map((node: any) => ({
                         id: node.id,
-                        nodeColor: node.nodeColor,
+                        nodeColor: getColor(node),
                     })),
                     links: responseData.links.map((link: any) => ({
                         source: link.source,
@@ -94,19 +94,37 @@ const SankeyChartComponentJ = () => {
 
 
     // Definir tus escalas de colores verdes y rojos
-  
+
     const greenScale = ["#1E5631", "#04c437", "#76B17D", "#8fffad"];
     const redScale = ["#a61b1b", "#f18282", "#a61b1b"];
 
     // Función de color personalizada
-    const getColor = (node: any) => {
-        if (["Ingresos", "Reservas", "NOI"].includes(node.id)) {
+ /*    const getColor = (node: any) => {
+        if (["Ingresos", "Utilidad bruta", "NOI"].includes(node.id)) {
             return greenScale[node.depth % greenScale.length];
-        } else if (["Gastos", "Utilidad bruta"].includes(node.id)) {
+        } else if (["Gastos", "Reservas"].includes(node.id)) {
             return redScale[node.depth % redScale.length];
         }
         return '#cccccc'; // Color por defecto si no se cumplen las condiciones
+    }; */
+
+    const getColor = (node: any) => {
+        if (node.id === "Ingresos") {
+            return "#8fffad"; // Color más fuerte y brillante para Ingresos
+        } else if (node.id === "Utilidad bruta") {
+            return "#76B17D"; // Tonos más bajos para Utilidad bruta
+        } else if (node.id === "NOI") {
+            return "#04c437"; // Color más claro para NOI
+        } else if (node.id === "Gastos") {
+            return "#FF1818"; // Color más fuerte para Gastos
+        } else if (node.id === "Reservas") {
+            return "#f18282"; // Color para Reservas
+        }
+        return '#cccccc'; // Color por defecto si no se cumplen las condiciones
     };
+    
+    
+    
 
     // Función para dar formato a los valores de los nodos
     const formatValue = (value: any) => {
@@ -140,8 +158,8 @@ const SankeyChartComponentJ = () => {
                     align="justify"
 
                     /*  colors={['#FFFFBA','#6C9FFF', '#F4DCFF','#FF9900',  '#BAFCC5',]}   */
-                    colors={{ scheme: 'set2' }} 
-                 /*    colors={getColor} */
+                    /*   colors={{ scheme: 'set2' }} */
+                    colors={getColor}
 
                     nodeOpacity={1}
                     nodeHoverOthersOpacity={0.35}
@@ -160,30 +178,7 @@ const SankeyChartComponentJ = () => {
                     enableLabels={true}
                     labelPadding={16}
                     labelOrientation="horizontal"
-
-
-                  
-                    /*  label={node => `${node.id} 😁`}  */
-                    /*  label={datum => `${datum.id} (fontSize: 42)`} */
-
-
-                    /*  tooltip={(node: any) => {
-                       return (
-                         <div>
-                           <strong>{node.id}</strong>: {formatValue(node.value)}
-                         </div>
-                       );
-                     }} */
-
-                    /*   linkTooltip={({ link }) => (
-                          <div>
-                              Custom tooltip for link:
-                              <br />
-                              <strong>{link.source.label}</strong> to <strong>{link.target.label}</strong>
-                              <br />
-                              Value: {formatValue(link.value)}
-                          </div>
-                      )} */
+                    /* Tooltip para la grafica */
 
                     nodeTooltip={({
                         node
@@ -191,13 +186,13 @@ const SankeyChartComponentJ = () => {
                             <div style={{ backgroundColor: node.color, width: '10px', height: '10px', display: 'inline-block', marginRight: '5px' }}></div>
                             <strong>{node.label}</strong>
                             <br />
-                           {formatValue(node.value)}
+                            {formatValue(node.value)}
 
                         </div>} linkTooltip={({
                             link
                         }) => <div style={{ backgroundColor: 'black', color: '#9B9EAB', padding: '10px' }}>
-                               <p>  <strong>{link.source.label}</strong> a <strong>{link.target.label}</strong></p>
-                               <div style={{ backgroundColor: link.color, width: '10px', height: '10px', display: 'inline-block', marginRight: '5px' }}></div>
+                                <p>  <strong>{link.source.label}</strong> a <strong>{link.target.label}</strong></p>
+                                <div style={{ backgroundColor: link.color, width: '10px', height: '10px', display: 'inline-block', marginRight: '5px' }}></div>
                                 {formatValue(link.value)}
                             </div>
                         }

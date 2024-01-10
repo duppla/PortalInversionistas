@@ -237,6 +237,59 @@ a {
   }
 }
 
+
+/* Para intensificar el color de las leyendas durante el hover */
+/* Para intensificar el color de las leyendas durante el hover */
+.nivo_legend_item:hover {
+  opacity: 1 !important;
+  filter: saturate(150%) !important; /* Ajusta el porcentaje según sea necesario */
+}
+
+/* Para intensificar el color de las etiquetas durante el hover */
+.nivo_sankey_labels text:hover {
+  opacity: 1 !important;
+  filter: saturate(150%) !important; /* Ajusta el porcentaje según sea necesario */
+}
+
+/* Para intensificar el color de las leyendas durante el hover */
+.nivo_legend_item:hover {
+  opacity: 1 !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important; /* Ajusta según sea necesario */
+}
+
+/* Para intensificar el color de las etiquetas durante el hover */
+.nivo_sankey_labels text:hover {
+  opacity: 1 !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important; /* Ajusta según sea necesario */
+}
+
+/* Para intensificar el color de los textos de las etiquetas dentro de la gráfica */
+.nivo_sankey_labels text {
+  filter: saturate(150%); /* Ajusta el porcentaje según sea necesario */
+  transition: filter 0.3s ease; /* Agrega una transición suave */
+}
+
+/* Para intensificar el color de los textos de las etiquetas durante el hover */
+.nivo_sankey_labels text:hover {
+  filter: saturate(200%); /* Ajusta el porcentaje según sea necesario */
+}
+
+/* Ajusta el tamaño de la letra de las etiquetas dentro de la gráfica */
+/* Ejemplo con !important */
+.nivo_sankey_labels text {
+  font-size: 34px !important;
+  transition: font-size 0.3s ease !important;
+}
+
+
+/* Ajusta el tamaño de la letra de las etiquetas durante el hover */
+.nivo_sankey_labels text:hover {
+  font-size: 16px; /* Ajusta el tamaño durante el hover según sea necesario */
+}
+
+
+
+
 @media screen and (min-width: 300px) {
 
   /* clases login */

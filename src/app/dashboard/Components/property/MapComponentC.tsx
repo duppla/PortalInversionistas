@@ -263,7 +263,7 @@ function MapComponentC() {
         <div ref={mapDivC} style={{ width: '100%', height: '100%', borderRadius: '20px' }} />
 
         <div>
-          <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-start', mt: 2 }}>
+         {/*  <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-start', mt: 2 }}>
             <Button
               variant="outlined"
               onClick={() => handleCityChange('BOGOTÁ D.C.')}
@@ -292,7 +292,7 @@ function MapComponentC() {
             >
               Bogotá
             </Button>
-           {/*  <Button
+             <Button
               variant="outlined"
               onClick={() => handleCityChange('MOSQUERA')}
               disabled={selectedCity === 'MOSQUERA'}
@@ -319,7 +319,7 @@ function MapComponentC() {
               }}
             >
               Alrededores Bogotá
-            </Button> */}
+            </Button>
 
             <Button
               variant="outlined"
@@ -350,6 +350,97 @@ function MapComponentC() {
               Medellín
             </Button>
           </Stack>
+ */}
+ <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-start', mt: 2 }}>
+          {data['BOGOTÁ D.C.'] && (
+            <Button
+              variant="outlined"
+              onClick={() => handleCityChange('BOGOTÁ D.C.')}
+              disabled={selectedCity === 'BOGOTÁ D.C.'}
+              sx={{
+                borderRadius: '10px',
+                color: '#ffffff',
+                fontFamily: 'Rustica',
+                fontStyle: 'normal',
+                fontWeight: '500',
+                fontSize: '16px',
+                textTransform: 'none',
+                width: '200px',
+                backgroundColor: '#6C9FFF',
+                borderColor: '#6C9FFF',
+                '&:hover': {
+                  backgroundColor: '#3158A3',
+                  borderColor: '#3158A3',
+                },
+                '&.Mui-disabled': {
+                  color: '#9A9A9A',
+                  backgroundColor: '#3158A3',
+                },
+              }}
+            >
+              Bogotá
+            </Button>
+          )}
+          {data['MOSQUERA'] && (
+            <Button
+              variant="outlined"
+              onClick={() => handleCityChange('MOSQUERA')}
+              disabled={selectedCity === 'MOSQUERA'}
+              sx={{
+                borderRadius: '10px',
+                color: '#ffffff',
+                fontFamily: 'Roboto',
+                fontStyle: 'normal',
+                fontWeight: '500',
+                fontSize: '16px',
+                textTransform: 'none',
+                width: '200px',
+                backgroundColor: '#6C9FFF',
+                borderColor: '#6C9FFF',
+                '&:hover': {
+                  backgroundColor: '#3158A3',
+                  borderColor: '#3158A3',
+                },
+                '&.Mui-disabled': {
+                  color: '#9A9A9A',
+                  backgroundColor: '#3158A3',
+                },
+              }}
+            >
+              Alrededores Bogotá
+            </Button>
+          )}
+          {data['MEDELLÍN'] && (
+            <Button
+              variant="outlined"
+              onClick={() => handleCityChange('MEDELLÍN')}
+              disabled={selectedCity === 'MEDELLÍN'}
+              sx={{
+                borderRadius: '10px',
+                color: '#ffffff',
+                fontFamily: 'Roboto',
+                fontStyle: 'normal',
+                fontWeight: '500',
+                fontSize: '16px',
+                textTransform: 'none',
+                width: '200px',
+                backgroundColor: '#6C9FFF',
+                borderColor: '#6C9FFF',
+                '&:hover': {
+                  backgroundColor: '#3158A3',
+                  borderColor: '#3158A3',
+                },
+                '&.Mui-disabled': {
+                  color: '#9A9A9A',
+                  backgroundColor: '#3158A3',
+                },
+              }}
+            >
+              Medellín
+            </Button>
+          )}
+        </Stack>
+
         </div>
       </div>
     </ThemeProvider>
