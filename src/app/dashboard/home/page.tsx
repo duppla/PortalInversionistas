@@ -16,7 +16,7 @@ import CardcomponenteF1 from '../Components/main/CardComponentF1'
 import CardcomponenteF2 from '../Components/main/CardComponentF2'
 import CardcomponenteF3 from '../Components/main/CardComponentF3'
 import GraficacomponenteP from '../Components/main/LineChartComponentP'
-import GraficacomponenteP2 from '../Components/main/BarChartComponentP'
+
 
 import { useState } from 'react'
 import { SelectChangeEvent } from '@mui/material';
@@ -118,7 +118,7 @@ const Page = () => {
 
                         }}>
                           <GraficacomponenteP /> 
-                           {/*  <GraficacomponenteP2/> */}
+                           
                         </Grid>
 
                     </Grid>

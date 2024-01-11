@@ -138,7 +138,7 @@ const LineChartComponentP = () => {
 
     /* Mensaje para el tooltip explicativo */
     const longText = `
-   Mensaje creado por Sofí`;
+    Aquí irá un mensaje creado por Sofí`;
 
 
 
