@@ -7,6 +7,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import InfoIcon from '@mui/icons-material/Info';
+import { styled } from '@mui/material/styles';
+
 
 
 import { useAuth } from '../../../context/authContext';
@@ -63,7 +67,7 @@ function BarChart() {
     const [tickValues, setTickValues] = useState<number[]>([]);
 
     useEffect(() => {
-       const queryParameter = getQueryParameter(userEmail);
+        const queryParameter = getQueryParameter(userEmail);
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
@@ -186,7 +190,9 @@ function BarChart() {
     };
 
 
-
+    /* Mensaje para el tooltip explicativo */
+    const longText = `
+      El flujo real es el flujo de caja que se ha generado en el periodo seleccionado. El flujo esperado es el flujo de caja que se espera generar en el periodo seleccionado`;
 
     return (
         <div className='grafica-barcharts nivo-text'>
@@ -194,7 +200,17 @@ function BarChart() {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Flujo real vs. flujo esperado </Typography>
+                            <Grid container >
+                                <Grid xs={8} sm={8} md={8} lg={8}>
+                                    <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Flujo real vs. flujo esperado </Typography>
+                                </Grid>
+                                <Grid xs={2} sm={2} md={2} lg={2}>
+                                    <Tooltip title={longText}>
+                                        <InfoIcon sx={{ color: '#757575', fill: '#757575', marginTop: '28px', height: '12px', width: '12px', marginLeft: '10px' }} />
+                                    </Tooltip>
+                                </Grid>
+
+                            </Grid>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -401,7 +417,7 @@ function BarChart() {
                     }
                 ]}
                 role="application"
-              
+
                 barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
             />
 

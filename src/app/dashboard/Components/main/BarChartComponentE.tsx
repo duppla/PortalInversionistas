@@ -10,6 +10,9 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import InfoIcon from '@mui/icons-material/Info';
+import { styled } from '@mui/material/styles';
 
 
 type DataApiType = {
@@ -67,7 +70,7 @@ const BarChartComponentE = () => {
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-               /*  const response = await fetch(getApiUrl('/main/e?investor=skandia'), options); */
+                /*  const response = await fetch(getApiUrl('/main/e?investor=skandia'), options); */
                 const response = await fetch(getApiUrlFinal(`/principal/e?investor=${queryParameter}`), options);
                 const responseData = await response.json();
                 setResponseData(responseData);
@@ -142,6 +145,9 @@ const BarChartComponentE = () => {
     }
 
 
+    /* Mensaje para el tooltip explicativo */
+    const longText = `
+      Aquí irá un mensaje creado por Sofí`;
 
 
     return (
@@ -150,7 +156,18 @@ const BarChartComponentE = () => {
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt: 1 }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Roboto', color: '#ffffff' , fontSize:'26px', mt:2 }}>Porcentaje de propiedad del portafolio</Typography>
+                            <Grid container >
+                                <Grid xs={8} sm={8} md={8} lg={8}>
+                                    <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Porcentaje de propiedad del portafolio </Typography>
+                                </Grid>
+                                <Grid xs={2} sm={2} md={2} lg={2}>
+                                    <Tooltip title={longText}>
+                                        <InfoIcon sx={{ color: '#757575', fill: '#757575', marginTop: '28px', height: '12px', width: '12px', marginLeft: '10px' }} />
+                                    </Tooltip>
+                                </Grid>
+
+                            </Grid>
+
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -169,42 +186,42 @@ const BarChartComponentE = () => {
                                 }}
                                 MenuProps={{
                                     anchorOrigin: {
-                                      vertical: 'bottom',
-                                      horizontal: 'right',
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
                                     },
                                     transformOrigin: {
-                                      vertical: 'top',
-                                      horizontal: 'right',
+                                        vertical: 'top',
+                                        horizontal: 'right',
                                     },
-                                  /*   getContentAnchorEl: null, */
+                                    /*   getContentAnchorEl: null, */
                                     PaperProps: {
-                                      sx: {
-                                        backgroundColor: '#212126', // Fondo del menú desplegado
-                                        border: '1px solid #5682F2', // Borde azul
-                                        color: '#9B9EAB', // Letra blanca
-                                      },
+                                        sx: {
+                                            backgroundColor: '#212126', // Fondo del menú desplegado
+                                            border: '1px solid #5682F2', // Borde azul
+                                            color: '#9B9EAB', // Letra blanca
+                                        },
                                     },
-                                  }}
-                                  open={menuOpen}
-                                  onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                                  onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
-                                 
-                                  IconComponent={() => (
+                                }}
+                                open={menuOpen}
+                                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
+                                onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
+
+                                IconComponent={() => (
                                     // Cambia el ícono según el estado del menú
                                     menuOpen ? (
-                                      <ArrowDropUpIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropUpIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     ) : (
-                                      <ArrowDropDownIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropDownIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     )
-                                  )}
+                                )}
                             >
-                               {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
+                                {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
                             </Select>
@@ -247,28 +264,27 @@ const BarChartComponentE = () => {
                     },
                     grid: {
                         line: {
-                          stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                            stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
                         },
-                      },
+                    },
                 }}
-
                 tooltip={(point) => {
                     if (typeof point.data.fecha === 'string') {
-                      const [year, month] = point.data.fecha.split('-');
-                      const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                      const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-                      const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
-                      const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-                  
-                      return (
-                        <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                          <strong>{formattedDate}</strong>
-                          <div>{point.id}: {formattedValue}%</div>
-                        </div>
-                      );
+                        const [year, month] = point.data.fecha.split('-');
+                        const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                        const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
+                        const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                        const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+
+                        return (
+                            <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+                                <strong>{formattedDate}</strong>
+                                <div>{point.id}: {formattedValue}%</div>
+                            </div>
+                        );
                     }
                     return null; // Devolver null si point.data.fecha no es una cadena
-                  }}
+                }}
 
                 borderRadius={2}
                 borderColor={{
@@ -294,9 +310,9 @@ const BarChartComponentE = () => {
                     format: (value) => {
                         const [year, month] = value.split('-');
                         const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                      /*   return `${monthNames[parseInt(month, 10) - 1]} ${year}`; */
-                      const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-                      return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
+                        /*   return `${monthNames[parseInt(month, 10) - 1]} ${year}`; */
+                        const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
+                        return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
                     },
 
                 }}
@@ -304,7 +320,7 @@ const BarChartComponentE = () => {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    tickValues: [0, 0.25, 0.5, 0.75 , 1],
+                    tickValues: [0, 0.25, 0.5, 0.75, 1],
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
@@ -312,7 +328,7 @@ const BarChartComponentE = () => {
 
 
                 }}
-              /*   enableGridY={false} */
+                /*   enableGridY={false} */
                 labelSkipWidth={12}
                 labelSkipHeight={12}
                 labelTextColor={{

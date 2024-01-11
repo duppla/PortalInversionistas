@@ -10,6 +10,9 @@ import { FormControl, Typography, Select, MenuItem } from '@mui/material';
 import { ResponsiveLine } from '@nivo/line';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import InfoIcon from '@mui/icons-material/Info';
+import { styled } from '@mui/material/styles';
 
 
 type DataApiType = {
@@ -67,7 +70,7 @@ const LineChartComponentG1 = () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
                 const response = await fetch(getApiUrlFinal(`/principal/g1?investor=${queryParameter}`), options);
-                               
+
                 const newData = await response.json();
 
                 setData((prevData) => {
@@ -88,31 +91,30 @@ const LineChartComponentG1 = () => {
     }, [selectedValue]);
 
 
-    
+
     useEffect(() => {
         const units = data[selectedDataKey].map((item: any) => parseFloat(item.tasa_morosidad));
-    
+
         if (units.length > 0) {
             const maxYValue = Math.max(...units);
             const minYValue = Math.min(...units);
-    
+
             const yStep = (maxYValue - minYValue) / 4;
             const yAxisValues = Array.from({ length: 5 }, (_, index) => {
                 const roundedValue = (minYValue + index * yStep).toFixed(2);
                 return parseFloat(roundedValue);
             });
-    
+
             setYAxisValues(yAxisValues);
         } else {
             // Si no hay datos, establecer valores predeterminados o manejar la situación de otra manera
             setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);  // Cambia estos valores según tus necesidades
         }
     }, [data, selectedDataKey]);
-    
-    // ...
-    
-   
-    
+
+
+
+
 
 
     const handleDataSelection = (dataKey: string) => {
@@ -135,14 +137,26 @@ const LineChartComponentG1 = () => {
     };
 
     const tranformedData = tranformeDataApi(data, selectedDataKey);
+    /* Mensaje para el tooltip explicativo */
+    const longText = `
+    Aquí irá un mensaje creado por Sofí`;
 
     return (
         <div className='grafica-Linecharts-G'>
             <div>
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
-                        <Grid xs={6} md={6} lg={6}>
-                        <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Histórico tasa de mora</Typography>
+                        <Grid xs={6} sm={6} md={6} lg={6} >
+                            <Grid container >
+                                <Grid xs={10} sm={10} md={10} lg={10}>
+                                    <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Histórico tasa de mora</Typography>
+                                </Grid>
+                                <Grid xs={2} sm={2} md={2} lg={2}>
+                                    <Tooltip title={longText}>
+                                        <InfoIcon sx={{ color: '#757575', fill: '#757575', marginTop: '28px', height: '12px', width: '12px', marginLeft: '10px' }} />
+                                    </Tooltip>
+                                </Grid>
+                            </Grid>
 
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
@@ -163,42 +177,42 @@ const LineChartComponentG1 = () => {
                                 }}
                                 MenuProps={{
                                     anchorOrigin: {
-                                      vertical: 'bottom',
-                                      horizontal: 'right',
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
                                     },
                                     transformOrigin: {
-                                      vertical: 'top',
-                                      horizontal: 'right',
+                                        vertical: 'top',
+                                        horizontal: 'right',
                                     },
-                                  /*   getContentAnchorEl: null, */
+                                    /*   getContentAnchorEl: null, */
                                     PaperProps: {
-                                      sx: {
-                                        backgroundColor: '#212126', // Fondo del menú desplegado
-                                        border: '1px solid #5682F2', // Borde azul
-                                        color: '#9B9EAB', // Letra blanca
-                                      },
+                                        sx: {
+                                            backgroundColor: '#212126', // Fondo del menú desplegado
+                                            border: '1px solid #5682F2', // Borde azul
+                                            color: '#9B9EAB', // Letra blanca
+                                        },
                                     },
-                                  }}
-                                  open={menuOpen}
-                                  onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                                  onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
-                                 
-                                  IconComponent={() => (
+                                }}
+                                open={menuOpen}
+                                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
+                                onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
+
+                                IconComponent={() => (
                                     // Cambia el ícono según el estado del menú
                                     menuOpen ? (
-                                      <ArrowDropUpIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropUpIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     ) : (
-                                      <ArrowDropDownIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropDownIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     )
-                                  )}
+                                )}
                             >
-                              {/*   <MenuItem value='este_anho'>Este año</MenuItem> */}
+                                {/*   <MenuItem value='este_anho'>Este año</MenuItem> */}
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
                             </Select>
@@ -206,112 +220,112 @@ const LineChartComponentG1 = () => {
                     </Grid>
                 </FormControl>
             </div>
-            {loading && <Typography sx={{color: '#212126'}}>Cargando...</Typography>}
+            {loading && <Typography sx={{ color: '#212126' }}>Cargando...</Typography>}
             {!loading && (
-            <ResponsiveLine
-                animate
-                axisBottom={{
-                    legend: '',
-                    legendOffset: -12,
-                    tickValues: 'every month',
-                    format: (value) => {
-                        const date = new Date(value);
-                        const month = new Intl.DateTimeFormat('es', { month: 'short' }).format(date);
-                        return `${month.charAt(0).toUpperCase()}${month.slice(1)} ${date.getFullYear().toString().slice(2)}`;
-                        /* return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
-                    },
-                }}
-                enableGridX={false}
-                gridYValues={yAxisValues}
-               /*  gridYValues={[5, 15, 25, 35]}  */
-                axisLeft={{
-                    /*  legend: 'linear scale', */
-                    legendOffset: 12,
-                    tickValues: yAxisValues,
-                    format: (tick) => `${(tick * 100).toFixed(0)}%`,
-                }}
-           
-                theme={{
-                    axis: {
-                        ticks: {
-                            text: {
-                                fill: '#9B9EAB' // Cambia aquí al color que desees para el texto de las marcas en el eje Y
-                            }
-                        }
-                    },
-                    grid: {
-                        line: {
-                            stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                <ResponsiveLine
+                    animate
+                    axisBottom={{
+                        legend: '',
+                        legendOffset: -12,
+                        tickValues: 'every month',
+                        format: (value) => {
+                            const date = new Date(value);
+                            const month = new Intl.DateTimeFormat('es', { month: 'short' }).format(date);
+                            return `${month.charAt(0).toUpperCase()}${month.slice(1)} ${date.getFullYear().toString().slice(2)}`;
+                            /* return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
                         },
-                    },
-                }}
-                lineWidth={7}
-                tooltip={(point) => {
-                    const date = new Date(point.point.data.x);
-                    const formattedY = (typeof point.point.data.y === 'number')
-                        ? `${(point.point.data.y * 100).toFixed(0)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
-                        : point.point.data.y;
-                
-                    return (
-                        <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
-                            <div><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
-                            <div>{`Tasa Morosidad: ${formattedY}`}</div>
-                        </div>
-                    );
-                }}
-                
-               
-              
-                curve="monotoneX"
-                data={[
-                    {
-                        data: tranformedData,
+                    }}
+                    enableGridX={false}
+                    gridYValues={yAxisValues}
+                    /*  gridYValues={[5, 15, 25, 35]}  */
+                    axisLeft={{
+                        /*  legend: 'linear scale', */
+                        legendOffset: 12,
+                        tickValues: yAxisValues,
+                        format: (tick) => `${(tick * 100).toFixed(0)}%`,
+                    }}
 
-                        id: 'Unidades'
-                    }
-                ]}
-                colors={['#5ED1B1']}
-                enablePointLabel={false}
+                    theme={{
+                        axis: {
+                            ticks: {
+                                text: {
+                                    fill: '#9B9EAB' // Cambia aquí al color que desees para el texto de las marcas en el eje Y
+                                }
+                            }
+                        },
+                        grid: {
+                            line: {
+                                stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                            },
+                        },
+                    }}
+                    lineWidth={7}
+                    tooltip={(point) => {
+                        const date = new Date(point.point.data.x);
+                        const formattedY = (typeof point.point.data.y === 'number')
+                            ? `${(point.point.data.y * 100).toFixed(0)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
+                            : point.point.data.y;
 
-                margin={{
-                    bottom: 60,
-                    left: 50,
-                    right: 20,
-                    top: 40
-                }}
-                pointBorderColor={{
-                    from: 'color',
-                    modifiers: [
-                        [
-                            'darker',
-                            0.3
+                        return (
+                            <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
+                                <div><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
+                                <div>{`Tasa Morosidad: ${formattedY}`}</div>
+                            </div>
+                        );
+                    }}
+
+
+
+                    curve="monotoneX"
+                    data={[
+                        {
+                            data: tranformedData,
+
+                            id: 'Unidades'
+                        }
+                    ]}
+                    colors={['#5ED1B1']}
+                    enablePointLabel={false}
+
+                    margin={{
+                        bottom: 60,
+                        left: 50,
+                        right: 20,
+                        top: 40
+                    }}
+                    pointBorderColor={{
+                        from: 'color',
+                        modifiers: [
+                            [
+                                'darker',
+                                0.3
+                            ]
                         ]
-                    ]
-                }}
-                pointBorderWidth={1}
-                pointSize={16}
-                pointSymbol={function noRefCheck() { }}
-                useMesh
+                    }}
+                    pointBorderWidth={1}
+                    pointSize={16}
+                    pointSymbol={function noRefCheck() { }}
+                    useMesh
 
-                xFormat="time:%Y-%m-%d"
-                xScale={{
-                    format: '%Y-%m-%d',
-                    precision: 'day',
-                    type: 'time',
-                    useUTC: false
-                }}
-                yScale={{
-                    type: 'linear',
-                    min: 'auto',
-                    max: 'auto',
-                    stacked: false,
-                    reverse: false,
-
+                    xFormat="time:%Y-%m-%d"
+                    xScale={{
+                        format: '%Y-%m-%d',
+                        precision: 'day',
+                        type: 'time',
+                        useUTC: false
+                    }}
+                    yScale={{
+                        type: 'linear',
+                        min: 'auto',
+                        max: 'auto',
+                        stacked: false,
+                        reverse: false,
 
 
-                }}
 
-            />
+                    }}
+
+                />
             )}
 
         </div>

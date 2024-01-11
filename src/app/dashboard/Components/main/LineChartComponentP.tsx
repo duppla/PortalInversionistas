@@ -10,7 +10,9 @@ import { FormControl, Typography, Select, MenuItem } from '@mui/material';
 import { ResponsiveLine } from '@nivo/line';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
-
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import InfoIcon from '@mui/icons-material/Info';
+import { styled } from '@mui/material/styles';
 
 type DataApiType = {
     fecha: string;
@@ -134,17 +136,29 @@ const LineChartComponentP = () => {
 
     const tranformedData = tranformeDataApi(data, selectedDataKey);
 
-  
-      
-      
+    /* Mensaje para el tooltip explicativo */
+    const longText = `
+   Mensaje creado por Sofí`;
+
+
+
 
     return (
         <div className='grafica-Linecharts'>
             <div>
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
-                        <Grid xs={6} md={6} lg={6}>
-                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Rentabilidad mensual del portafolio</Typography>
+                        <Grid xs={6} md={6} lg={6} >
+                            <Grid container >
+                                <Grid xs={10} sm={10} md={10} lg={10}>
+                                    <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Rentabilidad mensual del portafolio </Typography>
+                                </Grid>
+                                <Grid xs={1} sm={1} md={1} lg={1}>
+                                    <Tooltip title={longText}>
+                                        <InfoIcon sx={{ color: '#757575', fill: '#757575', marginTop: '28px', height: '12px', width: '12px', marginLeft: '10px' }} />
+                                    </Tooltip>
+                                </Grid>
+                            </Grid>
 
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
@@ -210,12 +224,35 @@ const LineChartComponentP = () => {
             </div>
 
             <br />
-            
+
             {loading && <Typography sx={{ color: '#212126' }}>Cargando...</Typography>}
             {!loading && (
                 <ResponsiveLine
-
-                    animate
+                    data={[
+                        {
+                            data: tranformedData,
+                            id: 'Rentabilidad'
+                        }
+                    ]}
+                    colors={['#5ED1B1']}
+                    margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
+                    xFormat="time:%Y-%m-%d"
+                    xScale={{
+                        format: '%Y-%m-%d',
+                        precision: 'month',
+                        type: 'time',
+                        useUTC: false
+                    }}
+                    yScale={{
+                        type: 'linear',
+                        min: 'auto',
+                        max: 'auto',
+                        stacked: true,
+                        reverse: false
+                    }}
+                    curve="monotoneX"
+                    axisTop={null}
+                    axisRight={null}
                     axisBottom={{
                         legend: '',
                         legendOffset: -12,
@@ -227,19 +264,43 @@ const LineChartComponentP = () => {
                             /* return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
                         },
                     }}
-
-                    enableGridX={true}
-                    gridYValues={yAxisValues}
-
-                    /*  gridYValues={[5, 15, 25, 35]}  */
                     axisLeft={{
-                        /*  legend: 'linear scale', */
-                        legendOffset: 12,
+                        tickSize: 5,
+                        tickPadding: 5,
+                        tickRotation: 0,
+                        legend: 'count',
+                        legendOffset: -40,
+                        legendPosition: 'middle',
                         tickValues: yAxisValues,
                         format: (tick) => `${(tick * 100).toFixed(2)}%`,
-                        /*  format: (tick) => `${(Math.round(tick * 100) / 100).toFixed(2)}%`, */ // Redondear a dos decimales
                     }}
 
+                    enableGridX={false}
+                    gridYValues={yAxisValues}
+
+                    lineWidth={3}
+                    pointSize={10}
+                    pointColor={{ theme: 'background' }}
+                    pointBorderWidth={2}
+                    pointBorderColor={{ from: 'serieColor' }}
+                    enablePointLabel={false}
+                    pointLabel="y"
+                    pointLabelYOffset={-12}
+                    useMesh={true}
+                    legends={[]}
+                    tooltip={(point) => {
+                        const date = new Date(point.point.data.x);
+                        const formattedY = (typeof point.point.data.y === 'number')
+                            ? `${(point.point.data.y * 100).toFixed(2)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
+                            : point.point.data.y;
+
+                        return (
+                            <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
+                                <div><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
+                                <div>{`Rentabilidad: ${formattedY}`}</div>
+                            </div>
+                        );
+                    }}
                     theme={{
                         axis: {
                             ticks: {
@@ -254,96 +315,6 @@ const LineChartComponentP = () => {
                             },
                         },
                     }}
-                    lineWidth={4}
-                    tooltip={(point) => {
-                        const date = new Date(point.point.data.x);
-                        const formattedY = (typeof point.point.data.y === 'number')
-                            ? `${(point.point.data.y * 100).toFixed(2)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
-                            : point.point.data.y;
-
-                        return (
-                            <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
-                                <div><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
-                                <div>{`Rentabilidad: ${formattedY}`}</div>
-                            </div>
-                        );
-                    }}
-                    curve="monotoneX"
-                    data={[
-                        {
-                            data: tranformedData,
-                            id: 'Rentabilidad'
-                        }
-                    ]}
-                    colors={['#5ED1B1']}
-                    enablePointLabel ={false} 
-                    margin={{
-                        bottom: 60,
-                        left: 50,
-                        right: 20,
-                        top: 40
-                    }}
-                    pointBorderColor={{
-                        from: 'color',
-                        modifiers: [
-                            [
-                                'darker',
-                                0.3
-                            ]
-                        ]
-                    }}
-                    pointBorderWidth={6}
-                    enablePoints={true} // Habilitar la visualización de puntos
-                    pointSize={6} // Tamaño de los puntos
-                    pointColor={['#5ED1B1']} // Color de los puntos
-                    useMesh={true} // Usar una malla para mejorar la renderización
-                    pointSymbol={function noRefCheck() { }}
-                    xFormat="time:%Y-%m-%d"
-                    xScale={{
-                        format: '%Y-%m-%d',
-                        precision: 'month',
-                        type: 'time',
-                        useUTC: false
-                    }}
-                                  
-                      
-                   /*  markers={[
-                        {
-                          axis: 'y',
-                          value: 0.0069725101569419095,
-                          lineStyle: { stroke: 'red', strokeWidth: 1 },
-                          legend: 'Punto Específico'
-                        }
-                      ]} */
-                  /*     enableSlices="x"                     
-                      layers={[
-                        'grid',
-                        'markers',
-                        'areas',
-                        function noRefCheck(){},
-                        'lines',
-                        'slices',
-                        'axes',
-                        'points',
-                        'legends'
-                      ]}
-                    
-                      pointLabelYOffset={-20} */
-                    
-                 
-                   
-                      
-                    /*   xScale={{ type: 'point' }} */
-                    yScale={{
-                        type: 'linear',
-                        min: 'auto',
-                        max: 'auto',
-                        stacked: true,
-                        reverse: false,
-                    }}
-
-                /*  yFormat=" >-.2f" */
-
                 />
             )}
 
