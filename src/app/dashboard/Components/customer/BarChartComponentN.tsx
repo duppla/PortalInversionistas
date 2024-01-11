@@ -244,7 +244,7 @@ function BarChartComponentN() {
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-                padding={0.5}
+                padding={0.7}
                 valueScale={{ type: 'linear', min: 0 }}
                 indexScale={{ type: 'band', round: true }}
                 colors={['#5782F2', '#5ED1B1', ' #FFB024']} // Define tus propios colores */

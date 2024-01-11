@@ -141,7 +141,7 @@ const page = () => {
                     justifyContent: 'center',
                     justifyItems: 'center',
                     backgroundColor: '#212126',
-                    height: '480px',
+                    height: '305px',
                     borderRadius: '20px',
 
                 }} rowSpacing={2} gap={12.6} columnSpacing={{ md: 1, lg: 1, }}

@@ -16,6 +16,7 @@ import CardcomponenteF1 from '../Components/main/CardComponentF1'
 import CardcomponenteF2 from '../Components/main/CardComponentF2'
 import CardcomponenteF3 from '../Components/main/CardComponentF3'
 import GraficacomponenteP from '../Components/main/LineChartComponentP'
+import GraficacomponenteP2 from '../Components/main/BarChartComponentP'
 
 import { useState } from 'react'
 import { SelectChangeEvent } from '@mui/material';
@@ -102,7 +103,7 @@ const Page = () => {
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                        height: '480px',
+                        height: '305px',
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
@@ -111,12 +112,13 @@ const Page = () => {
                         {/*Grafica principal-datos del inmueble  A2*/}
                         <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                             width: '100%',
-                            height: '460px',
+                            height: '305px',
                             backgroundColor: '#212126',
                             borderRadius: '20px',
 
                         }}>
-                            <GraficacomponenteP />
+                          <GraficacomponenteP /> 
+                           {/*  <GraficacomponenteP2/> */}
                         </Grid>
 
                     </Grid>
@@ -127,7 +129,7 @@ const Page = () => {
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                        height: '100%',
+                       
                         backgroundColor: '#212126',
                         borderRadius: '20px',
 
@@ -135,7 +137,7 @@ const Page = () => {
                         {/*Grafica principal-datos del inmueble*/}
                         <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                             width: 'auto',
-                            height: '540px',
+                            height: '440px',
                             borderRadius: '20px',
                            
                             mb: 2,
@@ -219,7 +221,7 @@ const Page = () => {
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                        height: '580px',
+                        height: '440px',
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
@@ -228,7 +230,7 @@ const Page = () => {
                         {/*Grafica principal-datos del inmueble  A2*/}
                         <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                             width: '100%',
-                            height: '460px',
+                            height: '440px',
                             backgroundColor: '#212126',
                             borderRadius: '20px',
 

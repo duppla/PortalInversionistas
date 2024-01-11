@@ -96,8 +96,8 @@ const LineChartComponentG1 = () => {
             const maxYValue = Math.max(...units);
             const minYValue = Math.min(...units);
     
-            const yStep = (maxYValue - minYValue) / 3;
-            const yAxisValues = Array.from({ length: 4 }, (_, index) => {
+            const yStep = (maxYValue - minYValue) / 4;
+            const yAxisValues = Array.from({ length: 5 }, (_, index) => {
                 const roundedValue = (minYValue + index * yStep).toFixed(2);
                 return parseFloat(roundedValue);
             });
@@ -137,7 +137,7 @@ const LineChartComponentG1 = () => {
     const tranformedData = tranformeDataApi(data, selectedDataKey);
 
     return (
-        <div className='grafica-Linecharts'>
+        <div className='grafica-Linecharts-G'>
             <div>
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>

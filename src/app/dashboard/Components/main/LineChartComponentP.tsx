@@ -23,15 +23,13 @@ type DataType = {
     ult_6_meses: any[];
     [key: string]: any;
 };
-
-
 interface Item {
     [key: string]: any;
     fecha: string;
     rentabilidad: number | null;
 }
 
-const LineChartComponentG1 = () => {
+const LineChartComponentP = () => {
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
         if (!userEmail) {
@@ -67,7 +65,7 @@ const LineChartComponentG1 = () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
                 const response = await fetch(getApiUrlFinal(`/principal/p?investor=${queryParameter}`), options);
-                               
+
                 const newData = await response.json();
 
                 setData((prevData) => {
@@ -88,29 +86,31 @@ const LineChartComponentG1 = () => {
     }, [selectedValue]);
 
 
-    
+
+
     useEffect(() => {
         const units = data[selectedDataKey].map((item: any) => parseFloat(item.rentabilidad));
-    
+
         if (units.length > 0) {
             const maxYValue = Math.max(...units);
             const minYValue = Math.min(...units);
-    
-            const yStep = (maxYValue - minYValue) / 4;
-            const yAxisValues = Array.from({ length: 5 }, (_, index) => {
-                const roundedValue = (minYValue + index * yStep).toFixed(4);
-                return parseFloat(roundedValue);
+
+            const yStep = (maxYValue - minYValue) / 3;
+            const yAxisValues = Array.from({ length: 4 }, (_, index) => {
+                const value = minYValue + index * yStep;
+                return value;
             });
-    
+
             setYAxisValues(yAxisValues);
         } else {
             // Si no hay datos, establecer valores predeterminados o manejar la situación de otra manera
             setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);  // Cambia estos valores según tus necesidades
         }
     }, [data, selectedDataKey]);
-    
-    
-    
+
+
+
+
 
 
     const handleDataSelection = (dataKey: string) => {
@@ -134,13 +134,17 @@ const LineChartComponentG1 = () => {
 
     const tranformedData = tranformeDataApi(data, selectedDataKey);
 
+  
+      
+      
+
     return (
         <div className='grafica-Linecharts'>
             <div>
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
-                        <Typography  className= 'title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily:'Helvetica', fontWeight:300 ,color: '#ffffff' , fontSize:'26px', mt:2 }}>Rentabilidad mensual del portafolio</Typography>
+                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Rentabilidad mensual del portafolio</Typography>
 
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
@@ -161,42 +165,42 @@ const LineChartComponentG1 = () => {
                                 }}
                                 MenuProps={{
                                     anchorOrigin: {
-                                      vertical: 'bottom',
-                                      horizontal: 'right',
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
                                     },
                                     transformOrigin: {
-                                      vertical: 'top',
-                                      horizontal: 'right',
+                                        vertical: 'top',
+                                        horizontal: 'right',
                                     },
-                                  /*   getContentAnchorEl: null, */
+                                    /*   getContentAnchorEl: null, */
                                     PaperProps: {
-                                      sx: {
-                                        backgroundColor: '#212126', // Fondo del menú desplegado
-                                        border: '1px solid #5682F2', // Borde azul
-                                        color: '#9B9EAB', // Letra blanca
-                                      },
+                                        sx: {
+                                            backgroundColor: '#212126', // Fondo del menú desplegado
+                                            border: '1px solid #5682F2', // Borde azul
+                                            color: '#9B9EAB', // Letra blanca
+                                        },
                                     },
-                                  }}
-                                  open={menuOpen}
-                                  onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                                  onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
-                                 
-                                  IconComponent={() => (
+                                }}
+                                open={menuOpen}
+                                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
+                                onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
+
+                                IconComponent={() => (
                                     // Cambia el ícono según el estado del menú
                                     menuOpen ? (
-                                      <ArrowDropUpIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropUpIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     ) : (
-                                      <ArrowDropDownIcon
-                                        style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft:'-20px' }}
-                                        onClick={() => setMenuOpen(!menuOpen)}
-                                      />
+                                        <ArrowDropDownIcon
+                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
+                                            onClick={() => setMenuOpen(!menuOpen)}
+                                        />
                                     )
-                                  )}
+                                )}
                             >
-                              {/*   <MenuItem value='este_anho'>Este año</MenuItem> */}
+                                {/*   <MenuItem value='este_anho'>Este año</MenuItem> */}
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
                             </Select>
@@ -204,112 +208,143 @@ const LineChartComponentG1 = () => {
                     </Grid>
                 </FormControl>
             </div>
-            {loading && <Typography sx={{color: '#212126'}}>Cargando...</Typography>}
+
+            <br />
+            
+            {loading && <Typography sx={{ color: '#212126' }}>Cargando...</Typography>}
             {!loading && (
-            <ResponsiveLine
-                animate
-                axisBottom={{
-                    legend: '',
-                    legendOffset: -12,
-                    tickValues: 'every month',
-                    format: (value) => {
-                        const date = new Date(value);
-                        const month = new Intl.DateTimeFormat('es', { month: 'short' }).format(date);
-                        return `${month.charAt(0).toUpperCase()}${month.slice(1)} ${date.getFullYear().toString().slice(2)}`;
-                        /* return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
-                    },
-                }}
-                enableGridX={false}
-                gridYValues={yAxisValues}
-               /*  gridYValues={[5, 15, 25, 35]}  */
-                axisLeft={{
-                    /*  legend: 'linear scale', */
-                    legendOffset: 12,
-                    tickValues: yAxisValues,
-                    format: (tick) => `${(tick * 100).toFixed(2)}%`,
-                }}
-           
-                theme={{
-                    axis: {
-                        ticks: {
-                            text: {
-                                fill: '#9B9EAB' // Cambia aquí al color que desees para el texto de las marcas en el eje Y
-                            }
-                        }
-                    },
-                    grid: {
-                        line: {
-                            stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                <ResponsiveLine
+
+                    animate
+                    axisBottom={{
+                        legend: '',
+                        legendOffset: -12,
+                        tickValues: 'every month',
+                        format: (value) => {
+                            const date = new Date(value);
+                            const month = new Intl.DateTimeFormat('es', { month: 'short' }).format(date);
+                            return `${month.charAt(0).toUpperCase()}${month.slice(1)} ${date.getFullYear().toString().slice(2)}`;
+                            /* return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
                         },
-                    },
-                }}
-                lineWidth={7}
-                tooltip={(point) => {
-                    const date = new Date(point.point.data.x);
-                    const formattedY = (typeof point.point.data.y === 'number')
-                        ? `${(point.point.data.y * 100).toFixed(2)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
-                        : point.point.data.y;
-                
-                    return (
-                        <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
-                            <div><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
-                            <div>{`Rentabilidad: ${formattedY}`}</div>
-                        </div>
-                    );
-                }}
-                
-               
-              
-                curve="monotoneX"
-                data={[
-                    {
-                        data: tranformedData,
+                    }}
 
-                        id: 'Unidades'
-                    }
-                ]}
-                colors={['#5ED1B1']}
-                enablePointLabel={false}
+                    enableGridX={true}
+                    gridYValues={yAxisValues}
 
-                margin={{
-                    bottom: 60,
-                    left: 50,
-                    right: 20,
-                    top: 40
-                }}
-                pointBorderColor={{
-                    from: 'color',
-                    modifiers: [
-                        [
-                            'darker',
-                            0.3
+                    /*  gridYValues={[5, 15, 25, 35]}  */
+                    axisLeft={{
+                        /*  legend: 'linear scale', */
+                        legendOffset: 12,
+                        tickValues: yAxisValues,
+                        format: (tick) => `${(tick * 100).toFixed(2)}%`,
+                        /*  format: (tick) => `${(Math.round(tick * 100) / 100).toFixed(2)}%`, */ // Redondear a dos decimales
+                    }}
+
+                    theme={{
+                        axis: {
+                            ticks: {
+                                text: {
+                                    fill: '#9B9EAB' // Cambia aquí al color que desees para el texto de las marcas en el eje Y
+                                }
+                            }
+                        },
+                        grid: {
+                            line: {
+                                stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                            },
+                        },
+                    }}
+                    lineWidth={4}
+                    tooltip={(point) => {
+                        const date = new Date(point.point.data.x);
+                        const formattedY = (typeof point.point.data.y === 'number')
+                            ? `${(point.point.data.y * 100).toFixed(2)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
+                            : point.point.data.y;
+
+                        return (
+                            <div style={{ background: '#272727', color: '#5ED1B1', padding: '9px 12px', border: '1px solid #ccc' }}>
+                                <div><strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong></div>
+                                <div>{`Rentabilidad: ${formattedY}`}</div>
+                            </div>
+                        );
+                    }}
+                    curve="monotoneX"
+                    data={[
+                        {
+                            data: tranformedData,
+                            id: 'Rentabilidad'
+                        }
+                    ]}
+                    colors={['#5ED1B1']}
+                    enablePointLabel ={false} 
+                    margin={{
+                        bottom: 60,
+                        left: 50,
+                        right: 20,
+                        top: 40
+                    }}
+                    pointBorderColor={{
+                        from: 'color',
+                        modifiers: [
+                            [
+                                'darker',
+                                0.3
+                            ]
                         ]
-                    ]
-                }}
-                pointBorderWidth={1}
-                pointSize={16}
-                pointSymbol={function noRefCheck() { }}
-                useMesh
+                    }}
+                    pointBorderWidth={6}
+                    enablePoints={true} // Habilitar la visualización de puntos
+                    pointSize={6} // Tamaño de los puntos
+                    pointColor={['#5ED1B1']} // Color de los puntos
+                    useMesh={true} // Usar una malla para mejorar la renderización
+                    pointSymbol={function noRefCheck() { }}
+                    xFormat="time:%Y-%m-%d"
+                    xScale={{
+                        format: '%Y-%m-%d',
+                        precision: 'month',
+                        type: 'time',
+                        useUTC: false
+                    }}
+                                  
+                      
+                   /*  markers={[
+                        {
+                          axis: 'y',
+                          value: 0.0069725101569419095,
+                          lineStyle: { stroke: 'red', strokeWidth: 1 },
+                          legend: 'Punto Específico'
+                        }
+                      ]} */
+                  /*     enableSlices="x"                     
+                      layers={[
+                        'grid',
+                        'markers',
+                        'areas',
+                        function noRefCheck(){},
+                        'lines',
+                        'slices',
+                        'axes',
+                        'points',
+                        'legends'
+                      ]}
+                    
+                      pointLabelYOffset={-20} */
+                    
+                 
+                   
+                      
+                    /*   xScale={{ type: 'point' }} */
+                    yScale={{
+                        type: 'linear',
+                        min: 'auto',
+                        max: 'auto',
+                        stacked: true,
+                        reverse: false,
+                    }}
 
-                xFormat="time:%Y-%m-%d"
-                xScale={{
-                    format: '%Y-%m-%d',
-                    precision: 'day',
-                    type: 'time',
-                    useUTC: false
-                }}
-                yScale={{
-                    type: 'linear',
-                    min: 'auto',
-                    max: 'auto',
-                    stacked: false,
-                    reverse: false,
+                /*  yFormat=" >-.2f" */
 
-
-
-                }}
-
-            />
+                />
             )}
 
         </div>
@@ -317,4 +352,4 @@ const LineChartComponentG1 = () => {
     );
 };
 
-export default LineChartComponentG1;
+export default LineChartComponentP;

@@ -105,7 +105,7 @@ const LineChartComponentH2 = () => {
         const maxUnits = Math.max(...units);
 
         // Generar un conjunto de valores para la escala del eje Y
-        const yAxisValues = Array.from({ length: 6 }, (_, index) => minUnits + Math.floor((maxUnits - minUnits) * (index / 5)));
+        const yAxisValues = Array.from({ length: 4 }, (_, index) => minUnits + Math.floor((maxUnits - minUnits) * (index / 3)));
         setYAxisValues(yAxisValues);
     }, [data, selectedDataKey]);
 

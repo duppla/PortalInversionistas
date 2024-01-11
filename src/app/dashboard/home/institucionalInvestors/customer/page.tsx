@@ -70,7 +70,7 @@ const Customer = () => {
                     justifyContent: 'center',
                     justifyItems: 'center',
                     width: '100%',
-                    height: '560px',
+                    height: '440px',
                     backgroundColor: '#212126',
                     borderRadius: '20px',
 
@@ -78,15 +78,13 @@ const Customer = () => {
                     {/*Grafica principal-datos del inmueble*/}
                     <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
                         width: '100%',
-                        height: '460px',
+                        height: '440px',
                         backgroundColor: '#212126',
                         borderRadius: '20px',
 
                     }}>
                         <BarChartComponentN />
-
                     </Grid>
-
                 </Grid>
                 {/* Componente L*/}
                 <Grid container sx={{
@@ -98,8 +96,6 @@ const Customer = () => {
                     height: '560px',
                     backgroundColor: '#212126',
                     borderRadius: '20px',
-
-
                 }}>
                     {/*Grafica principal-datos del inmueble*/}
                     <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{
@@ -123,8 +119,6 @@ const Customer = () => {
                     height: '600px',
                     backgroundColor: '#212126',
                     borderRadius: '20px',
-
-
                 }}>
                     {/*Grafica principal-datos del inmueble*/}
                     <Grid className='' xs={12} sm={12} md={10} lg={10} sx={{

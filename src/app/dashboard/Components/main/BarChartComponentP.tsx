@@ -6,33 +6,24 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 
-
-import { useAuth } from '../../../context/authContext';
 import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import { useAuth } from '@/app/context/authContext';
 
 
-
-
-type DataApiType = {
-    fecha: string;
-    flujo_real: any;
-    flujo_esperado: any;
-};
-
-type DataType = {
-    ult_12_meses: DataApiType[];
-    este_anho: DataApiType[];
-    ult_6_meses: DataApiType[];
-};
 
 type ItemType = {
     fecha: string;
-    flujo_real: number;
-    flujo_esperado: number;
+    rentabilidad: number;
+    [key: string]: string | number; // Signatura de índice para permitir otras propiedades
 };
-function BarChart() {
+
+type DataType = {
+    [key: string]: ItemType[];
+};
+
+const BarChartComponentP = () => {
 
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
@@ -52,30 +43,43 @@ function BarChart() {
         return "";
     };
 
-    const [data, setData] = useState<DataType | null>(null);
+
+   /*  const [data, setData] = useState<DataType | null>(null); */
+   const [data, setData] = useState<DataType>({
+    ult_12_meses: [],
+    este_anho: [],
+    ult_6_meses: [],
+  });
+  
+  
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
     const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const [gridYValues, setGridYValues] = useState<number[]>([]);
-    const [tickValues, setTickValues] = useState<number[]>([]);
 
     useEffect(() => {
-       const queryParameter = getQueryParameter(userEmail);
-        const fetchData = async () => {
+        const queryParameter = getQueryParameter(userEmail);
+            const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                /* const response = await fetch(getApiUrl(`/main/a1?investor=skandia`), options); */
-                const response = await fetch(getApiUrlFinal(`/principal/a?investor=${queryParameter}`), options);
+                const response = await fetch(getApiUrlFinal(`/principal/p?investor=${queryParameter}`), options);
                 const responseData = await response.json();
-                setResponseData(responseData);
-                setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+
+                console.log(responseData + ' data: P verificación');
+                if (responseData) {
+                    setResponseData(responseData);
+
+                    setData(responseData);
+                } else {
+                    console.error("La respuesta de la API está vacía o nula.");
+                }
             } catch (error) {
                 console.error(error);
             }
         };
+                 
 
         fetchData();
     }, []);
@@ -94,107 +98,47 @@ function BarChart() {
     };
 
 
-    const getDataForSelectedKey = (): ItemType[] => {
-        if (!responseData) return [];
-
-        switch (selectedDataKey) {
-            case 'ult_12_meses':
-                return responseData.ult_12_meses;
-            /* case 'este_anho':
-                return responseData.este_anho; */
-            case 'ult_6_meses':
-                return responseData.ult_6_meses;
-            default:
-                return [];
-        }
-    };
-
-    /* data del enpoint para renderizar la grafica por un map */
-
-    const formattedData = responseData
-        ? responseData[selectedDataKey]
-            ? responseData[selectedDataKey].map((item: ItemType) => {
-
-                return {
-                    fecha: item.fecha,
-                    Real: item.flujo_real, // Cambia la leyenda de flujo_real a Flujo
-                    Esperado: item.flujo_esperado, // Cambia la leyenda de flujo_esperado a Esperado
-                };
-            })
-            : []
-        : [];
-
-    /* prueba de formateo data a legible */
-
+    const formattedDataa = data && data[selectedDataKey] && data[selectedDataKey].length
+    ? data[selectedDataKey].map((item: ItemType) => ({
+        fecha: item.fecha,
+        Rentabilidad: item.rentabilidad,
+      })) as Array<{ fecha: string; Rentabilidad: number }>
+    : [];
+  
+ 
+    /* Función para formatear números como porcentajes sin decimales y ceros */
     function formatNumber(value: number): string {
-        const suffixes = ['', 'K', 'M', 'B', 'T'];
-        const suffixNum = Math.floor(('' + value).length / 3);
-        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(0);
-
-        if (shortValue.endsWith('.0')) {
-            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
-        }
-
-        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+        const percentageValue = (value * 100).toFixed(1).replace(/\.0$/, ''); // Elimina el .0
+        return `${percentageValue}%`;
     }
+
     /* prueba de formateo data a legible tooltip */
-    function formatNumberTooltip(value: number | undefined): string {
-        if (value === undefined) {
-            return 'N/A'; // Manejar el caso cuando el valor es undefined
+    function formatNumberTooltip(value: number): string {
+        if (value < 1) {
+            // Formato para valores menores que 1
+            return (value * 100).toFixed(0) + '';
+        } else {
+            // Formato para valores mayores o iguales a 1
+            const suffixes = ['', 'K', 'M', 'B', 'T'];
+            const suffixNum = Math.floor(('' + value).length / 3);
+            let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
+
+            if (shortValue.endsWith('.0')) {
+                shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
+            }
+
+            return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
         }
-        const suffixes = ['', 'K', 'M', 'B', 'T'];
-
-        const absoluteValue = Math.abs(value); // Tomar el valor absoluto para evitar problemas con números negativos
-        const suffixNum = Math.floor(Math.log10(absoluteValue) / 3);
-        const shortValue = (absoluteValue / Math.pow(10, suffixNum * 3)).toFixed(1);
-
-        const formattedValue = shortValue.endsWith('.0') ? shortValue.slice(0, -2) : shortValue;
-        const formattedNumber = value < 0 ? `-${formattedValue}` : formattedValue;
-
-        return formattedNumber + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
-
-
-    useEffect(() => {
-        const dataForSelectedKey = getDataForSelectedKey();
-        const { gridYValues, tickValues } = calculateAxisValues(dataForSelectedKey);
-        setGridYValues(gridYValues);
-        setTickValues(tickValues);
-    }, [selectedDataKey, responseData]);
-
-
-    /* Función para calcular los valores de los ejes */
-    const calculateAxisValues = (data: ItemType[]) => {
-        const maxValue = Math.max(...data.map(item => Math.max(item.flujo_real, item.flujo_esperado)));
-        const numTicks = 5;
-
-        // Lógica para el resto de los casos
-        const step = maxValue / (numTicks - 1);
-
-        // Calcular dinámicamente los valores para gridYValues y tickValues
-        const gridYValues = Array.from({ length: numTicks }, (_, index) => {
-            const tickValue = index * step;
-            return Math.round(tickValue);
-        });
-
-        // Asegurarse de que 0 esté incluido
-        if (!gridYValues.includes(0)) {
-            gridYValues.unshift(0);
-        }
-
-        return { gridYValues, tickValues: gridYValues };
-    };
-
-
 
 
     return (
         <div className='grafica-barcharts nivo-text'>
             <div>
                 <FormControl fullWidth>
-                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
+                    <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt: 1 }}>
                         <Grid xs={6} md={6} lg={6}>
-                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Flujo real vs. flujo esperado </Typography>
+                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Roboto', color: '#ffffff', fontSize: '26px', mt: 2 }}>Porcentaje de propiedad del portafolio</Typography>
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -248,7 +192,7 @@ function BarChart() {
                                     )
                                 )}
                             >
-                                {/* <MenuItem value='este_anho'>Este año</MenuItem> */}
+                                {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
                                 <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
                             </Select>
@@ -258,21 +202,26 @@ function BarChart() {
             </div>
 
             <ResponsiveBar
-                data={formattedData}
-                keys={['Real', 'Esperado']}
+                data={formattedDataa}
+                keys={['Rentabilidad']}
+                innerPadding={4}
+              
                 indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-                padding={0.7}
-                groupMode="grouped"
-                valueScale={{ type: 'linear' }}
+                padding={0.5}
+                valueScale={{ type: 'linear', min: 0 }}
                 indexScale={{ type: 'band', round: true }}
-                colors={['#6C6FFF', '#C5F5CA']} // Define tus propios colores
+
+                colors={['#723DFD', '#28ACFF', '#5ED1B1']} // Define tus propios colores
                 theme={{
                     axis: {
                         ticks: {
                             text: {
                                 fill: '#9B9EAB', // Color del texto en los ejes
+                            },
+                            line: {
+                                stroke: '#9B9EAB', // Color de las líneas en los ejes
                             },
                         },
                     },
@@ -292,44 +241,45 @@ function BarChart() {
                             stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
                         },
                     },
+                }}
 
-                }}
-                defs={[
-                    {
-                        id: 'text',
-                        type: 'text',
-                        color: 'white',
-                    },
-                ]}
-                fill={[{ match: { id: 'text' }, id: 'text' }]}
-                borderRadius={3}
-                borderColor={{
-                    from: 'color',
-                    modifiers: [
-                        [
-                            'darker',
-                            1.4
-                        ]
-                    ]
-                }}
                 tooltip={(point) => {
                     if (typeof point.data.fecha === 'string') {
                         const [year, month] = point.data.fecha.split('-');
                         const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                        const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
                         const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
-                        const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-
+                
+                        let value: string | number = '';
+                        let key: keyof typeof point.data = 'fecha'; // Inicializar con 'fecha'
+                
+                        // Comprobar si 'Rentabilidad' está definido en point.data
+                        if ('Rentabilidad' in point.data) {
+                            value = point.data.Rentabilidad;
+                            key = 'Rentabilidad'; // Actualizar a 'Rentabilidad'
+                        }
+                
                         return (
                             <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
                                 <strong>{formattedDate}</strong>
-                                <div>{point.id}: {formattedValue}</div>
+                                <div>{key}: {value}%</div>
                             </div>
                         );
                     }
                     return null; // Devolver null si point.data.fecha no es una cadena
                 }}
-
-                /*    enableGridY={false} */
+                
+                borderRadius={2}
+                borderColor={{
+                    from: 'color',
+                    modifiers: [
+                        [
+                            'darker',
+                            1.6
+                        ]
+                    ]
+                }}
+                gridYValues={[0, 0.25, 0.5, 0.75, 1]}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -339,28 +289,27 @@ function BarChart() {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: 32,
-
-                    tickValues: formattedData.map((item: { fecha: string }) => item.fecha),
+                    tickValues: formattedDataa.map((item: { fecha: string }) => item.fecha),
                     format: (value) => {
                         const [year, month] = value.split('-');
                         const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-
+                        /*   return `${monthNames[parseInt(month, 10) - 1]} ${year}`; */
                         const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
                         return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
                     },
+
                 }}
-                gridYValues={gridYValues}
                 axisLeft={{
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    tickValues: tickValues,
+                    tickValues: [0, 0.25, 0.5, 0.75, 1],
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
                     format: value => formatNumber(value),
-
                 }}
+                /*   enableGridY={false} */
                 labelSkipWidth={12}
                 labelSkipHeight={12}
                 labelTextColor={{
@@ -372,16 +321,15 @@ function BarChart() {
                         ]
                     ]
                 }}
-
-                legends={[
+              /*   legends={[
                     {
                         dataFrom: 'keys',
                         anchor: 'bottom-left',
                         direction: 'row',
                         justify: false,
-                        translateX: 0,
+                        translateX: 10,
                         translateY: 54,
-                        itemsSpacing: 0,
+                        itemsSpacing: 16,
                         itemDirection: 'left-to-right',
                         itemWidth: 80,
                         itemHeight: 20,
@@ -399,16 +347,15 @@ function BarChart() {
                             }
                         ]
                     }
-                ]}
+                ]} */
+
                 role="application"
-              
+
                 barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
             />
-
         </div>
     )
 }
 
-export default BarChart
-
+export default BarChartComponentP
 

@@ -173,7 +173,7 @@ a {
 
 .grafica-barcharts {
   width: 100% !important;
-  height: 480px;
+  height: 350px;
   /* background-color: #020101; */
 }
 
@@ -191,10 +191,14 @@ a {
 
 .grafica-Linecharts {
   width: 100%;
-  height: 340px;
+  height: 230px;
   /* O el valor que desees para pantallas más grandes */
 }
-
+.grafica-Linecharts-G {
+  width: 100%;
+  height: 320px;
+  /* O el valor que desees para pantallas más grandes */
+}
 .grafica-linecharts-b {
   width: 100%;
   height: 420px;
