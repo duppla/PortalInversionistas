@@ -132,7 +132,9 @@ function PieChartComponentK1() {
   };
 
 
+ 
 
+  
 
   return (
     <div className="grafica-piecharts" style={{ position: 'relative', width: '100%', height: '380px' }}>
@@ -222,8 +224,7 @@ function PieChartComponentK1() {
             from: 'color',
             modifiers: [['darker', 0.2]],
         }}
-        /* animate={false} */
-       /*  motionConfig="gentle"  */
+      
         enableArcLinkLabels={false}
         arcLinkLabelsSkipAngle={10}
         arcLinkLabelsTextColor="#333333"
@@ -259,8 +260,7 @@ function PieChartComponentK1() {
        tooltip={(tooltipProps) => {
             const { id, value, color, formattedValue , label} = tooltipProps.datum;
             const originalData = responseData[selectedDataKey].find((data:any) => data.actividad_economica === id);
-            const porcentaje = originalData ? originalData.porcentaje * 100 : 0;
-            console.log( porcentaje + ' porcentaje en k1');
+            const porcentaje = originalData ? originalData.porcentaje * 100 : 0;           
           
             return (
               <div

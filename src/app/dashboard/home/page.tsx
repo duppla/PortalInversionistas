@@ -59,7 +59,7 @@ const Page = () => {
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1, mt: 1, ml: 1, mr: 1, borderRadius: '20px' }} >
                 {/* sección 1 titulo */}
-               {/*  <Box maxWidth="xl" sx={{ }}>
+                {/*  <Box maxWidth="xl" sx={{ }}>
                     <Grid container spacing={2}>
                         <Grid xs={12} sm={6} md={6} lg={6}>
                             <Typography className='title-component' sx={{ mt: 0.3, mb: 1.5, color: '#5682F2', fontStyle: 'normal', fontWeight: '500', fontSize:'3rem' }}>
@@ -76,12 +76,12 @@ const Page = () => {
                 <Container maxWidth="xl" sx={{ mt: 2, mb: 4, }}
                     className=''>
                     {/* primera fila  componente D*/}
-                    < Grid container  className='size-card-main'sx={{
+                    < Grid container className='size-card-main' sx={{
                         marginTop: '10px',
                         display: 'flex',
                         justifyContent: 'center',
-                        justifyItems: 'center',             
-                      
+                        justifyItems: 'center',
+
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
@@ -117,8 +117,8 @@ const Page = () => {
                             borderRadius: '20px',
 
                         }}>
-                          <GraficacomponenteP /> 
-                           
+                            <GraficacomponenteP />
+
                         </Grid>
 
                     </Grid>
@@ -129,7 +129,7 @@ const Page = () => {
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                       
+
                         backgroundColor: '#212126',
                         borderRadius: '20px',
 
@@ -139,7 +139,7 @@ const Page = () => {
                             width: 'auto',
                             height: '440px',
                             borderRadius: '20px',
-                           
+
                             mb: 2,
                         }}>
 
@@ -240,13 +240,13 @@ const Page = () => {
 
                     </Grid>
                     {/* componente F*/}
-                    < Grid container  className='size-card-main-f' sx={{
+                    < Grid container className='size-card-main-f' sx={{
                         marginTop: '20px',
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                      
+
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
@@ -270,31 +270,23 @@ const Page = () => {
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                        height: '460px',
+                        height: '360px',
                         backgroundColor: /* '#212126' */ '#0B0B0D',
                         borderRadius: '20px',
-                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                        /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
                         mt: 4
                     }} rowSpacing={0} gap={13.2} columnSpacing={{ md: 2, lg: 2, }}
                     >
 
-                        <Grid xs={12} sm={12} md={5.5} lg={5.5}  sx={{
+                        <Grid xs={12} sm={12} md={5.5} lg={5.5} sx={{
                             borderRadius: '10px',
                             backgroundColor: '#212126',
                             mt: 2, mb: 2,
                             p: 3
                         }}>
-
                             <GraficacomponenteG1 />
-
                         </Grid>
-                        {/* <Grid className='' xs={12} sm={12} md={1} lg={1} sx={{                       
-                          
-                           
-                        }}>
-                           
-                        </Grid> */}
-                        <Grid className='' xs={12} sm={12} md={5.5} lg={5.5}  sx={{
+                        <Grid className='' xs={12} sm={12} md={5.5} lg={5.5} sx={{
                             borderRadius: '10px',
                             backgroundColor: '#212126',
                             mt: 2, mb: 2,

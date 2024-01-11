@@ -31,6 +31,11 @@ interface Item {
     rentabilidad: number | null;
 }
 
+interface ItemType {
+    fecha: string;
+    rentabilidad: number;
+}
+
 const LineChartComponentP = () => {
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
@@ -89,26 +94,92 @@ const LineChartComponentP = () => {
 
 
 
+    /* // Función para redondear la rentabilidad
+    function redondearRentabilidad(rentabilidad: number) {
+        console.log(rentabilidad + " rentabilidad pura" )
+        // Multiplicar por 100 y redondear al entero más cercano
+        const rentabilidadMultiplicada = Math.round(rentabilidad * 100);
+        console.log(rentabilidadMultiplicada + " rentabilidad multiplicada" );
+        
+        // Obtener el residuo al dividir por 5
+        const residuo = rentabilidadMultiplicada % 5;
+    
+        console.log( residuo + " residuo multiplicada");
+        
+        // Ajustar la rentabilidad para que termine en 0 o 5
+        let rentabilidadAjustada = rentabilidadMultiplicada - residuo ;
+    
+        console.log(rentabilidadAjustada + " ajuste rentabilidad final");
+        if (residuo > 2) {
+            rentabilidadAjustada += 5;
+          }
+        console.log(rentabilidadAjustada + " ajuste rentabilidad final 2");
+        // Dividir por 100 para obtener el valor final y formatear a dos decimales
+        return (rentabilidadAjustada / 100).toFixed(2);
+    
+      }
+       */
 
-    useEffect(() => {
-        const units = data[selectedDataKey].map((item: any) => parseFloat(item.rentabilidad));
 
+
+    /* useEffect(() => {
+        const units = data[selectedDataKey].map((item: any) => redondearRentabilidad(item.rentabilidad));
+    
         if (units.length > 0) {
             const maxYValue = Math.max(...units);
             const minYValue = Math.min(...units);
+    
+            const yStep = (maxYValue - minYValue) / 3;
+            const yAxisValues = Array.from({ length: 4 }, (_, index) => {
+                const value = minYValue + index * yStep;
+                return parseFloat(redondearRentabilidad(value)); // Convierte el string a un número// Ajustar el valor del eje Y también
+            });
+    
+            setYAxisValues(yAxisValues);
+        } else {
+            // Si no hay datos, establecer valores predeterminados o manejar la situación de otra manera
+            setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);  // Cambia estos valores según tus necesidades
+        }
+    }, [data, selectedDataKey]); */
 
+    useEffect(() => {
+        const units = data[selectedDataKey].map((item: any) => parseFloat(item.rentabilidad));
+    
+        if (units.length > 0) {
+            const maxYValue = Math.max(...units);
+            const minYValue = Math.min(...units);
+    
             const yStep = (maxYValue - minYValue) / 3;
             const yAxisValues = Array.from({ length: 4 }, (_, index) => {
                 const value = minYValue + index * yStep;
                 return value;
             });
-
+    
             setYAxisValues(yAxisValues);
         } else {
             // Si no hay datos, establecer valores predeterminados o manejar la situación de otra manera
             setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);  // Cambia estos valores según tus necesidades
         }
     }, [data, selectedDataKey]);
+       
+    
+
+    function redondearRentabilidad(value:any) {
+        const roundedValue = Math.round(value * 100);
+        const residual = roundedValue % 5;
+        let adjustedValue = roundedValue - residual;
+
+        if (residual > 2) {
+            adjustedValue += 5;
+        }
+
+        return adjustedValue / 100;
+    }
+
+
+
+
+
 
 
 
@@ -268,7 +339,7 @@ const LineChartComponentP = () => {
                         tickSize: 5,
                         tickPadding: 5,
                         tickRotation: 0,
-                        legend: 'count',
+                        legend: '',
                         legendOffset: -40,
                         legendPosition: 'middle',
                         tickValues: yAxisValues,

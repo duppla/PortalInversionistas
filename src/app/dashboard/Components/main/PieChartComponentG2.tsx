@@ -172,7 +172,7 @@ function PieChartComponentG2() {
 
 
   return (
-    <div className="grafica-piecharts" style={{ position: 'relative', width: '100%', height: '380px' }}>
+    <div className="grafica-piecharts-G2" style={{ position: 'relative', width: '100%', height: '380px' }}>
       <div>
         <FormControl fullWidth>
           <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>

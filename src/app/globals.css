@@ -189,6 +189,12 @@ a {
 
 }
 
+.grafica-piecharts-G2 {
+  width: auto !important;
+  height: 340px !important;
+
+}
+
 .grafica-Linecharts {
   width: 100%;
   height: 230px;
@@ -196,7 +202,7 @@ a {
 }
 .grafica-Linecharts-G {
   width: 100%;
-  height: 320px;
+  height: 260px;
   /* O el valor que desees para pantallas más grandes */
 }
 .grafica-linecharts-b {

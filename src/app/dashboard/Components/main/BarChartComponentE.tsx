@@ -139,7 +139,6 @@ const BarChartComponentE = () => {
             if (shortValue.endsWith('.0')) {
                 shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
             }
-
             return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
         }
     }
@@ -148,7 +147,6 @@ const BarChartComponentE = () => {
     /* Mensaje para el tooltip explicativo */
     const longText = `
       Aquí irá un mensaje creado por Sofí`;
-
 
     return (
         <div className='grafica-barcharts nivo-text'>
@@ -165,9 +163,7 @@ const BarChartComponentE = () => {
                                         <InfoIcon sx={{ color: '#757575', fill: '#757575', marginTop: '28px', height: '12px', width: '12px', marginLeft: '10px' }} />
                                     </Tooltip>
                                 </Grid>
-
                             </Grid>
-
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -325,8 +321,6 @@ const BarChartComponentE = () => {
                     legendPosition: 'middle',
                     legendOffset: -40,
                     format: value => formatNumber(value),
-
-
                 }}
                 /*   enableGridY={false} */
                 labelSkipWidth={12}

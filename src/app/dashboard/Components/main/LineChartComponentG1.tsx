@@ -110,7 +110,7 @@ const LineChartComponentG1 = () => {
             // Si no hay datos, establecer valores predeterminados o manejar la situación de otra manera
             setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);  // Cambia estos valores según tus necesidades
         }
-    }, [data, selectedDataKey]);
+    }, [data, selectedDataKey]) 
 
 
 
@@ -220,6 +220,7 @@ const LineChartComponentG1 = () => {
                     </Grid>
                 </FormControl>
             </div>
+            <br />
             {loading && <Typography sx={{ color: '#212126' }}>Cargando...</Typography>}
             {!loading && (
                 <ResponsiveLine
@@ -237,11 +238,13 @@ const LineChartComponentG1 = () => {
                     }}
                     enableGridX={false}
                     gridYValues={yAxisValues}
+                   /*  gridYValues={[ 0.15, 0.25, 0.35, 0.45, 0.55, ]} */
                     /*  gridYValues={[5, 15, 25, 35]}  */
                     axisLeft={{
                         /*  legend: 'linear scale', */
                         legendOffset: 12,
-                        tickValues: yAxisValues,
+                        tickValues: yAxisValues, 
+                        /* tickValues: [ 0.15, 0.25, 0.35, 0.45, 0.55,], */
                         format: (tick) => `${(tick * 100).toFixed(0)}%`,
                     }}
 
