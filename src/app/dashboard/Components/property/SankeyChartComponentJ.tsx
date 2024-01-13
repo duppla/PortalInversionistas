@@ -19,6 +19,10 @@ type DataApiType = {
     mora: any;
 
 };
+interface Node {
+    id: string;
+    // otras propiedades...
+}
 
 type DataType = {
     ult_12_meses: DataApiType[];
@@ -64,9 +68,11 @@ const SankeyChartComponentJ = () => {
                 const response = await fetch(getApiUrlFinal(`/inmuebles/j1?investor=${queryParameter}`), options);
                 const responseData = await response.json();
 
-                // Adaptar la estructura de la respuesta de la API a la gráfica Sankey
+                const reorderedNodes = ["Ingresos", "Utilidad bruta", "NOI", "Gastos", "Reservas",].map(nodeId => {
+                    return responseData.nodes.find((node: Node) => node.id === nodeId);
+                });
                 const formattedData = {
-                    nodes: responseData.nodes.map((node: any) => ({
+                    nodes: reorderedNodes.map(node => ({
                         id: node.id,
                         nodeColor: getColor(node),
                     })),
@@ -90,47 +96,39 @@ const SankeyChartComponentJ = () => {
     }, []);
 
 
-
-
-
     // Definir tus escalas de colores verdes y rojos
 
     const greenScale = ["#1E5631", "#04c437", "#76B17D", "#8fffad"];
     const redScale = ["#a61b1b", "#f18282", "#a61b1b"];
 
     // Función de color personalizada
- /*    const getColor = (node: any) => {
-        if (["Ingresos", "Utilidad bruta", "NOI"].includes(node.id)) {
-            return greenScale[node.depth % greenScale.length];
-        } else if (["Gastos", "Reservas"].includes(node.id)) {
-            return redScale[node.depth % redScale.length];
-        }
-        return '#cccccc'; // Color por defecto si no se cumplen las condiciones
-    }; */
+      const getColor = (node: any) => {
+        const nodeId = typeof node === 'string' ? node : node.id;
 
-    const getColor = (node: any) => {
-        if (node.id === "Ingresos") {
-            return "#8fffad"; // Color más fuerte y brillante para Ingresos
-        } else if (node.id === "Utilidad bruta") {
-            return "#76B17D"; // Tonos más bajos para Utilidad bruta
-        } else if (node.id === "NOI") {
-            return "#04c437"; // Color más claro para NOI
-        } else if (node.id === "Gastos") {
-            return "#FF1818"; // Color más fuerte para Gastos
-        } else if (node.id === "Reservas") {
-            return "#f18282"; // Color para Reservas
+        if (nodeId === "Ingresos") {
+            return "#8fffad";
+        } else if (nodeId === "Utilidad bruta") {
+            return "#76B17D";
+        } else if (nodeId === "NOI") {
+            return "#04c437";
+        } else if (nodeId === "Gastos") {
+            return "#FF1818";
+        } else if (nodeId === "Reservas") {
+            return "#f18282";
         }
-        return '#cccccc'; // Color por defecto si no se cumplen las condiciones
+
+        return '#cccccc';
     };
-    
-    
-    
 
-    // Función para dar formato a los valores de los nodos
+
     const formatValue = (value: any) => {
         if (value >= 1000000) {
             return `${(value / 1000000).toFixed(1)}M`;
+        } else if (value >= 1000) {
+            // Si el valor es mayor o igual a 1000, formatearlo en mil
+            return `${(value / 1000).toFixed(0)} Mil`;
         } else {
+            // Si el valor es menor que 1000, mostrarlo tal como está
             return value.toString();
         }
     };
@@ -197,7 +195,7 @@ const SankeyChartComponentJ = () => {
                             </div>
                         }
 
-
+                    layout='horizontal'
                     labelTextColor={{
                         from: 'color',
                         modifiers: [

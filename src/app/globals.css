@@ -185,7 +185,7 @@ a {
 
 .grafica-piecharts {
   width: auto !important;
-  height: 380px;
+  height: 320px !important;
 
 }
 
@@ -607,7 +607,7 @@ a {
 
   .size-container-k1-k2 {
     width: 100% !important;
-    height: 480px !important;
+    height: 980px !important;
   }
 
   /* Clase titulos sección */
@@ -693,7 +693,7 @@ a {
 
   .size-container-k1-k2 {
     width: 100% !important;
-    height: 480px !important;
+    height: 360px !important;
 
   }
 
@@ -786,7 +786,7 @@ a {
 
   .size-container-k1-k2 {
     width: 100% !important;
-    height: 480px !important;
+    height: 360px !important;
 
   }
 
@@ -864,7 +864,7 @@ a {
   /* Responsive inmueble */
   .size-container-k1-k2 {
     width: 100% !important;
-    height: 480px !important;
+    height: 360px !important;
 
   }
 

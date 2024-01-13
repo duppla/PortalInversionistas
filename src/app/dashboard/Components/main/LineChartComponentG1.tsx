@@ -94,15 +94,14 @@ const LineChartComponentG1 = () => {
 
     useEffect(() => {
         const units = data[selectedDataKey].map((item: any) => parseFloat(item.tasa_morosidad));
-
         if (units.length > 0) {
             const maxYValue = Math.max(...units);
             const minYValue = Math.min(...units);
 
             const yStep = (maxYValue - minYValue) / 4;
             const yAxisValues = Array.from({ length: 5 }, (_, index) => {
-                const roundedValue = (minYValue + index * yStep).toFixed(2);
-                return parseFloat(roundedValue);
+                const roundedValue = minYValue + index * yStep;
+                return parseFloat(roundedValue.toFixed(2)); // Redondear a dos decimales
             });
 
             setYAxisValues(yAxisValues);
@@ -110,11 +109,14 @@ const LineChartComponentG1 = () => {
             // Si no hay datos, establecer valores predeterminados o manejar la situación de otra manera
             setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);  // Cambia estos valores según tus necesidades
         }
-    }, [data, selectedDataKey]) 
+    }, [data, selectedDataKey]);
 
-
-
-
+    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
+        return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
+            x: item.fecha,
+            y: parseFloat(item.tasa_morosidad.toString()), // Asegurar que tasa_morosidad sea interpretado como string
+        }));
+    };
 
 
     const handleDataSelection = (dataKey: string) => {
@@ -129,14 +131,25 @@ const LineChartComponentG1 = () => {
 
     };
 
-    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
-        return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
-            x: item.fecha,
-            y: item.tasa_morosidad,
-        }));
-    };
+    /*    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
+           return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
+               x: item.fecha,
+               y: item.tasa_morosidad,
+           }));
+       }; */
+
+    /*    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
+           return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
+               x: item.fecha,
+               y: parseFloat(item.tasa_morosidad.toString()), // Asegurar que tasa_morosidad sea interpretado como string
+               roundedY: yAxisRoundWithDynamicDecimals(parseFloat(item.tasa_morosidad.toString())),
+           }));
+       };
+    */
 
     const tranformedData = tranformeDataApi(data, selectedDataKey);
+  /*   console.log('tranformedData:', tranformedData); */
+  
     /* Mensaje para el tooltip explicativo */
     const longText = `
     Aquí irá un mensaje creado por Sofí`;
@@ -238,12 +251,12 @@ const LineChartComponentG1 = () => {
                     }}
                     enableGridX={false}
                     gridYValues={yAxisValues}
-                   /*  gridYValues={[ 0.15, 0.25, 0.35, 0.45, 0.55, ]} */
+                    /*  gridYValues={[ 0.15, 0.25, 0.35, 0.45, 0.55, ]} */
                     /*  gridYValues={[5, 15, 25, 35]}  */
                     axisLeft={{
                         /*  legend: 'linear scale', */
                         legendOffset: 12,
-                        tickValues: yAxisValues, 
+                        tickValues: yAxisValues,
                         /* tickValues: [ 0.15, 0.25, 0.35, 0.45, 0.55,], */
                         format: (tick) => `${(tick * 100).toFixed(0)}%`,
                     }}

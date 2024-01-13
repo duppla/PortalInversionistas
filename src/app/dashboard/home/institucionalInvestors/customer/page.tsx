@@ -35,13 +35,13 @@ const Customer = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     justifyItems: 'center',
+                  
                     backgroundColor: '#0B0B0D',
                     borderRadius: '20px',
-
                     mt: 2
                 }} /* rowSpacing={2}  */ gap={13.2} columnSpacing={{ md: 1, lg: 1, }}
                 >
-                    <Grid xs={12} sm={12} md={5.5} lg={5.5} sx={{
+                    <Grid xs={12} sm={5.5} md={5.5} lg={5.5} sx={{
                         borderRadius: '10px',
                         backgroundColor: '#212126',
                       /*   mt: 2 */ mb: 2,
@@ -50,11 +50,7 @@ const Customer = () => {
                         <PieChartComponentk1 />
 
                     </Grid>
-                   {/*  <Grid className='' xs={12} sm={12} md={1} lg={1} sx={{
-                    }}> 
-                    </Grid>*/}
-
-                    <Grid className='' xs={12} sm={12} md={5.5} lg={5.5} sx={{
+                    <Grid className='' xs={12} sm={5.5} md={5.5} lg={5.5} sx={{
                         borderRadius: '10px',
                         backgroundColor: '#212126',
                        /*  mt: 2, */ mb: 2,
