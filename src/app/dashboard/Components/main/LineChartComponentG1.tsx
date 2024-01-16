@@ -151,8 +151,11 @@ const LineChartComponentG1 = () => {
     /*   console.log('tranformedData:', tranformedData); */
 
     /* Mensaje para el tooltip explicativo */
+    const minY = (yAxisValues[0] * 100).toFixed(0);
+    const maxY = (yAxisValues[yAxisValues.length - 1] * 100).toFixed(0);
+
     const longText = `
-    Nota: Los valores mostrados en esta gráfica se encuentran en un rango de 9% a 52% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.`;
+    Nota: Los valores mostrados en esta gráfica se encuentran en un rango de ${minY}% a ${maxY}% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.`;
 
     return (
         <div className='grafica-Linecharts-G'>
@@ -237,9 +240,7 @@ const LineChartComponentG1 = () => {
             {loading && <Typography sx={{ color: '#212126' }}>Cargando...</Typography>}
             {!loading && (
 
-
                 <ResponsiveLine
-                  
                     data={[
                         {
                             data: tranformedData,
@@ -247,13 +248,8 @@ const LineChartComponentG1 = () => {
                         }
                     ]}
                     colors={['#5ED1B1']}
+                    margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                     xFormat="time:%Y-%m-%d"
-                    margin={{
-                        bottom: 60,
-                        left: 50,
-                        right: 20,
-                        top: 40
-                    }}
                     xScale={{
                         format: '%Y-%m-%d',
                         precision: 'month',
@@ -265,7 +261,7 @@ const LineChartComponentG1 = () => {
                         min: 'auto',
                         max: 'auto',
                         stacked: true,
-                        reverse: false,
+                        reverse: false
                     }}
                     curve="monotoneX"
                     axisTop={null}
@@ -278,37 +274,35 @@ const LineChartComponentG1 = () => {
                             const date = new Date(value);
                             const month = new Intl.DateTimeFormat('es', { month: 'short' }).format(date);
                             return `${month.charAt(0).toUpperCase()}${month.slice(1)} ${date.getFullYear().toString().slice(2)}`;
-
+                            /* return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
                         },
                     }}
                     axisLeft={{
-                        /*  legend: 'linear scale', */
                         tickSize: 5,
                         tickPadding: 5,
                         tickRotation: 0,
                         legend: '',
-                        legendOffset: 12,
+                        legendOffset: -40,
+                        legendPosition: 'middle',
                         tickValues: yAxisValues,
-                        /* tickValues: [ 0.15, 0.25, 0.35, 0.45, 0.55,], */
                         format: (tick) => `${(tick * 100).toFixed(0)}%`,
                     }}
+
                     enableGridX={false}
                     gridYValues={yAxisValues}
-                    lineWidth={7}
-                    pointLabel="y"
-                    enablePoints={false}
-                    pointLabelYOffset={-12}
-                    pointBorderWidth={2}
+
+                    lineWidth={3}
                     pointSize={10}
-                    pointSymbol={function noRefCheck() { }}
                     pointColor={{ theme: 'background' }}
+                    pointBorderWidth={2}
                     pointBorderColor={{ from: 'serieColor' }}
-                    enablePointLabel={true}
+                    enablePointLabel={false}
+                    pointLabel="y"
+                    pointLabelYOffset={-12}
                     useMesh={true}
                     legends={[]}
-                                     
                     tooltip={(point) => {
-                        const date = new Date(point.point.data.x);
+                        const date: Date = new Date(point.point.data.x);
                         const formattedY = (typeof point.point.data.y === 'number')
                             ? `${(point.point.data.y * 100).toFixed(0)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
                             : point.point.data.y;
@@ -334,8 +328,8 @@ const LineChartComponentG1 = () => {
                             },
                         },
                     }}
-
                 />
+
             )}
 
         </div>

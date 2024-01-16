@@ -209,8 +209,14 @@ const LineChartComponentP = () => {
 
     /* Mensaje para el tooltip explicativo */
 
-    const longText = ` Nota: Los valores mostrados en esta gráfica se encuentran en un rango de 0.31% a 0.70% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.
-       `;
+    const minY = (yAxisValues[0] * 100).toFixed(2);
+    const maxY = (yAxisValues[yAxisValues.length - 1] * 100).toFixed(2);
+
+    const longText = `Nota: Los valores mostrados en esta gráfica se encuentran en un rango de ${minY}% a ${maxY}% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.`;
+
+
+    /*  const longText = ` Nota: Los valores mostrados en esta gráfica se encuentran en un rango de 0.31% a 0.70% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.
+        `; */
 
     return (
         <div className='grafica-Linecharts'>
