@@ -191,8 +191,9 @@ function BarChart() {
 
 
     /* Mensaje para el tooltip explicativo */
-    const longText = `
-      El flujo real es el flujo de caja que se ha generado en el periodo seleccionado. El flujo esperado es el flujo de caja que se espera generar en el periodo seleccionado`;
+    const longText = ` Nota: 'Flujo Real' se refiere a los ingresos generado durante el periodo elegido, mientras que 'Flujo Esperad.
+    o' alude a las proyecciones de ingreso para el mismo intervalo.
+      `;
 
     return (
         <div className='grafica-barcharts nivo-text'>

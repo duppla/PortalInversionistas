@@ -144,27 +144,27 @@ const LineChartComponentP = () => {
 
     useEffect(() => {
         const units = data[selectedDataKey].map((item: any) => parseFloat(item.rentabilidad));
-    
+
         if (units.length > 0) {
             const maxYValue = Math.max(...units);
             const minYValue = Math.min(...units);
-    
+
             const yStep = (maxYValue - minYValue) / 3;
             const yAxisValues = Array.from({ length: 4 }, (_, index) => {
                 const value = minYValue + index * yStep;
                 return value;
             });
-    
+
             setYAxisValues(yAxisValues);
         } else {
             // Si no hay datos, establecer valores predeterminados o manejar la situación de otra manera
             setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);  // Cambia estos valores según tus necesidades
         }
     }, [data, selectedDataKey]);
-       
-    
 
-    function redondearRentabilidad(value:any) {
+
+
+    function redondearRentabilidad(value: any) {
         const roundedValue = Math.round(value * 100);
         const residual = roundedValue % 5;
         let adjustedValue = roundedValue - residual;
@@ -208,11 +208,9 @@ const LineChartComponentP = () => {
     const tranformedData = tranformeDataApi(data, selectedDataKey);
 
     /* Mensaje para el tooltip explicativo */
-    const longText = `
-    Aquí irá un mensaje creado por Sofí`;
 
-
-
+    const longText = ` Nota: Los valores mostrados en esta gráfica se encuentran en un rango de 0.31% a 0.70% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.
+       `;
 
     return (
         <div className='grafica-Linecharts'>

@@ -144,28 +144,18 @@ const BarChartComponentE = () => {
     }
 
 
-    /* Mensaje para el tooltip explicativo */
-    const longText = `
-      Aquí irá un mensaje creado por Sofí`;
+
 
     return (
         <div className='grafica-barcharts nivo-text'>
             <div>
                 <FormControl fullWidth>
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB', mt: 1 }}>
-                        <Grid xs={6} md={6} lg={6}>
-                            <Grid container >
-                                <Grid xs={8} sm={8} md={8} lg={8}>
-                                    <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Porcentaje de propiedad del portafolio </Typography>
-                                </Grid>
-                                <Grid xs={2} sm={2} md={2} lg={2}>
-                                    <Tooltip title={longText}>
-                                        <InfoIcon sx={{ color: '#757575', fill: '#757575', marginTop: '28px', height: '12px', width: '12px', marginLeft: '10px' }} />
-                                    </Tooltip>
-                                </Grid>
-                            </Grid>
+                        <Grid xs={6} sm={6} md={6} lg={6}>
+                            <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Porcentaje de propiedad del portafolio </Typography>
+
                         </Grid>
-                        <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
+                        <Grid xs={6} sm={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"

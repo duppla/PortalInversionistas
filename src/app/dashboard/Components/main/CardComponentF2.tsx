@@ -65,7 +65,7 @@ function CardComponentF2() {
     }, []);
       // Accede directamente al primer elemento del array
       const dataPrueba = dataApiF2;
-      const porcentaje = dataApiF2?.tasa_mora ? (dataApiF2.tasa_mora * 100).toFixed(0) + '%' : null;
+      const porcentaje = dataApiF2?.tasa_mora ? (dataApiF2.tasa_mora * 100).toFixed(1) + '%' : null;
       /* console.log(dataPrueba + ' dataPrueba en point d2'); */
 
       const formattedDate = dataApiF2 ? formatFecha(dataApiF2.fecha) : '';

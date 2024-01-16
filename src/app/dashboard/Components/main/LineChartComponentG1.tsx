@@ -148,11 +148,11 @@ const LineChartComponentG1 = () => {
     */
 
     const tranformedData = tranformeDataApi(data, selectedDataKey);
-  /*   console.log('tranformedData:', tranformedData); */
-  
+    /*   console.log('tranformedData:', tranformedData); */
+
     /* Mensaje para el tooltip explicativo */
     const longText = `
-    Aquí irá un mensaje creado por Sofí`;
+    Nota: Los valores mostrados en esta gráfica se encuentran en un rango de 9% a 52% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.`;
 
     return (
         <div className='grafica-Linecharts-G'>
@@ -236,8 +236,40 @@ const LineChartComponentG1 = () => {
             <br />
             {loading && <Typography sx={{ color: '#212126' }}>Cargando...</Typography>}
             {!loading && (
+
+
                 <ResponsiveLine
-                    animate
+                  
+                    data={[
+                        {
+                            data: tranformedData,
+                            id: 'Unidades'
+                        }
+                    ]}
+                    colors={['#5ED1B1']}
+                    xFormat="time:%Y-%m-%d"
+                    margin={{
+                        bottom: 60,
+                        left: 50,
+                        right: 20,
+                        top: 40
+                    }}
+                    xScale={{
+                        format: '%Y-%m-%d',
+                        precision: 'month',
+                        type: 'time',
+                        useUTC: false
+                    }}
+                    yScale={{
+                        type: 'linear',
+                        min: 'auto',
+                        max: 'auto',
+                        stacked: true,
+                        reverse: false,
+                    }}
+                    curve="monotoneX"
+                    axisTop={null}
+                    axisRight={null}
                     axisBottom={{
                         legend: '',
                         legendOffset: -12,
@@ -246,36 +278,35 @@ const LineChartComponentG1 = () => {
                             const date = new Date(value);
                             const month = new Intl.DateTimeFormat('es', { month: 'short' }).format(date);
                             return `${month.charAt(0).toUpperCase()}${month.slice(1)} ${date.getFullYear().toString().slice(2)}`;
-                            /* return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
+
                         },
                     }}
-                    enableGridX={false}
-                    gridYValues={yAxisValues}
-                    /*  gridYValues={[ 0.15, 0.25, 0.35, 0.45, 0.55, ]} */
-                    /*  gridYValues={[5, 15, 25, 35]}  */
                     axisLeft={{
                         /*  legend: 'linear scale', */
+                        tickSize: 5,
+                        tickPadding: 5,
+                        tickRotation: 0,
+                        legend: '',
                         legendOffset: 12,
                         tickValues: yAxisValues,
                         /* tickValues: [ 0.15, 0.25, 0.35, 0.45, 0.55,], */
                         format: (tick) => `${(tick * 100).toFixed(0)}%`,
                     }}
-
-                    theme={{
-                        axis: {
-                            ticks: {
-                                text: {
-                                    fill: '#9B9EAB' // Cambia aquí al color que desees para el texto de las marcas en el eje Y
-                                }
-                            }
-                        },
-                        grid: {
-                            line: {
-                                stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
-                            },
-                        },
-                    }}
+                    enableGridX={false}
+                    gridYValues={yAxisValues}
                     lineWidth={7}
+                    pointLabel="y"
+                    enablePoints={false}
+                    pointLabelYOffset={-12}
+                    pointBorderWidth={2}
+                    pointSize={10}
+                    pointSymbol={function noRefCheck() { }}
+                    pointColor={{ theme: 'background' }}
+                    pointBorderColor={{ from: 'serieColor' }}
+                    enablePointLabel={true}
+                    useMesh={true}
+                    legends={[]}
+                                     
                     tooltip={(point) => {
                         const date = new Date(point.point.data.x);
                         const formattedY = (typeof point.point.data.y === 'number')
@@ -289,56 +320,19 @@ const LineChartComponentG1 = () => {
                             </div>
                         );
                     }}
-
-
-
-                    curve="monotoneX"
-                    data={[
-                        {
-                            data: tranformedData,
-
-                            id: 'Unidades'
-                        }
-                    ]}
-                    colors={['#5ED1B1']}
-                    enablePointLabel={false}
-
-                    margin={{
-                        bottom: 60,
-                        left: 50,
-                        right: 20,
-                        top: 40
-                    }}
-                    pointBorderColor={{
-                        from: 'color',
-                        modifiers: [
-                            [
-                                'darker',
-                                0.3
-                            ]
-                        ]
-                    }}
-                    pointBorderWidth={1}
-                    pointSize={16}
-                    pointSymbol={function noRefCheck() { }}
-                    useMesh
-
-                    xFormat="time:%Y-%m-%d"
-                    xScale={{
-                        format: '%Y-%m-%d',
-                        precision: 'day',
-                        type: 'time',
-                        useUTC: false
-                    }}
-                    yScale={{
-                        type: 'linear',
-                        min: 'auto',
-                        max: 'auto',
-                        stacked: false,
-                        reverse: false,
-
-
-
+                    theme={{
+                        axis: {
+                            ticks: {
+                                text: {
+                                    fill: '#9B9EAB' // Cambia aquí al color que desees para el texto de las marcas en el eje Y
+                                }
+                            }
+                        },
+                        grid: {
+                            line: {
+                                stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                            },
+                        },
                     }}
 
                 />
