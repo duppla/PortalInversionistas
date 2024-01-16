@@ -191,8 +191,7 @@ function BarChart() {
 
 
     /* Mensaje para el tooltip explicativo */
-    const longText = ` Nota: 'Flujo Real' se refiere a los ingresos generado durante el periodo elegido, mientras que 'Flujo Esperad.
-    o' alude a las proyecciones de ingreso para el mismo intervalo.
+    const longText = `Nota: 'Flujo Real' se refiere a los ingresos generado durante el periodo elegido, mientras que 'Flujo Esperado' alude a las proyecciones de ingreso para el mismo intervalo.
       `;
 
     return (
