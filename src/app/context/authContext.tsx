@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from 'firebase/auth'
 import {auth} from '../ConfigFirebase/firebase'
 import { UserCredential } from "firebase/auth";
 import { User } from "firebase/auth";
@@ -40,6 +40,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     return credential;
   };
   const login = async (email: string, password: string): Promise<UserCredential> => {
+    await setPersistence(auth, browserSessionPersistence);
     const credential = await signInWithEmailAndPassword(auth, email, password);
     setUser(credential.user);
     setUserEmail(email);
@@ -55,21 +56,14 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     return () => unsubscribe();
   }, [])
 
-/*   const contextValue: AuthContextType = {
-    singUp,
-    login,
-    logout,
-    user,
-    loading
-  }; */
   const contextValue: AuthContextType = {
     singUp,
     login,
     logout,
     user,
-    userEmail,  // Incluir el correo electrónico en el contexto
+    userEmail,  
     loading,
-    setUserEmail,  // Incluir la función setUserEmail en el contexto
+    setUserEmail, 
   };
 
   return (

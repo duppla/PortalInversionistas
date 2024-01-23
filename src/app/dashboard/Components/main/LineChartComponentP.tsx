@@ -226,7 +226,7 @@ const LineChartComponentP = () => {
                         <Grid xs={6} md={6} lg={6} >
                             <Grid container >
                                 <Grid xs={10} sm={10} md={10} lg={10}>
-                                    <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Rentabilidad mensual del portafolio </Typography>
+                                    <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Rentabilidad mensual del portafolio  </Typography>
                                 </Grid>
                                 <Grid xs={1} sm={1} md={1} lg={1}>
                                     <Tooltip title={longText}>
