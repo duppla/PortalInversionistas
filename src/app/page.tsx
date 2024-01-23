@@ -5,21 +5,20 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import Script from 'next/script';
 
 
 import LogoInversionistas from '../img/logoinversionistas.svg'
 import { Box, Button, Container, CssBaseline, TextField, Typography, createTheme, ThemeProvider } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-/* import {useRouter} from "next/router";
- */
 
-import { useState, FormEvent } from 'react';
+
+import { useState, FormEvent, useEffect } from 'react';
 import { useAuth } from '../app/context/authContext';
-
 import swal from 'sweetalert';
 
-/* import { Router } from 'next/router'; */
+
 
 const themeCustomer = createTheme({
 
@@ -33,7 +32,6 @@ const themeCustomer = createTheme({
     secondary: {
       main: '#5782F2',
       light: '#5782F2',
-      // dark: will be calculated from palette.secondary.main,
       contrastText: '#47008F',
     },
   },
@@ -41,9 +39,20 @@ const themeCustomer = createTheme({
 
 
 
-
-
 export default function Home() {
+
+  useEffect(() => {
+    const script = document.createElement('script');
+  
+    script.src = "https://web-sdk.smartlook.com/recorder.js";
+    script.async = true;
+  
+    document.body.appendChild(script);
+  
+    return () => {
+      document.body.removeChild(script);
+    }
+  }, []);
 
   /*Datos enviados a través del servicio*/
   const [datos, setDatos] = useState({
@@ -57,13 +66,9 @@ export default function Home() {
 
   const { login, user, loading } = useAuth();
   const correo = user ? user.email : '';
-  /* const navigate = useNavigate('/'); */
   const navigate = useRouter();
 
   const [error, setError] = useState<string | undefined>(undefined);
-
-
-
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -71,8 +76,7 @@ export default function Home() {
     try {
       await login(datos.email, datos.password);
       navigate.push('/dashboard/home');
-    
-      
+
     }
 
     catch (error) {
@@ -92,7 +96,7 @@ export default function Home() {
             buttons: ["Cerrar"],
             timer: 5000,
           });
-        } else if (error.code === 'auth/invalid-login-credentials') /* auth/wrong-password */ { 
+        } else if (error.code === 'auth/invalid-login-credentials') {
           swal({
             text: 'La contraseña o correo es incorrecto, intente nuevamente',
             icon: "info",
@@ -100,18 +104,17 @@ export default function Home() {
             timer: 5000,
           });
         }
-          else if (error.code === 'auth/missing-password') /* auth/wrong-password */ { 
-            swal({
-              text: 'Contraseña requerida, intente nuevamente',
-              icon: "info",
-              buttons: ["Cerrar"],
-              timer: 5000,
-            });
+        else if (error.code === 'auth/missing-password') {
+          swal({
+            text: 'Contraseña requerida, intente nuevamente',
+            icon: "info",
+            buttons: ["Cerrar"],
+            timer: 5000,
+          });
         } else {
-          // Otro manejo de errores de autenticación de Firebase
+
           console.error('Error de autenticación:', error);
         }
-
       }
     }
   }
@@ -120,30 +123,24 @@ export default function Home() {
   return (
 
     <ThemeProvider theme={themeCustomer} >
+      <>
+       
+      </>
+
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
           <div>
-            <Image  className='img-login-logo' src={LogoInversionistas} alt=""  />
+            <Image className='img-login-logo' src={LogoInversionistas} alt="" />
           </div>
-         {/*  <Typography component="h1" variant='h5' sx={{
-           
-            color: '#ffffff',
-            fontFamily: 'Rustica',
-            fontStyle: 'normal',
-            fontSize: '36px',
-            fontWeight: 'bold',
 
-          }}>
-            Portal Inversionistas
-          </Typography> */}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ marginTop: -2 }}>
             <TextField
               className='miInput'
@@ -158,29 +155,29 @@ export default function Home() {
               autoFocus
               sx={{
                 '& label': {
-                  color: '#5782F2', // Estilo del texto del label
+                  color: '#5782F2',
                 },
                 '& .MuiOutlinedInput-input': {
-                  color: '#DADADA', // Estilo del texto del input
-                  backgroundColor: '#1E1E1E', // Fondo del input
+                  color: '#DADADA',
+                  backgroundColor: '#1E1E1E',
                   fontFamily: 'Rustica',
                   fontWeight: '300',
-                  
+
                 },
                 '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#ffffff', // Estilo del borde del input
+                  borderColor: '#ffffff',
                 },
                 '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#ffffff', // Estilo del borde del input al pasar el ratón
+                  borderColor: '#ffffff',
                 },
               }}
               InputProps={{
                 sx: {
-                  color: '#DADADA', // Estilo del texto del input (placeholder)
+                  color: '#DADADA',
                   fontFamily: 'Rustica',
-                  
+
                 },
-                'inputProps': { // Para estilos adicionales del input
+                'inputProps': {
                   'aria-label': 'Email',
                 },
               }}
@@ -191,7 +188,7 @@ export default function Home() {
               margin="normal"
               required
               fullWidth
-              id="password"              
+              id="password"
               name="password"
               label="Password"
               type="password"
@@ -200,49 +197,33 @@ export default function Home() {
               autoFocus
               sx={{
                 '& label': {
-                  color: '#5782F2', // Estilo del texto del label
+                  color: '#5782F2',
                 },
                 '& .MuiOutlinedInput-input': {
-                  color: '#DADADA', // Estilo del texto del input
-                  backgroundColor: '#1E1E1E', // Fondo del input
+                  color: '#DADADA',
+                  backgroundColor: '#1E1E1E',
                   fontFamily: 'Rustica',
-                 
+
                 },
                 '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#ffffff', // Estilo del borde del input
-                  
+                  borderColor: '#ffffff',
+
                 },
                 '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#ffffff', // Estilo del borde del input al pasar el ratón
+                  borderColor: '#ffffff',
                 },
               }}
               InputProps={{
                 sx: {
-                  color: '#DADADA', // Estilo del texto del input (placeholder)
+                  color: '#DADADA',
                   fontFamily: 'Rustica',
-                  
+
                 },
-                'inputProps': { // Para estilos adicionales del input
+                'inputProps': {
                   'aria-label': 'Password',
                 },
               }}
             />
-    {/*         <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              onChange={handleChange}
-              id="password"
-              autoComplete="current-password"
-              sx={{
-                labelColor: '#ffffff',
-                color: '#ffffff'
-              }}
-            /> */}
-
             <Button
               type="submit"
               fullWidth
@@ -262,27 +243,8 @@ export default function Home() {
             >
               Iniciar sesión
             </Button>
-
-            {/* <Link href='/Register'>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 0, mb: 2,
-                background: '#6C9FFF',
-                borderRadius: '10px',
-                color: '#FFFFFF',
-                marginBottom: '80px',
-
-              }}
-            >
-              Registrarse
-            </Button>
-          </Link> */}
-
           </Box>
         </Box>
-
       </Container>
     </ThemeProvider>
 
