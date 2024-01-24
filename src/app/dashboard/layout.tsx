@@ -59,8 +59,7 @@ function Layout({ children }: { children: ReactNode; }) {
                             },
                             '&.Mui-disabled': {
                               color: '#9A9A9A',
-                              backgroundColor: '#6C9FFF',
-                              // Letra blanca cuando está deshabilitado
+                              backgroundColor: '#6C9FFF',                             
                             },
                           }}>
                            Dashboard principal

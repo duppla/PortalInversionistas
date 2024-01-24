@@ -119,7 +119,7 @@ function BarChartComponentO() {
 
     /* data del enpoint para renderizar la grafica por un map */
 
-    const formattedData = responseData
+    const formattedData = responseData&& responseData[selectedDataKey]
         ? responseData[selectedDataKey].map((item: { fecha: string; pagado: number; mora: number; }) => ({
             fecha: item.fecha,
             'Pago a tiempo': item.pagado,  // Solo valores positivos o cero

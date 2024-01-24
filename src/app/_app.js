@@ -1,8 +1,8 @@
 
-import { useEffect } from 'react';
+/* import { useEffect } from 'react';
 
 function MyApp({ Component, pageProps }) {
-  // Coloca tu script en useEffect para asegurarte de que se ejecute solo una vez
+ 
   useEffect(() => {
     window.smartlook ||
       (function (d) {
@@ -22,8 +22,8 @@ function MyApp({ Component, pageProps }) {
       })(document);
   }, []); 
 
-  // Renderiza tu componente principal
+ 
   return <Component {...pageProps} />;
 }
 
-export default MyApp;
+export default MyApp; */

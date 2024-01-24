@@ -68,10 +68,10 @@ function CardComponentD2() {
                     <Typography  component="div" sx={{color: '#5782F2', fontFamily: 'Rustica', fontSize:'18px',fontWeight:'500'}} className='title-D-F' >
                       <p> Participación adquirida </p> 
                     </Typography>
-                    <Typography variant="h5"sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700' }} >
-                    <h3>  {/* {dataPrueba?.data}% */}
+                    <Typography sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700' }} >
+                    <h2>  {/* {dataPrueba?.data}% */}
                     {porcentaje}
-                        </h3> 
+                        </h2> 
                     </Typography>                    
                 </CardContent>
                

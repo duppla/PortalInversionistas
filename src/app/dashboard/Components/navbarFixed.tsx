@@ -60,7 +60,6 @@ function ResponsiveAppBar() {
 
           }} >
               <Link href="/dashboard/home">
-
             <Image src={LogoInversionistas} alt="" className='img-home' /* width={492} height={287} */ />
               </Link>
           </Container>
@@ -72,10 +71,10 @@ function ResponsiveAppBar() {
             flexGrow: 1,
             display: 'flex',
             justifyContent: 'flex-end',
-            alignItems: 'center',  // Añade esta línea para centrar verticalmente
+            alignItems: 'center',  
             width: '100%',
             marginRight: '8px',
-            marginLeft: '60%',   // añade esta línea 
+            marginLeft: '60%',   
 
             // Ajusta el espacio derecho según sea necesario
           }}>
@@ -87,8 +86,6 @@ function ResponsiveAppBar() {
             <Box
               sx={{
                 mt: '45px',
-
-                // Fondo del contenedor
               }}
             >
               <Menu
@@ -109,13 +106,7 @@ function ResponsiveAppBar() {
                   // Fondo del menú
                   mt: '45px',                
                 }}
-                /*  MenuProps={{
-                   sx: {
-                     backgroundColor:'blue',
-                     mt: '45px',
-                   },
-                 }} */
-                // Utiliza slotProps.paper en lugar de PaperProps
+               
                 slotProps={{
                   paper: {
                     sx: {
@@ -136,33 +127,7 @@ function ResponsiveAppBar() {
                   </MenuItem>
                 ))}
               </Menu>
-            </Box>
-
-            {/* <Menu
-              sx={{ mt: '45px',  backgroundColor: 'yellow',}}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting}
-                  sx={{ backgroundColor: 'blue' }}
-                  onClick={setting === 'Cerrar Sesión' ? handleLogout : handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu> */}
+            </Box>        
           </Box>
         </Toolbar>
       </Box>

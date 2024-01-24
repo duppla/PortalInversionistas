@@ -26,8 +26,6 @@ type DataType = {
     ult_6_meses: any[];
     [key: string]: any;
 };
-
-
 interface Item {
     [key: string]: any;
     fecha: string;
@@ -131,23 +129,7 @@ const LineChartComponentG1 = () => {
 
     };
 
-    /*    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
-           return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
-               x: item.fecha,
-               y: item.tasa_morosidad,
-           }));
-       }; */
-
-    /*    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
-           return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
-               x: item.fecha,
-               y: parseFloat(item.tasa_morosidad.toString()), // Asegurar que tasa_morosidad sea interpretado como string
-               roundedY: yAxisRoundWithDynamicDecimals(parseFloat(item.tasa_morosidad.toString())),
-           }));
-       };
-    */
-
-    const tranformedData = tranformeDataApi(data, selectedDataKey);
+      const tranformedData = tranformeDataApi(data, selectedDataKey);
     /*   console.log('tranformedData:', tranformedData); */
 
     /* Mensaje para el tooltip explicativo */
@@ -252,7 +234,7 @@ const LineChartComponentG1 = () => {
                     xFormat="time:%Y-%m-%d"
                     xScale={{
                         format: '%Y-%m-%d',
-                        precision: 'month',
+                        precision: 'day',
                         type: 'time',
                         useUTC: false
                     }}

@@ -132,7 +132,7 @@ function StreamChartComponentL() {
     };
 
     // Este código podría ir en el lugar donde obtienes las fechas del servidor
-    const formattedData = responseData
+    const formattedData = responseData&& responseData[selectedDataKey]
         ? responseData[selectedDataKey].map((dataItem: any) => ({
             id: dataItem.fecha, // El identificador de cada serie es la fecha
             Alto: dataItem.alto ? dataItem.alto : 0,

@@ -224,7 +224,7 @@ export default function BasicTable() {
                                         ))}
                                     </TableRow>
 
-                                    <TableRow key="gastos" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
+                                    <TableRow key="utilidad_bruta" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
                                         <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
                                             Utilidad bruta
                                         </TableCell>
@@ -234,7 +234,7 @@ export default function BasicTable() {
                                             </TableCell>
                                         ))}
                                     </TableRow>
-                                    <TableRow key="gastos" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
+                                    <TableRow key="reserva" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
                                         <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
                                             Reserva
                                         </TableCell>
@@ -244,7 +244,7 @@ export default function BasicTable() {
                                             </TableCell>
                                         ))}
                                     </TableRow>
-                                    <TableRow key="gastos" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
+                                    <TableRow key="noi" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
                                         <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
                                             NOI
                                         </TableCell>

@@ -41,7 +41,7 @@ type ItemType = {
 
 function BarChartComponentN() {
 
-    
+
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
         if (!userEmail) {
@@ -102,9 +102,8 @@ function BarChartComponentN() {
 
     /* data del enpoint para renderizar la grafica por un map */
 
-    const formattedDataa = responseData
+    const formattedDataa = responseData && responseData[selectedDataKey]
         ? responseData[selectedDataKey].map((item: ItemType) => {
-           
             return {
                 fecha: item.fecha,
                 Arriendo: item.arriendo,
@@ -113,12 +112,7 @@ function BarChartComponentN() {
             };
         })
         : [];
-
-
-
-    /* prueba de formateo data a legible */
-
-  /*   console.log(formattedDataa + ' formattedDataa en point n'); */
+      /*  console.log(JSON.stringify(formattedDataa) + ' formattedDataa en point n');  */
 
     function formatNumber(value: number): string {
         const suffixes = ['', 'K', 'M', 'B', 'T'];
@@ -126,7 +120,7 @@ function BarChartComponentN() {
         let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(0);
 
         if (shortValue.endsWith('.0')) {
-            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
+            shortValue = shortValue.slice(0, -2); 
         }
 
         return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
@@ -138,15 +132,13 @@ function BarChartComponentN() {
         let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
 
         if (shortValue.endsWith('.0')) {
-            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
+            shortValue = shortValue.slice(0, -2);
         }
 
         return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
-/*     console.log('Datos formateados para el gráfico:', formattedDataa); */
-    // Dentro de tu componente, después de obtener los datos del API
-
-    // Dentro de tu componente, después de obtener los datos del API
+    /*     console.log('Datos formateados para el gráfico:', formattedDataa); */
+     // Dentro de tu componente, después de obtener los datos del API
     const arriendoValues = formattedDataa.map((item: any) => typeof item.Arriendo === 'number' ? item.Arriendo : 0);
     const prepagoValues = formattedDataa.map((item: any) => typeof item.Adelanto === 'number' ? item.Adelanto : 0);
     const interesesValues = formattedDataa.map((item: any) => typeof item.Intereses === 'number' ? item.Intereses : 0);
@@ -173,7 +165,6 @@ function BarChartComponentN() {
                     <Grid container spacing={2} alignItems="center" sx={{ borderBottom: '1px solid #9B9EAB' }}>
                         <Grid xs={6} md={6} lg={6}>
                             <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Pagos mensuales y destino</Typography>
-
                         </Grid>
                         <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
                             <Select
@@ -182,13 +173,10 @@ function BarChartComponentN() {
                                 value={selectedValue}
                                 label="Age"
                                 onChange={handleSelectChange}
-                                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
-
                                 sx={{
                                     color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill: '#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
                                     '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
                                     '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
-
                                 }}
                                 MenuProps={{
                                     anchorOrigin: {
@@ -199,7 +187,7 @@ function BarChartComponentN() {
                                         vertical: 'top',
                                         horizontal: 'right',
                                     },
-                                    /*   getContentAnchorEl: null, */
+                                   
                                     PaperProps: {
                                         sx: {
                                             backgroundColor: '#212126', // Fondo del menú desplegado
@@ -226,8 +214,6 @@ function BarChartComponentN() {
                                         />
                                     )
                                 )}
-
-
                             >
                                 {/* <MenuItem value='este_anho'>Este año</MenuItem> */}
                                 <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
@@ -247,9 +233,7 @@ function BarChartComponentN() {
                 padding={0.7}
                 valueScale={{ type: 'linear', min: 0 }}
                 indexScale={{ type: 'band', round: true }}
-                colors={['#5782F2', '#5ED1B1', ' #FFB024']} // Define tus propios colores */
-                /* colors={['#28ACFF', '#00B383', '#5ED1B1']}  */
-
+                colors={['#5782F2', '#5ED1B1', ' #FFB024']}             
                 theme={{
                     axis: {
                         ticks: {
@@ -258,12 +242,10 @@ function BarChartComponentN() {
                             },
                         },
                     },
-
                     legends: {
                         text: {
                             fill: '#9B9EAB', // Color del texto de las leyendas
                         },
-
                     },
                     tooltip: {
                         container: {
@@ -293,7 +275,7 @@ function BarChartComponentN() {
                             </div>
                         );
                     }
-                    return null; // Devolver null si point.data.fecha no es una cadena
+                    return null; 
                 }}
 
                 borderRadius={4}
@@ -349,8 +331,6 @@ function BarChartComponentN() {
                         ]
                     ]
                 }}
-
-
                 legends={[
                     {
                         dataFrom: 'keys',
@@ -382,7 +362,6 @@ function BarChartComponentN() {
                 ariaLabel="Nivo bar chart demo"
                 barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
             />
-
         </div>
     )
 }

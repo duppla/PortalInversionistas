@@ -41,7 +41,7 @@ const themeCustomer = createTheme({
 
 export default function Home() {
 
-  useEffect(() => {
+  /* useEffect(() => {
     const script = document.createElement('script');
   
     script.src = "https://web-sdk.smartlook.com/recorder.js";
@@ -52,7 +52,7 @@ export default function Home() {
     return () => {
       document.body.removeChild(script);
     }
-  }, []);
+  }, []); */
 
   /*Datos enviados a través del servicio*/
   const [datos, setDatos] = useState({

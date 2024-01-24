@@ -118,7 +118,6 @@ const Page = () => {
 
                         }}>
                             <GraficacomponenteP />
-
                         </Grid>
 
                     </Grid>
@@ -142,75 +141,6 @@ const Page = () => {
 
                             mb: 2,
                         }}>
-
-                            {/* Condicionalmente renderiza las gráficas */}
-                            {/* {selectedView === 'general' && <Graficaprueba />}
-                            {selectedView === 'detalle' && <GraficacomponenteA2 />}
-                            <br /><br />
-                            <div className='centrado'>
-                                <div>
-                                    <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-end', mt: 4 }}>
-
-                                        <Button variant="outlined"
-                                            disabled={selectedView === 'general'}
-                                            sx={{
-                                                borderRadius: '10px',
-                                                color: '#ffffff', // Letra blanca
-                                                fontFamily: 'Rustica',
-                                                fontStyle: 'normal',
-                                                fontWeight: '500',
-                                                fontSize: '16px',
-                                                textTransform: 'none',
-                                                width: '140px',
-                                                backgroundColor: '#6C9FFF',
-                                                borderColor: '#6C9FFF', // Color de borde normal
-                                                '&:hover': {
-                                                    backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
-                                                    borderColor: '#3158A3', // Cambia el borde al pasar el mouse
-                                                },
-                                                '&.Mui-disabled': {
-                                                    color: '#9A9A9A',
-                                                    backgroundColor: '#3158A3',
-                                                    // Letra blanca cuando está deshabilitado
-                                                },
-                                            }}
-                                            onClick={() => setSelectedView('general')}
-                                        >
-                                            Vista general
-                                        </Button>
-
-                                        <Button variant="outlined"
-
-                                            disabled={selectedView === 'detalle'}
-                                            sx={{
-                                                borderRadius: '10px',
-                                                color: '#ffffff', // Letra blanca
-                                                fontFamily: 'Rustica',
-                                                fontStyle: 'normal',
-                                                fontWeight: '500',
-                                                fontSize: '16px',
-                                                textTransform: 'none',
-                                                width: '140px',
-                                                backgroundColor: '#6C9FFF',
-                                                borderColor: '#6C9FFF', // Color de borde normal
-                                                '&:hover': {
-                                                    backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
-                                                    borderColor: '#3158A3', // Cambia el borde al pasar el mouse
-                                                },
-                                                '&.Mui-disabled': {
-                                                    color: '#9A9A9A',
-                                                    backgroundColor: '#3158A3',
-                                                    // Letra blanca cuando está deshabilitado
-                                                },
-                                            }}
-                                            onClick={() => setSelectedView('detalle')}
-
-                                        >
-                                            Detalle
-                                        </Button>
-                                    </Stack>
-                                </div>
-                            </div> */}
                             <Graficaprueba />
                         </Grid>
                     </Grid>
