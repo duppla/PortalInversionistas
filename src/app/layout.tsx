@@ -6,6 +6,8 @@ import Link from 'next/link';
 
 
 
+
+
 import AuthProvider from '../app/context/authContext';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -26,6 +28,7 @@ export default function RootLayout({
       <Link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
 
       <body
+      
       
         className={inter.className}>
         <AuthProvider>{/* envuelve toda la app */}
