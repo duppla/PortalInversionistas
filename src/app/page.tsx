@@ -37,22 +37,17 @@ const themeCustomer = createTheme({
   },
 });
 
-
+declare global {
+  interface Window {
+    smartlook: (action: string, key: string, options: object) => void;
+  }
+}
 
 export default function Home() {
 
-  /* useEffect(() => {
-    const script = document.createElement('script');
   
-    script.src = "https://web-sdk.smartlook.com/recorder.js";
-    script.async = true;
   
-    document.body.appendChild(script);
-  
-    return () => {
-      document.body.removeChild(script);
-    }
-  }, []); */
+ 
 
   /*Datos enviados a través del servicio*/
   const [datos, setDatos] = useState({
