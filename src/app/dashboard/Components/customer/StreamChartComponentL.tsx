@@ -97,7 +97,7 @@ function StreamChartComponentL() {
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedDataKeyL, setSelectedDataKeyL] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -123,19 +123,19 @@ function StreamChartComponentL() {
 
     /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKey(dataKey);
+        setSelectedDataKeyL(dataKey);
     };
 
     /* Función que controla la selección del dropdown */
     const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-        const selectedDataKey = event.target.value as string;
-        setSelectedValue(selectedDataKey);
-        handleDataSelection(selectedDataKey);
+        const selectedDataKeyL = event.target.value as string;
+        setSelectedValue(selectedDataKeyL);
+        handleDataSelection(selectedDataKeyL);
     };
 
     // Este código podría ir en el lugar donde obtienes las fechas del servidor
-    const formattedData = responseData&& responseData[selectedDataKey]
-        ? responseData[selectedDataKey].map((dataItem: any) => ({
+    const formattedData = responseData&& responseData[selectedDataKeyL]
+        ? responseData[selectedDataKeyL].map((dataItem: any) => ({
             id: dataItem.fecha, // El identificador de cada serie es la fecha
             Alto: dataItem.alto ? dataItem.alto : 0,
             Medio: dataItem.medio ? dataItem.medio : 0,

@@ -64,7 +64,7 @@ function PieChartComponentG2() {
     este_anho: { menor_30: 0, mayor_30: 0, total: 0 },
     ult_6_meses: { menor_30: 0, mayor_30: 0, total: 0 },
   });
-  const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
+  const [selectedDataKeyG2, setSelectedDataKeyG2] = useState<string>('este_anho');
   const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -106,11 +106,11 @@ function PieChartComponentG2() {
 
 
   const formattedDataPieG2 = responseData
-    ? responseData[selectedDataKey]
-      ? Object.keys(responseData[selectedDataKey])
+    ? responseData[selectedDataKeyG2]
+      ? Object.keys(responseData[selectedDataKeyG2])
         .filter((key) => key !== 'total') // Filtra la categoría 'total'
         .map((key: string) => {
-          const item = responseData[selectedDataKey][key];
+          const item = responseData[selectedDataKeyG2][key];
           let categoryLabel = key;
 
           // Personaliza los nombres de las categorías
@@ -143,14 +143,14 @@ function PieChartComponentG2() {
 
   /* Función para actualizar la selección del usuario */
   const handleDataSelection = (dataKey: string) => {
-    setSelectedDataKey(dataKey);
+    setSelectedDataKeyG2(dataKey);
   };
 
   /* Función que controla la selección del dropdown */
   const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-    const selectedDataKey = event.target.value as string;
-    setSelectedValue(selectedDataKey);
-    handleDataSelection(selectedDataKey);
+    const selectedDataKeyG2 = event.target.value as string;
+    setSelectedValue(selectedDataKeyG2);
+    handleDataSelection(selectedDataKeyG2);
   };
 
   const formatNumber = (num: number) => {
@@ -346,7 +346,7 @@ function PieChartComponentG2() {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography sx={{ color: "#ffffff", marginBottom: '8px', textAlign: 'center', fontWeight: '600', fontStyle: 'normal', fontSize: '28px' }}>
             {/*  {responseData[selectedDataKey].total.toLocaleString()} */}
-            ${formatNumber(responseData[selectedDataKey].total)}
+            ${formatNumber(responseData[selectedDataKeyG2].total)}
           </Typography>
           <Typography sx={{ color: '#6E7880', textAlign: 'center', fontWeight: '400', fontStyle: 'normal', fontSize: '24px' }}>
             Total

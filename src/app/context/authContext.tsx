@@ -51,7 +51,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const login = async (email: string, password: string): Promise<UserCredential> => {
     try {
       console.log('Antes de setPersistence');
-      await setPersistence(auth, browserSessionPersistence);
+      await setPersistence(auth, inMemoryPersistence);
       console.log('Después de setPersistence');
 
       /*   await setPersistence(auth, inMemoryPersistence); */
@@ -111,7 +111,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       return () => unsubscribe();
     }, []); */
 
-  /*   useEffect(() => {
+    useEffect(() => {
       const storedEmail = localStorage.getItem('userEmail');
       console.log('Stored Email:', storedEmail);
     
@@ -126,9 +126,11 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     
       return () => unsubscribe();
     }, []);
-     */
-    useEffect(() => {
+    
+    /* useEffect(() => {
       console.log('Efecto secundario de autenticación llamado');
+      const storedEmail = localStorage.getItem('userEmail');
+
       const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         if (currentUser) {
           setUser(currentUser);
@@ -143,7 +145,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         console.log('Desuscribirse del efecto secundario de autenticación');
         unsubscribe();
       };
-    }, []);
+    }, []); */
     
     
 

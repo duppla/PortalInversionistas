@@ -42,7 +42,7 @@ function PieChartComponentK1() {
     };
 
 
-  const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
+  const [selectedDataKeyK1, setSelectedDataKeyK1] = useState<string>('este_anho');
   const [selectedValue, setSelectedValue] = useState<string | number>('este_anho'); 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -85,10 +85,10 @@ function PieChartComponentK1() {
   };
 
     const formattedDataPie = responseData
-    ? responseData[selectedDataKey]
-      ? Object.keys(responseData[selectedDataKey])
+    ? responseData[selectedDataKeyK1]
+      ? Object.keys(responseData[selectedDataKeyK1])
         .map((key: string) => {
-          const data = responseData[selectedDataKey][key];
+          const data = responseData[selectedDataKeyK1][key];
   
           return {
             id: data.actividad_economica,
@@ -122,14 +122,14 @@ function PieChartComponentK1() {
     
     /* Función para actualizar la selección del usuario */
   const handleDataSelection = (dataKey: string) => {
-    setSelectedDataKey(dataKey);
+    setSelectedDataKeyK1(dataKey);
   };
 
   /* Función que controla la selección del dropdown */
   const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-    const selectedDataKey = event.target.value as string;
-    setSelectedValue(selectedDataKey);
-    handleDataSelection(selectedDataKey);
+    const selectedDataKeyK1 = event.target.value as string;
+    setSelectedValue(selectedDataKeyK1);
+    handleDataSelection(selectedDataKeyK1);
   };
 
 
@@ -260,7 +260,7 @@ function PieChartComponentK1() {
         ]}
        tooltip={(tooltipProps) => {
             const { id, value, color, formattedValue , label} = tooltipProps.datum;
-            const originalData = responseData[selectedDataKey].find((data:any) => data.actividad_economica === id);
+            const originalData = responseData[selectedDataKeyK1].find((data:any) => data.actividad_economica === id);
             const porcentaje = originalData ? originalData.porcentaje * 100 : 0;           
           
             return (

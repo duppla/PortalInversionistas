@@ -41,20 +41,25 @@ type ItemType = {
 
 function BarChartComponentN() {
     console.log = () => {};
+    // Extrae el correo electrónico del localStorage
+    const storedEmail = localStorage.getItem('userEmail');
 
 
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
+
+        const emailToUse = storedEmail || userEmail || '';
+
+        if (!emailToUse) {
             // En caso de que el correo electrónico no esté disponible
             return "";
         }
         // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co") {
+        if (emailToUse === "fcortes@duppla.co") {
             return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co") {
+        } else if (emailToUse === "aarevalo@duppla.co") {
             return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
+        } else if (emailToUse === "scastaneda@duppla.co") {
             return "disponible";
         }
         // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
@@ -64,7 +69,7 @@ function BarChartComponentN() {
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedDataKeyN, setSelectedDataKeyN] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -91,20 +96,20 @@ function BarChartComponentN() {
 
     /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKey(dataKey);
+        setSelectedDataKeyN(dataKey);
     };
 
     /* Función que controla la selección del dropdown */
     const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-        const selectedDataKey = event.target.value as string;
-        setSelectedValue(selectedDataKey);
-        handleDataSelection(selectedDataKey);
+        const selectedDataKeyN = event.target.value as string;
+        setSelectedValue(selectedDataKeyN);
+        handleDataSelection(selectedDataKeyN);
     };
 
     /* data del enpoint para renderizar la grafica por un map */
 
-    const formattedDataa = responseData && responseData[selectedDataKey]
-        ? responseData[selectedDataKey].map((item: ItemType) => {
+    const formattedDataa = responseData && responseData[selectedDataKeyN]
+        ? responseData[selectedDataKeyN].map((item: ItemType) => {
             return {
                 fecha: item.fecha,
                 Arriendo: item.arriendo,

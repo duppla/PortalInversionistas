@@ -37,7 +37,7 @@ const PieChartComponentK2 = () => {
         // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
         return "";
     };
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
+    const [selectedDataKeyK2, setSelectedDataKeyK2] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -80,11 +80,11 @@ const PieChartComponentK2 = () => {
 
     const excludedKeys = ['total', 'porcent_0_33', 'porcent_33_66', 'porcent_66_100'];
     const formattedDataPie = responseData
-        ? responseData[selectedDataKey]
-            ? Object.keys(responseData[selectedDataKey])
+        ? responseData[selectedDataKeyK2]
+            ? Object.keys(responseData[selectedDataKeyK2])
                 .filter((key) => !excludedKeys.includes(key)) // Filtra la categoría 'total'
                 .map((key: string) => {
-                    const item = responseData[selectedDataKey][key];
+                    const item = responseData[selectedDataKeyK2][key];
                     let categoryLabel = key;
 
                     // Personaliza los nombres de las categorías
@@ -114,14 +114,14 @@ const PieChartComponentK2 = () => {
 
     /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKey(dataKey);
+        setSelectedDataKeyK2(dataKey);
     };
 
     /* Función que controla la selección del dropdown */
     const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-        const selectedDataKey = event.target.value as string;
-        setSelectedValue(selectedDataKey);
-        handleDataSelection(selectedDataKey);
+        const selectedDataKeyK2 = event.target.value as string;
+        setSelectedValue(selectedDataKeyK2);
+        handleDataSelection(selectedDataKeyK2);
     };
 
  /*    console.log(JSON.stringify(responseData) + ' componente piechart'); */
@@ -262,7 +262,7 @@ const PieChartComponentK2 = () => {
                                 const percentageKey = categoryToPercentageMapping[id.toString() as "Entre 15% y 30%" | "Entre 30% y 40%" | "Mayor a 40%"];
                         
                                 // Obtiene el valor de porcentaje
-                                const percentageValue = responseData[selectedDataKey][percentageKey];
+                                const percentageValue = responseData[selectedDataKeyK2][percentageKey];
                         
                                 // Verifica si el valor de porcentaje es válido
                                 const isValidPercentage = !isNaN(percentageValue) && typeof percentageValue === 'number';

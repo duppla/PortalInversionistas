@@ -54,7 +54,7 @@ const SankeyChartComponentJ = () => {
     const [dataSnkey, setDataSnkey] = useState<any>(null); // Estado para almacenar la data
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('este_anho');
+    const [selectedDataKeyJ, setSelectedDataKeyJ] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
     const [menuOpen, setMenuOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);

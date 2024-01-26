@@ -52,7 +52,7 @@ const LineChartComponentG1 = () => {
     };
 
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedDataKeyG1, setSelectedDataKeyG1] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
 
     const [transformedData, setTransformedData] = useState<{ x: string; y: number }[]>([]);
@@ -91,7 +91,7 @@ const LineChartComponentG1 = () => {
 
 
     useEffect(() => {
-        const units = data[selectedDataKey].map((item: any) => parseFloat(item.tasa_morosidad));
+        const units = data[selectedDataKeyG1].map((item: any) => parseFloat(item.tasa_morosidad));
         if (units.length > 0) {
             const maxYValue = Math.max(...units);
             const minYValue = Math.min(...units);
@@ -107,10 +107,10 @@ const LineChartComponentG1 = () => {
             // Si no hay datos, establecer valores predeterminados o manejar la situación de otra manera
             setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);  // Cambia estos valores según tus necesidades
         }
-    }, [data, selectedDataKey]);
+    }, [data, selectedDataKeyG1]);
 
-    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
-        return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
+    const tranformeDataApi = (data: DataType, selectedDataKeyG1: string) => {
+        return (data[selectedDataKeyG1 as keyof DataType] as DataApiType[]).map((item) => ({
             x: item.fecha,
             y: parseFloat(item.tasa_morosidad.toString()), // Asegurar que tasa_morosidad sea interpretado como string
         }));
@@ -118,7 +118,7 @@ const LineChartComponentG1 = () => {
 
 
     const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKey(dataKey);
+        setSelectedDataKeyG1(dataKey);
     };
 
     /* Función dropdown */
@@ -129,7 +129,7 @@ const LineChartComponentG1 = () => {
 
     };
 
-      const tranformedData = tranformeDataApi(data, selectedDataKey);
+      const tranformedData = tranformeDataApi(data, selectedDataKeyG1);
     /*   console.log('tranformedData:', tranformedData); */
 
     /* Mensaje para el tooltip explicativo */

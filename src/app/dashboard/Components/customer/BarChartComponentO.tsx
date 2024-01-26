@@ -52,7 +52,7 @@ function BarChartComponentO() {
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedDataKeyO, setSelectedDataKeyO] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -100,28 +100,28 @@ function BarChartComponentO() {
     useEffect(() => {
         if (responseData) {
             // Utiliza los datos relevantes para el cálculo
-            const { gridYValues, tickValues } = calculateAxisValues(responseData[selectedDataKey]);
+            const { gridYValues, tickValues } = calculateAxisValues(responseData[selectedDataKeyO]);
             setGridYValues(gridYValues);
             setTickValues(tickValues);
         }
-    }, [responseData, selectedDataKey]);
+    }, [responseData, selectedDataKeyO]);
 
     /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKey(dataKey);
+        setSelectedDataKeyO(dataKey);
     };
 
     /* Función que controla la selección del dropdown */
     const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-        const selectedDataKey = event.target.value as string;
-        setSelectedValue(selectedDataKey);
-        handleDataSelection(selectedDataKey);
+        const selectedDataKeyO = event.target.value as string;
+        setSelectedValue(selectedDataKeyO);
+        handleDataSelection(selectedDataKeyO);
     };
 
     /* data del enpoint para renderizar la grafica por un map */
 
-    const formattedData = responseData&& responseData[selectedDataKey]
-        ? responseData[selectedDataKey].map((item: { fecha: string; pagado: number; mora: number; }) => ({
+    const formattedData = responseData&& responseData[selectedDataKeyO]
+        ? responseData[selectedDataKeyO].map((item: { fecha: string; pagado: number; mora: number; }) => ({
             fecha: item.fecha,
             'Pago a tiempo': item.pagado,  // Solo valores positivos o cero
             'Pago con Atraso': Math.abs(item.mora)    // Solo valores negativos

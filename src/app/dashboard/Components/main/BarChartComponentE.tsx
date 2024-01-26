@@ -60,7 +60,7 @@ const BarChartComponentE = () => {
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedDataKeyE, setSelectedDataKeyE] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -86,14 +86,14 @@ const BarChartComponentE = () => {
 
     /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKey(dataKey);
+        setSelectedDataKeyE(dataKey);
     };
 
     /* Función que controla la selección del dropdown */
     const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-        const selectedDataKey = event.target.value as string;
-        setSelectedValue(selectedDataKey);
-        handleDataSelection(selectedDataKey);
+        const selectedDataKeyE = event.target.value as string;
+        setSelectedValue(selectedDataKeyE);
+        handleDataSelection(selectedDataKeyE);
     };
 
     const colors: Record<string, string> = {
@@ -106,7 +106,7 @@ const BarChartComponentE = () => {
     /* data del enpoint para renderizar la grafica por un map */
 
     const formattedDataa = responseData
-        ? responseData[selectedDataKey].map((item: ItemType) => ({
+        ? responseData[selectedDataKeyE].map((item: ItemType) => ({
             fecha: item.fecha,
             Clientes: item.clientes,
             duppla: item.duppla,

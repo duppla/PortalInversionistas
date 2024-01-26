@@ -56,7 +56,7 @@ const LineChartComponentP = () => {
     };
 
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedDataKeyP, setSelectedDataKeyP] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
 
     const [transformedData, setTransformedData] = useState<{ x: string; y: number }[]>([]);
@@ -93,7 +93,7 @@ const LineChartComponentP = () => {
     }, [selectedValue]);
 
     useEffect(() => {
-        const units = data[selectedDataKey].map((item: any) => parseFloat(item.rentabilidad));
+        const units = data[selectedDataKeyP].map((item: any) => parseFloat(item.rentabilidad));
 
         if (units.length > 0) {
             const maxYValue = Math.max(...units);
@@ -110,7 +110,7 @@ const LineChartComponentP = () => {
 
             setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);
         }
-    }, [data, selectedDataKey]);
+    }, [data, selectedDataKeyP]);
 
     function redondearRentabilidad(value: any) {
         const roundedValue = Math.round(value * 100);
@@ -125,7 +125,7 @@ const LineChartComponentP = () => {
     }
 
     const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKey(dataKey);
+        setSelectedDataKeyP(dataKey);
     };
 
     /* Función dropdown */
@@ -143,7 +143,7 @@ const LineChartComponentP = () => {
         }));
     };
 
-    const tranformedData = tranformeDataApi(data, selectedDataKey);
+    const tranformedData = tranformeDataApi(data, selectedDataKeyP);
 
     /* Mensaje para el tooltip explicativo */
 

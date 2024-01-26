@@ -50,7 +50,7 @@ const LineChartComponentH2 = () => {
         return "";
     };
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedDataKeyH2, setSelectedDataKeyH2] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
 
     const [transformedData, setTransformedData] = useState<{ x: string; y: number }[]>([]);
@@ -96,21 +96,21 @@ const LineChartComponentH2 = () => {
 
     useEffect(() => {
         // Actualización de datos de gráfico aquí
-        const transformedData = tranformeDataApi(data, selectedDataKey);
+        const transformedData = tranformeDataApi(data, selectedDataKeyH2);
         setTransformedData(transformedData);
 
         // Calcular el mínimo y máximo de unidades para generar los valores del eje Y
-        const units = data[selectedDataKey].map((item: any) => item.unidades);
+        const units = data[selectedDataKeyH2].map((item: any) => item.unidades);
         const minUnits = Math.min(...units);
         const maxUnits = Math.max(...units);
 
         // Generar un conjunto de valores para la escala del eje Y
         const yAxisValues = Array.from({ length: 4 }, (_, index) => minUnits + Math.floor((maxUnits - minUnits) * (index / 3)));
         setYAxisValues(yAxisValues);
-    }, [data, selectedDataKey]);
+    }, [data, selectedDataKeyH2]);
 
     const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKey(dataKey);
+        setSelectedDataKeyH2(dataKey);
     };
 
     /* Función dropdown */
@@ -121,14 +121,14 @@ const LineChartComponentH2 = () => {
 
     };
 
-    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
-        return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
+    const tranformeDataApi = (data: DataType, selectedDataKeyH2: string) => {
+        return (data[selectedDataKeyH2 as keyof DataType] as DataApiType[]).map((item) => ({
             x: item.fecha,
             y: item.unidades,
         }));
     };
 
-    const tranformedData = tranformeDataApi(data, selectedDataKey);
+    const tranformedData = tranformeDataApi(data, selectedDataKeyH2);
 
     return (
         <div className='grafica-Linecharts'>

@@ -53,7 +53,7 @@ const LineChartComponentB = () => {
     };
 
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedDataKeyB, setSelectedDataKeyB] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [transformedDataContractual, setTransformedDataContractual] = useState<{ x: string; y: number }[]>([]);
     const [transformedDataFairMarket, setTransformedDataFairMarket] = useState<{ x: string; y: number }[]>([]);
@@ -95,7 +95,7 @@ const LineChartComponentB = () => {
 
 
     const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKey(dataKey);
+        setSelectedDataKeyB(dataKey);
     };
 
     const handleSelectChange = (event: SelectChangeEvent<string | number>) => {
@@ -106,8 +106,8 @@ const LineChartComponentB = () => {
 
     /*  función para formateo data según requerimiento de la gráfica */
 
-    const transformData = (data: DataType, selectedDataKey: string, field: keyof DataApiType) => {
-        return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => {
+    const transformData = (data: DataType, selectedDataKeyB: string, field: keyof DataApiType) => {
+        return (data[selectedDataKeyB as keyof DataType] as DataApiType[]).map((item) => {
             /* console.log("Raw value:", item[field]); */
 
             const numericValue = typeof item[field] === 'number'
@@ -149,9 +149,9 @@ const LineChartComponentB = () => {
 
 
     useEffect(() => {
-        if (data[selectedDataKey]) {
+        if (data[selectedDataKeyB]) {
             // Calcula los valores máximos y mínimos al actualizar la data
-            const { minValue, maxValue } = calculateMinMaxValues(data[selectedDataKey]);
+            const { minValue, maxValue } = calculateMinMaxValues(data[selectedDataKeyB]);
 
             // Calcula los nuevos valores para el eje y
             const newGridYValues = Array.from({ length: 5 }, (_, i) => minValue + (i / 4) * (maxValue - minValue));
@@ -160,16 +160,16 @@ const LineChartComponentB = () => {
             setGridYValues(newGridYValues);
             setTickValues(newGridYValues);
         }
-    }, [data, selectedDataKey]);
+    }, [data, selectedDataKeyB]);
 
 
     useEffect(() => {
-        if (data[selectedDataKey]) {
+        if (data[selectedDataKeyB]) {
             // Actualización de datos de gráfico aquí
-            setTransformedDataContractual(transformData(data, selectedDataKey, 'valor_contractual'));
-            setTransformedDataFairMarket(transformData(data, selectedDataKey, 'fair_market_price'));
+            setTransformedDataContractual(transformData(data, selectedDataKeyB, 'valor_contractual'));
+            setTransformedDataFairMarket(transformData(data, selectedDataKeyB, 'fair_market_price'));
         }
-    }, [data, selectedDataKey]);
+    }, [data, selectedDataKeyB]);
 
 
     /*  console.log("Min and Max Values:", calculateMinMaxValues(data[selectedDataKey])); */

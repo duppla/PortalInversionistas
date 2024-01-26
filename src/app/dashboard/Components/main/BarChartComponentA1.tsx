@@ -59,7 +59,7 @@ function BarChart() {
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
-    const [selectedDataKey, setSelectedDataKey] = useState<string>('ult_12_meses');
+    const [selectedDataKeyA, setSelectedDataKeyA] = useState<string>('ult_12_meses');
     const [selectedValue, setSelectedValue] = useState<string | number>('ult_12_meses');
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -87,21 +87,21 @@ function BarChart() {
 
     /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKey(dataKey);
+        setSelectedDataKeyA(dataKey);
     };
 
     /* Función que controla la selección del dropdown */
     const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-        const selectedDataKey = event.target.value as string;
-        setSelectedValue(selectedDataKey);
-        handleDataSelection(selectedDataKey);
+        const selectedDataKeyA = event.target.value as string;
+        setSelectedValue(selectedDataKeyA);
+        handleDataSelection(selectedDataKeyA);
     };
 
 
     const getDataForSelectedKey = (): ItemType[] => {
         if (!responseData) return [];
 
-        switch (selectedDataKey) {
+        switch (selectedDataKeyA) {
             case 'ult_12_meses':
                 return responseData.ult_12_meses;
             /* case 'este_anho':
@@ -116,8 +116,8 @@ function BarChart() {
     /* data del enpoint para renderizar la grafica por un map */
 
     const formattedData = responseData
-        ? responseData[selectedDataKey]
-            ? responseData[selectedDataKey].map((item: ItemType) => {
+        ? responseData[selectedDataKeyA]
+            ? responseData[selectedDataKeyA].map((item: ItemType) => {
 
                 return {
                     fecha: item.fecha,
@@ -164,7 +164,7 @@ function BarChart() {
         const { gridYValues, tickValues } = calculateAxisValues(dataForSelectedKey);
         setGridYValues(gridYValues);
         setTickValues(tickValues);
-    }, [selectedDataKey, responseData]);
+    }, [selectedDataKeyA, responseData]);
 
 
     /* Función para calcular los valores de los ejes */
