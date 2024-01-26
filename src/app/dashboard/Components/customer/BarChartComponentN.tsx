@@ -40,9 +40,10 @@ type ItemType = {
 
 
 function BarChartComponentN() {
-    console.log = () => {};
+   
     // Extrae el correo electrónico del localStorage
-    const storedEmail = localStorage.getItem('userEmail');
+    const storedEmail = typeof window !== 'undefined' ? localStorage.getItem('userEmail') : null;
+
 
 
     const { userEmail } = useAuth();
@@ -89,9 +90,8 @@ function BarChartComponentN() {
                 console.error(error);
             }
         };
-
         fetchData();
-    }, []);
+    }, [ userEmail,getQueryParameter]);
 
 
     /* Función para actualizar la selección del usuario */
