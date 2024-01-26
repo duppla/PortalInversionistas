@@ -18,6 +18,7 @@ type DataType = {
 };
 
 const PieChartComponentK2 = () => {
+    console.log = () => {};
 
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {

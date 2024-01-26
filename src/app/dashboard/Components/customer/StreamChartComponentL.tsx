@@ -75,6 +75,8 @@ interface DataType {
 
 
 function StreamChartComponentL() {
+    console.log = () => {};
+
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
         if (!userEmail) {

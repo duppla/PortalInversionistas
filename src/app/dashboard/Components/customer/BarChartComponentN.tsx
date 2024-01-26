@@ -40,6 +40,7 @@ type ItemType = {
 
 
 function BarChartComponentN() {
+    console.log = () => {};
 
 
     const { userEmail } = useAuth();

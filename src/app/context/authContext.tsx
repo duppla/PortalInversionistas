@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence, inMemoryPersistence } from 'firebase/auth'
 import { auth } from '../ConfigFirebase/firebase'
 import { UserCredential } from "firebase/auth";
 import { User } from "firebase/auth";
@@ -15,6 +15,7 @@ interface AuthContextType {
   userEmail: string | null;
   loading: boolean;
   setUserEmail: React.Dispatch<React.SetStateAction<string | null>>;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 const authContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -39,29 +40,40 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     setUserEmail(email);
     return credential;
   };
-   const login = async (email: string, password: string): Promise<UserCredential> => {
+  /*    const login = async (email: string, password: string): Promise<UserCredential> => {
+        await setPersistence(auth, browserSessionPersistence);
+        const credential = await signInWithEmailAndPassword(auth, email, password);
+        setUser(credential.user);
+        setUserEmail(email);
+        return credential;
+      };  */
+
+  const login = async (email: string, password: string): Promise<UserCredential> => {
+    try {
+      console.log('Antes de setPersistence');
       await setPersistence(auth, browserSessionPersistence);
+      console.log('Después de setPersistence');
+
+      /*   await setPersistence(auth, inMemoryPersistence); */
       const credential = await signInWithEmailAndPassword(auth, email, password);
       setUser(credential.user);
       setUserEmail(email);
+
+      console.log('Después de signInWithEmailAndPassword');
+
+      // Almacenar información de autenticación en el localStorage
+      localStorage.setItem('userEmail', email);
+      console.log('User Email stored in localStorage:', email);
+
       return credential;
-    }; 
+    } catch (error) {
+      console.error("Error en el inicio de sesión:", error);
+      throw error;
+    }
+  };
 
-  // const login = async (email: string, password: string): Promise<UserCredential> => {
-  //   try {
-  //     const credential = await signInWithEmailAndPassword(auth, email, password);
-  //     setUser(credential.user);
-  //     setUserEmail(email);
 
-  //     // Almacenar información de autenticación en el localStorage
-  //     localStorage.setItem('userEmail', email);
 
-  //     return credential;
-  //   } catch (error) {
-  //     console.error("Error en el inicio de sesión:", error);
-  //     throw error;
-  //   }
-  // };
   /*   const logout = async (): Promise<void> => signOut(auth); */
   const logout = async (): Promise<void> => {
     // Realizar el logout en Firebase Authentication
@@ -84,8 +96,24 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       return () => unsubscribe();
     }, []) */
 
-    useEffect(() => {
+  /*   useEffect(() => {
       const storedEmail = localStorage.getItem('userEmail');
+  
+      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        if (storedEmail) {
+          // If there is a stored user, set the user and email
+          setUser(currentUser);
+          setUserEmail(storedEmail);
+        }
+        setLoading(false);
+      });
+  
+      return () => unsubscribe();
+    }, []); */
+
+  /*   useEffect(() => {
+      const storedEmail = localStorage.getItem('userEmail');
+      console.log('Stored Email:', storedEmail);
     
       const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         if (storedEmail) {
@@ -98,6 +126,26 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     
       return () => unsubscribe();
     }, []);
+     */
+    useEffect(() => {
+      console.log('Efecto secundario de autenticación llamado');
+      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+          setUser(currentUser);
+          console.log('Usuario recuperado:', currentUser);
+        } else {
+          console.log('Ningún usuario autenticado');
+        }
+        setLoading(false);
+      });
+    
+      return () => {
+        console.log('Desuscribirse del efecto secundario de autenticación');
+        unsubscribe();
+      };
+    }, []);
+    
+    
 
   const contextValue: AuthContextType = {
     singUp,
@@ -107,6 +155,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     userEmail,
     loading,
     setUserEmail,
+    setUser,
   };
 
   return (
@@ -114,6 +163,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       {children}
     </authContext.Provider>
   )
+
 }
 /* Consumir el contexto */
 export function useAuthContext() {

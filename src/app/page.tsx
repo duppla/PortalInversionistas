@@ -45,10 +45,7 @@ declare global {
 
 export default function Home() {
 
-  
-  
- 
-
+  console.log = () => {};
   /*Datos enviados a través del servicio*/
   const [datos, setDatos] = useState({
     email: '',
@@ -67,17 +64,14 @@ export default function Home() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-
     try {
       await login(datos.email, datos.password);
       navigate.push('/dashboard/home');
 
     }
-
     catch (error) {
       if (error instanceof Error && 'code' in error && typeof error.code === 'string') {
         if (error.code === 'auth/user-not-found') {
-
           swal({
             text: 'El usuario no se encuentra registrado',
             icon: "info",
@@ -107,7 +101,6 @@ export default function Home() {
             timer: 5000,
           });
         } else {
-
           console.error('Error de autenticación:', error);
         }
       }
@@ -116,7 +109,6 @@ export default function Home() {
 
 
   return (
-
     <ThemeProvider theme={themeCustomer} >
       <>
        

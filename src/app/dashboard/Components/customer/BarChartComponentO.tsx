@@ -29,7 +29,8 @@ type DataType = {
 
 
 function BarChartComponentO() {
-    
+    console.log = () => {};
+
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
         if (!userEmail) {

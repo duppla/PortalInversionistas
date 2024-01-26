@@ -11,6 +11,8 @@ import StreamChartComponentL from '@/app/dashboard/Components/customer/StreamCha
 
 
 const Customer = () => {
+    console.log = () => {};
+
     return (
         <Box sx={{ flexGrow: 1, mt: 1, ml: 2, mr: 2, borderRadius: '20px' }} >
             {/* sección 1 titulo */}

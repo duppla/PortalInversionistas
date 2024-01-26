@@ -35,7 +35,7 @@ function Layout({ children }: { children: ReactNode; }) {
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                     </Grid>
                     {/*Segunda columna principal*/}
-                    <Grid xs={12} sm={12} md={6} lg={6} sx={{
+                    <Grid item xs={12} sm={12} md={6} lg={6} sx={{
                       display: 'flex', justifyContent: 'end',
                       justifyItems: 'end',
                       alignItems: 'end',
