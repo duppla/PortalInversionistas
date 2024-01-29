@@ -120,9 +120,10 @@ function BarChart() {
             ? responseData[selectedDataKeyA].map((item: ItemType) => {
 
                 return {
-                    fecha: item.fecha,
+                    key: item.fecha,
                     Real: item.flujo_real, // Cambia la leyenda de flujo_real a Flujo
                     Esperado: item.flujo_esperado, // Cambia la leyenda de flujo_esperado a Esperado
+                    
                 };
             })
             : []
@@ -276,7 +277,7 @@ function BarChart() {
             <ResponsiveBar
                 data={formattedData}
                 keys={['Real', 'Esperado']}
-                indexBy="fecha"
+                indexBy="key"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                 padding={0.7}
@@ -345,7 +346,6 @@ function BarChart() {
                     return null; // Devolver null si point.data.fecha no es una cadena
                 }}
 
-                /*    enableGridY={false} */
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -358,12 +358,15 @@ function BarChart() {
 
                     tickValues: formattedData.map((item: { fecha: string }) => item.fecha),
                     format: (value) => {
-                        const [year, month] = value.split('-');
-                        const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-
-                        const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-                        return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
-                    },
+                        if (typeof value === 'string') {
+                          const [year, month] = value.split('-');
+                          const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                          const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
+                          return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
+                        } else {
+                          return value; // O proporciona un valor predeterminado si no es una cadena
+                        }
+                      },
                 }}
                 gridYValues={gridYValues}
                 axisLeft={{

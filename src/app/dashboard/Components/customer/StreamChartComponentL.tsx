@@ -75,20 +75,24 @@ interface DataType {
 
 
 function StreamChartComponentL() {
-    console.log = () => {};
+
+    // Extrae el correo electrónico del localStorage
+    const storedEmail = typeof window !== 'undefined' ? localStorage.getItem('userEmail') : null;
 
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
+        const emailToUse = storedEmail || userEmail || '';
+
+        if (!emailToUse) {
             // En caso de que el correo electrónico no esté disponible
             return "";
         }
         // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co") {
+        if (emailToUse === "fcortes@duppla.co") {
             return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co") {
+        } else if (emailToUse === "aarevalo@duppla.co") {
             return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
+        } else if (emailToUse === "scastaneda@duppla.co") {
             return "disponible";
         }
         // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
@@ -134,7 +138,7 @@ function StreamChartComponentL() {
     };
 
     // Este código podría ir en el lugar donde obtienes las fechas del servidor
-    const formattedData = responseData&& responseData[selectedDataKeyL]
+    const formattedData = responseData && responseData[selectedDataKeyL]
         ? responseData[selectedDataKeyL].map((dataItem: any) => ({
             id: dataItem.fecha, // El identificador de cada serie es la fecha
             Alto: dataItem.alto ? dataItem.alto : 0,
@@ -327,7 +331,7 @@ function StreamChartComponentL() {
 
                 enableStackTooltip={true}
                 isInteractive={true}
-            
+
                 valueFormat={value => `${Number(value * 100).toFixed(0)}%`}
 
                 theme={{

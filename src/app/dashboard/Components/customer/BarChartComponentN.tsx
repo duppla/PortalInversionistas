@@ -40,17 +40,14 @@ type ItemType = {
 
 
 function BarChartComponentN() {
-   
+
     // Extrae el correo electrónico del localStorage
     const storedEmail = typeof window !== 'undefined' ? localStorage.getItem('userEmail') : null;
-
-
 
     const { userEmail } = useAuth();
     const getQueryParameter = (userEmail: string | null): string => {
 
         const emailToUse = storedEmail || userEmail || '';
-
         if (!emailToUse) {
             // En caso de que el correo electrónico no esté disponible
             return "";
@@ -91,7 +88,7 @@ function BarChartComponentN() {
             }
         };
         fetchData();
-    }, [ userEmail,getQueryParameter]);
+    }, [userEmail, getQueryParameter]);
 
 
     /* Función para actualizar la selección del usuario */
@@ -105,20 +102,44 @@ function BarChartComponentN() {
         setSelectedValue(selectedDataKeyN);
         handleDataSelection(selectedDataKeyN);
     };
-
+    
     /* data del enpoint para renderizar la grafica por un map */
+    /*     
+    const formattedDataN = responseData && responseData[selectedDataKeyN]
+    ? responseData[selectedDataKeyN].map((item: ItemType) => {
+        return {
+            fecha: item.fecha,
+            Arriendo: item.arriendo,
+            'Intereses moratorios': item.intereses,(item: ItemType, index: number)
+            Adelanto: item.prepago,
+            key: item.fecha !== undefined && item.fecha !== null ? item.fecha : someFallbackValue,
+            
+        };
+    })
+    : []; */
+    const formattedDataN = responseData && responseData[selectedDataKeyN]
+    ? responseData[selectedDataKeyN].map((item: ItemType, index: number) => {
+        // Convertir la fecha a un objeto Date
+        const dateObject = new Date(item.fecha);
+  
+        // Verificar que la fecha es válida antes de usarla
+        const isValidDate = !isNaN(dateObject.getTime()) && isFinite(dateObject.getTime());
+  
+        // Usar un identificador único en lugar de la fecha directamente
+        const uniqueKey = isValidDate ? dateObject.getTime() : `invalid_date_${index}`;
+  
+        return {
+          fecha: isValidDate ? dateObject : null,
+          intereses: item.intereses,
+          arriendo: item.arriendo,
+          prepago: item.prepago,
+          // Usar el identificador único como clave
+          key: uniqueKey,
+        };
+      })
+    : [];
 
-    const formattedDataa = responseData && responseData[selectedDataKeyN]
-        ? responseData[selectedDataKeyN].map((item: ItemType) => {
-            return {
-                fecha: item.fecha,
-                Arriendo: item.arriendo,
-                'Intereses moratorios': item.intereses,
-                Adelanto: item.prepago,
-            };
-        })
-        : [];
-      /*  console.log(JSON.stringify(formattedDataa) + ' formattedDataa en point n');  */
+    /*  console.log(JSON.stringify(formattedDataa) + ' formattedDataa en point n');  */
 
     function formatNumber(value: number): string {
         const suffixes = ['', 'K', 'M', 'B', 'T'];
@@ -126,7 +147,7 @@ function BarChartComponentN() {
         let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(0);
 
         if (shortValue.endsWith('.0')) {
-            shortValue = shortValue.slice(0, -2); 
+            shortValue = shortValue.slice(0, -2);
         }
 
         return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
@@ -144,10 +165,10 @@ function BarChartComponentN() {
         return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
     }
     /*     console.log('Datos formateados para el gráfico:', formattedDataa); */
-     // Dentro de tu componente, después de obtener los datos del API
-    const arriendoValues = formattedDataa.map((item: any) => typeof item.Arriendo === 'number' ? item.Arriendo : 0);
-    const prepagoValues = formattedDataa.map((item: any) => typeof item.Adelanto === 'number' ? item.Adelanto : 0);
-    const interesesValues = formattedDataa.map((item: any) => typeof item.Intereses === 'number' ? item.Intereses : 0);
+    // Dentro de tu componente, después de obtener los datos del API
+    const arriendoValues = formattedDataN.map((item: any) => typeof item.Arriendo === 'number' ? item.Arriendo : 0);
+    const prepagoValues = formattedDataN.map((item: any) => typeof item.Adelanto === 'number' ? item.Adelanto : 0);
+    const interesesValues = formattedDataN.map((item: any) => typeof item.Intereses === 'number' ? item.Intereses : 0);
 
     const maxArriendo = Math.max(...arriendoValues);
     const maxPrepago = Math.max(...prepagoValues);
@@ -193,7 +214,7 @@ function BarChartComponentN() {
                                         vertical: 'top',
                                         horizontal: 'right',
                                     },
-                                   
+
                                     PaperProps: {
                                         sx: {
                                             backgroundColor: '#212126', // Fondo del menú desplegado
@@ -231,7 +252,7 @@ function BarChartComponentN() {
             </div>
 
             <ResponsiveBar
-                data={formattedDataa}
+                data={formattedDataN}
                 keys={['Arriendo', 'Adelanto', 'Intereses moratorios',]}
                 indexBy="fecha"
                 label={() => ''}
@@ -239,7 +260,7 @@ function BarChartComponentN() {
                 padding={0.7}
                 valueScale={{ type: 'linear', min: 0 }}
                 indexScale={{ type: 'band', round: true }}
-                colors={['#5782F2', '#5ED1B1', ' #FFB024']}             
+                colors={['#5782F2', '#5ED1B1', ' #FFB024']}
                 theme={{
                     axis: {
                         ticks: {
@@ -281,9 +302,8 @@ function BarChartComponentN() {
                             </div>
                         );
                     }
-                    return null; 
+                    return null;
                 }}
-
                 borderRadius={4}
                 borderColor={{
                     from: 'color',
@@ -303,14 +323,18 @@ function BarChartComponentN() {
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: 32,
-                    tickValues: formattedDataa.map((item: { fecha: string }) => item.fecha),
+                    tickValues: formattedDataN.map((item: { fecha: string }) => item.fecha),
                     format: (value) => {
-                        const [year, month] = value.split('-');
-                        const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                        const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-                        return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
-                    },
-
+                        if (typeof value === 'string') {
+                          const [year, month] = value.split('-');
+                          const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                          const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
+                          return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
+                        } else {
+                          return value; // O proporciona un valor predeterminado si no es una cadena
+                        }
+                      },
+                      
                 }}
                 /*  gridYValues={[0, 4000000, 8000000, 12000000, 16000000]} */
                 gridYValues={gridYValues}
