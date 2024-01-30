@@ -102,42 +102,28 @@ function BarChartComponentN() {
         setSelectedValue(selectedDataKeyN);
         handleDataSelection(selectedDataKeyN);
     };
-    
-    /* data del enpoint para renderizar la grafica por un map */
-    /*     
+
     const formattedDataN = responseData && responseData[selectedDataKeyN]
-    ? responseData[selectedDataKeyN].map((item: ItemType) => {
-        return {
-            fecha: item.fecha,
-            Arriendo: item.arriendo,
-            'Intereses moratorios': item.intereses,(item: ItemType, index: number)
-            Adelanto: item.prepago,
-            key: item.fecha !== undefined && item.fecha !== null ? item.fecha : someFallbackValue,
-            
-        };
-    })
-    : []; */
-    const formattedDataN = responseData && responseData[selectedDataKeyN]
-    ? responseData[selectedDataKeyN].map((item: ItemType, index: number) => {
-        // Convertir la fecha a un objeto Date
-        const dateObject = new Date(item.fecha);
-  
-        // Verificar que la fecha es válida antes de usarla
-        const isValidDate = !isNaN(dateObject.getTime()) && isFinite(dateObject.getTime());
-  
-        // Usar un identificador único en lugar de la fecha directamente
-        const uniqueKey = isValidDate ? dateObject.getTime() : `invalid_date_${index}`;
-  
-        return {
-          fecha: isValidDate ? dateObject : null,
-          intereses: item.intereses,
-          arriendo: item.arriendo,
-          prepago: item.prepago,
-          // Usar el identificador único como clave
-          key: uniqueKey,
-        };
-      })
-    : [];
+        ? responseData[selectedDataKeyN].map((item: ItemType, index: number) => {
+            // Convertir la fecha a un objeto Date
+            const dateObject = new Date(item.fecha);
+
+            // Verificar que la fecha es válida antes de usarla
+            const isValidDate = !isNaN(dateObject.getTime()) && isFinite(dateObject.getTime());
+
+            // Usar un identificador único en lugar de la fecha directamente
+            const uniqueKey = isValidDate ? dateObject.getTime() : `invalid_date_${index}`;
+
+            return {
+                fecha: item.fecha,
+                'Intereses moratorios': item.intereses,
+                Arriendo: item.arriendo,
+                Adelanto: item.prepago,
+                // Usar el identificador único como clave
+                key: uniqueKey,
+            };
+        })
+        : [];
 
     /*  console.log(JSON.stringify(formattedDataa) + ' formattedDataa en point n');  */
 
@@ -326,15 +312,15 @@ function BarChartComponentN() {
                     tickValues: formattedDataN.map((item: { fecha: string }) => item.fecha),
                     format: (value) => {
                         if (typeof value === 'string') {
-                          const [year, month] = value.split('-');
-                          const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                          const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-                          return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
+                            const [year, month] = value.split('-');
+                            const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                            const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
+                            return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
                         } else {
-                          return value; // O proporciona un valor predeterminado si no es una cadena
+                            return value; // O proporciona un valor predeterminado si no es una cadena
                         }
-                      },
-                      
+                    },
+
                 }}
                 /*  gridYValues={[0, 4000000, 8000000, 12000000, 16000000]} */
                 gridYValues={gridYValues}

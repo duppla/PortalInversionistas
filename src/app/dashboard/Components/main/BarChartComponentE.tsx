@@ -116,14 +116,12 @@ const BarChartComponentE = () => {
 
     const keys = ['duppla', 'Clientes', 'Inversionistas'];
 
-    /* función para formateo data según requerimiento de la gráfica */
-
+ 
     /* Función para formatear números como porcentajes sin decimales y ceros */
     function formatNumber(value: number): string {
         const percentageValue = (value * 100).toFixed(1).replace(/\.0$/, ''); // Elimina el .0
         return `${percentageValue}%`;
     }
-
 
     /* prueba de formateo data a legible tooltip */
     function formatNumberTooltip(value: number): string {

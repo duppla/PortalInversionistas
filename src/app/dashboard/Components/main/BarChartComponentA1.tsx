@@ -67,14 +67,11 @@ function BarChart() {
     const [tickValues, setTickValues] = useState<number[]>([]);
 
     useEffect(() => {
-        if (!Array.isArray(data)) {
-            return;
-        }
+      
         const queryParameter = getQueryParameter(userEmail);
         const fetchData = async () => {
             try {
-                const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                /* const response = await fetch(getApiUrl(`/main/a1?investor=skandia`), options); */
+                const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };              
                 const response = await fetch(getApiUrlFinal(`/principal/a?investor=${queryParameter}`), options);
                 const responseData = await response.json();
                 setResponseData(responseData);
@@ -85,7 +82,7 @@ function BarChart() {
         };
 
         fetchData();
-    }, [data]);
+    }, []);
 
 
     /* Función para actualizar la selección del usuario */
@@ -101,14 +98,14 @@ function BarChart() {
     };
 
 
-    const getDataForSelectedKey = (): ItemType[] => {
+  const getDataForSelectedKey = (): ItemType[] => {
         if (!responseData) return [];
 
         switch (selectedDataKeyA) {
             case 'ult_12_meses':
                 return responseData.ult_12_meses;
-            /* case 'este_anho':
-                return responseData.este_anho; */
+         case 'este_anho':
+                return responseData.este_anho; 
             case 'ult_6_meses':
                 return responseData.ult_6_meses;
             default:
@@ -116,14 +113,12 @@ function BarChart() {
         }
     };
 
-    /* data del enpoint para renderizar la grafica por un map */
-
     const formattedData = responseData
         ? responseData[selectedDataKeyA]
             ? responseData[selectedDataKeyA].map((item: ItemType) => {
 
                 return {
-                    key: item.fecha,
+                    fecha: item.fecha,
                     Real: item.flujo_real, // Cambia la leyenda de flujo_real a Flujo
                     Esperado: item.flujo_esperado, // Cambia la leyenda de flujo_esperado a Esperado
                     
@@ -280,7 +275,7 @@ function BarChart() {
             <ResponsiveBar
                 data={formattedData}
                 keys={['Real', 'Esperado']}
-                indexBy="key"
+                indexBy="fecha"
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                 padding={0.7}

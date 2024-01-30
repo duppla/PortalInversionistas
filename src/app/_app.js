@@ -2,10 +2,6 @@ import { useEffect } from 'react';
 
 function MyApp({ Component, pageProps }) {
 
-  useEffect(() => {
-    smartlook('init', '0ed319a59b519e257c52daf7074436d3994fea98', { region: 'eu' });
-  }, []);
-  
  
   useEffect(() => {
     const loadSmartlookScript = async () => {

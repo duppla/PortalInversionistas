@@ -110,11 +110,7 @@ export default function Home() {
 
   return (
     <ThemeProvider theme={themeCustomer} >
-      <>
-       
-      </>
-
-
+    
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
