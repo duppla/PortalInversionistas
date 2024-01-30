@@ -125,7 +125,7 @@ export default function Home() {
           }}
         >
           <div>
-            <Image className='img-login-logo' src={LogoInversionistas} alt="" />
+            <Image className='img-login-logo' src={LogoInversionistas} alt="" priority />
           </div>
 
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ marginTop: -2 }}>

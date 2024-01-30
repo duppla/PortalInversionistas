@@ -67,6 +67,9 @@ function BarChart() {
     const [tickValues, setTickValues] = useState<number[]>([]);
 
     useEffect(() => {
+        if (!Array.isArray(data)) {
+            return;
+        }
         const queryParameter = getQueryParameter(userEmail);
         const fetchData = async () => {
             try {
@@ -82,7 +85,7 @@ function BarChart() {
         };
 
         fetchData();
-    }, []);
+    }, [data]);
 
 
     /* Función para actualizar la selección del usuario */

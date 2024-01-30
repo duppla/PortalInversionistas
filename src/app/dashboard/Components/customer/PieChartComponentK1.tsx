@@ -104,7 +104,10 @@ function PieChartComponentK1() {
   
 
     function getCategoryLabel(key: string): string {
-      switch (key.toLowerCase()) {
+      // Verificación de nulidad antes de llamar a toLowerCase
+      const lowerCaseKey = key ? key.toLowerCase() : '';
+    
+      switch (lowerCaseKey) {
         case 'empleado':
           return 'Empleado';
         case 'pensionado':
@@ -119,6 +122,7 @@ function PieChartComponentK1() {
           return key; // Devuelve el valor original si no coincide con ninguna etiqueta personalizada
       }
     }
+    
     
     /* Función para actualizar la selección del usuario */
   const handleDataSelection = (dataKey: string) => {
