@@ -75,15 +75,15 @@ function CardComponentF2() {
             <Card className='size-card-main-componentF' sx={{ mt:2, mb:2, backgroundColor:'#020101', borderRadius:'14px', display:'flex', justifyContent:'center', alignContent: 'center', textAlign:'center'}}>
                 <CardContent sx={{mt:1, mb:1}}>
                     <Typography  className='title-D-F' component="div" sx={{color: '#5782F2', fontFamily: 'Rustica', fontSize:'30px',fontWeight:'500'}}>
-                      <p> Tasa de morosidad </p> 
+                       Tasa de morosidad 
                     </Typography>
                     <Typography   component="div" sx={{color: '#5782F2', fontFamily: 'Rustica', fontSize:'12px',fontWeight:'500'}}>
-                    <p>{formattedDate}</p>
+                    {formattedDate}
                     </Typography>
-                    <Typography variant="h5"sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700' }} >
-                    <h3>  {/* {dataPrueba?.data}% */}
+                    <Typography sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700', fontSize:'1.6rem'}} >
+                      {/* {dataPrueba?.data}% */}
                     {porcentaje}
-                        </h3> 
+                        
                     </Typography>                    
                 </CardContent>
                

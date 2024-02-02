@@ -66,12 +66,12 @@ function CardComponentD2() {
             <Card className='size-card-main-d-f' sx={{ mt:2 , mb: 2 , backgroundColor:'#020101', borderRadius:'14px', display:'flex', justifyContent:'center', alignContent: 'center', textAlign:'center'}}>
                 <CardContent sx={{mt:1 , mb: 1}}>
                     <Typography  component="div" sx={{color: '#5782F2', fontFamily: 'Rustica', fontSize:'18px',fontWeight:'500'}} className='title-D-F' >
-                      <p> Participación adquirida </p> 
+                     Participación adquirida  
                     </Typography>
-                    <Typography sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700' }} >
-                    <h2>  {/* {dataPrueba?.data}% */}
+                    <Typography sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700', fontSize:'1.6rem' }} >
+                     {/* {dataPrueba?.data}% */}
                     {porcentaje}
-                        </h2> 
+                       
                     </Typography>                    
                 </CardContent>
                

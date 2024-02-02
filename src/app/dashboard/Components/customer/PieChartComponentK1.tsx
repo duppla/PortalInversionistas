@@ -105,7 +105,7 @@ function PieChartComponentK1() {
   
 
     function getCategoryLabel(key: string): string {
-      // Verificación de nulidad antes de llamar a toLowerCase
+     
       const lowerCaseKey = key ? key.toLowerCase() : '';
     
       switch (lowerCaseKey) {
