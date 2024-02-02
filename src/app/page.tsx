@@ -107,10 +107,8 @@ export default function Home() {
     }
   }
 
-
   return (
-    <ThemeProvider theme={themeCustomer} >
-    
+    <ThemeProvider theme={themeCustomer} >    
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -120,9 +118,9 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <div>
+          <Box>
             <Image className='img-login-logo' src={LogoInversionistas} alt="" priority />
-          </div>
+          </Box>
 
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ marginTop: -2 }}>
             <TextField

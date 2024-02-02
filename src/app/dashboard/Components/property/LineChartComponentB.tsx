@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';

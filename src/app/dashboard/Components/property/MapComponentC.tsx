@@ -1,3 +1,4 @@
+'use client'
 import mapboxgl, { LngLatLike } from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import React, { useEffect, useRef, useState } from 'react'
 import { Map } from 'mapbox-gl'

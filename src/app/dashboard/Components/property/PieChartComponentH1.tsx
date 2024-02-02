@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
