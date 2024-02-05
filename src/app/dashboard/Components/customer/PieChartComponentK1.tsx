@@ -71,7 +71,7 @@ function PieChartComponentK1() {
     };
 
     fetchData();
-  }, []);
+  }, [userEmail]);
 
 
   const getColorByKey = (key: string): string => {

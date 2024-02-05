@@ -51,7 +51,7 @@ function CardComponentD1() {
                     console.error('El valor de data no es un número:', );
                 }
             }).catch(err => console.error(err));
-    }, []);
+    }, [userEmail]);
 
     // Accede directamente al primer elemento del array
     const dataPrueba = dataApiD1;
@@ -65,8 +65,7 @@ function CardComponentD1() {
                        Inversión original 
                     </Typography>
                     <Typography sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700', fontSize:'1.6rem' }} >
-                     $ {dataPrueba?.data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                     
+                     $ {dataPrueba?.data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}                     
                     </Typography>                    
                 </CardContent>               
             </Card>

@@ -64,7 +64,7 @@ function CardComponentF1() {
                     console.error('El valor de data no es un número:');
                 }
             }).catch(err => console.error(err));
-    }, []);
+    }, [userEmail]);
 
     const formattedDate = dataApiF1 ? formatFecha(dataApiF1.fecha) : '';
     // Accede directamente al primer elemento del array

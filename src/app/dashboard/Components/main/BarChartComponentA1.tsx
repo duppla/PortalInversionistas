@@ -82,8 +82,7 @@ function BarChart() {
         };
 
         fetchData();
-    }, []);
-
+    }, [userEmail]);
 
     /* Función para actualizar la selección del usuario */
     const handleDataSelection = (dataKey: string) => {
@@ -113,7 +112,7 @@ function BarChart() {
         }
     };
 
-    const formattedData = responseData
+   const formattedData = responseData
         ? responseData[selectedDataKeyA]
             ? responseData[selectedDataKeyA].map((item: ItemType) => {
 
@@ -126,6 +125,8 @@ function BarChart() {
             })
             : []
         : [];
+
+
 
     /* prueba de formateo data a legible */
 
@@ -418,10 +419,8 @@ function BarChart() {
                     }
                 ]}
                 role="application"
-
                 barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
             />
-
         </div>
     )
 }

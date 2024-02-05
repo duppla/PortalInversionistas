@@ -48,7 +48,7 @@ function CardComponentD3() {
                     console.error('El valor de data no es un número:', response);
                 }
             }).catch(err => console.error(err));
-    }, []);
+    }, [userEmail]);
 
     // Accede directamente al primer elemento del array
     const dataPrueba = dataApiD3;

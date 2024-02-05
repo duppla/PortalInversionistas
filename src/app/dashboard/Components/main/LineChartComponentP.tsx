@@ -90,7 +90,7 @@ const LineChartComponentP = () => {
         };
         setLoading(true);
         fetchData();
-    }, [selectedValue]);
+    }, [selectedValue, userEmail]);
 
     useEffect(() => {
         const units = data[selectedDataKeyP].map((item: any) => parseFloat(item.rentabilidad));
@@ -136,12 +136,21 @@ const LineChartComponentP = () => {
 
     };
 
-    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
+/*     const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
         return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item) => ({
             x: item.fecha,
             y: item.rentabilidad,
         }));
-    };
+    }; */
+
+    const tranformeDataApi = (data: DataType, selectedDataKey: string) => {
+        return (data[selectedDataKey as keyof DataType] as DataApiType[]).map((item, index) => ({
+          x: item.fecha,
+          y: item.rentabilidad,
+          key: `${selectedDataKey}_${index}`,  // Añade el nombre del conjunto de datos a la clave
+        }));
+      };
+      
 
     const tranformedData = tranformeDataApi(data, selectedDataKeyP);
 

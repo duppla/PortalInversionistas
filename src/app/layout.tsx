@@ -57,17 +57,12 @@ export const metadata: Metadata = {
 };
 
 
-
-
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-
-
     <html lang="en">
 
       {/*    <Head>
@@ -101,7 +96,6 @@ export default function RootLayout({
         className={inter.className}>
         <AuthProvider>{/* envuelve toda la app */}
           {children}
-
         </AuthProvider>
 
       </body>
