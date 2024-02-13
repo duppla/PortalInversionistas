@@ -45,8 +45,6 @@ declare global {
 
 export default function Home() {
 
-  console.log = () => {};
-  /*Datos enviados a través del servicio*/
   const [datos, setDatos] = useState({
     email: '',
     password: ''

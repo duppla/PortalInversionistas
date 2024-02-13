@@ -10,7 +10,7 @@ interface PrivateRouteProps {
   children: ReactNode;
 }
 
-const PrivateRoute = ({ children }: PrivateRouteProps) => {
+/* const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { user } = useAuth();
   const router = useRouter();
   const [redirectToHome, setRedirectToHome] = useState(false);
@@ -32,4 +32,23 @@ const PrivateRoute = ({ children }: PrivateRouteProps) => {
   return <>{children}</>;
 };
 
-export default PrivateRoute;
+export default PrivateRoute; */
+
+export default function ProtectedRoute({ children }: PrivateRouteProps) {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/'); // Redireccionar a la página de inicio de sesión si el usuario no está autenticado
+    }
+  }, [user, loading, router]);
+
+  // Si el usuario aún no ha sido cargado desde Firebase, puedes mostrar un loader o un mensaje de carga
+/*   if (loading) {
+    return <div>Cargando...</div>;
+  } */
+
+  // Si el usuario está autenticado, renderizar el contenido de la ruta protegida
+  return <>{children}</>;
+}
