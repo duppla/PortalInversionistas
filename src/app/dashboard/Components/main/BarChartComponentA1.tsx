@@ -131,31 +131,19 @@ function BarChart() {
     /* prueba de formateo data a legible */
 
     function formatNumber(value: number): string {
-        const suffixes = ['', 'K', 'M', 'B', 'T'];
-        const suffixNum = Math.floor(('' + value).length / 3);
-        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(0);
 
-        if (shortValue.endsWith('.0')) {
-            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
-        }
-
-        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+        return (value/1000000).toFixed(0) + " M";
     }
+
     /* prueba de formateo data a legible tooltip */
-    function formatNumberTooltip(value: number | undefined): string {
+    function formatNumberTooltip(value: number): string {
         if (value === undefined) {
             return 'N/A'; // Manejar el caso cuando el valor es undefined
         }
-        const suffixes = ['', 'K', 'M', 'B', 'T'];
+        var millones = (Math.abs(value)/1000000).toFixed(1);
+        var shortValue = millones.endsWith('.0')? millones.slice(0, -2): millones;
 
-        const absoluteValue = Math.abs(value); // Tomar el valor absoluto para evitar problemas con números negativos
-        const suffixNum = Math.floor(Math.log10(absoluteValue) / 3);
-        const shortValue = (absoluteValue / Math.pow(10, suffixNum * 3)).toFixed(1);
-
-        const formattedValue = shortValue.endsWith('.0') ? shortValue.slice(0, -2) : shortValue;
-        const formattedNumber = value < 0 ? `-${formattedValue}` : formattedValue;
-
-        return formattedNumber + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+        return shortValue + " M";
     }
 
 
@@ -193,6 +181,7 @@ function BarChart() {
     /* Mensaje para el tooltip explicativo */
     const longText = `Nota: 'Flujo Real' se refiere a los ingresos generado durante el periodo elegido, mientras que 'Flujo Esperado' alude a las proyecciones de ingreso para el mismo intervalo.
       `;
+      
 
     return (
         <div className='grafica-barcharts nivo-text'>
@@ -272,7 +261,7 @@ function BarChart() {
                     </Grid>
                 </FormControl>
             </div>
-
+            {data == null?<div></div>:
             <ResponsiveBar
                 data={formattedData}
                 keys={['Real', 'Esperado']}
@@ -420,9 +409,10 @@ function BarChart() {
                 ]}
                 role="application"
                 barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
-            />
+            />}
         </div>
     )
+    
 }
 
 export default BarChart

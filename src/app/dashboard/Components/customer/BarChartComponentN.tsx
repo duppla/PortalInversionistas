@@ -127,28 +127,18 @@ function BarChartComponentN() {
 
     /*  console.log(JSON.stringify(formattedDataa) + ' formattedDataa en point n');  */
 
+    /* prueba de formateo data a legible */
     function formatNumber(value: number): string {
-        const suffixes = ['', 'K', 'M', 'B', 'T'];
-        const suffixNum = Math.floor(('' + value).length / 3);
-        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(0);
 
-        if (shortValue.endsWith('.0')) {
-            shortValue = shortValue.slice(0, -2);
-        }
-
-        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+        return (value/1000000).toFixed(0) + " M";
     }
+
     /* prueba de formateo data a legible tooltip */
     function formatNumberTooltip(value: number): string {
-        const suffixes = ['', 'K', 'M', 'B', 'T'];
-        const suffixNum = Math.floor(('' + value).length / 3);
-        let shortValue = (suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toFixed(1);
+        var millones = (value/1000000).toFixed(1);
+        var shortValue = millones.endsWith('.0')? millones.slice(0, -2): millones;
 
-        if (shortValue.endsWith('.0')) {
-            shortValue = shortValue.slice(0, -2);
-        }
-
-        return shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+        return shortValue + " M";
     }
     /*     console.log('Datos formateados para el gráfico:', formattedDataa); */
     // Dentro de tu componente, después de obtener los datos del API
@@ -236,7 +226,7 @@ function BarChartComponentN() {
                     </Grid>
                 </FormControl>
             </div>
-
+            {data == null?<div></div>:
             <ResponsiveBar
                 data={formattedDataN}
                 keys={['Arriendo', 'Adelanto', 'Intereses moratorios',]}
@@ -377,9 +367,10 @@ function BarChartComponentN() {
                 role="application"
                 ariaLabel="Nivo bar chart demo"
                 barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
-            />
+            />}
         </div>
     )
+    
 }
 
 export default BarChartComponentN
