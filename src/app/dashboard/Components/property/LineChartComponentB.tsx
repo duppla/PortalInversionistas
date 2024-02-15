@@ -155,7 +155,29 @@ const LineChartComponentB = () => {
             const { minValue, maxValue } = calculateMinMaxValues(data[selectedDataKeyB]);
 
             // Calcula los nuevos valores para el eje y
-            const newGridYValues = Array.from({ length: 5 }, (_, i) => minValue + (i / 4) * (maxValue - minValue));
+            const medianYValue = (minValue+maxValue)/2;
+
+            const tickCount = 6;
+            var count = 0;
+            var tickIni = 5000000;
+            var tickStep = tickIni;
+            var mult = tickIni / 10;
+            while (medianYValue - (tickCount*(tickStep/2)) > minValue || medianYValue + (tickCount*(tickStep/2)) < maxValue) {
+                if (count % 4 == 0) {
+                    mult *= 10;
+                    tickStep += mult;
+                }
+                else if (count % 2 == 0) {
+                    tickStep += mult;
+                }
+                else {
+                    tickStep *= 2;
+                }
+                count++;
+            }
+
+            let lowest = minValue - (minValue % tickStep);
+            const newGridYValues = Array.from({ length: tickCount + 1}, (_, index) => lowest + (index * tickStep));
 
             // Actualiza los valores en el componente
             setGridYValues(newGridYValues);
@@ -381,8 +403,8 @@ const LineChartComponentB = () => {
                         yFormat={(value: DatumValue) => typeof value === 'number' ? `${value / 1000000}M` : ''}
                         yScale={{
                             type: 'linear',
-                            min: 'auto',
-                            max: 'auto',
+                            min: gridYValues[0],
+                            max: gridYValues[gridYValues.length -1],
                             stacked: false,
                             reverse: false,
 

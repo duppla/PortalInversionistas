@@ -101,11 +101,29 @@ const LineChartComponentH2 = () => {
 
         // Calcular el mínimo y máximo de unidades para generar los valores del eje Y
         const units = data[selectedDataKeyH2].map((item: any) => item.unidades);
-        const minUnits = Math.min(...units);
+        //const minUnits = Math.min(...units);
         const maxUnits = Math.max(...units);
 
-        // Generar un conjunto de valores para la escala del eje Y
-        const yAxisValues = Array.from({ length: 4 }, (_, index) => minUnits + Math.floor((maxUnits - minUnits) * (index / 3)));
+
+        const tickCount = 4;
+            var count = 0;
+            var tickIni = 0.5;
+            var tickStep = tickIni;
+            var mult = tickIni / 10;
+            while ((maxUnits / tickCount) > tickStep) {
+                if (count % 4 == 0) {
+                    mult *= 10;
+                    tickStep += mult;
+                }
+                else if (count % 2 == 0) {
+                    tickStep += mult;
+                }
+                else {
+                    tickStep *= 2;
+                }
+                count++;
+            }
+            const yAxisValues = Array.from({ length: tickCount + 1 }, (_, index) => index * tickStep);
         setYAxisValues(yAxisValues);
     }, [data, selectedDataKeyH2]);
 
@@ -223,6 +241,7 @@ const LineChartComponentH2 = () => {
                     legendOffset: 12,
                     tickValues: yAxisValues,
                 }}
+                
                 theme={{
                     axis: {
                         ticks: {
@@ -291,13 +310,10 @@ const LineChartComponentH2 = () => {
                 }}
                 yScale={{
                     type: 'linear',
-                    min: 'auto',
-                    max: 'auto',
+                    min: 0,
+                    max: yAxisValues[yAxisValues.length-1],
                     stacked: false,
                     reverse: false,
-
-
-
                 }}
 
             />
