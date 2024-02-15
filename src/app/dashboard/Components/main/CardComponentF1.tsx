@@ -11,7 +11,7 @@ import { useAuth } from '@/app/context/authContext';
 
 
 interface ApiResponse {
-    data: number;
+    noi: number;
     fecha: string;
 }
 
@@ -30,34 +30,19 @@ function formatFecha(inputFecha: string): string {
 
 function CardComponentF1() {
     const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
-            // En caso de que el correo electrónico no esté disponible
-            return "";
-        }
-        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-            return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-            return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
-            return "disponible";
-        } 
-        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-        return "";
-    };
+   
     const [dataApiF1, setDataApiF1] = useState<ApiResponse | null>(null);
 
     useEffect(() => {
-        const queryParameter = getQueryParameter(userEmail);
+        const queryParameter = userEmail;
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
         /* fetch(getApiUrl('/main/f1?investor=skandia'), options) */
-        fetch(getApiUrlFinal(`/principal/f1?investor=${queryParameter}`), options)
+        fetch(getApiUrlFinal(`/principal/f1?email=${queryParameter}`), options)
        
             .then(response => response.json())
             .then(response => {
-                const dataValue = response?.data; // Usando optional chaining para verificar si response existe
+                const dataValue = response?.noi; // Usando optional chaining para verificar si response existe
                 if (typeof dataValue === 'number') {
                     setDataApiF1(response); // Coloca el objeto en un array para mantener consistencia
                 } else {
@@ -69,7 +54,7 @@ function CardComponentF1() {
 
     const formattedDate = dataApiF1 ? formatFecha(dataApiF1.fecha) : '';
     // Accede directamente al primer elemento del array
-    const dataValue = dataApiF1?.data;
+    const dataValue = dataApiF1?.noi;
     /*   console.log(dataPrueba + ' dataPrueba en point d1'); */
 
     return (

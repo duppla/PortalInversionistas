@@ -36,7 +36,7 @@ function CardComponentD1() {
 
     // Accede directamente al primer elemento del array
     const dataPrueba = dataApiD1;
-   console.log(dataPrueba + ' dataPrueba en point d1'); 
+  
 
     return (
         <Box sx={{ backgroundColor:'#020101', borderRadius:'14px' ,  }}>
