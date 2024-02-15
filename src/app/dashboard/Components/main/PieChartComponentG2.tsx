@@ -26,20 +26,18 @@ type DataApiType = {
   este_anho: DataApiType;
   ult_6_meses: DataApiType;
 }; */
-type DataType = {
+/* type DataType = {
   [key: string]: any;
 };
+ */
+interface DataType {
+  [key: string]: {
+    menor_30: number;
+    mayor_30: number;
+    total: number;
+  };
+}
 
-type ItemType = {
-  id: string;
-  label: string;
-  value: number;
-};
-type MayHaveLabel = {
-  id: string;
-  label: string;
-  value: number;
-};
 
 function PieChartComponentG2() {
   const { userEmail } = useAuth();
@@ -65,7 +63,7 @@ function PieChartComponentG2() {
     este_anho: { menor_30: 0, mayor_30: 0, total: 0 },
     ult_6_meses: { menor_30: 0, mayor_30: 0, total: 0 },
   });
-  const [selectedDataKeyG2, setSelectedDataKeyG2] = useState<string>('este_anho');
+  const [selectedDataKeyG2, setSelectedDataKeyG2] =  useState<keyof DataType>('este_anho');
   const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -107,36 +105,34 @@ function PieChartComponentG2() {
 
 
   const formattedDataPieG2 = responseData
-    ? responseData[selectedDataKeyG2]
-      ? Object.keys(responseData[selectedDataKeyG2])
-        .filter((key) => key !== 'total') // Filtra la categoría 'total'
-        .map((key: string) => {
-          const item = responseData[selectedDataKeyG2][key];
-          let categoryLabel = key;
+  ? responseData[selectedDataKeyG2]
+    ? Object.entries(responseData[selectedDataKeyG2])
+      .filter(([key, _]) => key !== 'total') // Filtra la categoría 'total'
+      .map(([key, item]) => {
+        let categoryLabel = key;
 
-          // Personaliza los nombres de las categorías
-          if (key === 'menor_30') {
-            categoryLabel = 'Menor a 30 días';
-          } else if (key === 'entre_30_60') {
-            categoryLabel = 'Entre 30 y 60 días';
-          } else if (key === 'mayor_60') {
-            categoryLabel = 'Mayor a 60 días';
-          }
-/* 
-          const numericValue = Number((item * 100).toFixed(2)); */ // Convierte a número y redondea a dos decimales
+        // Personaliza los nombres de las categorías
+        if (key === 'menor_30') {
+          categoryLabel = 'Menor a 30 días';
+        } else if (key === 'entre_30_60') {
+          categoryLabel = 'Entre 30 y 60 días';
+        } else if (key === 'mayor_60') {
+          categoryLabel = 'Mayor a 60 días';
+        }
 
-          return {
-            id: key,
-            label: categoryLabel,
-            value: item, // Elimina la multiplicación por 100 aquí
-            formattedValue: `${item.toFixed(2)}%`, // Ajusta el formato aquí
-           /*  value: numericValue,
-            formattedValue: `${numericValue}%`, */
-            color: getColorByKey(key), // Reemplaza getColorByKey con tu lógica de asignación de colores
-          };
-        })
-      : []
-    : [];
+        return {
+          id: key,
+          label: categoryLabel,
+          value: item,
+          formattedValue: `${item.toFixed(2)}%`,
+          color: getColorByKey(key),
+        };
+      })
+    : []
+  : [];
+
+
+
 
 
 

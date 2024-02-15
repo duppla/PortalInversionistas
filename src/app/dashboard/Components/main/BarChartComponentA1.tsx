@@ -299,14 +299,20 @@ function BarChart() {
                     },
 
                 }}
-                defs={[
+                fill={[
                     {
-                        id: 'text',
-                        type: 'text',
-                        color: 'white',
+                        match: {
+                            id: 'Real',
+                        },
+                        id: 'Real',
+                    },
+                    {
+                        match: {
+                            id: 'Esperado',
+                        },
+                        id: 'Esperado',
                     },
                 ]}
-                fill={[{ match: { id: 'text' }, id: 'text' }]}
                 borderRadius={3}
                 borderColor={{
                     from: 'color',

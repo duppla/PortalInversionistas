@@ -193,8 +193,8 @@ const LineChartComponentH2 = () => {
                                   )}
                             >
                               {/*   <MenuItem value='este_anho'>Este año</MenuItem> */}
-                                <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
-                                <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
+                                <MenuItem  key="ult_6_meses" value='ult_6_meses'>Últimos 6 meses</MenuItem>
+                                <MenuItem  key="ult_12_meses" value='ult_12_meses'>Últimos 12 meses</MenuItem>
                             </Select>
                         </Grid>
                     </Grid>

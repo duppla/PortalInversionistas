@@ -490,13 +490,13 @@ a {
 
   .size-card-main {
     width: 100% !important;
-    height: 980px !important;
+    height: auto !important;
 
   }
 
   .size-card-main-f {
     width: 100% !important;
-    height: 980px !important;
+    height: auto !important;
 
   }
 
@@ -693,7 +693,7 @@ a {
 
   .size-container-k1-k2 {
     width: 100% !important;
-    height: 360px !important;
+    height: auto !important;
 
   }
 

@@ -40,8 +40,6 @@ const theme = createTheme({
 });
 
 
-
-
 const Page = () => {
     const [selectedValue, setSelectedValue] = useState('Este año');
     const [changeState, setChangeState] = useState(true);
@@ -200,14 +198,13 @@ const Page = () => {
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                        height: '360px',
+                        height: '370px',
                         backgroundColor: /* '#212126' */ '#0B0B0D',
                         borderRadius: '20px',
                         /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
                         mt: 4
                     }} rowSpacing={0} gap={13.2} columnSpacing={{ md: 2, lg: 2, }}
                     >
-
                         <Grid xs={12} sm={12} md={5.5} lg={5.5} sx={{
                             borderRadius: '10px',
                             backgroundColor: '#212126',

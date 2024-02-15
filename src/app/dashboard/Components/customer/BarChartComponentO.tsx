@@ -231,7 +231,7 @@ function BarChartComponentO() {
                     </Grid>
                 </FormControl>
             </div>
-
+            {data == null?<div></div>:
             <ResponsiveBar
                 data={formattedData}
                 keys={['Pago a tiempo', 'Pago con Atraso']}
@@ -368,7 +368,7 @@ function BarChartComponentO() {
                 ariaLabel="Nivo bar chart demo"
                 barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
             />
-
+            }
         </div>
     )
 }

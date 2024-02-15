@@ -24,7 +24,6 @@ const settings = ['Cerrar Sesión'];
 function ResponsiveAppBar() {
   const { logout } = useAuth();
 
-
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -67,19 +66,9 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
           </Box>
 
-          <Box  /* className= 'icon-setting-navbar' */ sx={{
-            flexGrow: 1,
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',  
-            width: '100%',
-            marginRight: '8px',
-            marginLeft: '60%',   
-
-            // Ajusta el espacio derecho según sea necesario
-          }}>
+          <Box  /* className= 'icon-setting-navbar' */ sx={{ position: 'absolute', right: 0 , mt:6, mr:1 }}>
             <Tooltip title="Open settings" >
-              <IconButton onClick={handleOpenUserMenu} className='icon-setting-navbar' sx={{ p: 0, }}>
+              <IconButton onClick={handleOpenUserMenu} className='' sx={{ justifyContent: 'flex-end' }}>
                 <Image src={SettingDupplaMenu} alt="" className='' width={48} height={48} />
               </IconButton>
             </Tooltip>

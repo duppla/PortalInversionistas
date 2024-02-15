@@ -57,18 +57,19 @@ function CardComponentF1() {
        
             .then(response => response.json())
             .then(response => {
-                if (typeof response.data === 'number') {
+                const dataValue = response?.data; // Usando optional chaining para verificar si response existe
+                if (typeof dataValue === 'number') {
                     setDataApiF1(response); // Coloca el objeto en un array para mantener consistencia
-                    /*  console.log(response); */
                 } else {
-                    console.error('El valor de data no es un número:');
+                    console.error('El valor de data no es un número:', dataValue);
                 }
+            
             }).catch(err => console.error(err));
     }, [userEmail]);
 
     const formattedDate = dataApiF1 ? formatFecha(dataApiF1.fecha) : '';
     // Accede directamente al primer elemento del array
-    const dataPrueba = dataApiF1;
+    const dataValue = dataApiF1?.data;
     /*   console.log(dataPrueba + ' dataPrueba en point d1'); */
 
     return (
@@ -82,7 +83,7 @@ function CardComponentF1() {
                     {formattedDate}
                     </Typography>
                     <Typography sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700', fontSize:'1.6rem' }} >
-                     $ {dataPrueba?.data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {typeof dataValue === 'number' ? `$ ${dataValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}` : ''}
                         
                     </Typography>                    
                 </CardContent>

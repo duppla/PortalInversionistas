@@ -271,6 +271,7 @@ function StreamChartComponentL() {
                     </Grid>
                 </FormControl>
             </div>
+            {data == null?<div></div>:
             <ResponsiveStream
                 animate={true}
                 data={formattedData}
@@ -403,6 +404,7 @@ function StreamChartComponentL() {
                     }
                 ]}
             />
+}
         </div>
     )
 }

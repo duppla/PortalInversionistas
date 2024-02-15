@@ -213,6 +213,7 @@ const BarChartComponentE = () => {
                     </Grid>
                 </FormControl>
             </div>
+            {data == null?<div></div>:
 
             <ResponsiveBar
                 data={formattedDataa}
@@ -353,7 +354,7 @@ const BarChartComponentE = () => {
                 role="application"
                 ariaLabel="Nivo bar chart demo"
                 barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
-            />
+            />}
         </div>
     )
 }
