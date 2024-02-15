@@ -39,7 +39,7 @@ type ItemType = {
 function BarChart() {
 
     const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
+/*     const getQueryParameter = (userEmail: string | null): string => {
         if (!userEmail) {
             // En caso de que el correo electrónico no esté disponible
             return "";
@@ -54,7 +54,7 @@ function BarChart() {
         } 
         // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
         return "";
-    };
+    }; */
 
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
@@ -68,11 +68,12 @@ function BarChart() {
 
     useEffect(() => {
       
-        const queryParameter = getQueryParameter(userEmail);
+        const queryParameter = userEmail;
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };              
-                const response = await fetch(getApiUrlFinal(`/principal/a?investor=${queryParameter}`), options);
+                const response = await fetch(getApiUrlFinal(`/principal/a?email=${queryParameter}`), options);
+            
                 const responseData = await response.json();
                 setResponseData(responseData);
                 setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
