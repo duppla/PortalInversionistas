@@ -78,10 +78,11 @@ const Page = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
-
-                        backgroundColor: '#212126',
+                      /*   backgroundColor: '#212126', */
+                        backgroundColor: '#0a3323',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                        p: 2
                     }} rowSpacing={1} gap={10} columnSpacing={{ md: 1, lg: 1, }}  >
                         <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
                             <CardcomponenteD1 />

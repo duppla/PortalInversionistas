@@ -63,6 +63,9 @@ const LineChartComponentG1 = () => {
 
 
     useEffect(() => {
+        if (!userEmail) {
+            return;
+        }
         const queryParameter = getQueryParameter(userEmail);
         const fetchData = async () => {
             try {

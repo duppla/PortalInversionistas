@@ -13,12 +13,15 @@ import { useAuth } from '@/app/context/authContext';
 interface ApiResponse {
     monto_inversion: number;
   }
-function CardComponentD1() {
+function CardComponentD1() {    
 
     const { userEmail } = useAuth();
     const [dataApiD1, setDataApiD1] = useState<ApiResponse | null>(null);
 
     useEffect(() => {
+        if (!userEmail) {
+            return;
+        }
         const queryParameter = userEmail;
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
         

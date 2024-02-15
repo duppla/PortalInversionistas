@@ -50,6 +50,9 @@ const BarChartComponentE = () => {
 
 
     useEffect(() => {
+        if (!userEmail) {
+            return;
+        }
         const queryParameter = userEmail;
         const fetchData = async () => {
             try {

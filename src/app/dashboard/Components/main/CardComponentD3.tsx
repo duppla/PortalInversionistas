@@ -19,6 +19,9 @@ function CardComponentD3() {
     const [dataApiD3, setDataApiD3] = useState<ApiResponse | null>(null);
 
     useEffect(() => {
+        if (!userEmail) {
+            return;
+        }
         const queryParameter = userEmail;
 
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
