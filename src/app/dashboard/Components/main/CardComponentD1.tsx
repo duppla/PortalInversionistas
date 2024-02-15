@@ -11,40 +11,21 @@ import { useAuth } from '@/app/context/authContext';
 
 
 interface ApiResponse {
-    data: number;
+    monto_inversion: number;
   }
 function CardComponentD1() {
 
-
     const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
-            // En caso de que el correo electrónico no esté disponible
-            return "";
-        }
-        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-            return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-            return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
-            return "disponible";
-        } 
-        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-        return "";
-    };
-
-
     const [dataApiD1, setDataApiD1] = useState<ApiResponse | null>(null);
 
     useEffect(() => {
-        const queryParameter = getQueryParameter(userEmail);
+        const queryParameter = userEmail;
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
         
-        fetch(getApiUrlFinal(`/principal/d1?investor=${queryParameter}`), options)
+        fetch(getApiUrlFinal(`/principal/d1?email=${queryParameter}`), options)
             .then(response => response.json())
             .then(response => {
-                if (typeof response.data === 'number') {
+                if (typeof response.monto_inversion === 'number') {
                     setDataApiD1(response); // Coloca el objeto en un array para mantener consistencia
                    /*  console.log(response); */
                 } else {
@@ -55,7 +36,7 @@ function CardComponentD1() {
 
     // Accede directamente al primer elemento del array
     const dataPrueba = dataApiD1;
-  /*   console.log(dataPrueba + ' dataPrueba en point d1'); */
+   console.log(dataPrueba + ' dataPrueba en point d1'); 
 
     return (
         <Box sx={{ backgroundColor:'#020101', borderRadius:'14px' ,  }}>
@@ -66,7 +47,7 @@ function CardComponentD1() {
                        Inversión original 
                     </Typography>
                     <Typography sx={{ mt:0.2, mb: 1.5, color:'#E3E8F3', fontStyle:'normal',fontWeight:'700', fontSize:'1.6rem' }} >
-                     $ {dataPrueba?.data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}                     
+                     $ {dataPrueba?.monto_inversion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}                     
                     </Typography>                    
                 </CardContent>               
             </Card>}

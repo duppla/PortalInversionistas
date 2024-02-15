@@ -38,22 +38,7 @@ interface ItemType {
 
 const LineChartComponentP = () => {
     const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
-            // En caso de que el correo electrónico no esté disponible
-            return "";
-        }
-        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-            return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-            return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
-            return "disponible";
-        } 
-        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-        return "";
-    };
+    
 
     const [data, setData] = useState<DataType>({ ult_12_meses: [], este_anho: [], ult_6_meses: [] });
     const [selectedDataKeyP, setSelectedDataKeyP] = useState<string>('ult_12_meses');
@@ -67,11 +52,11 @@ const LineChartComponentP = () => {
 
 
     useEffect(() => {
-        const queryParameter = getQueryParameter(userEmail);
+        const queryParameter = userEmail;
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrlFinal(`/principal/p?investor=${queryParameter}`), options);
+                const response = await fetch(getApiUrlFinal(`/principal/p?email=${queryParameter}`), options);
 
                 const newData = await response.json();
 

@@ -203,8 +203,7 @@ function MapComponentC() {
           <p style="color: black;"><strong>Valor del inmueble:</strong> ${formatNumber(location.valor_inmueble)}</p>
           <p style="color: black;"><strong>¿Está en mora?:</strong> ${location.mora}</p>
         `;
-  
-        // Agregar categoría de mora si es necesario
+          // Agregar categoría de mora si es necesario
         if (location.mora === 'si') {
           popupContent += `<p style="color: black;"><strong>¿Cuánto?:</strong> ${location.categoria_mora}</p>`;
         }
