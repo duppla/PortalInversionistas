@@ -13,6 +13,7 @@ import { styled } from '@mui/material/styles';
 import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 import { internal_processStyles } from '@mui/styled-engine-sc';
 import { useAuth } from '@/app/context/authContext';
+import { GridValues } from '@nivo/axes';
 
 
 
@@ -64,6 +65,8 @@ function BarChartComponentN() {
         return "";
     };
 
+    let first = true;
+
     const [data, setData] = useState<DataType | null>(null);
     const [responseData, setResponseData] = useState<any>(null);
     const [dataApi, setDataApi] = useState<DataType[]>([]);
@@ -72,6 +75,7 @@ function BarChartComponentN() {
     const [menuOpen, setMenuOpen] = useState(false);
 
 
+    let gridYValues: GridValues<number> | undefined = [];
 
     useEffect(() => {
         const queryParameter = getQueryParameter(userEmail);
@@ -146,20 +150,42 @@ function BarChartComponentN() {
     const prepagoValues = formattedDataN.map((item: any) => typeof item.Adelanto === 'number' ? item.Adelanto : 0);
     const interesesValues = formattedDataN.map((item: any) => typeof item.Intereses === 'number' ? item.Intereses : 0);
 
-    const maxArriendo = Math.max(...arriendoValues);
-    const maxPrepago = Math.max(...prepagoValues);
-    const maxIntereses = Math.max(...interesesValues);
-
-    const maxTotal = maxArriendo + maxPrepago + maxIntereses; // Suma de los máximos de todas las categorías
+// Suma de los máximos de todas las categorías
 
     const calculateTickValues = () => {
-        const tickCount = 5; // Puedes ajustar este número según tus preferencias
-        const tickStep = Math.ceil(maxTotal / tickCount);
-
+        var maxTotal = 0;
+        for (var i = 0; i < arriendoValues.length; i++){
+            var totalMes = arriendoValues[i] + prepagoValues [i] + interesesValues[i];
+            if(totalMes > maxTotal){
+                maxTotal = totalMes;
+            }
+        }
+        
+        const tickCount = 6; 
+        var count = 0;
+        var tickIni = 0.5;
+        var tickStep = tickIni;
+        var mult = 0.05;
+        while((maxTotal/tickCount) > tickStep){
+            if(count % 4 == 0){
+                mult *= 10;
+                tickStep += mult;
+            }
+            else if(count % 2 == 0){
+                tickStep += mult;
+            }
+            else{
+                tickStep *= 2;
+            }
+            count++;
+        }
         return Array.from({ length: tickCount + 1 }, (_, index) => index * tickStep);
     };
-
-    const gridYValues = calculateTickValues();
+    
+    if(data != null && first){
+        gridYValues = calculateTickValues();
+        first = false;
+    }
 
     return (
         <div className='grafica-barcharts nivo-text'>
@@ -234,6 +260,7 @@ function BarChartComponentN() {
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                 padding={0.7}
+                maxValue={gridYValues[gridYValues.length-1]}
                 valueScale={{ type: 'linear', min: 0 }}
                 indexScale={{ type: 'band', round: true }}
                 colors={['#5782F2', '#5ED1B1', ' #FFB024']}
@@ -319,12 +346,11 @@ function BarChartComponentN() {
                     tickPadding: 5,
                     tickRotation: 0,
                     /*  tickValues: [0, 4000000, 8000000, 12000000, 16000000], */
-                    tickValues: calculateTickValues(),
+                    tickValues: gridYValues,
                     legend: '',
                     legendPosition: 'middle',
                     legendOffset: -40,
                     format: value => formatNumber(value),
-
                 }}
                 labelSkipWidth={12}
                 labelSkipHeight={12}
