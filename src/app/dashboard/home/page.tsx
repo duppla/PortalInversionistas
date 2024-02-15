@@ -78,8 +78,8 @@ const Page = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
-                      /*   backgroundColor: '#212126', */
-                        backgroundColor: '#0a3323',
+                        backgroundColor: '#212126', 
+                      /*   backgroundColor: '#0a3323', */
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                         p: 2
