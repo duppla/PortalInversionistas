@@ -3,7 +3,6 @@ import React from 'react'
 import { Grid, Container, Box, Button, ButtonGroup, Typography, Stack } from '@mui/material';
 import Link from 'next/link';
 import GraficaComponenteb from '../../../Components/property/LineChartComponentB'
-import GraficacomponenteH1 from '../../../Components/property/PieChartComponentH1'
 import GraficacomponenteH2 from '../../../Components/property/LineChartComponentH2'
 import MapacomponenteC from '../../../Components/property/MapComponentC'
 import GraficacomponenteJ from '../../../Components/property/SankeyChartComponentJ'
@@ -15,21 +14,8 @@ const page = () => {
     return (
 
         <Box sx={{ flexGrow: 1, mt: 1, ml: 1, mr: 1, borderRadius: '20px' }} >
-            {/* sección 1 titulo */}
-            {/*  <Box maxWidth="xl" sx={{ }}>
-                <Grid container spacing={2}>
-                    <Grid xs={12} sm={6} md={6} lg={6}>
-                        <Typography className='title-component' sx={{ mt: 0.3, mb: 1.5, color: '#5682F2', fontStyle: 'normal', fontWeight: '500', fontSize:'3rem' }}>
-                            Inmuebles
-                        </Typography>
-                    </Grid>
-                    <Grid xs={6} sm={6} md={6} lg={6} sx={{
-                    }}>
-                    </Grid>
-                </Grid>
-            </Box> */}
-            {/* Sección dashborad */}
 
+            {/* Sección dashborad */}
             <Container maxWidth="xl" sx={{ mt: 2, mb: 4, }}
                 className=''>
                 {/* Componente C -Mapa*/}
@@ -154,28 +140,9 @@ const page = () => {
                     }}>
                         <GraficacomponenteH2 />
 
-                    </Grid>
-                    {/*      <Grid xs={12} sm={12} md={5} lg={5} sx={{
-                        borderRadius: '10px',
-                        backgroundColor: '#212126',
-                       mb: 2,
-                        p: 2
-                    }}>
-                        <GraficacomponenteH1 />
-
-                    </Grid>
-                    <Grid className='' xs={12} sm={12} md={6} lg={6} sx={{
-                        borderRadius: '10px',
-                        backgroundColor: '#212126',
-                       mb: 2,
-                        p: 2
-                    }}>
-                        <GraficacomponenteH2 />
-                    </Grid> */}
+                    </Grid>          
                 </Grid>
-
             </Container>
-
         </Box >
     )
 }

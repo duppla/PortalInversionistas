@@ -40,13 +40,13 @@ const SankeyChartComponentJ = () => {
             return "";
         }
         // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co") {
+        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
             return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co") {
+        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
             return "weseed";
         } else if (userEmail === "scastaneda@duppla.co") {
             return "disponible";
-        }
+        } 
         // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
         return "";
     };
@@ -94,7 +94,7 @@ const SankeyChartComponentJ = () => {
         };
 
         fetchData();
-    }, []);
+    }, [userEmail]);
 
 
     // Definir tus escalas de colores verdes y rojos

@@ -22,13 +22,13 @@ function CardComponentD2() {
             return "";
         }
         // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co") {
+        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
             return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co") {
+        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
             return "weseed";
         } else if (userEmail === "scastaneda@duppla.co") {
             return "disponible";
-        }
+        } 
         // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
         return "";
     };
@@ -63,6 +63,7 @@ function CardComponentD2() {
 
   return (
     <Box className='size-card-main-d-f' sx={{  backgroundColor:'#020101' , borderRadius:'14px'  /* width: '360px', height:'220px' */ }}>
+        
             <Card className='size-card-main-d-f' sx={{ mt:2 , mb: 2 , backgroundColor:'#020101', borderRadius:'14px', display:'flex', justifyContent:'center', alignContent: 'center', textAlign:'center'}}>
                 <CardContent sx={{mt:1 , mb: 1}}>
                     <Typography  component="div" sx={{color: '#5782F2', fontFamily: 'Rustica', fontSize:'18px',fontWeight:'500'}} className='title-D-F' >

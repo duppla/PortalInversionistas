@@ -2,8 +2,6 @@
 import { ResponsiveStream, StreamDatum, Tooltip } from '@nivo/stream'
 import { StreamSvgProps } from '@nivo/stream';
 /* import { StreamSlice } from '@nivo/stream'; */
-
-
 import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -25,23 +23,7 @@ type DataApiType = {
     muy_bajo: any;
 };
 
-/*  interface MyTooltipProps extends TooltipProps {
-   slice: {
-     points: StreamDatum[];
-   };
- }
-  */
 
-/* interface MyTooltipProps {
-    slice: {
-        points: {
-            id: string;
-            value: number;
-            color: string;
-            serieId: string;
-        }[];
-    };
-} */
 import { TooltipProps } from '@nivo/stream';
 import { useAuth } from '@/app/context/authContext';
 
@@ -88,13 +70,13 @@ function StreamChartComponentL() {
             return "";
         }
         // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (emailToUse === "fcortes@duppla.co") {
+        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
             return "skandia";
-        } else if (emailToUse === "aarevalo@duppla.co") {
+        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
             return "weseed";
-        } else if (emailToUse === "scastaneda@duppla.co") {
+        } else if (userEmail === "scastaneda@duppla.co") {
             return "disponible";
-        }
+        } 
         // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
         return "";
     };
@@ -122,7 +104,7 @@ function StreamChartComponentL() {
         };
 
         fetchData();
-    }, []);
+    }, [userEmail]);
 
 
     /* Función para actualizar la selección del usuario */

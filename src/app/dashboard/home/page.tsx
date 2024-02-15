@@ -4,7 +4,6 @@ import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, In
 import Link from 'next/link';
 import Grid from '@mui/material/Unstable_Grid2';
 import Graficaprueba from '../Components/main/BarChartComponentA1'
-import GraficacomponenteA2 from '../Components/main/BarChartComponentA2'
 import GraficacomponenteE from '../Components/main/BarChartComponentE'
 
 import GraficacomponenteG1 from '../Components/main/LineChartComponentG1'
