@@ -92,7 +92,7 @@ function BarChartComponentN() {
             }
         };
         fetchData();
-    }, [userEmail, getQueryParameter]);
+    }, []);
 
 
     /* Función para actualizar la selección del usuario */
