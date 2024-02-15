@@ -162,9 +162,9 @@ function BarChart() {
 
         const tickCount = 6; 
         var count = 0;
-        var tickIni = 0.5;
+        var tickIni = 500000;
         var tickStep = tickIni;
-        var mult = 0.05;
+        var mult = tickIni/10;
         while((maxValue/tickCount) > tickStep){
             if(count % 4 == 0){
                 mult *= 10;
@@ -181,8 +181,7 @@ function BarChart() {
 
         // Calcular dinámicamente los valores para gridYValues y tickValues
         const gridYValues = Array.from({ length: tickCount + 1 }, (_, index) => {
-            const tickValue = index * tickStep;
-            return Math.round(tickValue);
+            return index * tickStep;
         });
 
 
@@ -281,6 +280,7 @@ function BarChart() {
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                 padding={0.7}
+                maxValue={gridYValues[gridYValues.length-1]}
                 groupMode="grouped"
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}

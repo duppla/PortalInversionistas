@@ -64,13 +64,28 @@ function BarChartComponentO() {
         // Calcula la suma máxima de ambos valores en positivo
         const maxSum = Math.max(...data.map(item => item.pagado + Math.abs(item.mora)));
     
-        // Define el número total de ticks
-        const numTicks = 5;
-    
-        // Calcula los valores de los ticks en un rango que incluya el 0 y el valor máximo
-        const gridYValues = Array.from({ length: numTicks }, (_, index) => {
-            const tickValue = (index / (numTicks - 1)) * maxSum;
-            return Math.round(tickValue);
+        const tickCount = 6; 
+        var count = 0;
+        var tickIni = 500000;
+        var tickStep = tickIni;
+        var mult = tickIni/10;
+        while((maxSum/tickCount) > tickStep){
+            if(count % 4 == 0){
+                mult *= 10;
+                tickStep += mult;
+            }
+            else if(count % 2 == 0){
+                tickStep += mult;
+            }
+            else{
+                tickStep *= 2;
+            }
+            count++;
+        }
+
+        // Calcular dinámicamente los valores para gridYValues y tickValues
+        const gridYValues = Array.from({ length: tickCount + 1 }, (_, index) => {
+            return index * tickStep;
         });
     
         return { gridYValues, tickValues: gridYValues };
@@ -131,36 +146,20 @@ function BarChartComponentO() {
 
     /*   console.log(JSON.stringify(formattedData)); */
 
-    /* prueba de formateo data a legible */
 
-      function formatNumber(value: number): string {
-        const suffixes = ['', 'K', 'M', 'B', 'T'];
-        const suffixNum = Math.floor(('' + Math.abs(value)).length / 3);
-        let shortValue = (suffixNum !== 0 ? (Math.abs(value) / Math.pow(1000, suffixNum)) : Math.abs(value)).toFixed(0);
-    
-        if (shortValue.endsWith('.0')) {
-            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
-        }
-    
-        return (value < 0 ? '-' : '') + shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+    /* prueba de formateo data a legible */
+    function formatNumber(value: number): string {
+
+        return (value < 0 ? '-' : '') + (value/1000000).toFixed(0) + " M";
     }
-    
+
     /* prueba de formateo data a legible tooltip */
     function formatNumberTooltip(value: number): string {
-        const suffixes = ['', 'K', 'M', 'B', 'T'];
-        const suffixNum = Math.floor(('' + Math.abs(value)).length / 3);
-        let shortValue = (suffixNum !== 0 ? (Math.abs(value) / Math.pow(1000, suffixNum)) : Math.abs(value)).toFixed(1);
-    
-        if (shortValue.endsWith('.0')) {
-            shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
-        }
-    
-        return (value < 0 ? '-' : '') + shortValue + (suffixNum > 0 ? ' ' + suffixes[suffixNum] : '');
+        var millones = (value/1000000).toFixed(1);
+        var shortValue = millones.endsWith('.0')? millones.slice(0, -2): millones;
+
+        return (value < 0 ? '-' : '') + shortValue + " M";
     }
-    
-
-
-
 
     return (
         <div className='grafica-barcharts-des nivo-text'>
@@ -239,6 +238,7 @@ function BarChartComponentO() {
                 label={() => ''}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                 padding={0.8}
+                maxValue={gridYValues[gridYValues.length-1]}
                 colors={['#12CA98', '#FFB024',]}
                 /*  enableGridY={false} */
 

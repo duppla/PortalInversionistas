@@ -161,9 +161,9 @@ function BarChartComponentN() {
         
         const tickCount = 6; 
         var count = 0;
-        var tickIni = 0.5;
+        var tickIni = 500000;
         var tickStep = tickIni;
-        var mult = 0.05;
+        var mult = tickIni/10;
         while((maxTotal/tickCount) > tickStep){
             if(count % 4 == 0){
                 mult *= 10;
