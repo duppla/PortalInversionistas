@@ -129,11 +129,9 @@ function BarChartComponentN() {
         })
         : [];
 
-    /*  console.log(JSON.stringify(formattedDataa) + ' formattedDataa en point n');  */
 
     /* prueba de formateo data a legible */
     function formatNumber(value: number): string {
-
         return (value/1000000).toFixed(0) + " M";
     }
 
@@ -144,7 +142,7 @@ function BarChartComponentN() {
 
         return shortValue + " M";
     }
-    /*     console.log('Datos formateados para el gráfico:', formattedDataa); */
+    
     // Dentro de tu componente, después de obtener los datos del API
     const arriendoValues = formattedDataN.map((item: any) => typeof item.Arriendo === 'number' ? item.Arriendo : 0);
     const prepagoValues = formattedDataN.map((item: any) => typeof item.Adelanto === 'number' ? item.Adelanto : 0);
