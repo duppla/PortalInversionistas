@@ -159,21 +159,32 @@ function BarChart() {
     /* Función para calcular los valores de los ejes */
     const calculateAxisValues = (data: ItemType[]) => {
         const maxValue = Math.max(...data.map(item => Math.max(item.flujo_real, item.flujo_esperado)));
-        const numTicks = 5;
 
-        // Lógica para el resto de los casos
-        const step = maxValue / (numTicks - 1);
+        const tickCount = 6; 
+        var count = 0;
+        var tickIni = 0.5;
+        var tickStep = tickIni;
+        var mult = 0.05;
+        while((maxValue/tickCount) > tickStep){
+            if(count % 4 == 0){
+                mult *= 10;
+                tickStep += mult;
+            }
+            else if(count % 2 == 0){
+                tickStep += mult;
+            }
+            else{
+                tickStep *= 2;
+            }
+            count++;
+        }
 
         // Calcular dinámicamente los valores para gridYValues y tickValues
-        const gridYValues = Array.from({ length: numTicks }, (_, index) => {
-            const tickValue = index * step;
+        const gridYValues = Array.from({ length: tickCount + 1 }, (_, index) => {
+            const tickValue = index * tickStep;
             return Math.round(tickValue);
         });
 
-        // Asegurarse de que 0 esté incluido
-        if (!gridYValues.includes(0)) {
-            gridYValues.unshift(0);
-        }
 
         return { gridYValues, tickValues: gridYValues };
     };
