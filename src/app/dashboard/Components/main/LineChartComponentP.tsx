@@ -83,12 +83,29 @@ const LineChartComponentP = () => {
         if (units.length > 0) {
             const maxYValue = Math.max(...units);
             const minYValue = Math.min(...units);
+            const medianYValue = (maxYValue+minYValue)/2;
 
-            const yStep = (maxYValue - minYValue) / 3;
-            const yAxisValues = Array.from({ length: 4 }, (_, index) => {
-                const value = minYValue + index * yStep;
-                return value;
-            });
+            const tickCount = 5;
+            var count = 0;
+            var tickIni = 0.0005;
+            var tickStep = tickIni;
+            var mult = tickIni / 10;
+            while (medianYValue - (tickCount*(tickStep/2)) > minYValue || medianYValue + (tickCount*(tickStep/2)) < maxYValue) {
+                if (count % 4 == 0) {
+                    mult *= 10;
+                    tickStep += mult;
+                }
+                else if (count % 2 == 0) {
+                    tickStep += mult;
+                }
+                else {
+                    tickStep *= 2;
+                }
+                count++;
+            }
+
+            let lowest = minYValue - (minYValue % tickStep);
+            const yAxisValues = Array.from({ length: tickCount + 1}, (_, index) => lowest + (index * tickStep));
 
             setYAxisValues(yAxisValues);
         } else {
@@ -251,8 +268,8 @@ const LineChartComponentP = () => {
                     }}
                     yScale={{
                         type: 'linear',
-                        min: 'auto',
-                        max: 'auto',
+                        min: yAxisValues[0],
+                        max: yAxisValues[yAxisValues.length-1],
                         stacked: true,
                         reverse: false
                     }}

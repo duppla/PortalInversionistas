@@ -64,7 +64,7 @@ function BarChartComponentO() {
         // Calcula la suma máxima de ambos valores en positivo
         const maxSum = Math.max(...data.map(item => item.pagado + Math.abs(item.mora)));
     
-        const tickCount = 6; 
+        const tickCount = 5; 
         var count = 0;
         var tickIni = 500000;
         var tickStep = tickIni;

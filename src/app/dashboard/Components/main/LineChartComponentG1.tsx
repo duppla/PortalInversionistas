@@ -46,7 +46,7 @@ const LineChartComponentG1 = () => {
             return "weseed";
         } else if (userEmail === "scastaneda@duppla.co") {
             return "disponible";
-        } 
+        }
         // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
         return "";
     };
@@ -94,13 +94,27 @@ const LineChartComponentG1 = () => {
         const units = data[selectedDataKeyG1].map((item: any) => parseFloat(item.tasa_morosidad));
         if (units.length > 0) {
             const maxYValue = Math.max(...units);
-            const minYValue = Math.min(...units);
+            //const minYValue = Math.min(...units);
 
-            const yStep = (maxYValue - minYValue) / 4;
-            const yAxisValues = Array.from({ length: 5 }, (_, index) => {
-                const roundedValue = minYValue + index * yStep;
-                return parseFloat(roundedValue.toFixed(2)); // Redondear a dos decimales
-            });
+            const tickCount = 5;
+            var count = 0;
+            var tickIni = 0.005;
+            var tickStep = tickIni;
+            var mult = tickIni / 10;
+            while ((maxYValue / tickCount) > tickStep) {
+                if (count % 4 == 0) {
+                    mult *= 10;
+                    tickStep += mult;
+                }
+                else if (count % 2 == 0) {
+                    tickStep += mult;
+                }
+                else {
+                    tickStep *= 2;
+                }
+                count++;
+            }
+            const yAxisValues = Array.from({ length: tickCount + 1 }, (_, index) => index * tickStep);
 
             setYAxisValues(yAxisValues);
         } else {
@@ -129,7 +143,7 @@ const LineChartComponentG1 = () => {
 
     };
 
-      const tranformedData = tranformeDataApi(data, selectedDataKeyG1);
+    const tranformedData = tranformeDataApi(data, selectedDataKeyG1);
     /*   console.log('tranformedData:', tranformedData); */
 
     /* Mensaje para el tooltip explicativo */
@@ -240,8 +254,8 @@ const LineChartComponentG1 = () => {
                     }}
                     yScale={{
                         type: 'linear',
-                        min: 'auto',
-                        max: 'auto',
+                        min: 0,
+                        max: yAxisValues[yAxisValues.length-1],
                         stacked: true,
                         reverse: false
                     }}
