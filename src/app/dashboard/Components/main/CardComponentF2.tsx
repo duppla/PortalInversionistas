@@ -28,30 +28,16 @@ function formatFecha(inputFecha: string): string {
 }
 function CardComponentF2() {
     const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
-            // En caso de que el correo electrónico no esté disponible
-            return "";
-        }
-        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-            return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-            return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
-            return "disponible";
-        } 
-            // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-            return "";
-        };
-
-        const [dataApiF2, setDataApiF2] = useState<ApiResponse | null>(null);
+         const [dataApiF2, setDataApiF2] = useState<ApiResponse | null>(null);
 
         useEffect(() => {
-            const queryParameter = getQueryParameter(userEmail);
+            if (!userEmail) {
+                return;
+            }
+            const queryParameter =userEmail;
             const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-            fetch(getApiUrlFinal(`/principal/f2?investor=${queryParameter}`), options)
+            fetch(getApiUrlFinal(`/principal/f2?email=${queryParameter}`), options)
 
                 .then(response => response.json())
                 .then(response => {

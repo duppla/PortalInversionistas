@@ -55,21 +55,6 @@ const Page = () => {
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1, mt: 1, ml: 1, mr: 1, borderRadius: '20px' }} >
-                {/* sección 1 titulo */}
-                {/*  <Box maxWidth="xl" sx={{ }}>
-                    <Grid container spacing={2}>
-                        <Grid xs={12} sm={6} md={6} lg={6}>
-                            <Typography className='title-component' sx={{ mt: 0.3, mb: 1.5, color: '#5682F2', fontStyle: 'normal', fontWeight: '500', fontSize:'3rem' }}>
-                                Dashboard principal
-                            </Typography>
-                        </Grid>
-                        <Grid xs={6} sm={6} md={6} lg={6} sx={{
-                        }}>
-                        </Grid>
-                    </Grid>
-                </Box> */}
-                {/* Sección dashborad */}
-
                 <Container maxWidth="xl" sx={{ mt: 2, mb: 4, }}
                     className=''>
                     {/* primera fila  componente D*/}
@@ -78,8 +63,8 @@ const Page = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
-                        backgroundColor: '#212126', 
-                      /*   backgroundColor: '#0a3323', */
+                        backgroundColor: '#212126',
+                        /*   backgroundColor: '#0a3323', */
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                         p: 2
@@ -173,12 +158,13 @@ const Page = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
-                        width: '100%',
-
+                        
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                         mt: 4,
+                        p: 2
+                       
                     }} rowSpacing={1} gap={10} columnSpacing={{ md: 1, lg: 1, }}  >
                         <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
                             <CardcomponenteF1 />

@@ -501,7 +501,7 @@ a {
   }
 
   .size-card-main-d-f {
-    width: 340 !important;
+    width: auto !important;
     height: 140px !important;
 
   }
@@ -579,7 +579,7 @@ a {
   /* Ajustes sesión main */
   .size-card-main {
     width: 100% !important;
-    height: 140px !important;
+    height: 180px !important;
 
   }
   .size-card-main-f {
@@ -589,8 +589,8 @@ a {
   }
 
   .size-card-main-d-f {
-    width: 340px !important;
-    height: 100px !important;
+    width: auto !important;
+    height: 104px !important;
 
   }
   .size-card-main-componentF {
@@ -665,12 +665,12 @@ a {
   /* Ajustes sesión main */
   .size-card-main {
     width: 100% !important;
-    height: 140px !important;
+    height: 180px !important;
 
   }
   .size-card-main-f {
     width: 100% !important;
-    height: 160px !important;
+    height: 180px !important;
 
   }
 
