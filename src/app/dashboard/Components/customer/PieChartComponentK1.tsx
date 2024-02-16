@@ -25,22 +25,6 @@ function PieChartComponentK1() {
   console.log = () => {};
 
   const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
-            // En caso de que el correo electrónico no esté disponible
-            return "";
-        }
-        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-          return "skandia";
-      } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-          return "weseed";
-      } else if (userEmail === "scastaneda@duppla.co") {
-          return "disponible";
-      } 
-        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-        return "";
-    };
 
 
   const [selectedDataKeyK1, setSelectedDataKeyK1] = useState<string>('este_anho');
@@ -50,12 +34,15 @@ function PieChartComponentK1() {
   const [responseData, setResponseData] = useState<any>({}); 
 
   useEffect(() => {
-    const queryParameter = getQueryParameter(userEmail);
+    if (!userEmail) {
+      return;
+    }
+    const queryParameter = userEmail;
     const fetchData = async () => {
       try {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
         
-        const response = await fetch(getApiUrlFinal(`/inmuebles/k1?investor=${queryParameter}`), options);
+        const response = await fetch(getApiUrlFinal(`/inmuebles/k1?email=${queryParameter}`), options);
 
         const responseData = await response.json();
 
