@@ -146,7 +146,7 @@ function MapComponentC() {
     return () => {
       map && map.remove()
     };
-  }, [map, ]);
+  }, [map]);
 
 
   const calculateCityCenter = (city: string) => {

@@ -14,56 +14,40 @@ import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
 
-type DataApiType = {
+/* type DataApiType = {
   [key: string]: number;
   menor_30: number;
   mayor_30: number;
   total: number;
 };
-
-/* type DataType = {
-  ult_12_meses: DataApiType;
-  este_anho: DataApiType;
-  ult_6_meses: DataApiType;
-}; */
-/* type DataType = {
-  [key: string]: any;
-};
- */
 interface DataType {
   [key: string]: {
     menor_30: number;
     mayor_30: number;
     total: number;
   };
-}
+} */
+
+type DataItemType = {
+  label: string;
+  value: number;
+};
+
+type DataApiType = {
+  cartera_mora: DataItemType[];
+  total: number;
+};
+
 
 
 function PieChartComponentG2() {
   const { userEmail } = useAuth();
-  const getQueryParameter = (userEmail: string | null): string => {
-      if (!userEmail) {
-          // En caso de que el correo electrónico no esté disponible
-          return "";
-      }
-      // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-      if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-        return "skandia";
-    } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-        return "weseed";
-    } else if (userEmail === "scastaneda@duppla.co") {
-        return "disponible";
-    } 
-      // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-      return "";
-  };
-
-  const [responseData, setResponseData] = useState<DataType>({
-    ult_12_meses: { menor_30: 0, mayor_30: 0, total: 0 },
-    este_anho: { menor_30: 0, mayor_30: 0, total: 0 },
-    ult_6_meses: { menor_30: 0, mayor_30: 0, total: 0 },
+ 
+  const [responseData, setResponseData] = useState<DataApiType>({
+    cartera_mora: [],
+    total: 0,
   });
-  const [selectedDataKeyG2, setSelectedDataKeyG2] =  useState<keyof DataType>('este_anho');
+ 
   const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -72,13 +56,11 @@ function PieChartComponentG2() {
     if (!userEmail) {
       return;
   }
-    const queryParameter = getQueryParameter(userEmail);
+    const queryParameter = userEmail;
     const fetchData = async () => {
       try {
-        const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-        /*           const response = await fetch( getApiUrl(`/main/g2?investor=skandia`), options); */
-        const response = await fetch(getApiUrlFinal(`/principal/g2?investor=${queryParameter}`), options);
-
+        // Tu lógica para hacer la solicitud al API y obtener los datos
+        const response = await fetch(getApiUrlFinal('/principal/g2?email=' + userEmail));
         const responseData = await response.json();
 
         if (responseData) {
@@ -90,7 +72,6 @@ function PieChartComponentG2() {
         console.error(error);
       }
     };
-
     fetchData();
   }, [userEmail]);
 
@@ -105,9 +86,15 @@ function PieChartComponentG2() {
         return 'gray';
     }
   };
+  const formattedDataPieG2 = responseData.cartera_mora.map((item) => ({
+    id: item.label,
+    label: item.label,
+    value: item.value,
+    formattedValue: `${item.value.toFixed(2)}%`,
+    color: getColorByKey(item.label.toLowerCase().replace(/\s/g, '_')),
+  }));
 
-
-  const formattedDataPieG2 = responseData
+/*   const formattedDataPieG2 = responseData
   ? responseData[selectedDataKeyG2]
     ? Object.entries(responseData[selectedDataKeyG2])
       .filter(([key, _]) => key !== 'total') // Filtra la categoría 'total'
@@ -132,26 +119,12 @@ function PieChartComponentG2() {
         };
       })
     : []
-  : [];
+  : []; */
 
-
-
-
-
-
-
+ 
 
   /* Función para actualizar la selección del usuario */
-  const handleDataSelection = (dataKey: string) => {
-    setSelectedDataKeyG2(dataKey);
-  };
 
-  /* Función que controla la selección del dropdown */
-  const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-    const selectedDataKeyG2 = event.target.value as string;
-    setSelectedValue(selectedDataKeyG2);
-    handleDataSelection(selectedDataKeyG2);
-  };
 
   const formatNumber = (num: number) => {
     const suffixes = ["", "K", "M", "B", "T"];
@@ -169,7 +142,6 @@ function PieChartComponentG2() {
   };
 
   
-
 
   return (
     <div className="grafica-piecharts-G2" style={{ position: 'relative', width: '100%', height: '380px' }}>
@@ -345,11 +317,12 @@ function PieChartComponentG2() {
       <div className="centrado div-center-pie " style={{ position: 'absolute', top: '60%', left: '40%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography sx={{ color: "#ffffff", marginBottom: '8px', textAlign: 'center', fontWeight: '600', fontStyle: 'normal', fontSize: '28px' }}>
-            {/*  {responseData[selectedDataKey].total.toLocaleString()} */}
-            ${formatNumber(responseData[selectedDataKeyG2].total)}
+           
+          ${formatNumber(responseData.total)}
           </Typography>
           <Typography sx={{ color: '#6E7880', textAlign: 'center', fontWeight: '400', fontStyle: 'normal', fontSize: '24px' }}>
-            Total
+          
+          {formattedDataPieG2.reduce((acc, curr) => acc + curr.value, 0) === 0 ? "No hay mora" : "Total"}
           </Typography>
         </div>
       </div>
