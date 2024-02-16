@@ -51,7 +51,6 @@ export default function BasicTable() {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
                 const response = await fetch(getApiUrlFinal(`/inmuebles/j2?email=${queryParameter}`), options);
                 const responseData = await response.json();
-                console.info(responseData);
 
                 setData(responseData);
                 setResponseData(responseData);
