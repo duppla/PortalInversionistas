@@ -34,42 +34,28 @@ const themeBtn = createTheme({
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWFyZXZhbG8iLCJhIjoiY2xwaWxxNGgwMDBtZDJwdGo0YjZzNHlnZyJ9.X_xxMOm_DCKERmwnhC4izA';
 interface Location {
+  codigo_inmueble: string;
   latitud: number;
   longitud: number;
-  barrio: string,
-  mora: string,
-  categoria_mora: string,
-  valor_inmueble: number,
+  barrio: string;
+  valor_inmueble: number;
+  mora: boolean;
+  categoria_mora: string;
 }
 
 interface CityData {
-  [key: string]: Location[];
+  ciudad: string;
+  inmuebles: Location[];
 }
 
 function MapComponentC() {
 
   const { userEmail } = useAuth();
-  const getQueryParameter = (userEmail: string | null): string => {
-      if (!userEmail) {
-          // En caso de que el correo electrónico no esté disponible
-          return "";
-      }
-      // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-      if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-        return "skandia";
-    } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-        return "weseed";
-    } else if (userEmail === "scastaneda@duppla.co") {
-        return "disponible";
-    } 
-      // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-      return "";
-    };
 
   const mapDivC = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<Map | null>(null);
-  const [data, setData] = useState<CityData>({});
-  const [selectedCity, setSelectedCity] = useState<string>('BOGOTÁ D.C.');
+  const [data, setData] = useState<CityData[]>([]);
+  const [selectedCity, setSelectedCity] = useState<number>(0);
   const [centroid, setCentroid] = useState<LngLatLike | null>(null);
 
   // Función para calcular el centro promedio de un conjunto de ubicaciones
@@ -86,29 +72,25 @@ function MapComponentC() {
 
 
   useEffect(() => {
-    const queryParameter = getQueryParameter(userEmail);   
-    const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrlFinal(`/inmuebles/c/?investor=${queryParameter}`));
-        
+    if (!userEmail) {
+      return;
+    }
+    const queryParameter = userEmail;
+    const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
 
-        if (!response.ok) {
-          console.error('Error en la respuesta del servidor:', response.status, response.statusText);
-          return;
-        }
-
-        const result = await response.json();
-        /*  console.log('Resultado de data:', result); */
-        setData(result);
-      } catch (error) {
-        console.error('Error al obtener datos:', error);
-      }
-    };
-
-    fetchData();
+    fetch(getApiUrlFinal(`/inmuebles/c?email=${queryParameter}`), options)
+      .then(response => response.json())
+      .then(result => {
+        console.info(result);
+        setData(result)
+      })
+      .catch(err => console.error(err));
 
     const initializeMap = () => {
-      const locations = data[selectedCity];
+      var locations: Location[] = [];
+      if (data.length > 0) {
+        locations = data[selectedCity].inmuebles;
+      }
       let defaultCenter: mapboxgl.LngLatLike /* = { lng: -74.5, lat: 4 } */ | undefined = undefined;
 
       if (locations && locations.length > 0) {
@@ -135,22 +117,20 @@ function MapComponentC() {
       });
       setMap(newMap);
       // Llamar a la función fetchData para obtener datos del endpoint
-
-      fetchData();
     };
 
     if (!map) {
       initializeMap();
     }
+
     // Limpieza al desmontar el componente
     return () => {
       map && map.remove()
     };
-  }, [map]);
+  }, []);
 
-
-  const calculateCityCenter = (city: string) => {
-    const locations = data[city];
+  const calculateCityCenter = (city: number) => {
+    const locations = data[city]?.inmuebles; // Usa optional chaining para evitar errores si data[city] es undefined
     if (locations && locations.length > 0 && map) {
       const center = calculateAverageCoordinates(locations);
       // Realizar un nuevo flyTo para actualizar el centro del mapa
@@ -158,85 +138,104 @@ function MapComponentC() {
     }
   };
 
+
   useEffect(() => {
     if (map && selectedCity && data[selectedCity]) {
-      calculateCityCenter(selectedCity);
-      addMarkersToMap();
+      const locations = data[selectedCity].inmuebles;
+      if (locations && locations.length > 0) {
+        calculateCityCenter(selectedCity);
+        addMarkersToMap();
+      }
     }
   }, [map, selectedCity, data]);
 
 
-
-  const handleCityChange = (city: string) => {
+  const handleCityChange = (city: number) => {
     setSelectedCity(city);
-    if (map && data[city] && data[city].length > 0) {
-      const center = calculateAverageCoordinates(data[city]);
+    const locations = data[city].inmuebles;
+    if (locations && locations.length > 0 && map) {
+      const center = calculateAverageCoordinates(locations);
       map.flyTo({ center, zoom: 12 }); // Ajusta el zoom según tus necesidades
     }
   };
 
-  const formatNumber = (value: any) => {
-    const suffixes = ["", "K", "M", "B", "T"];
-    let suffixNum = 0;
-  
-    while (value >= 1000 && suffixNum < suffixes.length - 1) {
-      value /= 1000;
-      suffixNum++;
+  /* prueba de formateo data a legible tooltip */
+  function formatNumber(value: number): string {
+    if (value === undefined) {
+      return 'N/A'; // Manejar el caso cuando el valor es undefined
     }
-  
-    return value.toFixed(0) + suffixes[suffixNum];
-  };
-  
+    var millones = (Math.abs(value) / 1000000).toFixed(1);
+    var shortValue = millones.endsWith('.0') ? millones.slice(0, -2) : millones;
+
+    return shortValue + " M";
+  }
 
   const addMarkersToMap = () => {
-    Object.keys(data).forEach(city => {
-      data[city].forEach((location, index) => {
-        const markerElement = document.createElement('div');
-        markerElement.className = 'custom-marker';
-  
-        markerElement.innerHTML = '🏠'; // Puedes cambiar este emoji 
-        markerElement.style.fontSize = '26px'; // Ajusta el tamaño emoji  
-  
-        let popupContent = `
-          <p style="color: black;"><strong>${city}</strong></p>
-          <p style="color: black;"><strong>Barrio:</strong> ${location.barrio}</p>
-          <p style="color: black;"><strong>Valor del inmueble:</strong> ${formatNumber(location.valor_inmueble)}</p>
-          <p style="color: black;"><strong>¿Está en mora?:</strong> ${location.mora}</p>
+    const cityData = data[selectedCity];
+    const cityName = cityData.ciudad; // Obtener el nombre de la ciudad seleccionada
+
+    // Convertir el nombre de la ciudad a mayúsculas
+    const formattedCityName = cityName.toUpperCase();
+
+    const locations = cityData.inmuebles;
+
+    locations.forEach((location, index) => {
+      const markerElement = document.createElement('div');
+      markerElement.className = 'custom-marker';
+
+      markerElement.innerHTML = '🏠'; // Puedes cambiar este emoji 
+      markerElement.style.fontSize = '26px'; // Ajusta el tamaño emoji  
+
+      let popupContent = `
+            <p style="color: black;"><strong>${formattedCityName}</strong></p> <!-- Mostrar el nombre de la ciudad en mayúsculas -->
+            <p style="color: black;"><strong>Barrio:</strong> ${location.barrio}</p>
+            <p style="color: black;"><strong>Valor del inmueble:</strong> ${formatNumber(location.valor_inmueble)}</p>
+            <p style="color: black;"><strong>¿Está en mora?:</strong> ${location.mora ? 'Sí' : 'No'}</p>
         `;
-          // Agregar categoría de mora si es necesario
-        if (location.mora === 'si') {
-          popupContent += `<p style="color: black;"><strong>¿Cuánto?:</strong> ${location.categoria_mora}</p>`;
-        }
-  
-        const popup = new mapboxgl.Popup().setHTML(popupContent);
-  
-        new mapboxgl.Marker({ element: markerElement })
-          .setLngLat([location.longitud, location.latitud])
-          .setPopup(popup)
-          .addTo(map!);
-  
-        // Agregar evento de clic al marcador
-        markerElement.addEventListener('click', () => handleMarkerClick(location));
-  
-        // Agregar evento close al popup
-        popup.on('close', () => handlePopupClose());
-      });
+      // Agregar categoría de mora si es necesario
+      if (location.mora) {
+        popupContent += `<p style="color: black;"><strong>¿Cuánto?:</strong> ${location.categoria_mora}</p>`;
+      }
+
+      const popup = new mapboxgl.Popup().setHTML(popupContent);
+
+      new mapboxgl.Marker({ element: markerElement })
+        .setLngLat([location.longitud, location.latitud])
+        .setPopup(popup)
+        .addTo(map!);
+
+      // Agregar evento de clic al marcador
+      markerElement.addEventListener('click', () => handleMarkerClick(location));
+
+      // Agregar evento close al popup
+      popup.on('close', () => handlePopupClose());
     });
   };
-  
-  
+
   const handlePopupClose = () => {
-    // Acción a realizar cuando se cierra el tooltip
-    if (map && selectedCity && data[selectedCity]) {
-      map.flyTo({
-        center: calculateAverageCoordinates(data[selectedCity]),
-        zoom: 11,
-      });
-      // Puedes agregar más acciones si es necesario
+    if (map && data.length > 0) {
+      const allLocations = data.flatMap(cityData => cityData.inmuebles);
+      if (allLocations.length > 0) {
+        const center = calculateAverageCoordinates(allLocations);
+        map.flyTo({ center, zoom: 11 });
+      }
     }
   };
 
-  
+
+  useEffect(() => {
+    if (map && data[selectedCity]) { // Verifica si data[selectedCity] está definido
+      const locations = data[selectedCity].inmuebles;
+      if (locations && locations.length > 0) {
+        map.flyTo({
+          center: calculateAverageCoordinates(locations),
+          zoom: 11,
+        });
+        addMarkersToMap();
+      }
+    }
+  }, [map, selectedCity, data]);
+
 
   const handleMarkerClick = (location: Location) => {
     if (map) {
@@ -246,15 +245,24 @@ function MapComponentC() {
 
   // Actualizar marcadores cuando los datos o la ciudad cambien
   useEffect(() => {
-    if (map && selectedCity && data[selectedCity]) {
-      map.flyTo({
-        center: calculateAverageCoordinates(data[selectedCity]),
-        zoom: 11,
-      });
-      addMarkersToMap();
+    const selectedCityData = data[selectedCity];
+    if (selectedCityData && selectedCityData.inmuebles) {
+      const locations = selectedCityData.inmuebles;
+      if (locations.length > 0 && map) {
+        map.flyTo({
+          center: calculateAverageCoordinates(locations),
+          zoom: 11,
+        });
+        addMarkersToMap();
+      }
     }
   }, [map, selectedCity, data]);
 
+
+  // Función para capitalizar la primera letra de la cadena
+  function capitalizeFirstLetter(text: string): string {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
 
 
   return (
@@ -263,183 +271,40 @@ function MapComponentC() {
         <div ref={mapDivC} style={{ width: '100%', height: '100%', borderRadius: '20px' }} />
 
         <div>
-         {/*  <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-start', mt: 2 }}>
-            <Button
-              variant="outlined"
-              onClick={() => handleCityChange('BOGOTÁ D.C.')}
-              disabled={selectedCity === 'BOGOTÁ D.C.'}
-              sx={{
-                borderRadius: '10px',
-                color: '#ffffff', // Letra blanca
-                fontFamily: 'Rustica',
-                fontStyle: 'normal',
-                fontWeight: '500',
-                fontSize: '16px',
-                textTransform: 'none',
-                width: '200px',
-                backgroundColor: '#6C9FFF',
-                borderColor: '#6C9FFF', // Color de borde normal
-                '&:hover': {
-                  backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
-                  borderColor: '#3158A3', // Cambia el borde al pasar el mouse
-                },
-                '&.Mui-disabled': {
-                  color: '#9A9A9A',
-                  backgroundColor: '#3158A3',
-                  // Letra blanca cuando está deshabilitado
-                },
-              }}
-            >
-              Bogotá
-            </Button>
-             <Button
-              variant="outlined"
-              onClick={() => handleCityChange('MOSQUERA')}
-              disabled={selectedCity === 'MOSQUERA'}
-              sx={{
-                borderRadius: '10px',
-                color: '#ffffff', // Letra blanca
-                fontFamily: 'Roboto',
-                fontStyle: 'normal',
-                fontWeight: '500',
-                fontSize: '16px',
-                textTransform: 'none',
-                width: '200px',
-                backgroundColor: '#6C9FFF',
-                borderColor: '#6C9FFF', // Color de borde normal
-                '&:hover': {
-                  backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
-                  borderColor: '#3158A3', // Cambia el borde al pasar el mouse
-                },
-                '&.Mui-disabled': {
-                  color: '#9A9A9A',
-                  backgroundColor: '#3158A3',
-                  // Letra blanca cuando está deshabilitado
-                },
-              }}
-            >
-              Alrededores Bogotá
-            </Button>
 
-            <Button
-              variant="outlined"
-              onClick={() => handleCityChange('MEDELLÍN')}
-              disabled={selectedCity === 'MEDELLÍN'}
-              sx={{
-                borderRadius: '10px',
-                color: '#ffffff', // Letra blanca
-                fontFamily: 'Roboto',
-                fontStyle: 'normal',
-                fontWeight: '500',
-                fontSize: '16px',
-                textTransform: 'none',
-                width: '200px',
-                backgroundColor: '#6C9FFF',
-                borderColor: '#6C9FFF', // Color de borde normal
-                '&:hover': {
-                  backgroundColor: '#3158A3', // Cambia el fondo al pasar el mouse
-                  borderColor: '#3158A3', // Cambia el borde al pasar el mouse
-                },
-                '&.Mui-disabled': {
-                  color: '#9A9A9A',
-                  backgroundColor: '#3158A3',
-                  // Letra blanca cuando está deshabilitado
-                },
-              }}
-            >
-              Medellín
-            </Button>
+          <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-start', mt: 2 }}>
+            {data.map((ciudad: CityData, index: number) => (
+              <Button
+                key={index}
+                variant="outlined"
+                onClick={() => handleCityChange(index)}
+                disabled={selectedCity === index}
+                sx={{
+                  borderRadius: '10px',
+                  color: '#ffffff',
+                  fontFamily: 'Rustica',
+                  fontStyle: 'normal',
+                  fontWeight: '500',
+                  fontSize: '16px',
+                  textTransform: 'none',
+                  width: '200px',
+                  backgroundColor: '#6C9FFF',
+                  borderColor: '#6C9FFF',
+                  '&:hover': {
+                    backgroundColor: '#3158A3',
+                    borderColor: '#3158A3',
+                  },
+                  '&.Mui-disabled': {
+                    color: '#9A9A9A',
+                    backgroundColor: '#3158A3',
+                  },
+                }}
+              >
+                {capitalizeFirstLetter(ciudad.ciudad)}
+              </Button>
+            ))}
+
           </Stack>
- */}
- <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-start', mt: 2 }}>
-          {data['BOGOTÁ D.C.'] && (
-            <Button
-              variant="outlined"
-              onClick={() => handleCityChange('BOGOTÁ D.C.')}
-              disabled={selectedCity === 'BOGOTÁ D.C.'}
-              sx={{
-                borderRadius: '10px',
-                color: '#ffffff',
-                fontFamily: 'Rustica',
-                fontStyle: 'normal',
-                fontWeight: '500',
-                fontSize: '16px',
-                textTransform: 'none',
-                width: '200px',
-                backgroundColor: '#6C9FFF',
-                borderColor: '#6C9FFF',
-                '&:hover': {
-                  backgroundColor: '#3158A3',
-                  borderColor: '#3158A3',
-                },
-                '&.Mui-disabled': {
-                  color: '#9A9A9A',
-                  backgroundColor: '#3158A3',
-                },
-              }}
-            >
-              Bogotá
-            </Button>
-          )}
-          {data['MOSQUERA'] && (
-            <Button
-              variant="outlined"
-              onClick={() => handleCityChange('MOSQUERA')}
-              disabled={selectedCity === 'MOSQUERA'}
-              sx={{
-                borderRadius: '10px',
-                color: '#ffffff',
-                fontFamily: 'Roboto',
-                fontStyle: 'normal',
-                fontWeight: '500',
-                fontSize: '16px',
-                textTransform: 'none',
-                width: '200px',
-                backgroundColor: '#6C9FFF',
-                borderColor: '#6C9FFF',
-                '&:hover': {
-                  backgroundColor: '#3158A3',
-                  borderColor: '#3158A3',
-                },
-                '&.Mui-disabled': {
-                  color: '#9A9A9A',
-                  backgroundColor: '#3158A3',
-                },
-              }}
-            >
-              Alrededores Bogotá
-            </Button>
-          )}
-          {data['MEDELLÍN'] && (
-            <Button
-              variant="outlined"
-              onClick={() => handleCityChange('MEDELLÍN')}
-              disabled={selectedCity === 'MEDELLÍN'}
-              sx={{
-                borderRadius: '10px',
-                color: '#ffffff',
-                fontFamily: 'Roboto',
-                fontStyle: 'normal',
-                fontWeight: '500',
-                fontSize: '16px',
-                textTransform: 'none',
-                width: '200px',
-                backgroundColor: '#6C9FFF',
-                borderColor: '#6C9FFF',
-                '&:hover': {
-                  backgroundColor: '#3158A3',
-                  borderColor: '#3158A3',
-                },
-                '&.Mui-disabled': {
-                  color: '#9A9A9A',
-                  backgroundColor: '#3158A3',
-                },
-              }}
-            >
-              Medellín
-            </Button>
-          )}
-        </Stack>
 
         </div>
       </div>
@@ -448,3 +313,7 @@ function MapComponentC() {
 }
 
 export default MapComponentC;
+function handlePopupClose(): any {
+  throw new Error('Function not implemented.');
+}
+
