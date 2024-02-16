@@ -287,7 +287,7 @@ const LineChartComponentG1 = () => {
                     tooltip={(point) => {
                         const date: Date = new Date(point.point.data.x);
                         const formattedY = (typeof point.point.data.y === 'number')
-                            ? `${(point.point.data.y * 100).toFixed(0)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
+                            ? `${(point.point.data.y * 100).toFixed(1)}%`  // Multiplica por 100 y agrega el símbolo de porcentaje
                             : point.point.data.y;
 
                         return (
