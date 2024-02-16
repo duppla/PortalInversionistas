@@ -20,74 +20,40 @@ import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
 
-type DataApiType = {
+interface DataApiType {
     fecha: string;
-    arriendo: any;
-    compra_venta: any;
-    prepago: any;
-    intereses: any;
+    gastos: number;
+    reserva: number;
+    noi: number;
+    utilidad_bruta: number;
+    ingresos: number;
 };
-
-type DataType = {
-    ult_12_meses: DataApiType[];
-    este_anho: DataApiType[];
-    ult_6_meses: DataApiType[];
-};
-
-type ItemType = {
-    fecha: string;
-    arriendo: number;
-    compra_venta: number;
-    prepago: number;
-    intereses: number;
-};
-
-
-
-
 
 export default function BasicTable() {
 
 
     const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
-            // En caso de que el correo electrónico no esté disponible
-            return "";
-        }
-        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-            return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-            return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
-            return "disponible";
-        } 
-        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-        return "";
-    };
-    const [data, setData] = useState<any | null>(null);
+    const [data, setData] = useState<DataApiType[]>([]);
     const [responseData, setResponseData] = useState<any>(null);
     const [orderedKeys, setOrderedKeys] = useState<string[]>([]); // Agregamos esta línea
 
     const getOrderedKeys = (data: any) => {
-        return Object.keys(data[0]).filter((key) => key !== "fecha");
+        return Object.keys(data).filter((key) => key !== "fecha");
     };
 
     useEffect(() => {
-        const queryParameter = getQueryParameter(userEmail);
+        if (!userEmail) {
+            return;
+        }
+        const queryParameter = userEmail;
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrlFinal(`/inmuebles/j2?investor=${queryParameter}`), options);
+                const response = await fetch(getApiUrlFinal(`/inmuebles/j2?email=${queryParameter}`), options);
                 const responseData = await response.json();
+                console.info(responseData);
 
-                const formattedData = responseData.data.map((item: any) => ({
-                    ...item,
-                    fecha: formatFecha(item.fecha),
-                }));
-                setOrderedKeys(getOrderedKeys(formattedData));
-                setData(formattedData/* .slice(1) */);
+                setData(responseData);
                 setResponseData(responseData);
             } catch (error) {
                 console.error(error);
@@ -194,7 +160,7 @@ export default function BasicTable() {
                                 <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '20px', width: 'auto', flexBasis: '50%' }} align="right"></TableCell>
                                 {data && data.length > 0 && data.map((row: any, index: any) => (
                                     <TableCell key={index} sx={{ color: '#9B9EAB', textAlign: 'end', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
-                                        {row.fecha}
+                                        {formatFecha(row.fecha)}
                                     </TableCell>
                                 ))}
 
