@@ -34,23 +34,6 @@ type DataType = {
 const SankeyChartComponentJ = () => {
 
     const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
-            // En caso de que el correo electrónico no esté disponible
-            return "";
-        }
-        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-            return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-            return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
-            return "disponible";
-        } 
-        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-        return "";
-    };
-
 
     const [dataSnkey, setDataSnkey] = useState<any>(null); // Estado para almacenar la data
     const [responseData, setResponseData] = useState<any>(null);
@@ -62,11 +45,14 @@ const SankeyChartComponentJ = () => {
 
 
     useEffect(() => {
-        const queryParameter = getQueryParameter(userEmail);
+        if (!userEmail) {
+            return;
+        }
+        const queryParameter = userEmail;
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrlFinal(`/inmuebles/j1?investor=${queryParameter}`), options);
+                const response = await fetch(getApiUrlFinal(`/inmuebles/j1?email=${queryParameter}`), options);
                 const responseData = await response.json();
 
                 const reorderedNodes = ["Ingresos", "Utilidad bruta", "NOI", "Gastos", "Reservas",].map(nodeId => {
@@ -103,7 +89,7 @@ const SankeyChartComponentJ = () => {
     const redScale = ["#a61b1b", "#f18282", "#a61b1b"];
 
     // Función de color personalizada
-      const getColor = (node: any) => {
+    const getColor = (node: any) => {
         const nodeId = typeof node === 'string' ? node : node.id;
 
         if (nodeId === "Ingresos") {
