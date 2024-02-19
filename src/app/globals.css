@@ -202,7 +202,7 @@ a {
 }
 .grafica-Linecharts-G {
   width: 100%;
-  height: 260px;
+  height: 230px;
   /* O el valor que desees para pantallas más grandes */
 }
 .grafica-linecharts-b {
@@ -408,6 +408,10 @@ a {
     font-size: 16px !important; 
   
   }
+
+  .container-G{   
+    height: 500px !important;  
+  }
 }
 
 @media screen and (min-width: 425px) {
@@ -468,6 +472,12 @@ a {
     font-weight: 300;
     font-size: 18px !important; 
   
+  }
+
+  .grafica-Linecharts-G {
+    width: 100%;
+    height: 360px;
+    /* O el valor que desees para pantallas más grandes */
   }
 }
 
@@ -546,6 +556,10 @@ a {
   .custom-table {
     width: 680px !important;
     height: 480px !important;
+  }
+
+  .container-G{   
+    height: 520px !important;    
   }
 
 }
@@ -632,6 +646,12 @@ a {
   .custom-table {
     width: 900px !important;
     height: 480px !important;
+  }
+
+  .container-G{
+   
+    height: 520px !important; 
+   
   }
 
 
@@ -721,6 +741,11 @@ a {
     width: 1080px !important;
     height: 480px !important;
   }
+
+  .container-G{   
+    height: 460px !important;      
+  }
+
 }
 
 @media screen and (min-width: 1600px) {

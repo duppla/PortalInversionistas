@@ -40,30 +40,16 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     setUserEmail(email);
     return credential;
   };
-  /*    const login = async (email: string, password: string): Promise<UserCredential> => {
-        await setPersistence(auth, browserSessionPersistence);
-        const credential = await signInWithEmailAndPassword(auth, email, password);
-        setUser(credential.user);
-        setUserEmail(email);
-        return credential;
-      };  */
 
   const login = async (email: string, password: string): Promise<UserCredential> => {
     try {
-      console.log('Antes de setPersistence');
       await setPersistence(auth, inMemoryPersistence);
-      console.log('Después de setPersistence');
-
       /*   await setPersistence(auth, inMemoryPersistence); */
       const credential = await signInWithEmailAndPassword(auth, email, password);
       setUser(credential.user);
       setUserEmail(email);
-
-      console.log('Después de signInWithEmailAndPassword');
-
       // Almacenar información de autenticación en el localStorage
-      localStorage.setItem('userEmail', email);
-      console.log('User Email stored in localStorage:', email);
+      localStorage.setItem('userEmail', email);  
 
       return credential;
     } catch (error) {
@@ -87,34 +73,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     setUserEmail(null);
   };
 
-
-  /*   useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-        setLoading(false);
-      })
-      return () => unsubscribe();
-    }, []) */
-
-  /*   useEffect(() => {
-      const storedEmail = localStorage.getItem('userEmail');
-  
-      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-        if (storedEmail) {
-          // If there is a stored user, set the user and email
-          setUser(currentUser);
-          setUserEmail(storedEmail);
-        }
-        setLoading(false);
-      });
-  
-      return () => unsubscribe();
-    }, []); */
-
     useEffect(() => {
       const storedEmail = localStorage.getItem('userEmail');
-      console.log('Stored Email:', storedEmail);
-    
+        
       const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         if (storedEmail) {
           // If there is a stored user, set the user and email
@@ -127,28 +88,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       return () => unsubscribe();
     }, []);
     
-    /* useEffect(() => {
-      console.log('Efecto secundario de autenticación llamado');
-      const storedEmail = localStorage.getItem('userEmail');
-
-      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-        if (currentUser) {
-          setUser(currentUser);
-          console.log('Usuario recuperado:', currentUser);
-        } else {
-          console.log('Ningún usuario autenticado');
-        }
-        setLoading(false);
-      });
-    
-      return () => {
-        console.log('Desuscribirse del efecto secundario de autenticación');
-        unsubscribe();
-      };
-    }, []); */
-    
-    
-
   const contextValue: AuthContextType = {
     singUp,
     login,

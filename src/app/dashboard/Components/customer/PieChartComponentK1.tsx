@@ -25,8 +25,6 @@ function PieChartComponentK1() {
   console.log = () => {};
 
   const { userEmail } = useAuth();
-
-
   const [selectedDataKeyK1, setSelectedDataKeyK1] = useState<string>('este_anho');
   const [selectedValue, setSelectedValue] = useState<string | number>('este_anho'); 
   const [menuOpen, setMenuOpen] = useState(false);

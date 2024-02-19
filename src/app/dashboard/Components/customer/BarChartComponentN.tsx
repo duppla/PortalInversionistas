@@ -46,25 +46,7 @@ function BarChartComponentN() {
     const storedEmail = typeof window !== 'undefined' ? localStorage.getItem('userEmail') : null;
 
     const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
-
-        const emailToUse = storedEmail || userEmail || '';
-        if (!emailToUse) {
-            // En caso de que el correo electrónico no esté disponible
-            return "";
-        }
-        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-            return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-            return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
-            return "disponible";
-        } 
-        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-        return "";
-    };
-
+  
     let first = true;
 
     const [data, setData] = useState<DataType | null>(null);
@@ -78,11 +60,14 @@ function BarChartComponentN() {
     let gridYValues: GridValues<number> | undefined = [];
 
     useEffect(() => {
-        const queryParameter = getQueryParameter(userEmail);
+        if (!userEmail) {
+            return;
+        }
+        const queryParameter = userEmail;
         const fetchData = async () => {
             try {
                 const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                const response = await fetch(getApiUrlFinal(`/clientes/n?investor=${queryParameter}`), options);
+                const response = await fetch(getApiUrlFinal(`/clientes/n?email=${queryParameter}`), options);
 
                 const responseData = await response.json();
                 setResponseData(responseData);
@@ -132,55 +117,55 @@ function BarChartComponentN() {
 
     /* prueba de formateo data a legible */
     function formatNumber(value: number): string {
-        return (value/1000000).toFixed(0) + " M";
+        return (value / 1000000).toFixed(0) + " M";
     }
 
     /* prueba de formateo data a legible tooltip */
     function formatNumberTooltip(value: number): string {
-        var millones = (value/1000000).toFixed(1);
-        var shortValue = millones.endsWith('.0')? millones.slice(0, -2): millones;
+        var millones = (value / 1000000).toFixed(1);
+        var shortValue = millones.endsWith('.0') ? millones.slice(0, -2) : millones;
 
         return shortValue + " M";
     }
-    
+
     // Dentro de tu componente, después de obtener los datos del API
     const arriendoValues = formattedDataN.map((item: any) => typeof item.Arriendo === 'number' ? item.Arriendo : 0);
     const prepagoValues = formattedDataN.map((item: any) => typeof item.Adelanto === 'number' ? item.Adelanto : 0);
     const interesesValues = formattedDataN.map((item: any) => typeof item.Intereses === 'number' ? item.Intereses : 0);
 
-// Suma de los máximos de todas las categorías
+    // Suma de los máximos de todas las categorías
 
     const calculateTickValues = () => {
         var maxTotal = 0;
-        for (var i = 0; i < arriendoValues.length; i++){
-            var totalMes = arriendoValues[i] + prepagoValues [i] + interesesValues[i];
-            if(totalMes > maxTotal){
+        for (var i = 0; i < arriendoValues.length; i++) {
+            var totalMes = arriendoValues[i] + prepagoValues[i] + interesesValues[i];
+            if (totalMes > maxTotal) {
                 maxTotal = totalMes;
             }
         }
-        
-        const tickCount = 6; 
+
+        const tickCount = 6;
         var count = 0;
         var tickIni = 500000;
         var tickStep = tickIni;
-        var mult = tickIni/10;
-        while((maxTotal/tickCount) > tickStep){
-            if(count % 4 == 0){
+        var mult = tickIni / 10;
+        while ((maxTotal / tickCount) > tickStep) {
+            if (count % 4 == 0) {
                 mult *= 10;
                 tickStep += mult;
             }
-            else if(count % 2 == 0){
+            else if (count % 2 == 0) {
                 tickStep += mult;
             }
-            else{
+            else {
                 tickStep *= 2;
             }
             count++;
         }
         return Array.from({ length: tickCount + 1 }, (_, index) => index * tickStep);
     };
-    
-    if(data != null && first){
+
+    if (data != null && first) {
         gridYValues = calculateTickValues();
         first = false;
     }
@@ -250,151 +235,151 @@ function BarChartComponentN() {
                     </Grid>
                 </FormControl>
             </div>
-            {data == null?<div></div>:
-            <ResponsiveBar
-                data={formattedDataN}
-                keys={['Arriendo', 'Adelanto', 'Intereses moratorios',]}
-                indexBy="fecha"
-                label={() => ''}
-                margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-                padding={0.7}
-                maxValue={gridYValues[gridYValues.length-1]}
-                valueScale={{ type: 'linear', min: 0 }}
-                indexScale={{ type: 'band', round: true }}
-                colors={['#5782F2', '#5ED1B1', ' #FFB024']}
-                theme={{
-                    axis: {
-                        ticks: {
-                            text: {
-                                fill: '#9B9EAB', // Color del texto en los ejes
+            {data == null ? <div></div> :
+                <ResponsiveBar
+                    data={formattedDataN}
+                    keys={['Arriendo', 'Adelanto', 'Intereses moratorios',]}
+                    indexBy="fecha"
+                    label={() => ''}
+                    margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
+                    padding={0.7}
+                    maxValue={gridYValues[gridYValues.length - 1]}
+                    valueScale={{ type: 'linear', min: 0 }}
+                    indexScale={{ type: 'band', round: true }}
+                    colors={['#5782F2', '#5ED1B1', ' #FFB024']}
+                    theme={{
+                        axis: {
+                            ticks: {
+                                text: {
+                                    fill: '#9B9EAB', // Color del texto en los ejes
+                                },
                             },
                         },
-                    },
-                    legends: {
-                        text: {
-                            fill: '#9B9EAB', // Color del texto de las leyendas
+                        legends: {
+                            text: {
+                                fill: '#9B9EAB', // Color del texto de las leyendas
+                            },
                         },
-                    },
-                    tooltip: {
-                        container: {
-                            background: 'black', // Fondo del tooltip
-                            color: '#9B9EAB', // Color del texto del tooltip
+                        tooltip: {
+                            container: {
+                                background: 'black', // Fondo del tooltip
+                                color: '#9B9EAB', // Color del texto del tooltip
+                            },
                         },
-                    },
-                    grid: {
-                        line: {
-                            stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                        grid: {
+                            line: {
+                                stroke: '#41434C' /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+                            },
                         },
-                    },
-                }}
-                groupMode="stacked"
+                    }}
+                    groupMode="stacked"
 
-                tooltip={(point) => {
-                    if (typeof point.data.fecha === 'string') {
-                        const [year, month] = point.data.fecha.split('-');
-                        const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                        const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
-                        const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
-
-                        return (
-                            <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
-                                <strong>{formattedDate}</strong>
-                                <div>{point.id}: {formattedValue}</div>
-                            </div>
-                        );
-                    }
-                    return null;
-                }}
-                borderRadius={4}
-                borderColor={{
-                    from: 'color',
-                    modifiers: [
-                        [
-                            'darker',
-                            1.6
-                        ]
-                    ]
-                }}
-                axisTop={null}
-                axisRight={null}
-                axisBottom={{
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    legend: '',
-                    legendPosition: 'middle',
-                    legendOffset: 32,
-                    tickValues: formattedDataN.map((item: { fecha: string }) => item.fecha),
-                    format: (value) => {
-                        if (typeof value === 'string') {
-                            const [year, month] = value.split('-');
+                    tooltip={(point) => {
+                        if (typeof point.data.fecha === 'string') {
+                            const [year, month] = point.data.fecha.split('-');
                             const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                            const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-                            return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
-                        } else {
-                            return value; // O proporciona un valor predeterminado si no es una cadena
-                        }
-                    },
+                            const formattedDate = `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+                            const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
 
-                }}
-                /*  gridYValues={[0, 4000000, 8000000, 12000000, 16000000]} */
-                gridYValues={gridYValues}
-                axisLeft={{
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    /*  tickValues: [0, 4000000, 8000000, 12000000, 16000000], */
-                    tickValues: gridYValues,
-                    legend: '',
-                    legendPosition: 'middle',
-                    legendOffset: -40,
-                    format: value => formatNumber(value),
-                }}
-                labelSkipWidth={12}
-                labelSkipHeight={12}
-                labelTextColor={{
-                    from: 'color',
-                    modifiers: [
-                        [
-                            'darker',
-                            1.6
+                            return (
+                                <div style={{ background: 'black', padding: '8px', borderRadius: '4px', color: 'white' }}>
+                                    <strong>{formattedDate}</strong>
+                                    <div>{point.id}: {formattedValue}</div>
+                                </div>
+                            );
+                        }
+                        return null;
+                    }}
+                    borderRadius={4}
+                    borderColor={{
+                        from: 'color',
+                        modifiers: [
+                            [
+                                'darker',
+                                1.6
+                            ]
                         ]
-                    ]
-                }}
-                legends={[
-                    {
-                        dataFrom: 'keys',
-                        anchor: 'bottom-left',
-                        direction: 'row',
-                        justify: false,
-                        translateX: 0,
-                        translateY: 54,
-                        itemsSpacing: 20,
-                        itemDirection: 'left-to-right',
-                        itemWidth: 80,
-                        itemHeight: 20,
-                        itemOpacity: 0.75,
-                        symbolSize: 12,
-                        symbolShape: 'square',
-                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                        effects: [
-                            {
-                                on: 'hover',
-                                style: {
-                                    itemBackground: 'rgba(0, 0, 0, .03)',
-                                    itemOpacity: 1
-                                }
+                    }}
+                    axisTop={null}
+                    axisRight={null}
+                    axisBottom={{
+                        tickSize: 5,
+                        tickPadding: 5,
+                        tickRotation: 0,
+                        legend: '',
+                        legendPosition: 'middle',
+                        legendOffset: 32,
+                        tickValues: formattedDataN.map((item: { fecha: string }) => item.fecha),
+                        format: (value) => {
+                            if (typeof value === 'string') {
+                                const [year, month] = value.split('-');
+                                const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                                const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
+                                return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
+                            } else {
+                                return value; // O proporciona un valor predeterminado si no es una cadena
                             }
+                        },
+
+                    }}
+                    /*  gridYValues={[0, 4000000, 8000000, 12000000, 16000000]} */
+                    gridYValues={gridYValues}
+                    axisLeft={{
+                        tickSize: 5,
+                        tickPadding: 5,
+                        tickRotation: 0,
+                        /*  tickValues: [0, 4000000, 8000000, 12000000, 16000000], */
+                        tickValues: gridYValues,
+                        legend: '',
+                        legendPosition: 'middle',
+                        legendOffset: -40,
+                        format: value => formatNumber(value),
+                    }}
+                    labelSkipWidth={12}
+                    labelSkipHeight={12}
+                    labelTextColor={{
+                        from: 'color',
+                        modifiers: [
+                            [
+                                'darker',
+                                1.6
+                            ]
                         ]
-                    }
-                ]}
-                role="application"
-                ariaLabel="Nivo bar chart demo"
-                barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
-            />}
+                    }}
+                    legends={[
+                        {
+                            dataFrom: 'keys',
+                            anchor: 'bottom-left',
+                            direction: 'row',
+                            justify: false,
+                            translateX: 0,
+                            translateY: 54,
+                            itemsSpacing: 20,
+                            itemDirection: 'left-to-right',
+                            itemWidth: 80,
+                            itemHeight: 20,
+                            itemOpacity: 0.75,
+                            symbolSize: 12,
+                            symbolShape: 'square',
+                            symbolBorderColor: 'rgba(0, 0, 0, .5)',
+                            effects: [
+                                {
+                                    on: 'hover',
+                                    style: {
+                                        itemBackground: 'rgba(0, 0, 0, .03)',
+                                        itemOpacity: 1
+                                    }
+                                }
+                            ]
+                        }
+                    ]}
+                    role="application"
+                    ariaLabel="Nivo bar chart demo"
+                    barAriaLabel={e => e.id + ": " + e.formattedValue + " in country: " + e.indexValue}
+                />}
         </div>
     )
-    
+
 }
 
 export default BarChartComponentN
