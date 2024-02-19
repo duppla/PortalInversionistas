@@ -2,13 +2,8 @@
 import mapboxgl, { LngLatLike } from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import React, { useEffect, useRef, useState } from 'react'
 import { Map } from 'mapbox-gl'
-import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import Link from 'next/link';
-import RoomIcon from '@mui/icons-material/Room';
-import ReactDOM from 'react-dom';
-import { SelectChangeEvent } from '@mui/material';
+import { Button, Stack} from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { getApiUrl } from '@/app/url/ApiConfig';
 import { getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
@@ -56,7 +51,6 @@ function MapComponentC() {
   const [map, setMap] = useState<Map | null>(null);
   const [data, setData] = useState<CityData[]>([]);
   const [selectedCity, setSelectedCity] = useState<number>(0);
-  const [centroid, setCentroid] = useState<LngLatLike | null>(null);
 
   // Función para calcular el centro promedio de un conjunto de ubicaciones
   function calculateAverageCoordinates(locations: Location[]): mapboxgl.LngLatLike {
@@ -81,7 +75,6 @@ function MapComponentC() {
     fetch(getApiUrlFinal(`/inmuebles/c?email=${queryParameter}`), options)
       .then(response => response.json())
       .then(result => {
-        console.info(result);
         setData(result)
       })
       .catch(err => console.error(err));
@@ -101,7 +94,7 @@ function MapComponentC() {
       }
       // Establecer el valor por defecto en la mitad de Colombia si no hay ubicaciones
       if (!defaultCenter) {
-        defaultCenter = { lng: -74.2973, lat: 4.7709 }; // Bogotá
+        defaultCenter = { lng: -74.072090, lat: 4.710989 }; // Bogotá
       }
 
       const newMap = new mapboxgl.Map({
@@ -214,9 +207,9 @@ function MapComponentC() {
 
   const handlePopupClose = () => {
     if (map && data.length > 0) {
-      const allLocations = data.flatMap(cityData => cityData.inmuebles);
-      if (allLocations.length > 0) {
-        const center = calculateAverageCoordinates(allLocations);
+      const locations = data[selectedCity].inmuebles;
+      if (locations.length > 0) {
+        const center = calculateAverageCoordinates(locations);
         map.flyTo({ center, zoom: 11 });
       }
     }
@@ -260,8 +253,8 @@ function MapComponentC() {
 
 
   // Función para capitalizar la primera letra de la cadena
-  function capitalizeFirstLetter(text: string): string {
-    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  function toTitleCase(text: string): string {
+    return text.split(" ").map((l: string) => l[0].toUpperCase() + l.substring(1)).join(" ");
   }
 
 
@@ -300,7 +293,7 @@ function MapComponentC() {
                   },
                 }}
               >
-                {capitalizeFirstLetter(ciudad.ciudad)}
+                {toTitleCase(ciudad.ciudad)}
               </Button>
             ))}
 
@@ -313,7 +306,3 @@ function MapComponentC() {
 }
 
 export default MapComponentC;
-function handlePopupClose(): any {
-  throw new Error('Function not implemented.');
-}
-
