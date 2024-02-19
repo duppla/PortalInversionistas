@@ -1,12 +1,7 @@
 'use client'
-import { useEffect, useState, ReactNode } from 'react';
-import Grid from '@mui/material/Unstable_Grid2';
-import { SelectChangeEvent } from '@mui/material/Select';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-import { Container, Box, Card, CardActions, CardContent, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import { useEffect, useState } from 'react';
+import { Box, Card, CardContent, Typography} from '@mui/material';
+import { getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
 interface ApiResponse {
@@ -42,7 +37,11 @@ function CardComponentF2() {
                 .then(response => response.json())
                 .then(response => {
                     if (typeof response.tasa_mora === 'number') {
-                        setDataApiF2(response); // Coloca el objeto en un array para mantener consistencia
+                        if(response.tasa_mora > 0){
+                            setDataApiF2(response); // Coloca el objeto en un array para mantener consistencia
+                        } else {
+                            setDataApiF2({fecha: response.fecha, tasa_mora: 0.0});
+                        }
 
                     } else {
                         console.error('El valor de data no es un número:');
@@ -51,7 +50,7 @@ function CardComponentF2() {
         }, [userEmail]);
         // Accede directamente al primer elemento del array
         const dataPrueba = dataApiF2;
-        const porcentaje = dataApiF2?.tasa_mora ? (dataApiF2.tasa_mora * 100).toFixed(1) + '%' : null;
+        const porcentaje = dataApiF2?.tasa_mora ? (dataApiF2.tasa_mora * 100).toFixed(1) + '%' : "0%";
         /* console.log(dataPrueba + ' dataPrueba en point d2'); */
 
         const formattedDate = dataApiF2 ? formatFecha(dataApiF2.fecha) : '';
