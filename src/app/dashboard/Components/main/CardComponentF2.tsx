@@ -1,11 +1,6 @@
 'use client'
-<<<<<<< HEAD
-import { useEffect, useState, } from 'react';
-import { Box, Card,  CardContent,  Typography,} from '@mui/material';
-=======
 import { useEffect, useState } from 'react';
 import { Box, Card, CardContent, Typography} from '@mui/material';
->>>>>>> 7a950f13a2ccde9ae11a0486c1c05d536667d8e0
 import { getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
