@@ -1,19 +1,13 @@
 'use client'
-import { ResponsiveStream, StreamDatum, Tooltip } from '@nivo/stream'
-import { StreamSvgProps } from '@nivo/stream';
-/* import { StreamSlice } from '@nivo/stream'; */
+import { ResponsiveStream,  } from '@nivo/stream'
 import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Typography, FormControl,  Select, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-
-
-import { FunctionComponent } from 'react';
-import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import {  getApiUrlFinal } from '@/app/url/ApiConfig';
+import { useAuth } from '@/app/context/authContext';
 
 type DataApiType = {
     fecha: string;
@@ -22,13 +16,6 @@ type DataApiType = {
     bajo: any;
     muy_bajo: any;
 };
-
-
-import { TooltipProps } from '@nivo/stream';
-import { useAuth } from '@/app/context/authContext';
-
-
-
 interface MyTooltipProps {
     slice: {
         id: string;

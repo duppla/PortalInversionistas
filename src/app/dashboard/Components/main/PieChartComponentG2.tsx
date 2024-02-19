@@ -2,31 +2,14 @@
 import React from 'react'
 import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
-import { SelectChangeEvent } from '@mui/material/Select';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-
-import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Typography,  FormControl,  } from '@mui/material';
 import { ResponsivePie } from '@nivo/pie'
-import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import {  getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
 
-/* type DataApiType = {
-  [key: string]: number;
-  menor_30: number;
-  mayor_30: number;
-  total: number;
-};
-interface DataType {
-  [key: string]: {
-    menor_30: number;
-    mayor_30: number;
-    total: number;
-  };
-} */
 
 type DataItemType = {
   label: string;
@@ -94,36 +77,6 @@ function PieChartComponentG2() {
     color: getColorByKey(item.label.toLowerCase().replace(/\s/g, '_')),
   }));
 
-/*   const formattedDataPieG2 = responseData
-  ? responseData[selectedDataKeyG2]
-    ? Object.entries(responseData[selectedDataKeyG2])
-      .filter(([key, _]) => key !== 'total') // Filtra la categoría 'total'
-      .map(([key, item]) => {
-        let categoryLabel = key;
-
-        // Personaliza los nombres de las categorías
-        if (key === 'menor_30') {
-          categoryLabel = 'Menor a 30 días';
-        } else if (key === 'entre_30_60') {
-          categoryLabel = 'Entre 30 y 60 días';
-        } else if (key === 'mayor_60') {
-          categoryLabel = 'Mayor a 60 días';
-        }
-
-        return {
-          id: key,
-          label: categoryLabel,
-          value: item,
-          formattedValue: `${item.toFixed(2)}%`,
-          color: getColorByKey(key),
-        };
-      })
-    : []
-  : []; */
-
- 
-
-  /* Función para actualizar la selección del usuario */
 
 
   const formatNumber = (num: number) => {

@@ -14,7 +14,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Image from 'next/image';
 import LogoInversionistas from './../../../img/logoinversionistas.svg';
 import SettingDupplaMenu from './../../../img/setting-icon.svg';
-import { Paper } from '@mui/material';
 import Link from 'next/link';
 
 

@@ -1,14 +1,13 @@
 'use client'
 
-import { useEffect, useState, ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { FormControl, Typography, Select, MenuItem } from '@mui/material';
 import { ResponsiveLine } from '@nivo/line';
-import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import { getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
 
@@ -87,12 +86,6 @@ const LineChartComponentH2 = () => {
         setLoading(true); // Iniciar la carga
         fetchData();
     }, [selectedValue, userEmail]);
-
-  /*   useEffect(() => {
-        // Actualización de datos de gráfico aquí
-        const transformedData = tranformeDataApi(data, selectedDataKey);
-        setTransformedData(transformedData);
-    }, [data, selectedDataKey]); */
 
     useEffect(() => {
         // Actualización de datos de gráfico aquí
