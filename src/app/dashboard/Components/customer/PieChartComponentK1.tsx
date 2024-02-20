@@ -3,13 +3,11 @@ import React from 'react'
 import { useEffect, useState, ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { Container, Box, Button, ButtonGroup, Typography, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Typography,  FormControl,  } from '@mui/material';
 import { ResponsivePie } from '@nivo/pie'
-import { getApiUrl, getApiUrlFinal } from '@/app/url/ApiConfig';
+import { getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
 
@@ -40,7 +38,7 @@ function PieChartComponentK1() {
       try {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
         
-        const response = await fetch(getApiUrlFinal(`/inmuebles/k1?email=${queryParameter}`), options);
+        const response = await fetch(getApiUrlFinal(`/clientes/k1?email=${queryParameter}`), options);
 
         const responseData = await response.json();
 
