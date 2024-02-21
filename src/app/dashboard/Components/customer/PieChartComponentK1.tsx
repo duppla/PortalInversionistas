@@ -5,7 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { Typography,  FormControl,  } from '@mui/material';
+import { Typography, FormControl, } from '@mui/material';
 import { ResponsivePie } from '@nivo/pie'
 import { getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
@@ -24,10 +24,10 @@ function PieChartComponentK1() {
 
   const { userEmail } = useAuth();
   const [selectedDataKeyK1, setSelectedDataKeyK1] = useState<string>('este_anho');
-  const [selectedValue, setSelectedValue] = useState<string | number>('este_anho'); 
+  const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const [responseData, setResponseData] = useState<any>({}); 
+  const [responseData, setResponseData] = useState<any>({});
 
   useEffect(() => {
     if (!userEmail) {
@@ -37,7 +37,7 @@ function PieChartComponentK1() {
     const fetchData = async () => {
       try {
         const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-        
+
         const response = await fetch(getApiUrlFinal(`/clientes/k1?email=${queryParameter}`), options);
 
         const responseData = await response.json();
@@ -68,12 +68,12 @@ function PieChartComponentK1() {
     }
   };
 
-    const formattedDataPie = responseData
+  const formattedDataPie = responseData
     ? responseData[selectedDataKeyK1]
       ? Object.keys(responseData[selectedDataKeyK1])
         .map((key: string) => {
           const data = responseData[selectedDataKeyK1][key];
-  
+
           return {
             id: data.actividad_economica,
             label: getCategoryLabel(data.actividad_economica),
@@ -84,31 +84,31 @@ function PieChartComponentK1() {
         })
       : []
     : [];
-  
-  
 
-    function getCategoryLabel(key: string): string {
-     
-      const lowerCaseKey = key ? key.toLowerCase() : '';
-    
-      switch (lowerCaseKey) {
-        case 'empleado':
-          return 'Empleado';
-        case 'pensionado':
-          return 'Pensionado';
-        case 'independiente':
-          return 'Independiente';
-        case 'rentista de capital':
-          return 'Rentista de capital';
-        case 'no registra':
-          return 'No registra';
-        default:
-          return key; // Devuelve el valor original si no coincide con ninguna etiqueta personalizada
-      }
+
+
+  function getCategoryLabel(key: string): string {
+
+    const lowerCaseKey = key ? key.toLowerCase() : '';
+
+    switch (lowerCaseKey) {
+      case 'empleado':
+        return 'Empleado';
+      case 'pensionado':
+        return 'Pensionado';
+      case 'independiente':
+        return 'Independiente';
+      case 'rentista de capital':
+        return 'Rentista de capital';
+      case 'no registra':
+        return 'No registra';
+      default:
+        return key; // Devuelve el valor original si no coincide con ninguna etiqueta personalizada
     }
-    
-    
-    /* Función para actualizar la selección del usuario */
+  }
+
+
+  /* Función para actualizar la selección del usuario */
   const handleDataSelection = (dataKey: string) => {
     setSelectedDataKeyK1(dataKey);
   };
@@ -121,9 +121,7 @@ function PieChartComponentK1() {
   };
 
 
- 
 
-  
 
   return (
     <div className="grafica-piecharts" style={{ position: 'relative', width: '100%', height: '380px' }}>
@@ -135,7 +133,7 @@ function PieChartComponentK1() {
               <Typography className='title-dropdown-menu-container' variant="subtitle1" sx={{ fontFamily: 'Helvetica', fontWeight: 300, color: '#ffffff', fontSize: '26px', mt: 2 }}>Actividad económica</Typography>
 
             </Grid>
-          {/*   <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
+            {/*   <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -200,34 +198,34 @@ function PieChartComponentK1() {
       {formattedDataPie.length > 0 && (
 
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                  <ResponsivePie
-        data={formattedDataPie}
-        margin={{ top: 40, right: 80, bottom: 80, left: -40 }}
-        startAngle={0}
-        innerRadius={0.7}
-        padAngle={1}
-        activeInnerRadiusOffset={3}
-        activeOuterRadiusOffset={8}
-        colors={['#5782F2', '#FFB024', '#5ED1B1', '#723DFD', '#28ACFF']}
-        borderColor={{
-            from: 'color',
-            modifiers: [['darker', 0.2]],
-        }}
-      
-        enableArcLinkLabels={false}
-        arcLinkLabelsSkipAngle={10}
-        arcLinkLabelsTextColor="#333333"
-        arcLinkLabelsThickness={2}
-        arcLinkLabelsColor={{ from: 'color' }}
-        enableArcLabels={false}
-        arcLabelsRadiusOffset={0.1}
-        arcLabelsSkipAngle={10}
-        arcLabelsTextColor={{
-            from: 'color',
-            modifiers: [['darker', 2]],
-        }}
-        defs={[
-            {
+          <ResponsivePie
+            data={formattedDataPie}
+            margin={{ top: 40, right: 80, bottom: 80, left: -40 }}
+            startAngle={0}
+            innerRadius={0.7}
+            padAngle={1}
+            activeInnerRadiusOffset={3}
+            activeOuterRadiusOffset={8}
+            colors={['#5782F2', '#FFB024', '#5ED1B1', '#723DFD', '#28ACFF']}
+            borderColor={{
+              from: 'color',
+              modifiers: [['darker', 0.2]],
+            }}
+
+            enableArcLinkLabels={false}
+            arcLinkLabelsSkipAngle={10}
+            arcLinkLabelsTextColor="#333333"
+            arcLinkLabelsThickness={2}
+            arcLinkLabelsColor={{ from: 'color' }}
+            enableArcLabels={false}
+            arcLabelsRadiusOffset={0.1}
+            arcLabelsSkipAngle={10}
+            arcLabelsTextColor={{
+              from: 'color',
+              modifiers: [['darker', 2]],
+            }}
+            defs={[
+              {
                 id: 'dots',
                 type: 'patternDots',
                 background: 'inherit',
@@ -235,8 +233,8 @@ function PieChartComponentK1() {
                 size: 4,
                 padding: 1,
                 stagger: true,
-            },
-            {
+              },
+              {
                 id: 'lines',
                 type: 'patternLines',
                 background: 'inherit',
@@ -244,32 +242,39 @@ function PieChartComponentK1() {
                 rotation: -45,
                 lineWidth: 6,
                 spacing: 10,
-            },
-        ]}
-       tooltip={(tooltipProps) => {
-            const { id, value, color, formattedValue , label} = tooltipProps.datum;
-            const originalData = responseData[selectedDataKeyK1].find((data:any) => data.actividad_economica === id);
-            const porcentaje = originalData ? originalData.porcentaje * 100 : 0;           
-          
-            return (
-              <div
-                style={{
-                  background: '#000',
-                  color: color, // Usa el color personalizado asignado
-                  padding: '10px',
-                  borderRadius: '5px',
-                  fontSize: '14px',
-                }}
-              >
-                <div>
-                  <strong> {porcentaje.toFixed(0)}% : {formattedValue} {label}</strong>
-                </div>                                
-              </div>
-            );
-          }} 
-          
-        legends={[
-            {
+              },
+            ]}
+            tooltip={(tooltipProps) => {
+              const { id, value, color, formattedValue, label } = tooltipProps.datum;
+              const originalData = responseData[selectedDataKeyK1].find((data: any) => data.actividad_economica === id);
+              const count = originalData ? originalData.count : 0;
+              const porcentaje = originalData ? originalData.porcentaje * 100 : 0;
+
+              // Lógica para ajustar la etiqueta según el recuento
+              const labelWithCount = count > 1 ? `${label}s` : label;
+
+              return (
+                <div
+                  style={{
+                    background: '#000',
+                    color: color, // Usa el color personalizado asignado
+                    padding: '10px',
+                    borderRadius: '5px',
+                    fontSize: '14px',
+                  }}
+                >
+                  <div>
+                    <strong>{porcentaje.toFixed(0)}% </strong>
+                  </div>
+                  <div>
+                    {labelWithCount}: {formattedValue}
+                  </div>
+                </div>
+              );
+            }}
+
+            legends={[
+              {
                 anchor: 'right',
                 direction: 'column',
                 justify: false,
@@ -285,16 +290,16 @@ function PieChartComponentK1() {
                 symbolShape: 'circle',
 
                 effects: [
-                    {
-                        on: 'hover',
-                        style: {
-                            itemTextColor: '#000'
-                        }
+                  {
+                    on: 'hover',
+                    style: {
+                      itemTextColor: '#000'
                     }
+                  }
                 ]
-            }
-        ]}
-    />
+              }
+            ]}
+          />
 
 
         </div>

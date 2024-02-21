@@ -32,13 +32,11 @@ function CardComponentD1() {
             }).catch(err => console.error(err));
     }, [userEmail]);
 
-    // Accede directamente al primer elemento del array
     const dataPrueba = dataApiD1;
   
 
     return (
-        <Box sx={{ backgroundColor:'#020101', borderRadius:'14px' ,  }}>
-              {dataApiD1 == null?<div></div>:
+        <Box sx={{ backgroundColor:'#020101', borderRadius:'14px' ,  }}>            
             <Card className='size-card-main-d-f' sx={{ mt:2, mb:2, backgroundColor:'#020101', borderRadius:'14px', display:'flex', justifyContent:'center', alignContent: 'center', textAlign:'center'}}>
                 <CardContent sx={{mt:1, mb:1}}>
                     <Typography  className='title-D-F' component="div" sx={{color: '#5782F2', fontFamily: 'Rustica', fontSize:'18px',fontWeight:'500'}} >
@@ -48,7 +46,7 @@ function CardComponentD1() {
                      $ {dataPrueba?.monto_inversion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}                     
                     </Typography>                    
                 </CardContent>               
-            </Card>}
+            </Card>
         </Box>
     )
 }
