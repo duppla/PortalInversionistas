@@ -5,36 +5,27 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { SelectChangeEvent } from '@mui/material/Select';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import {  Typography, FormControl, } from '@mui/material';
+import { Typography, FormControl, } from '@mui/material';
 import { ResponsivePie } from '@nivo/pie'
-import {  getApiUrlFinal } from '@/app/url/ApiConfig';
+import { getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
 
 
+
+
 type DataType = {
-    [key: string]: any;
+    id: string;
+    label: string; 
+    value: number;
+    formattedValue: string;
+    color: string;
 };
 
-const PieChartComponentK2 = () => {
-    console.log = () => {};
 
-    const { userEmail } = useAuth();
-    const getQueryParameter = (userEmail: string | null): string => {
-        if (!userEmail) {
-            // En caso de que el correo electrónico no esté disponible
-            return "";
-        }
-        // Verifica el correo electrónico y devuelve el parámetro de consulta correspondiente
-        if (userEmail === "fcortes@duppla.co" || userEmail === "fernando@skandia.co") {
-            return "skandia";
-        } else if (userEmail === "aarevalo@duppla.co" || userEmail === "fernando@weseed.co") {
-            return "weseed";
-        } else if (userEmail === "scastaneda@duppla.co") {
-            return "disponible";
-        } 
-        // En caso de que el correo electrónico no coincida con ninguno de los casos anteriores
-        return "";
-    };
+const PieChartComponentK2 = () => {
+
+
+    const { userEmail } = useAuth();   
     const [selectedDataKeyK2, setSelectedDataKeyK2] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
     const [menuOpen, setMenuOpen] = useState(false);
@@ -44,13 +35,16 @@ const PieChartComponentK2 = () => {
 
 
     useEffect(() => {
-        const queryParameter = getQueryParameter(userEmail);
+        if (!userEmail) {
+            return;
+        }
+        const queryParameter = userEmail;
         const fetchData = async () => {
             try {
-                const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-                /* const response = await fetch(getApiUrl(`/clientes/k2?investor=skandia`), options); */
-                const response = await fetch(getApiUrlFinal(`/clientes/k2?investor=${queryParameter}`), options);
+                const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };           
+                const response = await fetch(getApiUrlFinal(`/clientes/k2?email=${queryParameter}`), options);
                 const responseData = await response.json();
+               
                 if (responseData) {
                     setResponseData(responseData);
                 } else {
@@ -75,54 +69,49 @@ const PieChartComponentK2 = () => {
         }
     };
 
-
+    // Excluye las claves que no deseas incluir en formattedDataPie
     const excludedKeys = ['total', 'porcent_0_33', 'porcent_33_66', 'porcent_66_100'];
+
     const formattedDataPie = responseData
-        ? responseData[selectedDataKeyK2]
-            ? Object.keys(responseData[selectedDataKeyK2])
-                .filter((key) => !excludedKeys.includes(key)) // Filtra la categoría 'total'
-                .map((key: string) => {
-                    const item = responseData[selectedDataKeyK2][key];
-                    let categoryLabel = key;
+    ? responseData[selectedDataKeyK2]?.map((data: any) => {
+        const formattedData: DataType[] = [];
 
-                    // Personaliza los nombres de las categorías
-                    if (key === 'entre_0_33') {
-                        categoryLabel = 'Entre 0% y 33%';
-                    } else if (key === 'entre_33_66') {
-                        categoryLabel = 'Entre 33% y 66%';
-                    } else if (key === 'entre_66_100') {
-                        categoryLabel = 'Entre 66% y 99%';
-                    }
-
-                    return {
+        Object.keys(data).forEach((key: string) => {
+            // Verifica si la clave no está en excludedKeys
+            if (!excludedKeys.includes(key)) {
+                // Verifica si la clave es una de las que deseas incluir
+                if (key === 'rango_15_30' || key === 'rango_30_40' || key === 'mayor_40') {
+                    // Formatea los datos según tus requisitos
+                    const label = key === 'rango_15_30' ? 'Rango 15% - 30%' :
+                        key === 'rango_30_40' ? 'Rango 30% - 40%' :
+                            'Mayor a 40%';
+                    formattedData.push({
                         id: key,
-                        label: categoryLabel,
-                        value: item,
-                        formattedValue: `${item}`,
+                        label: label,
+                        value: data[key],
+                        formattedValue: `${data[key]}`,
                         color: getColorByKey(key), // Reemplaza getColorByKey con tu lógica de asignación de colores
-                    };
-                })
-            : []
-        : [];
-
-
-
-
+                    });
+                }
+            }
+        });             
+        return formattedData;        
+    }).flat()
+    : [];
 
 
     /* Función para actualizar la selección del usuario */
-    const handleDataSelection = (dataKey: string) => {
-        setSelectedDataKeyK2(dataKey);
-    };
+      const handleDataSelection = (dataKey: string) => {
+          setSelectedDataKeyK2(dataKey);
+      }; 
 
     /* Función que controla la selección del dropdown */
-    const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-        const selectedDataKeyK2 = event.target.value as string;
-        setSelectedValue(selectedDataKeyK2);
-        handleDataSelection(selectedDataKeyK2);
-    };
+       const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
+           const selectedDataKeyK2 = event.target.value as string;
+           setSelectedValue(selectedDataKeyK2);
+           handleDataSelection(selectedDataKeyK2);
+       }; 
 
- /*    console.log(JSON.stringify(responseData) + ' componente piechart'); */
     const categoryToPercentageMapping = {
         "Entre 15% y 30%": "porcent_0_33",
         "Entre 30% y 40%": "porcent_33_66",
@@ -202,7 +191,7 @@ const PieChartComponentK2 = () => {
                 </FormControl>
             </div>
 
-            {formattedDataPie.length > 0 && (
+            {formattedDataPie && formattedDataPie.length > 0 ? (
                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                     <ResponsivePie
                         data={formattedDataPie}
@@ -253,23 +242,23 @@ const PieChartComponentK2 = () => {
                         ]}
                         tooltip={(tooltipProps) => {
                             const { id, value, color, formattedValue } = tooltipProps.datum;
-                        
+
                             // Verifica si el ID existe en el mapeo
                             if (categoryToPercentageMapping.hasOwnProperty(id.toString())) {
                                 // Obtiene la key de porcentaje correspondiente
                                 const percentageKey = categoryToPercentageMapping[id.toString() as "Entre 15% y 30%" | "Entre 30% y 40%" | "Mayor a 40%"];
-                        
+
                                 // Obtiene el valor de porcentaje
                                 const percentageValue = responseData[selectedDataKeyK2][percentageKey];
-                        
+
                                 // Verifica si el valor de porcentaje es válido
                                 const isValidPercentage = !isNaN(percentageValue) && typeof percentageValue === 'number';
-                        
+
                                 // Construye el label del tooltip con o sin porcentaje, según la validez de los datos
                                 const categoryLabel = isValidPercentage
                                     ? `${(percentageValue * 100).toFixed(0)}%: ${value} clientes`
                                     : `${value} clientes`;
-                        
+
                                 return (
                                     <div
                                         style={{
@@ -286,7 +275,7 @@ const PieChartComponentK2 = () => {
                                     </div>
                                 );
                             }
-                        
+
                             // Si el ID no está en el mapeo, muestra la categoría sin porcentaje
                             return (
                                 <div
@@ -339,18 +328,11 @@ const PieChartComponentK2 = () => {
 
                 </div>
 
+            ):(
+                <div>Cargando...</div>  
             )
             }
-            {/* <div className="centrado" style={{ position: 'absolute', top: '60%', left: '40%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography sx={{ color: "#ffffff", marginBottom: '8px', textAlign: 'center', fontWeight: '600', fontStyle: 'normal', fontSize: '36px' }}>
-                {responseData[selectedDataKey].total.toLocaleString()}
-                </Typography>
-                <Typography sx={{ color: '#6E7880', textAlign: 'center', fontWeight: '400', fontStyle: 'normal', fontSize: '24px' }}>
-                    Total
-                </Typography>
-            </div>
-        </div> */}
+            
         </div >
     )
 }

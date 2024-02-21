@@ -20,7 +20,7 @@ type DataType = {
 };
 
 function PieChartComponentK1() {
-  console.log = () => {};
+
 
   const { userEmail } = useAuth();
   const [selectedDataKeyK1, setSelectedDataKeyK1] = useState<string>('este_anho');
