@@ -478,7 +478,7 @@ a {
 
   .grafica-Linecharts-G {
     width: 100%;
-    height: 340px;    
+    height: 320px;    
     /* O el valor que desees para pantallas más grandes */
   }
 }
@@ -561,7 +561,7 @@ a {
   }
 
   .container-G{   
-    height: 520px !important;    
+    height: 460px !important;    
   }
 
 }
@@ -623,7 +623,7 @@ a {
 
   .size-container-k1-k2 {
     width: 100% !important;
-    height: 980px !important;
+    height: auto !important;
   }
 
   /* Clase titulos sección */
@@ -744,7 +744,7 @@ a {
   }
 
   .container-G{   
-    height: 460px !important;      
+    height: 420px !important;      
   }
 
 }

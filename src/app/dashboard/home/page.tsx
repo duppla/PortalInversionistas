@@ -68,7 +68,7 @@ const Page = () => {
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                         p: 2
-                    }} rowSpacing={1} gap={10} columnSpacing={{ md: 1, lg: 1, }}  >
+                    }} rowSpacing={1} columnGap={10} rowGap={1} >
                         <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
                             <CardcomponenteD1 />
                         </Grid>
@@ -158,14 +158,14 @@ const Page = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
-                        
+
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                         mt: 4,
                         p: 2
-                       
-                    }} rowSpacing={1} gap={10} columnSpacing={{ md: 1, lg: 1, }}  >
+
+                    }} rowSpacing={1} columnGap={10} rowGap={1}  >
                         <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
                             <CardcomponenteF1 />
                         </Grid>
@@ -177,25 +177,24 @@ const Page = () => {
                         </Grid>
                     </Grid>
                     {/* Componente G */}
-                    <Grid  container   sx={{
+                    <Grid container sx={{
 
                         marginTop: '10px',
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                       height: '370px', 
+                        height: '370px',
                         backgroundColor: /* '#212126' */ '#0B0B0D',
                         borderRadius: '20px',
                         /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
                         mt: 4
-                    }} rowSpacing={0} gap={13.2} columnSpacing={{ md: 2, lg: 2, }}
-                    >
+                    }} rowSpacing={0}  columnGap={12.8} rowGap={1}>
                         <Grid className='container-G' xs={12} sm={12} md={5.5} lg={5.5} sx={{
                             borderRadius: '10px',
-                             backgroundColor: '#212126',
+                            backgroundColor: '#212126',
                             mt: 2, mb: 2,
-                            p: 3
+                            p:2
                         }}>
                             <GraficacomponenteG1 />
                         </Grid>
@@ -203,7 +202,7 @@ const Page = () => {
                             borderRadius: '10px',
                             backgroundColor: '#212126',
                             mt: 2, mb: 2,
-                            p: 3
+                            p: 4
                         }}>
                             <GraficacomponenteG2 />
                         </Grid>
