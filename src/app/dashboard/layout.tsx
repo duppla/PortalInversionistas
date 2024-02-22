@@ -12,7 +12,7 @@ function Layout({ children }: { children: ReactNode; }) {
 
   return (
     <PrivateRoute>
-      <Box sx={{ display: 'flex', }}>
+      <Box sx={{ display: 'flex', overflow:'hidden'}}>
         <Box id='contenidoInmueble'
           component="main"
           sx={{
