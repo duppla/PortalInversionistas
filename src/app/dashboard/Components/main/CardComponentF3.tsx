@@ -42,19 +42,6 @@ useEffect(() => {
                 }
             }).catch(err => console.error(err));
     }
- /*    const queryParameter = userEmail;
-    const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
-
-    fetch(getApiUrlFinal(`/principal/f3?email=${queryParameter}`), options)
-        .then(response => response.json())
-        .then(response => {
-            if (typeof response.adelanto === 'number') {
-                setDataApiF3(response); // Coloca el objeto en un array para mantener consistencia
-                 
-            } else {
-                console.error('El valor de data no es un número:');
-            }
-        }).catch(err => console.error(err)); */
 }, [userEmail]);
 
    // Accede directamente al primer elemento del array

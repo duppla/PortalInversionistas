@@ -20,6 +20,7 @@ import GraficacomponenteP from '../Components/main/LineChartComponentP'
 import { useState } from 'react'
 import { SelectChangeEvent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useMediaQuery } from '@mui/material';
 
 const theme = createTheme({
     palette: {
@@ -40,17 +41,9 @@ const theme = createTheme({
 
 
 const Page = () => {
-    const [selectedValue, setSelectedValue] = useState('Este año');
-    const [changeState, setChangeState] = useState(true);
-    const [selectedView, setSelectedView] = useState('general');
-    const [selectedGrafica, setSelectedGrafica] = useState('general');
 
-
-    const handleChange = (event: SelectChangeEvent<string>) => {
-        setSelectedValue(event.target.value as string);
-    };
-
-
+    let isLargeScreenK = useMediaQuery('min-width: 1200px')
+ 
 
     return (
         <ThemeProvider theme={theme}>
@@ -187,7 +180,7 @@ const Page = () => {
                         borderRadius: '20px',
                         /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
                         mt: 4
-                    }} rowSpacing={0}  columnGap={12.8} rowGap={1}>
+                    }} columnGap={isLargeScreenK ? 13.5 : 10} rowGap={1}>
                         <Grid className='container-G' xs={12} sm={12} md={5.5} lg={5.5} sx={{
                             borderRadius: '10px',
                             backgroundColor: '#212126',
