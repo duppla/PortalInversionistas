@@ -203,6 +203,8 @@ a {
 .grafica-Linecharts-G {
   width: 100%;
   height: 230px;
+
+  
   /* O el valor que desees para pantallas más grandes */
 }
 .grafica-linecharts-b {
@@ -476,7 +478,7 @@ a {
 
   .grafica-Linecharts-G {
     width: 100%;
-    height: 360px;
+    height: 340px;    
     /* O el valor que desees para pantallas más grandes */
   }
 }
@@ -649,9 +651,8 @@ a {
   }
 
   .container-G{
-   
-    height: 520px !important; 
-   
+    overflow-y: hidden;
+    height: 500px !important;    
   }
 
 

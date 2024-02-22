@@ -293,7 +293,7 @@ function PieChartComponentK1() {
                   {
                     on: 'hover',
                     style: {
-                      itemTextColor: '#000'
+                      itemTextColor: '#cccccc'
                     }
                   }
                 ]

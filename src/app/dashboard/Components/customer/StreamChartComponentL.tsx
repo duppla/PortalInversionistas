@@ -117,12 +117,6 @@ function StreamChartComponentL() {
         const percentageValue = (value * 100).toFixed(1).replace(/\.0$/, ''); // Elimina el .0
         return `${percentageValue}%`;
     }
-
-    /*    function formatNumberTooltip(value: string | number): string {
-           const percentageValue = (Number(value) * 100).toFixed(0);
-           return `${percentageValue}%`;
-       } */
-
     const CustomTooltip: React.FC<MyTooltipProps> = ({ slice }) => (
         <div style={{ background: 'black', color: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
             <div>
@@ -140,16 +134,11 @@ function StreamChartComponentL() {
             </div>
         </div>
     );
-
-
-
     /* Función para formatear números como porcentajes sin decimales y ceros */
     function formatNumberTooltip(value: number): string {
         const percentageValue = (value * 100).toFixed(0);
         return `${percentageValue}%`;
     }
-
-
 
 
     return (
@@ -186,8 +175,7 @@ function StreamChartComponentL() {
                                     transformOrigin: {
                                         vertical: 'top',
                                         horizontal: 'right',
-                                    },
-                                    /*   getContentAnchorEl: null, */
+                                    },                                    
                                     PaperProps: {
                                         sx: {
                                             backgroundColor: '#212126', // Fondo del menú desplegado
@@ -214,7 +202,6 @@ function StreamChartComponentL() {
                                         />
                                     )
                                 )}
-
                             >
 
                                 {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
@@ -255,14 +242,10 @@ function StreamChartComponentL() {
                             const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
                             const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
                             ;
-
                             return `${monthNames[monthIndex]} ${shortYear}`;
                         }
                         return ''; // Retorna una cadena vacía si no hay datos o el índice es inválido
                     },
-
-
-
                 }}
                 gridYValues={[0, 0.25, 0.5, 0.75, 1]}
                 axisLeft={{
@@ -351,7 +334,7 @@ function StreamChartComponentL() {
                                 on: 'hover',
                                 style: {
                                     itemBackground: 'rgba(0, 0, 0, .03)',
-                                    itemTextColor: '#000000',
+                                    itemTextColor: '#cccccc',
                                     itemOpacity: 1
                                 }
                             }

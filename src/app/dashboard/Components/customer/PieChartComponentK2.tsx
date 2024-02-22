@@ -23,16 +23,12 @@ type DataType = {
 };
 type DatumId = string | number;
 
-
-
 const PieChartComponentK2 = () => {
-
 
     const { userEmail } = useAuth();
     const [selectedDataKeyK2, setSelectedDataKeyK2] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
     const [menuOpen, setMenuOpen] = useState(false);
-
     const [responseData, setResponseData] = useState<any>({});
 
 
@@ -127,9 +123,8 @@ const PieChartComponentK2 = () => {
         }
         return '';
     };
-    console.log('formattedDataPie', formattedDataPie);
-    console.log(getPercentageKey('rango_15_30'));
-    
+
+
     return (
         <div className="grafica-piecharts" style={{ position: 'relative', width: '100%', height: '380px' }}>
             <div>
@@ -250,19 +245,22 @@ const PieChartComponentK2 = () => {
                             },
                         ]}
 
+
                         tooltip={(tooltipProps) => {
                             const { id, value, color } = tooltipProps.datum;
-                          
+
                             // Obtenemos la clave correspondiente al porcentaje
                             const percentageKey = getPercentageKey(id as string);
+
                             console.log("percentageKey:", percentageKey);
+
                             // Verificamos si la clave de porcentaje es válida
                             const percentageValue = percentageKey ? responseData[selectedDataKeyK2][0][percentageKey] * 100 : 0;
-                        
+
                             // Creamos las etiquetas para el tooltip
                             const percentageLabel = `Porcentaje: ${percentageValue.toFixed(0)}%`;
                             const clientLabel = value > 1 ? `Clientes: ${value}` : `Cliente: ${value}`;
-                        
+
                             // Resto de tu código de tooltip
                             return (
                                 <div
@@ -274,9 +272,10 @@ const PieChartComponentK2 = () => {
                                         fontSize: '14px',
                                     }}
                                 >
-                                    {/* <div>
+                                    <div>
                                         <strong>{percentageLabel}</strong>
-                                    </div> */}
+
+                                    </div>
                                     <div>
                                         <strong>{clientLabel}</strong>
                                     </div>
@@ -304,7 +303,7 @@ const PieChartComponentK2 = () => {
                                     {
                                         on: 'hover',
                                         style: {
-                                            itemTextColor: '#000'
+                                            itemTextColor: '#cccccc'
                                         }
                                     }
                                 ]
@@ -313,7 +312,7 @@ const PieChartComponentK2 = () => {
                     />
                 </div>
             ) : (
-                <div>Cargando...</div>
+                <div style={{ color: '#212126' }}>Cargando...</div>
             )
             }
 

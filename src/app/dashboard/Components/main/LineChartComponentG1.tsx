@@ -271,7 +271,6 @@ const LineChartComponentG1 = () => {
 
                     enableGridX={false}
                     gridYValues={yAxisValues}
-
                     lineWidth={3}
                     pointSize={10}
                     pointColor={{ theme: 'background' }}

@@ -227,7 +227,7 @@ const SankeyChartComponentJ = () => {
                                 {
                                     on: 'hover',
                                     style: {
-                                        itemTextColor: '#cccccc'
+                                        itemTextColor: '#9B9EAB'
                                     }
                                 }
                             ],

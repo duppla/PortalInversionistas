@@ -402,11 +402,7 @@ const LineChartComponentB = () => {
                             ]
                         }
                     ]}
-
-
                 />
-
-
             )}
         </div>
     );
