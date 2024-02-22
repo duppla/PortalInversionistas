@@ -9,23 +9,26 @@ import { Typography, FormControl, } from '@mui/material';
 import { ResponsivePie } from '@nivo/pie'
 import { getApiUrlFinal } from '@/app/url/ApiConfig';
 import { useAuth } from '@/app/context/authContext';
+import { get } from 'http';
 
 
 
 
 type DataType = {
     id: string;
-    label: string; 
+    label: string;
     value: number;
     formattedValue: string;
     color: string;
 };
+type DatumId = string | number;
+
 
 
 const PieChartComponentK2 = () => {
 
 
-    const { userEmail } = useAuth();   
+    const { userEmail } = useAuth();
     const [selectedDataKeyK2, setSelectedDataKeyK2] = useState<string>('este_anho');
     const [selectedValue, setSelectedValue] = useState<string | number>('este_anho');
     const [menuOpen, setMenuOpen] = useState(false);
@@ -41,10 +44,10 @@ const PieChartComponentK2 = () => {
         const queryParameter = userEmail;
         const fetchData = async () => {
             try {
-                const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };           
+                const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/2023.5.8' } };
                 const response = await fetch(getApiUrlFinal(`/clientes/k2?email=${queryParameter}`), options);
                 const responseData = await response.json();
-               
+
                 if (responseData) {
                     setResponseData(responseData);
                 } else {
@@ -73,52 +76,60 @@ const PieChartComponentK2 = () => {
     const excludedKeys = ['total', 'porcent_0_33', 'porcent_33_66', 'porcent_66_100'];
 
     const formattedDataPie = responseData
-    ? responseData[selectedDataKeyK2]?.map((data: any) => {
-        const formattedData: DataType[] = [];
-
-        Object.keys(data).forEach((key: string) => {
-            // Verifica si la clave no está en excludedKeys
-            if (!excludedKeys.includes(key)) {
-                // Verifica si la clave es una de las que deseas incluir
-                if (key === 'rango_15_30' || key === 'rango_30_40' || key === 'mayor_40') {
-                    // Formatea los datos según tus requisitos
-                    const label = key === 'rango_15_30' ? 'Rango 15% - 30%' :
-                        key === 'rango_30_40' ? 'Rango 30% - 40%' :
-                            'Mayor a 40%';
-                    formattedData.push({
-                        id: key,
-                        label: label,
-                        value: data[key],
-                        formattedValue: `${data[key]}`,
-                        color: getColorByKey(key), // Reemplaza getColorByKey con tu lógica de asignación de colores
-                    });
+        ? responseData[selectedDataKeyK2]?.map((data: any) => {
+            const formattedData: DataType[] = [];
+            Object.keys(data).forEach((key: string) => {
+                // Verifica si la clave no está en excludedKeys
+                if (!excludedKeys.includes(key)) {
+                    // Verifica si la clave es una de las que deseas incluir
+                    if (key === 'rango_15_30' || key === 'rango_30_40' || key === 'mayor_40') {
+                        // Formatea los datos según tus requisitos
+                        const label = key === 'rango_15_30' ? 'Rango 15% - 30%' :
+                            key === 'rango_30_40' ? 'Rango 30% - 40%' :
+                                'Mayor a 40%';
+                        formattedData.push({
+                            id: key,
+                            label: label,
+                            value: data[key],
+                            formattedValue: `${data[key]}`,
+                            color: getColorByKey(key), // Reemplaza getColorByKey con tu lógica de asignación de colores
+                        });
+                    }
                 }
-            }
-        });             
-        return formattedData;        
-    }).flat()
-    : [];
+            });
+            return formattedData;
+        }).flat()
+        : [];
 
 
     /* Función para actualizar la selección del usuario */
-      const handleDataSelection = (dataKey: string) => {
-          setSelectedDataKeyK2(dataKey);
-      }; 
+    const handleDataSelection = (dataKey: string) => {
+        setSelectedDataKeyK2(dataKey);
+    };
 
     /* Función que controla la selección del dropdown */
-       const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
-           const selectedDataKeyK2 = event.target.value as string;
-           setSelectedValue(selectedDataKeyK2);
-           handleDataSelection(selectedDataKeyK2);
-       }; 
+    const handleSelectChange = (event: SelectChangeEvent<string | number>, child: ReactNode) => {
+        const selectedDataKeyK2 = event.target.value as string;
+        setSelectedValue(selectedDataKeyK2);
+        handleDataSelection(selectedDataKeyK2);
+    };
 
     const categoryToPercentageMapping = {
         "Entre 15% y 30%": "porcent_0_33",
         "Entre 30% y 40%": "porcent_33_66",
         "Mayor a 40%": "porcent_66_100",
     };
-
-
+    const getPercentageKey = (id: string): string => {
+        if (id.startsWith('rango_')) {
+            return `porcent_${id.substring(6).replace('_', '_')}`;
+        } else if (id.startsWith('mayor_')) {
+            return `porcent_${id.substring(6)}`;
+        }
+        return '';
+    };
+    console.log('formattedDataPie', formattedDataPie);
+    console.log(getPercentageKey('rango_15_30'));
+    
     return (
         <div className="grafica-piecharts" style={{ position: 'relative', width: '100%', height: '380px' }}>
             <div>
@@ -206,8 +217,6 @@ const PieChartComponentK2 = () => {
                             from: 'color',
                             modifiers: [['darker', 0.2]],
                         }}
-                        /* animate={false} */
-                        /*  motionConfig="gentle"  */
                         enableArcLinkLabels={false}
                         arcLinkLabelsSkipAngle={10}
                         arcLinkLabelsTextColor="#333333"
@@ -240,43 +249,21 @@ const PieChartComponentK2 = () => {
                                 spacing: 10,
                             },
                         ]}
+
                         tooltip={(tooltipProps) => {
-                            const { id, value, color, formattedValue } = tooltipProps.datum;
-
-                            // Verifica si el ID existe en el mapeo
-                            if (categoryToPercentageMapping.hasOwnProperty(id.toString())) {
-                                // Obtiene la key de porcentaje correspondiente
-                                const percentageKey = categoryToPercentageMapping[id.toString() as "Entre 15% y 30%" | "Entre 30% y 40%" | "Mayor a 40%"];
-
-                                // Obtiene el valor de porcentaje
-                                const percentageValue = responseData[selectedDataKeyK2][percentageKey];
-
-                                // Verifica si el valor de porcentaje es válido
-                                const isValidPercentage = !isNaN(percentageValue) && typeof percentageValue === 'number';
-
-                                // Construye el label del tooltip con o sin porcentaje, según la validez de los datos
-                                const categoryLabel = isValidPercentage
-                                    ? `${(percentageValue * 100).toFixed(0)}%: ${value} clientes`
-                                    : `${value} clientes`;
-
-                                return (
-                                    <div
-                                        style={{
-                                            background: '#000',
-                                            color: color,
-                                            padding: '10px',
-                                            borderRadius: '5px',
-                                            fontSize: '14px',
-                                        }}
-                                    >
-                                        <div>
-                                            <strong>{categoryLabel}</strong>
-                                        </div>
-                                    </div>
-                                );
-                            }
-
-                            // Si el ID no está en el mapeo, muestra la categoría sin porcentaje
+                            const { id, value, color } = tooltipProps.datum;
+                          
+                            // Obtenemos la clave correspondiente al porcentaje
+                            const percentageKey = getPercentageKey(id as string);
+                            console.log("percentageKey:", percentageKey);
+                            // Verificamos si la clave de porcentaje es válida
+                            const percentageValue = percentageKey ? responseData[selectedDataKeyK2][0][percentageKey] * 100 : 0;
+                        
+                            // Creamos las etiquetas para el tooltip
+                            const percentageLabel = `Porcentaje: ${percentageValue.toFixed(0)}%`;
+                            const clientLabel = value > 1 ? `Clientes: ${value}` : `Cliente: ${value}`;
+                        
+                            // Resto de tu código de tooltip
                             return (
                                 <div
                                     style={{
@@ -287,15 +274,15 @@ const PieChartComponentK2 = () => {
                                         fontSize: '14px',
                                     }}
                                 >
+                                    {/* <div>
+                                        <strong>{percentageLabel}</strong>
+                                    </div> */}
                                     <div>
-                                        <strong>{`${value} clientes`}</strong>
+                                        <strong>{clientLabel}</strong>
                                     </div>
                                 </div>
                             );
                         }}
-
-
-
 
                         legends={[
                             {
@@ -324,15 +311,12 @@ const PieChartComponentK2 = () => {
                             }
                         ]}
                     />
-
-
                 </div>
-
-            ):(
-                <div>Cargando...</div>  
+            ) : (
+                <div>Cargando...</div>
             )
             }
-            
+
         </div >
     )
 }

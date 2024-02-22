@@ -125,7 +125,7 @@ const LineChartComponentB = () => {
         return { minValue, maxValue };
     };
 
-      useEffect(() => {
+    useEffect(() => {
         if (data[selectedDataKeyB]) {
             // Calcula los valores máximos y mínimos al actualizar la data
             const { minValue, maxValue } = calculateMinMaxValues(data[selectedDataKeyB]);
@@ -184,7 +184,7 @@ const LineChartComponentB = () => {
         return `${roundedMillionValue}M`;
     };
 
-  
+
     return (
         <div className='grafica-linecharts-b nivo-text'>
             <div>
@@ -270,14 +270,12 @@ const LineChartComponentB = () => {
 
                         },
                     }}
-                    /*   gridYValues={[200000000, 300000000, 400000000, 500000000, 600000000]} */
+
                     gridYValues={gridYValues}
                     axisLeft={{
                         legend: '',
                         legendOffset: 12,
-                        /*  tickValues: [200000000, 300000000, 400000000, 500000000, 600000000], */
                         tickValues: tickValues,
-                        /*  format: (value) => `${value M`, */
                         format: (value) => formatYAxisValue(value),
                     }}
 
@@ -290,7 +288,7 @@ const LineChartComponentB = () => {
                         return (
                             <div style={{ background: '#272727', color: 'white', padding: '9px 12px', border: '1px solid #ccc' }}>
                                 <div style={{ color: '#C5F5CA' }}>
-                                    <strong>{`Fecha: ${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong>
+                                    <strong>{`${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`}</strong>
                                 </div>
                                 <div style={{ color: '#FF864B' }}>{`Valor: ${formattedValue}`}</div>
                             </div>
@@ -318,7 +316,6 @@ const LineChartComponentB = () => {
                                 },
                             },
                         },
-
                         legends: {
                             text: {
                                 fill: '#9B9EAB', // Color del texto de las leyendas
@@ -338,9 +335,6 @@ const LineChartComponentB = () => {
                         },
                     }}
                     enableGridX={false}
-                    /*  gridYValues={[15, 20, 25, 30]} */
-
-
                     lineWidth={7}
                     colors={['#C5F5CA', '#FF864B']}
                     enablePointLabel={false}
