@@ -175,7 +175,7 @@ const Page = () => {
                         justifyContent: 'center',
                         justifyItems: 'center',
                         width: '100%',
-                        height: '370px',
+                        height: 'auto',
                         backgroundColor: /* '#212126' */ '#0B0B0D',
                         borderRadius: '20px',
                         /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
