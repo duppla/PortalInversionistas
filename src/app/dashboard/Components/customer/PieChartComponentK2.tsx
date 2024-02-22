@@ -252,13 +252,13 @@ const PieChartComponentK2 = () => {
                             // Obtenemos la clave correspondiente al porcentaje
                             const percentageKey = getPercentageKey(id as string);
 
-                            console.log("percentageKey:", percentageKey);
+                           /*  console.log("percentageKey:", percentageKey); */
 
                             // Verificamos si la clave de porcentaje es válida
                             const percentageValue = percentageKey ? responseData[selectedDataKeyK2][0][percentageKey] * 100 : 0;
 
                             // Creamos las etiquetas para el tooltip
-                            const percentageLabel = `Porcentaje: ${percentageValue.toFixed(0)}%`;
+                            const percentageLabel = `${percentageValue.toFixed(0)}%`;
                             const clientLabel = value > 1 ? `Clientes: ${value}` : `Cliente: ${value}`;
 
                             // Resto de tu código de tooltip
