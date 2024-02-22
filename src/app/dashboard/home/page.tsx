@@ -47,7 +47,7 @@ const Page = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Box sx={{ flexGrow: 1, mt: 1, ml: 1, mr: 1, borderRadius: '20px' }} >
+            <Box  sx={{ flexGrow: 1, mt: 1, ml: 1, mr: 1, borderRadius: '20px', overflow:'hidden'}} >
                 <Container maxWidth="xl" sx={{ mt: 2, mb: 4, }}
                     className=''>
                     {/* primera fila  componente D*/}
