@@ -63,12 +63,11 @@ const Page = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
-                        backgroundColor: '#212126',
-                        /*   backgroundColor: '#0a3323', */
+                        backgroundColor: '#212126',                       
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                         p: 2
-                    }} rowSpacing={1} columnGap={10} rowGap={1} >
+                    }}  columnGap={10} rowGap={1} >
                         <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
                             <CardcomponenteD1 />
                         </Grid>
@@ -158,14 +157,13 @@ const Page = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         justifyItems: 'center',
-
                         backgroundColor: '#212126',
                         borderRadius: '20px',
                         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                         mt: 4,
                         p: 2
 
-                    }} rowSpacing={1} columnGap={10} rowGap={1}  >
+                    }} columnGap={10} rowGap={1}  >
                         <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
                             <CardcomponenteF1 />
                         </Grid>

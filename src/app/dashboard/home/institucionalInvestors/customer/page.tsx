@@ -119,7 +119,6 @@ const Customer = () => {
 
                         <BarChartComponentO />
                     </Grid>
-
                 </Grid>
             </Container>
 
