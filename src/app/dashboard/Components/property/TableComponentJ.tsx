@@ -147,14 +147,14 @@ export default function BasicTable() {
                     </Grid>
                 </FormControl>
             </div>
-            <div style={{ overflowX: 'auto' }}>
-                <TableContainer sx={{ mt: 4 }} component={Paper}>
+            <Paper elevation={0} sx={{ width: '100%', overflow: 'hidden', backgroundColor: 'transparent'}}>
+                <TableContainer sx={{ mt: 4 }}>
                     <Table sx={{ minWidth: 550, background: '#212126' }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '20px', width: 'auto', flexBasis: '50%' }} align="right"></TableCell>
+                                <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '20px', minWidth: 170 }} align="right"></TableCell>
                                 {data && data.length > 0 && data.map((row: any, index: any) => (
-                                    <TableCell key={index} sx={{ color: '#9B9EAB', textAlign: 'end', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
+                                    <TableCell key={index} sx={{ color: '#9B9EAB', textAlign: 'end', minWidth: 170, fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
                                         {formatFecha(row.fecha)}
                                     </TableCell>
                                 ))}
@@ -165,53 +165,53 @@ export default function BasicTable() {
                             {data && Array.isArray(data) && data.length > 0 && (
                                 <>
                                     <TableRow key="ingresos" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
-                                        <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
+                                        <TableCell sx={{ color: '#6C9FFF', textAlign: 'left', fontFamily: 'Rustica', fontSize: '1rem', minWidth: 170}} align="right">
                                             Ingresos
                                         </TableCell>
                                         {data.map((row: any, rowIndex) => (
-                                            <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
+                                            <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', minWidth: 170, fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
                                                 ${formatNumber(row.ingresos)}
                                             </TableCell>
                                         ))}
                                     </TableRow>
 
                                     <TableRow key="gastos" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
-                                        <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
+                                        <TableCell sx={{ color: '#6C9FFF', textAlign: 'left', fontFamily: 'Rustica', fontSize: '1rem', minWidth: 170 }} align="right">
                                             Gastos
                                         </TableCell>
                                         {data.map((row: any, rowIndex) => (
-                                            <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
+                                            <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', minWidth: 170, fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
                                                 $-{formatNumber(row.gastos)}
                                             </TableCell>
                                         ))}
                                     </TableRow>
 
                                     <TableRow key="utilidad_bruta" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
-                                        <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
+                                        <TableCell sx={{ color: '#6C9FFF', textAlign: 'left', fontFamily: 'Rustica', fontSize: '1rem', minWidth: 170 }} align="right">
                                             Utilidad bruta
                                         </TableCell>
                                         {data.map((row: any, rowIndex) => (
-                                            <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
+                                            <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', minWidth: 170, fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
                                                 ${formatNumber(row.utilidad_bruta)}
                                             </TableCell>
                                         ))}
                                     </TableRow>
                                     <TableRow key="reserva" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
-                                        <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
+                                        <TableCell sx={{ color: '#6C9FFF', textAlign: 'left', fontFamily: 'Rustica', fontSize: '1rem', minWidth: 170 }} align="right">
                                             Reserva
                                         </TableCell>
                                         {data.map((row: any, rowIndex) => (
-                                            <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
+                                            <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', minWidth: 170, fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
                                                 $-{formatNumber(row.reserva)}
                                             </TableCell>
                                         ))}
                                     </TableRow>
                                     <TableRow key="noi" sx={{ '&:last-child td, &:last-child th': { border: 0 }, color: '#9B9EAB' }}>
-                                        <TableCell sx={{ color: '#6C9FFF', textAlign: 'center', fontFamily: 'Rustica', fontSize: '1rem', width: 'auto', flexBasis: '50%' }} align="right">
+                                        <TableCell sx={{ color: '#6C9FFF', textAlign: 'left', fontFamily: 'Rustica', fontSize: '1rem', minWidth: 170 }} align="right">
                                             NOI
                                         </TableCell>
                                         {data.map((row: any, rowIndex) => (
-                                            <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', width: '33%', fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
+                                            <TableCell key={rowIndex} sx={{ color: '#9B9EAB', textAlign: 'end', minWidth: 170, fontFamily: 'Rustica', fontSize: '1rem' }} align="right">
                                                 ${formatNumber(row.noi)}
                                             </TableCell>
                                         ))}
@@ -223,7 +223,7 @@ export default function BasicTable() {
 
                     </Table>
                 </TableContainer>
-            </div>
+            </Paper>
         </div>
     );
 }

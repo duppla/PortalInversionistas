@@ -90,7 +90,6 @@ function MapComponentC() {
         // Calcular el centro promedio si hay ubicaciones
         const center = calculateAverageCoordinates(locations);
         defaultCenter = { lng: (center as [number, number])[0], lat: (center as [number, number])[1] };
-
       }
       // Establecer el valor por defecto en la mitad de Colombia si no hay ubicaciones
       if (!defaultCenter) {
@@ -173,11 +172,10 @@ function MapComponentC() {
     const locations = cityData.inmuebles;
 
     locations.forEach((location, index) => {
-      const markerElement = document.createElement('div');
+      const markerElement = document.createElement('img');
       markerElement.className = 'custom-marker';
-
-      markerElement.innerHTML = '🏠'; // Puedes cambiar este emoji 
-      markerElement.style.fontSize = '26px'; // Ajusta el tamaño emoji  
+      markerElement.src = "https://s3.amazonaws.com/app-clientes-2.0/Inversionistas/Casa-duppla.svg";
+      markerElement.style.width = "28px";
 
       let popupContent = `
             <p style="color: black;"><strong>${formattedCityName}</strong></p> <!-- Mostrar el nombre de la ciudad en mayúsculas -->
