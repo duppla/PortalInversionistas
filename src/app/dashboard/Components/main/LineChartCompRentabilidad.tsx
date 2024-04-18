@@ -10,6 +10,7 @@ import { getApiUrl } from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
+import formatFecha from "../utils";
 
 const endpoint = "/principal/rentabilidad_portafolio";
 
@@ -156,18 +157,6 @@ const LineChartCompRentabilidad = () => {
       setYAxisValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]);
     }
   }, [data, selectedDataKeyRentabilidad]);
-
-  function redondearRentabilidad(value: any) {
-    const roundedValue = Math.round(value * 100);
-    const residual = roundedValue % 5;
-    let adjustedValue = roundedValue - residual;
-
-    if (residual > 2) {
-      adjustedValue += 5;
-    }
-
-    return adjustedValue / 100;
-  }
 
   const handleDataSelection = (dataKey: string) => {
     setSelectedDataKeyRentabilidad(dataKey);
@@ -334,26 +323,8 @@ const LineChartCompRentabilidad = () => {
             legendOffset: -12,
             tickValues: "every month",
             format: (value) => {
-              const date = new Date(value);
-              const year = date.getFullYear();
-              const month = date.getMonth();
-
-              const monthNames = [
-                "Ene",
-                "Feb",
-                "Mar",
-                "Abr",
-                "May",
-                "Jun",
-                "Jul",
-                "Ago",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dic",
-              ];
-
-              return `${monthNames[month]} ${year}`;
+              const fecha_str = new Date(value).toISOString().split("T")[0];
+              return formatFecha(fecha_str);
             },
           }}
           axisLeft={{
@@ -379,26 +350,11 @@ const LineChartCompRentabilidad = () => {
           useMesh={true}
           legends={[]}
           tooltip={(point) => {
-            const date = new Date(point.point.data.x);
-            const year = date.getFullYear();
-            const month = date.getMonth();
+            const fecha_str = new Date(point.point.data.x)
+              .toISOString()
+              .split("T")[0];
 
-            const monthNames = [
-              "Ene",
-              "Feb",
-              "Mar",
-              "Abr",
-              "May",
-              "Jun",
-              "Jul",
-              "Ago",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dic",
-            ];
-
-            const formattedX = `${monthNames[month]} ${year}`;
+            const formattedX = formatFecha(fecha_str);
 
             const formattedY =
               typeof point.point.data.y === "number"
