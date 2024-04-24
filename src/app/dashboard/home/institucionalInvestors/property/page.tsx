@@ -2,7 +2,7 @@
 import React from "react";
 import { Grid, Container, Box } from "@mui/material";
 import LineChartCompValorInm from "../../../Components/property/LineChartCompValorInm";
-import GraficacomponenteH2 from "../../../Components/property/LineChartComponentH2";
+import LineChartCompUnidades from "../../../Components/property/LineChartCompUnidades";
 import MapCompMapa from "../../../Components/property/MapCompMapa";
 import SankeyChartCompPyG from "../../../Components/property/SankeyChartCompPyG";
 import TableCompPyG from "../../../Components/property/TableCompPyG";
@@ -170,7 +170,7 @@ const page = () => {
               /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
             }}
           >
-            <GraficacomponenteH2 />
+            <LineChartCompUnidades />
           </Grid>
         </Grid>
       </Container>

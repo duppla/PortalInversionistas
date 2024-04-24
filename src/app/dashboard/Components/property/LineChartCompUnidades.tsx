@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { SelectChangeEvent } from "@mui/material/Select";
@@ -9,6 +8,9 @@ import { FormControl, Typography, Select, MenuItem } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import { getApiUrl } from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
+import formatFecha from "../utils";
+
+const endpoint = "/inmuebles/numero_unidades";
 
 type DataApiType = {
   fecha: string;
@@ -28,7 +30,7 @@ interface Item {
   unidades: number | null;
 }
 
-const LineChartComponentH2 = () => {
+const LineChartCompUnidades = () => {
   const { userEmail } = useAuth();
 
   const [data, setData] = useState<DataType>({
@@ -42,28 +44,25 @@ const LineChartComponentH2 = () => {
     "ult_12_meses"
   );
 
-  const [transformedData, setTransformedData] = useState<
-    { x: string; y: number }[]
-  >([]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [yAxisValues, setYAxisValues] = useState<number[]>([]);
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const queryParameter = userEmail;
+    if (!userEmail) {
+      return;
+    }
+    const email = encodeURIComponent(userEmail);
 
     const fetchData = async () => {
-      if (!userEmail) {
-        return;
-      }
       try {
         const options = {
           method: "GET",
           headers: { "User-Agent": "insomnia/2023.5.8" },
         };
         const response = await fetch(
-          getApiUrl(`/inmuebles/numero_unidades?email=${queryParameter}`),
+          getApiUrl(endpoint + `?email=${email}`),
           options
         );
 
@@ -88,20 +87,15 @@ const LineChartComponentH2 = () => {
   }, [selectedValue, userEmail]);
 
   useEffect(() => {
-    // Actualización de datos de gráfico aquí
-    const transformedData = tranformeDataApi(data, selectedDataKeyH2);
-    setTransformedData(transformedData);
-
     // Calcular el mínimo y máximo de unidades para generar los valores del eje Y
     const units = data[selectedDataKeyH2].map((item: any) => item.unidades);
-    //const minUnits = Math.min(...units);
     const maxUnits = Math.max(...units);
 
     const tickCount = 4;
-    var count = 0;
-    var tickIni = 0.5;
-    var tickStep = tickIni;
-    var mult = tickIni / 10;
+    let count = 0;
+    let tickIni = 0.5;
+    let tickStep = tickIni;
+    let mult = tickIni / 10;
     while (maxUnits / tickCount > tickStep) {
       if (count % 4 == 0) {
         mult *= 10;
@@ -252,15 +246,8 @@ const LineChartComponentH2 = () => {
             legendOffset: -12,
             tickValues: "every month",
             format: (value) => {
-              const date = new Date(value);
-              const month = new Intl.DateTimeFormat("es", {
-                month: "short",
-              }).format(date);
-              return `${month.charAt(0).toUpperCase()}${month.slice(1)} ${date
-                .getFullYear()
-                .toString()
-                .slice(2)}`;
-              /* return `${date.toLocaleString('default', { month: 'short' }).charAt(0).toUpperCase()}${date.toLocaleString('default', { month: 'short' }).slice(1)} ${date.getFullYear()}`; */
+              const fecha_str = new Date(value).toISOString().split("T")[0];
+              return formatFecha(fecha_str);
             },
           }}
           enableGridX={false}
@@ -287,7 +274,9 @@ const LineChartComponentH2 = () => {
           }}
           lineWidth={7}
           tooltip={(point) => {
-            const date = new Date(point.point.data.x);
+            const fecha_str = new Date(point.point.data.x)
+              .toISOString()
+              .split("T")[0];
 
             return (
               <div
@@ -299,12 +288,7 @@ const LineChartComponentH2 = () => {
                 }}
               >
                 <div>
-                  <strong>{`${date
-                    .toLocaleString("default", { month: "short" })
-                    .charAt(0)
-                    .toUpperCase()}${date
-                    .toLocaleString("default", { month: "short" })
-                    .slice(1)} ${date.getFullYear()}`}</strong>
+                  <strong>{formatFecha(fecha_str)}</strong>
                 </div>
                 <div>{`Unidades: ${point.point.data.y}`}</div>
               </div>
@@ -354,4 +338,4 @@ const LineChartComponentH2 = () => {
   );
 };
 
-export default LineChartComponentH2;
+export default LineChartCompUnidades;

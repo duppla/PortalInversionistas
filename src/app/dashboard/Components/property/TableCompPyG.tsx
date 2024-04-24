@@ -11,6 +11,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
 import { getApiUrl } from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
+import formatFecha from "../utils";
 
 interface DataApiType {
   fecha: string;
@@ -23,9 +24,7 @@ interface DataApiType {
 
 export default function TableCompPyG() {
   const { userEmail } = useAuth();
-  const [data, setData] = useState<DataApiType[]>([]);
-  const [responseData, setResponseData] = useState<any>(null);
-  const [orderedKeys, setOrderedKeys] = useState<string[]>([]); // Agregamos esta línea
+  const [responseData, setResponseData] = useState<DataApiType[]>([]);
 
   useEffect(() => {
     if (!userEmail) {
@@ -46,7 +45,6 @@ export default function TableCompPyG() {
         );
         const responseData = await response.json();
 
-        setData(responseData);
         setResponseData(responseData);
       } catch (error) {
         console.error(error);
@@ -56,27 +54,7 @@ export default function TableCompPyG() {
     fetchData();
   }, [userEmail]);
 
-  // Función para formatear la fecha en el formato deseado
-  const formatFecha = (fecha: string) => {
-    const [year, month, day] = fecha.split("-");
-    const monthNames = [
-      "Ene",
-      "Feb",
-      "Mar",
-      "Abr",
-      "May",
-      "Jun",
-      "Jul",
-      "Ago",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dic",
-    ];
-    return `${monthNames[parseInt(month, 10) - 1]} ${year.slice(2)}`;
-  };
   // Función para formatear las cifras con separadores de miles
-  /*   const formatNumber = (number: number) => number.toLocaleString(); */
   const formatNumber = (value: any) => {
     // Verificar si el valor es numérico antes de aplicar el formato
     if (!isNaN(value) && typeof value === "number") {
@@ -195,9 +173,9 @@ export default function TableCompPyG() {
                   }}
                   align="right"
                 ></TableCell>
-                {data &&
-                  data.length > 0 &&
-                  data.map((row: any, index: any) => (
+                {responseData &&
+                  responseData.length > 0 &&
+                  responseData.map((row: any, index: any) => (
                     <TableCell
                       key={row.fecha}
                       sx={{
@@ -215,187 +193,189 @@ export default function TableCompPyG() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data && Array.isArray(data) && data.length > 0 && (
-                <>
-                  <TableRow
-                    key="ingresos"
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      color: "#9B9EAB",
-                    }}
-                  >
-                    <TableCell
+              {responseData &&
+                Array.isArray(responseData) &&
+                responseData.length > 0 && (
+                  <>
+                    <TableRow
+                      key="ingresos"
                       sx={{
-                        color: "#6C9FFF",
-                        textAlign: "left",
-                        fontFamily: "Rustica",
-                        fontSize: "1rem",
-                        minWidth: 170,
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        color: "#9B9EAB",
                       }}
-                      align="right"
                     >
-                      Ingresos
-                    </TableCell>
-                    {data.map((row: any, rowIndex) => (
                       <TableCell
-                        key={rowIndex}
                         sx={{
-                          color: "#9B9EAB",
-                          textAlign: "end",
-                          minWidth: 170,
+                          color: "#6C9FFF",
+                          textAlign: "left",
                           fontFamily: "Rustica",
                           fontSize: "1rem",
+                          minWidth: 170,
                         }}
                         align="right"
                       >
-                        ${formatNumber(row.ingresos)}
+                        Ingresos
                       </TableCell>
-                    ))}
-                  </TableRow>
+                      {responseData.map((row: any) => (
+                        <TableCell
+                          key={row.fecha}
+                          sx={{
+                            color: "#9B9EAB",
+                            textAlign: "end",
+                            minWidth: 170,
+                            fontFamily: "Rustica",
+                            fontSize: "1rem",
+                          }}
+                          align="right"
+                        >
+                          ${formatNumber(row.ingresos)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
 
-                  <TableRow
-                    key="gastos"
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      color: "#9B9EAB",
-                    }}
-                  >
-                    <TableCell
+                    <TableRow
+                      key="gastos"
                       sx={{
-                        color: "#6C9FFF",
-                        textAlign: "left",
-                        fontFamily: "Rustica",
-                        fontSize: "1rem",
-                        minWidth: 170,
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        color: "#9B9EAB",
                       }}
-                      align="right"
                     >
-                      Gastos
-                    </TableCell>
-                    {data.map((row: any, rowIndex) => (
                       <TableCell
-                        key={rowIndex}
                         sx={{
-                          color: "#9B9EAB",
-                          textAlign: "end",
-                          minWidth: 170,
+                          color: "#6C9FFF",
+                          textAlign: "left",
                           fontFamily: "Rustica",
                           fontSize: "1rem",
+                          minWidth: 170,
                         }}
                         align="right"
                       >
-                        $-{formatNumber(row.gastos)}
+                        Gastos
                       </TableCell>
-                    ))}
-                  </TableRow>
+                      {responseData.map((row: any) => (
+                        <TableCell
+                          key={row.fecha}
+                          sx={{
+                            color: "#9B9EAB",
+                            textAlign: "end",
+                            minWidth: 170,
+                            fontFamily: "Rustica",
+                            fontSize: "1rem",
+                          }}
+                          align="right"
+                        >
+                          $-{formatNumber(row.gastos)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
 
-                  <TableRow
-                    key="utilidad_bruta"
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      color: "#9B9EAB",
-                    }}
-                  >
-                    <TableCell
+                    <TableRow
+                      key="utilidad_bruta"
                       sx={{
-                        color: "#6C9FFF",
-                        textAlign: "left",
-                        fontFamily: "Rustica",
-                        fontSize: "1rem",
-                        minWidth: 170,
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        color: "#9B9EAB",
                       }}
-                      align="right"
                     >
-                      Utilidad bruta
-                    </TableCell>
-                    {data.map((row: any, rowIndex) => (
                       <TableCell
-                        key={rowIndex}
                         sx={{
-                          color: "#9B9EAB",
-                          textAlign: "end",
-                          minWidth: 170,
+                          color: "#6C9FFF",
+                          textAlign: "left",
                           fontFamily: "Rustica",
                           fontSize: "1rem",
+                          minWidth: 170,
                         }}
                         align="right"
                       >
-                        ${formatNumber(row.utilidad_bruta)}
+                        Utilidad bruta
                       </TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow
-                    key="reserva"
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      color: "#9B9EAB",
-                    }}
-                  >
-                    <TableCell
+                      {responseData.map((row: any) => (
+                        <TableCell
+                          key={row.fecha}
+                          sx={{
+                            color: "#9B9EAB",
+                            textAlign: "end",
+                            minWidth: 170,
+                            fontFamily: "Rustica",
+                            fontSize: "1rem",
+                          }}
+                          align="right"
+                        >
+                          ${formatNumber(row.utilidad_bruta)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow
+                      key="reserva"
                       sx={{
-                        color: "#6C9FFF",
-                        textAlign: "left",
-                        fontFamily: "Rustica",
-                        fontSize: "1rem",
-                        minWidth: 170,
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        color: "#9B9EAB",
                       }}
-                      align="right"
                     >
-                      Reserva
-                    </TableCell>
-                    {data.map((row: any, rowIndex) => (
                       <TableCell
-                        key={rowIndex}
                         sx={{
-                          color: "#9B9EAB",
-                          textAlign: "end",
-                          minWidth: 170,
+                          color: "#6C9FFF",
+                          textAlign: "left",
                           fontFamily: "Rustica",
                           fontSize: "1rem",
+                          minWidth: 170,
                         }}
                         align="right"
                       >
-                        $-{formatNumber(row.reserva)}
+                        Reserva
                       </TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow
-                    key="noi"
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      color: "#9B9EAB",
-                    }}
-                  >
-                    <TableCell
+                      {responseData.map((row: any) => (
+                        <TableCell
+                          key={row.fecha}
+                          sx={{
+                            color: "#9B9EAB",
+                            textAlign: "end",
+                            minWidth: 170,
+                            fontFamily: "Rustica",
+                            fontSize: "1rem",
+                          }}
+                          align="right"
+                        >
+                          $-{formatNumber(row.reserva)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow
+                      key="noi"
                       sx={{
-                        color: "#6C9FFF",
-                        textAlign: "left",
-                        fontFamily: "Rustica",
-                        fontSize: "1rem",
-                        minWidth: 170,
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        color: "#9B9EAB",
                       }}
-                      align="right"
                     >
-                      NOI
-                    </TableCell>
-                    {data.map((row: any, rowIndex) => (
                       <TableCell
-                        key={rowIndex}
                         sx={{
-                          color: "#9B9EAB",
-                          textAlign: "end",
-                          minWidth: 170,
+                          color: "#6C9FFF",
+                          textAlign: "left",
                           fontFamily: "Rustica",
                           fontSize: "1rem",
+                          minWidth: 170,
                         }}
                         align="right"
                       >
-                        ${formatNumber(row.noi)}
+                        NOI
                       </TableCell>
-                    ))}
-                  </TableRow>
-                </>
-              )}
+                      {responseData.map((row: any) => (
+                        <TableCell
+                          key={row.fecha}
+                          sx={{
+                            color: "#9B9EAB",
+                            textAlign: "end",
+                            minWidth: 170,
+                            fontFamily: "Rustica",
+                            fontSize: "1rem",
+                          }}
+                          align="right"
+                        >
+                          ${formatNumber(row.noi)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </>
+                )}
             </TableBody>
           </Table>
         </TableContainer>
