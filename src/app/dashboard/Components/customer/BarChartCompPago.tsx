@@ -8,6 +8,9 @@ import { getApiUrl } from "@/app/url/ApiConfig";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { useAuth } from "@/app/context/authContext";
+import formatFecha from "../utils";
+
+const endpoint = "/clientes/comportamiento_pago";
 
 type DataApiType = {
   fecha: string;
@@ -21,14 +24,13 @@ type DataType = {
   ult_6_meses: DataApiType[];
 };
 
-function BarChartComponentO() {
+function BarChartCompPago() {
   console.log = () => {};
 
   const { userEmail } = useAuth();
 
   const [data, setData] = useState<DataType | null>(null);
   const [responseData, setResponseData] = useState<any>(null);
-  const [dataApi, setDataApi] = useState<DataType[]>([]);
   const [selectedDataKeyO, setSelectedDataKeyO] =
     useState<string>("ult_12_meses");
   const [selectedValue, setSelectedValue] = useState<string | number>(
@@ -46,10 +48,10 @@ function BarChartComponentO() {
     );
 
     const tickCount = 5;
-    var count = 0;
-    var tickIni = 500000;
-    var tickStep = tickIni;
-    var mult = tickIni / 10;
+    let count = 0;
+    let tickIni = 500000;
+    let tickStep = tickIni;
+    let mult = tickIni / 10;
     while (maxSum / tickCount > tickStep) {
       if (count % 4 == 0) {
         mult *= 10;
@@ -71,19 +73,18 @@ function BarChartComponentO() {
   };
 
   useEffect(() => {
-    const queryParameter = userEmail;
+    if (!userEmail) {
+      return;
+    }
+    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
-      if (!userEmail) {
-        return;
-      }
       try {
         const options = {
           method: "GET",
           headers: { "User-Agent": "insomnia/2023.5.8" },
         };
-        /*   const response = await fetch(getApiUrl(`/clientes/o?investor=skandia`), options);  */
         const response = await fetch(
-          getApiUrl(`/clientes/comportamiento_pago?email=${queryParameter}`),
+          getApiUrl(endpoint + `?email=${email}`),
           options
         );
 
@@ -127,17 +128,13 @@ function BarChartComponentO() {
   /* data del enpoint para renderizar la grafica por un map */
 
   const formattedData =
-    responseData && responseData[selectedDataKeyO]
-      ? responseData[selectedDataKeyO].map(
-          (item: { fecha: string; pagado: number; mora: number }) => ({
-            fecha: item.fecha,
-            "Pago a tiempo": item.pagado, // Solo valores positivos o cero
-            "Pago con Atraso": Math.abs(item.mora), // Solo valores negativos
-          })
-        )
-      : [];
-
-  /*   console.log(JSON.stringify(formattedData)); */
+    responseData?.[selectedDataKeyO]?.map(
+      (item: { fecha: string; pagado: number; mora: number }) => ({
+        fecha: item.fecha,
+        "Pago a tiempo": item.pagado, // Solo valores positivos o cero
+        "Pago con Atraso": Math.abs(item.mora), // Solo valores negativos
+      })
+    ) ?? [];
 
   /* prueba de formateo data a legible */
   function formatNumber(value: number): string {
@@ -145,12 +142,6 @@ function BarChartComponentO() {
   }
 
   /* prueba de formateo data a legible tooltip */
-  function formatNumberTooltip(value: number): string {
-    var millones = (value / 1000000).toFixed(1);
-    var shortValue = millones.endsWith(".0") ? millones.slice(0, -2) : millones;
-
-    return (value < 0 ? "-" : "") + shortValue + " M";
-  }
 
   return (
     <div className="grafica-barcharts-des nivo-text">
@@ -218,28 +209,7 @@ function BarChartComponentO() {
                 open={menuOpen}
                 onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
                 onOpen={() => setMenuOpen(true)} // Abre el menú cuando se hace clic en el botón
-                IconComponent={() =>
-                  // Cambia el ícono según el estado del menú
-                  menuOpen ? (
-                    <ArrowDropUpIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  ) : (
-                    <ArrowDropDownIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  )
-                }
+                IconComponent={() => setIconComponent(menuOpen, setMenuOpen)}
               >
                 {/*    <MenuItem value='este_anho'>Este año</MenuItem> */}
                 <MenuItem value="ult_6_meses">Últimos 6 meses</MenuItem>
@@ -306,46 +276,7 @@ function BarChartComponentO() {
             format: (value) => formatNumber(value),
           }}
           tooltip={(point) => {
-            if (typeof point.data.fecha === "string") {
-              const [year, month] = point.data.fecha.split("-");
-              const monthNames = [
-                "Ene",
-                "Feb",
-                "Mar",
-                "Abr",
-                "May",
-                "Jun",
-                "Jul",
-                "Ago",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dic",
-              ];
-              const formattedDate = `${
-                monthNames[parseInt(month, 10) - 1]
-              } ${year}`;
-              const formattedValue = formatNumberTooltip(
-                Number(point.data[point.id])
-              );
-
-              return (
-                <div
-                  style={{
-                    background: "black",
-                    padding: "8px",
-                    borderRadius: "4px",
-                    color: "white",
-                  }}
-                >
-                  <strong>{formattedDate}</strong>
-                  <div>
-                    {point.id}: {formattedValue}
-                  </div>
-                </div>
-              );
-            }
-            return null; // Devolver null si point.data.fecha no es una cadena
+            return setTooltip(point);
           }}
           borderRadius={4}
           borderColor={{
@@ -365,23 +296,7 @@ function BarChartComponentO() {
               (item: { fecha: string }) => item.fecha
             ),
             format: (value) => {
-              const [year, month] = value.split("-");
-              const monthNames = [
-                "Ene",
-                "Feb",
-                "Mar",
-                "Abr",
-                "May",
-                "Jun",
-                "Jul",
-                "Ago",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dic",
-              ];
-              const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-              return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
+              return formatFecha(value);
             },
           }}
           labelSkipWidth={12}
@@ -426,4 +341,58 @@ function BarChartComponentO() {
   );
 }
 
-export default BarChartComponentO;
+const setTooltip = (point: any) => {
+  if (typeof point.data.fecha === "string") {
+    const formattedDate = formatFecha(point.data.fecha);
+    const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+
+    return (
+      <div
+        style={{
+          background: "black",
+          padding: "8px",
+          borderRadius: "4px",
+          color: "white",
+        }}
+      >
+        <strong>{formattedDate}</strong>
+        <div>
+          {point.id}: {formattedValue}
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
+function formatNumberTooltip(value: number): string {
+  let millones = (value / 1000000).toFixed(1);
+  let shortValue = millones.endsWith(".0") ? millones.slice(0, -2) : millones;
+
+  return (value < 0 ? "-" : "") + shortValue + " M";
+}
+
+const setIconComponent = (menuOpen: boolean, setMenuOpen: any) => {
+  const icon = menuOpen ? (
+    <ArrowDropUpIcon
+      style={{
+        color: "#9B9EAB",
+        fill: "#9B9EAB",
+        marginLeft: "-20px",
+      }}
+      onClick={() => setMenuOpen(!menuOpen)}
+    />
+  ) : (
+    <ArrowDropDownIcon
+      style={{
+        color: "#9B9EAB",
+        fill: "#9B9EAB",
+        marginLeft: "-20px",
+      }}
+      onClick={() => setMenuOpen(!menuOpen)}
+    />
+  );
+  return icon;
+};
+
+export default BarChartCompPago;

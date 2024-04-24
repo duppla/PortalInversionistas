@@ -8,6 +8,9 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { getApiUrl } from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
+import formatFecha from "../utils";
+
+const endpoint = "/clientes/historico_score";
 
 type DataApiType = {
   fecha: string;
@@ -42,16 +45,11 @@ interface DataType {
   // Aquí puedes agregar las demás propiedades de DataType.
 }
 
-function StreamChartComponentL() {
-  // Extrae el correo electrónico del localStorage
-  const storedEmail =
-    typeof window !== "undefined" ? localStorage.getItem("userEmail") : null;
-
+function StreamChartCompScore() {
   const { userEmail } = useAuth();
 
   const [data, setData] = useState<DataType | null>(null);
   const [responseData, setResponseData] = useState<any>(null);
-  const [dataApi, setDataApi] = useState<DataType[]>([]);
   const [selectedDataKeyL, setSelectedDataKeyL] =
     useState<string>("ult_12_meses");
   const [selectedValue, setSelectedValue] = useState<string | number>(
@@ -63,7 +61,7 @@ function StreamChartComponentL() {
     if (!userEmail) {
       return;
     }
-    const queryParameter = userEmail;
+    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
       try {
         const options = {
@@ -71,7 +69,7 @@ function StreamChartComponentL() {
           headers: { "User-Agent": "insomnia/2023.5.8" },
         };
         const response = await fetch(
-          getApiUrl(`/clientes/historico_score?email=${queryParameter}`),
+          getApiUrl(endpoint + `?email=${email}`),
           options
         );
 
@@ -103,15 +101,13 @@ function StreamChartComponentL() {
 
   // Este código podría ir en el lugar donde obtienes las fechas del servidor
   const formattedData =
-    responseData && responseData[selectedDataKeyL]
-      ? responseData[selectedDataKeyL].map((dataItem: any) => ({
-          id: dataItem.fecha, // El identificador de cada serie es la fecha
-          Alto: dataItem.alto ? dataItem.alto : 0,
-          Medio: dataItem.medio ? dataItem.medio : 0,
-          Bajo: dataItem.bajo ? dataItem.bajo : 0,
-          Muy_bajo: dataItem.muy_bajo ? dataItem.muy_bajo : 0,
-        }))
-      : [];
+    responseData?.[selectedDataKeyL]?.map((dataItem: any) => ({
+      id: dataItem.fecha, // El identificador de cada serie es la fecha
+      Alto: dataItem.alto ? dataItem.alto : 0,
+      Medio: dataItem.medio ? dataItem.medio : 0,
+      Bajo: dataItem.bajo ? dataItem.bajo : 0,
+      Muy_bajo: dataItem.muy_bajo ? dataItem.muy_bajo : 0,
+    })) || [];
 
   // Asegúrate de que tus datos tengan la estructura adecuada
 
@@ -127,35 +123,6 @@ function StreamChartComponentL() {
   /* Función para formatear números como porcentajes sin decimales y ceros */
   function formatNumber(value: number): string {
     const percentageValue = (value * 100).toFixed(1).replace(/\.0$/, ""); // Elimina el .0
-    return `${percentageValue}%`;
-  }
-  const CustomTooltip: React.FC<MyTooltipProps> = ({ slice }) => (
-    <div
-      style={{
-        background: "black",
-        color: "white",
-        padding: "9px 12px",
-        border: "1px solid #ccc",
-      }}
-    >
-      <div>
-        <strong>ID:</strong> {slice.id}
-      </div>
-      <div>
-        <strong>Color:</strong> {slice.color}
-      </div>
-      <div>
-        {slice.stack.points.map((point, i) => (
-          <div key={i}>
-            <strong>{point.id}:</strong> {formatNumberTooltip(point.value)}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-  /* Función para formatear números como porcentajes sin decimales y ceros */
-  function formatNumberTooltip(value: number): string {
-    const percentageValue = (value * 100).toFixed(0);
     return `${percentageValue}%`;
   }
 
@@ -225,28 +192,7 @@ function StreamChartComponentL() {
                 open={menuOpen}
                 onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
                 onOpen={() => setMenuOpen(true)} // Abre el menú cuando se hace clic en el botón
-                IconComponent={() =>
-                  // Cambia el ícono según el estado del menú
-                  menuOpen ? (
-                    <ArrowDropUpIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  ) : (
-                    <ArrowDropDownIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  )
-                }
+                IconComponent={() => setIconComponent(menuOpen, setMenuOpen)}
               >
                 {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
                 <MenuItem value="ult_6_meses">Últimos 6 meses</MenuItem>
@@ -287,24 +233,7 @@ function StreamChartComponentL() {
                 index < sortedFormattedData.length
               ) {
                 const { id } = sortedFormattedData[index];
-                const [year, month] = id.split("-");
-                const monthIndex = parseInt(month, 10) - 1;
-                const monthNames = [
-                  "Ene",
-                  "Feb",
-                  "Mar",
-                  "Abr",
-                  "May",
-                  "Jun",
-                  "Jul",
-                  "Ago",
-                  "Sep",
-                  "Oct",
-                  "Nov",
-                  "Dic",
-                ];
-                const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-                return `${monthNames[monthIndex]} ${shortYear}`;
+                return formatFecha(id);
               }
               return ""; // Retorna una cadena vacía si no hay datos o el índice es inválido
             },
@@ -398,4 +327,27 @@ function StreamChartComponentL() {
   );
 }
 
-export default StreamChartComponentL;
+const setIconComponent = (menuOpen: boolean, setMenuOpen: any) => {
+  const icon = menuOpen ? (
+    <ArrowDropUpIcon
+      style={{
+        color: "#9B9EAB",
+        fill: "#9B9EAB",
+        marginLeft: "-20px",
+      }}
+      onClick={() => setMenuOpen(!menuOpen)}
+    />
+  ) : (
+    <ArrowDropDownIcon
+      style={{
+        color: "#9B9EAB",
+        fill: "#9B9EAB",
+        marginLeft: "-20px",
+      }}
+      onClick={() => setMenuOpen(!menuOpen)}
+    />
+  );
+  return icon;
+};
+
+export default StreamChartCompScore;

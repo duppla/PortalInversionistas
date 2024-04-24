@@ -3,27 +3,15 @@ import { ResponsiveBar } from "@nivo/bar";
 import { useEffect, useState, ReactNode } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { SelectChangeEvent } from "@mui/material/Select";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-
-import {
-  Container,
-  Box,
-  Button,
-  ButtonGroup,
-  Typography,
-  Stack,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Typography, FormControl, Select, MenuItem } from "@mui/material";
 import { getApiUrl } from "@/app/url/ApiConfig";
-import { internal_processStyles } from "@mui/styled-engine-sc";
 import { useAuth } from "@/app/context/authContext";
 import { GridValues } from "@nivo/axes";
+import formatFecha from "../utils";
+
+const endpoint = "/clientes/destino_pagos";
 
 type DataApiType = {
   fecha: string;
@@ -47,18 +35,13 @@ type ItemType = {
   prepago: number;
 };
 
-function BarChartComponentN() {
-  // Extrae el correo electrónico del localStorage
-  const storedEmail =
-    typeof window !== "undefined" ? localStorage.getItem("userEmail") : null;
-
+function BarChartCompDestino() {
   const { userEmail } = useAuth();
 
   let first = true;
 
   const [data, setData] = useState<DataType | null>(null);
   const [responseData, setResponseData] = useState<any>(null);
-  const [dataApi, setDataApi] = useState<DataType[]>([]);
   const [selectedDataKeyN, setSelectedDataKeyN] =
     useState<string>("ult_12_meses");
   const [selectedValue, setSelectedValue] = useState<string | number>(
@@ -72,7 +55,7 @@ function BarChartComponentN() {
     if (!userEmail) {
       return;
     }
-    const queryParameter = userEmail;
+    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
       try {
         const options = {
@@ -80,7 +63,7 @@ function BarChartComponentN() {
           headers: { "User-Agent": "insomnia/2023.5.8" },
         };
         const response = await fetch(
-          getApiUrl(`/clientes/destino_pagos?email=${queryParameter}`),
+          getApiUrl(endpoint + `?email=${email}`),
           options
         );
 
@@ -109,44 +92,35 @@ function BarChartComponentN() {
     handleDataSelection(selectedDataKeyN);
   };
 
-  const formattedDataN =
-    responseData && responseData[selectedDataKeyN]
-      ? responseData[selectedDataKeyN].map((item: ItemType, index: number) => {
-          // Convertir la fecha a un objeto Date
-          const dateObject = new Date(item.fecha);
+  const formattedDataN = responseData
+    ? responseData[selectedDataKeyN].map((item: ItemType, index: number) => {
+        // Convertir la fecha a un objeto Date
+        const dateObject = new Date(item.fecha);
 
-          // Verificar que la fecha es válida antes de usarla
-          const isValidDate =
-            !isNaN(dateObject.getTime()) && isFinite(dateObject.getTime());
+        // Verificar que la fecha es válida antes de usarla
+        const isValidDate =
+          !isNaN(dateObject.getTime()) && isFinite(dateObject.getTime());
 
-          // Usar un identificador único en lugar de la fecha directamente
-          const uniqueKey = isValidDate
-            ? dateObject.getTime()
-            : `invalid_date_${index}`;
+        // Usar un identificador único en lugar de la fecha directamente
+        const uniqueKey = isValidDate
+          ? dateObject.getTime()
+          : `invalid_date_${index}`;
 
-          return {
-            fecha: item.fecha,
-            "Intereses moratorios": item.intereses,
-            Arriendo: item.arriendo,
-            Adelanto: item.prepago,
-            // Usar el identificador único como clave
-            key: uniqueKey,
-          };
-        })
-      : [];
-
+        return {
+          fecha: item.fecha,
+          "Intereses moratorios": item.intereses,
+          Arriendo: item.arriendo,
+          Adelanto: item.prepago,
+          key: uniqueKey,
+        };
+      })
+    : [];
   /* prueba de formateo data a legible */
   function formatNumber(value: number): string {
     return (value / 1000000).toFixed(0) + " M";
   }
 
   /* prueba de formateo data a legible tooltip */
-  function formatNumberTooltip(value: number): string {
-    var millones = (value / 1000000).toFixed(1);
-    var shortValue = millones.endsWith(".0") ? millones.slice(0, -2) : millones;
-
-    return shortValue + " M";
-  }
 
   // Dentro de tu componente, después de obtener los datos del API
   const arriendoValues = formattedDataN.map((item: any) =>
@@ -162,19 +136,19 @@ function BarChartComponentN() {
   // Suma de los máximos de todas las categorías
 
   const calculateTickValues = () => {
-    var maxTotal = 0;
-    for (var i = 0; i < arriendoValues.length; i++) {
-      var totalMes = arriendoValues[i] + prepagoValues[i] + interesesValues[i];
+    let maxTotal = 0;
+    for (let i = 0; i < arriendoValues.length; i++) {
+      let totalMes = arriendoValues[i] + prepagoValues[i] + interesesValues[i];
       if (totalMes > maxTotal) {
         maxTotal = totalMes;
       }
     }
 
     const tickCount = 6;
-    var count = 0;
-    var tickIni = 500000;
-    var tickStep = tickIni;
-    var mult = tickIni / 10;
+    let count = 0;
+    let tickIni = 500000;
+    let tickStep = tickIni;
+    let mult = tickIni / 10;
     while (maxTotal / tickCount > tickStep) {
       if (count % 4 == 0) {
         mult *= 10;
@@ -194,7 +168,7 @@ function BarChartComponentN() {
 
   if (data != null && first) {
     gridYValues = calculateTickValues();
-    first = false;
+    let first = false;
   }
 
   return (
@@ -261,28 +235,9 @@ function BarChartComponentN() {
                 open={menuOpen}
                 onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
                 onOpen={() => setMenuOpen(true)} // Abre el menú cuando se hace clic en el botón
-                IconComponent={() =>
-                  // Cambia el ícono según el estado del menú
-                  menuOpen ? (
-                    <ArrowDropUpIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  ) : (
-                    <ArrowDropDownIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  )
-                }
+                IconComponent={() => {
+                  return setIconComponent(menuOpen, setMenuOpen);
+                }}
               >
                 {/* <MenuItem value='este_anho'>Este año</MenuItem> */}
                 <MenuItem value="ult_6_meses">Últimos 6 meses</MenuItem>
@@ -333,46 +288,7 @@ function BarChartComponentN() {
           }}
           groupMode="stacked"
           tooltip={(point) => {
-            if (typeof point.data.fecha === "string") {
-              const [year, month] = point.data.fecha.split("-");
-              const monthNames = [
-                "Ene",
-                "Feb",
-                "Mar",
-                "Abr",
-                "May",
-                "Jun",
-                "Jul",
-                "Ago",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dic",
-              ];
-              const formattedDate = `${
-                monthNames[parseInt(month, 10) - 1]
-              } ${year}`;
-              const formattedValue = formatNumberTooltip(
-                Number(point.data[point.id])
-              );
-
-              return (
-                <div
-                  style={{
-                    background: "black",
-                    padding: "8px",
-                    borderRadius: "4px",
-                    color: "white",
-                  }}
-                >
-                  <strong>{formattedDate}</strong>
-                  <div>
-                    {point.id}: {formattedValue}
-                  </div>
-                </div>
-              );
-            }
-            return null;
+            return setTooltip(point);
           }}
           borderRadius={4}
           borderColor={{
@@ -393,23 +309,7 @@ function BarChartComponentN() {
             ),
             format: (value) => {
               if (typeof value === "string") {
-                const [year, month] = value.split("-");
-                const monthNames = [
-                  "Ene",
-                  "Feb",
-                  "Mar",
-                  "Abr",
-                  "May",
-                  "Jun",
-                  "Jul",
-                  "Ago",
-                  "Sep",
-                  "Oct",
-                  "Nov",
-                  "Dic",
-                ];
-                const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-                return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
+                return formatFecha(value);
               } else {
                 return value; // O proporciona un valor predeterminado si no es una cadena
               }
@@ -472,4 +372,58 @@ function BarChartComponentN() {
   );
 }
 
-export default BarChartComponentN;
+const setIconComponent = (menuOpen: boolean, setMenuOpen: any) => {
+  const icon = menuOpen ? (
+    <ArrowDropUpIcon
+      style={{
+        color: "#9B9EAB",
+        fill: "#9B9EAB",
+        marginLeft: "-20px",
+      }}
+      onClick={() => setMenuOpen(!menuOpen)}
+    />
+  ) : (
+    <ArrowDropDownIcon
+      style={{
+        color: "#9B9EAB",
+        fill: "#9B9EAB",
+        marginLeft: "-20px",
+      }}
+      onClick={() => setMenuOpen(!menuOpen)}
+    />
+  );
+  return icon;
+};
+
+const setTooltip = (point: any) => {
+  if (typeof point.data.fecha === "string") {
+    const formattedDate = formatFecha(point.data.fecha);
+    const formattedValue = formatNumberTooltip(Number(point.data[point.id]));
+
+    return (
+      <div
+        style={{
+          background: "black",
+          padding: "8px",
+          borderRadius: "4px",
+          color: "white",
+        }}
+      >
+        <strong>{formattedDate}</strong>
+        <div>
+          {point.id}: {formattedValue}
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
+function formatNumberTooltip(value: number): string {
+  let millones = (value / 1000000).toFixed(1);
+  let shortValue = millones.endsWith(".0") ? millones.slice(0, -2) : millones;
+
+  return shortValue + " M";
+}
+
+export default BarChartCompDestino;
