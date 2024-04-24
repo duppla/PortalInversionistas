@@ -10,6 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
 import { useAuth } from "../../../context/authContext";
 import { Typography, FormControl, Select, MenuItem } from "@mui/material";
+import formatFecha from "../utils";
 
 const endpoint = "/principal/flujo_real_esperado";
 
@@ -32,6 +33,7 @@ type ItemType = {
   flujo_real: number;
   flujo_esperado: number;
 };
+
 function BarChartCompFlujos() {
   const { userEmail } = useAuth();
 
@@ -351,26 +353,9 @@ function BarChartCompFlujos() {
           }}
           tooltip={(point) => {
             if (typeof point.data.fecha === "string") {
-              const [year, month] = point.data.fecha.split("-");
-              const monthNames = [
-                "Ene",
-                "Feb",
-                "Mar",
-                "Abr",
-                "May",
-                "Jun",
-                "Jul",
-                "Ago",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dic",
-              ];
-              const formattedDate = `${
-                monthNames[parseInt(month, 10) - 1]
-              } ${year}`;
+              const formattedDate = formatFecha(point.data.fecha);
               const formattedValue = formatNumberTooltip(
-                Number(point.data[point.id])
+                Number(point.data[point.id as keyof ItemType])
               );
 
               return (
