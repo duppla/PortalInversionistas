@@ -10,6 +10,7 @@ import { getApiUrl } from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
+import formatFecha from "../utils";
 
 type TasaMorosidad = {
   fecha: string;
@@ -329,7 +330,10 @@ const LineChartCompHistMora = () => {
           useMesh={true}
           legends={[]}
           tooltip={(point) => {
-            const date: Date = new Date(point.point.data.x);
+            const date: string = new Date(point.point.data.x)
+              .toISOString()
+              .split("T")[0];
+            const fecha_formateada = formatFecha(date);
             const formattedY =
               typeof point.point.data.y === "number"
                 ? `${(point.point.data.y * 100).toFixed(1)}%` // Multiplica por 100 y agrega el símbolo de porcentaje
@@ -345,12 +349,7 @@ const LineChartCompHistMora = () => {
                 }}
               >
                 <div>
-                  <strong>{`${date
-                    .toLocaleString("default", { month: "short" })
-                    .charAt(0)
-                    .toUpperCase()}${date
-                    .toLocaleString("default", { month: "short" })
-                    .slice(1)} ${date.getFullYear()}`}</strong>
+                  <strong>{fecha_formateada}</strong>
                 </div>
                 <div>{`Tasa Morosidad: ${formattedY}`}</div>
               </div>
