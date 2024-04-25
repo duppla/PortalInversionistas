@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
 import { ResponsivePie } from "@nivo/pie";
-import { getApiUrl } from "@/app/url/ApiConfig";
+import getApiUrl from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
 
 const endpoint = "/clientes/actividad_economica";

@@ -4,11 +4,11 @@ import { useEffect, useState, ReactNode } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { Typography, FormControl, Select, MenuItem } from "@mui/material";
-import { getApiUrl } from "@/app/url/ApiConfig";
+import getApiUrl from "@/app/url/ApiConfig";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { useAuth } from "@/app/context/authContext";
-import formatFecha from "../utils";
+import { formatFecha } from "../utils";
 
 const endpoint = "/clientes/comportamiento_pago";
 

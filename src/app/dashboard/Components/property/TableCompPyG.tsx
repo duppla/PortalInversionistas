@@ -9,9 +9,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
-import { getApiUrl } from "@/app/url/ApiConfig";
+import getApiUrl from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
-import formatFecha from "../utils";
+import { formatFecha } from "../utils";
 
 interface DataApiType {
   fecha: string;

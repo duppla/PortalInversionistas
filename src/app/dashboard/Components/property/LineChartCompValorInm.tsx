@@ -7,9 +7,9 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { FormControl, Typography, Select, MenuItem } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import { DatumValue } from "@nivo/core";
-import { getApiUrl } from "@/app/url/ApiConfig";
+import getApiUrl from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
-import formatFecha from "../utils";
+import { formatFecha } from "../utils";
 
 const endpoint = "/inmuebles/valor_inmuebles";
 

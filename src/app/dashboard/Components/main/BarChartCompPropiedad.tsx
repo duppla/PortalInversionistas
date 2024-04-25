@@ -6,7 +6,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { Typography, FormControl, Select, MenuItem } from "@mui/material";
-import { getApiUrl } from "@/app/url/ApiConfig";
+import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
 
 const endpoint = "/principal/porcentaje_propiedad";

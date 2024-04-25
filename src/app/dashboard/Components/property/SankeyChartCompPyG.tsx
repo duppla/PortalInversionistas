@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ResponsiveSankey } from "@nivo/sankey";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
-import { getApiUrl } from "@/app/url/ApiConfig";
+import getApiUrl from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
 
 const endpoint = "/inmuebles/perdidas_ganancias_sankey";

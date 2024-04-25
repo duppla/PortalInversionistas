@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import { getApiUrl } from "@/app/url/ApiConfig";
+import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
-import formatFecha from "@/app/dashboard/Components/utils";
+import { formatFecha } from "@/app/dashboard/Components/utils";
 
 const endpoint = "/principal/adelanto";
 

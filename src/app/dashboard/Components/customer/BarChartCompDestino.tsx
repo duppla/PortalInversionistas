@@ -6,10 +6,10 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { Typography, FormControl, Select, MenuItem } from "@mui/material";
-import { getApiUrl } from "@/app/url/ApiConfig";
+import getApiUrl from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
 import { GridValues } from "@nivo/axes";
-import formatFecha from "../utils";
+import { formatFecha } from "../utils";
 
 const endpoint = "/clientes/destino_pagos";
 

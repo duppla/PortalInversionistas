@@ -3,7 +3,7 @@ import mapboxgl, { Map } from "mapbox-gl";
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { getApiUrl } from "@/app/url/ApiConfig";
+import getApiUrl from "@/app/url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
 
 const endpoint = "/inmuebles/mapa";

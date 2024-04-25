@@ -1,16 +1,21 @@
 "use client";
-import { ResponsiveBar } from "@nivo/bar";
-import { useEffect, useState, ReactNode } from "react";
+// react imports
+import { useEffect, useState } from "react";
+
+// material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
 import { SelectChangeEvent } from "@mui/material/Select";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { getApiUrl } from "@/app/url/ApiConfig";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
-import { useAuth } from "../../../context/authContext";
 import { Typography, FormControl, Select, MenuItem } from "@mui/material";
-import formatFecha from "../utils";
+
+// nivo imports
+import { ResponsiveBar } from "@nivo/bar";
+
+// custom imports
+import getApiUrl from "../../../url/ApiConfig";
+import { useAuth } from "../../../context/authContext";
+import { formatFecha, changeArrow, formatMillionsStr } from "../utils";
 
 const endpoint = "/principal/flujo_real_esperado";
 
@@ -21,6 +26,12 @@ type Flujos = {
   [key: string]: string | number;
 };
 
+type FlujosFront = {
+  fecha: string;
+  Real: number;
+  Esperado: number;
+};
+
 type FlujoRealEsperado = {
   ult_12_meses: [Flujos];
   este_anho: [Flujos];
@@ -28,46 +39,25 @@ type FlujoRealEsperado = {
   [key: string]: [Flujos];
 };
 
-type ItemType = {
-  fecha: string;
-  flujo_real: number;
-  flujo_esperado: number;
-};
-
 function BarChartCompFlujos() {
   const { userEmail } = useAuth();
 
+  // data: Datos de la API
   const [data, setData] = useState<FlujoRealEsperado | null>(null);
-  const [responseData, setResponseData] = useState<any>(null);
-  const [selectedDataKeyA, setSelectedDataKeyA] =
-    useState<string>("ult_12_meses");
-  const [selectedValue, setSelectedValue] = useState<string | number>(
-    "ult_12_meses"
-  );
-  const [menuOpen, setMenuOpen] = useState(false);
+  // selectedKey: periodo seleccionada por el usuario (default ult_12_meses)
+  const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
 
+  // configuración interna de estados reactivos
+  const [menuOpen, setMenuOpen] = useState(false);
   const [gridYValues, setGridYValues] = useState<number[]>([]);
   const [tickValues, setTickValues] = useState<number[]>([]);
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
       try {
-        const options = {
-          method: "GET",
-          headers: { "User-Agent": "insomnia/2023.5.8" },
-        };
-        const response = await fetch(
-          getApiUrl(endpoint + `?email=${email}`),
-          options
-        );
-
+        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
         const responseData = await response.json();
-        setResponseData(responseData);
-        setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+        setData(responseData);
       } catch (error) {
         console.error(error);
       }
@@ -76,74 +66,36 @@ function BarChartCompFlujos() {
     fetchData();
   }, [userEmail]);
 
-  /* Función para actualizar la selección del usuario */
-  const handleDataSelection = (dataKey: string) => {
-    setSelectedDataKeyA(dataKey);
-  };
-
   /* Función que controla la selección del dropdown */
-  const handleSelectChange = (
-    event: SelectChangeEvent<string | number>,
-    child: ReactNode
-  ) => {
-    const selectedDataKeyA = event.target.value as string;
-    setSelectedValue(selectedDataKeyA);
-    handleDataSelection(selectedDataKeyA);
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    setSelectedKey(event.target.value);
   };
 
-  const getDataForSelectedKey = (): ItemType[] => {
-    if (!responseData) return [];
+  let formattedData: FlujosFront[] = [];
 
-    switch (selectedDataKeyA) {
-      case "ult_12_meses":
-        return responseData.ult_12_meses;
-      case "este_anho":
-        return responseData.este_anho;
-      case "ult_6_meses":
-        return responseData.ult_6_meses;
-      default:
-        return [];
-    }
-  };
-
-  let formattedData: ItemType[] = [];
-
-  if (responseData) {
-    formattedData = responseData[selectedDataKeyA]?.map((item: Flujos) => {
-      return {
-        fecha: item.fecha,
-        Real: item.flujo_real, // Cambia la leyenda de flujo_real a Flujo
-        Esperado: item.flujo_esperado, // Cambia la leyenda de flujo_esperado a Esperado
-      };
-    });
-  }
-
-  /* prueba de formateo data a legible */
-
-  function formatNumber(value: number): string {
-    return (value / 1000000).toFixed(0) + " M";
-  }
-
-  /* prueba de formateo data a legible tooltip */
-  function formatNumberTooltip(value: number): string {
-    if (value === undefined) {
-      return "N/A"; // Manejar el caso cuando el valor es undefined
-    }
-    let millones = (Math.abs(value) / 1000000).toFixed(1);
-    let shortValue = millones.endsWith(".0") ? millones.slice(0, -2) : millones;
-
-    return shortValue + " M";
+  if (data) {
+    formattedData = data[selectedKey as keyof FlujoRealEsperado]?.map(
+      (item: Flujos) => {
+        return {
+          fecha: item.fecha,
+          Real: item.flujo_real, // Cambia la leyenda de flujo_real a Flujo
+          Esperado: item.flujo_esperado, // Cambia la leyenda de flujo_esperado a Esperado
+        };
+      }
+    );
   }
 
   useEffect(() => {
-    const dataForSelectedKey = getDataForSelectedKey();
-    const { gridYValues, tickValues } = calculateAxisValues(dataForSelectedKey);
-    setGridYValues(gridYValues);
-    setTickValues(tickValues);
-  }, [selectedDataKeyA, responseData]);
+    if (data) {
+      const dataFlujos: Flujos[] = data[selectedKey as keyof FlujoRealEsperado];
+      const { gridYValues, tickValues } = calculateAxisValues(dataFlujos);
+      setGridYValues(gridYValues);
+      setTickValues(tickValues);
+    }
+  }, [selectedKey, data]);
 
   /* Función para calcular los valores de los ejes */
-  const calculateAxisValues = (data: ItemType[]) => {
+  const calculateAxisValues = (data: Flujos[]) => {
     const maxValue = Math.max(
       ...data.map((item) => Math.max(item.flujo_real, item.flujo_esperado))
     );
@@ -224,7 +176,7 @@ function BarChartCompFlujos() {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={selectedValue}
+                value={selectedKey}
                 label="Age"
                 onChange={handleSelectChange}
                 /*  IconComponent={() => <KeyboardArrowDownIcon />} */
@@ -261,28 +213,9 @@ function BarChartCompFlujos() {
                 open={menuOpen}
                 onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
                 onOpen={() => setMenuOpen(true)} // Abre el menú cuando se hace clic en el botón
-                IconComponent={() =>
-                  // Cambia el ícono según el estado del menú
-                  menuOpen ? (
-                    <ArrowDropUpIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  ) : (
-                    <ArrowDropDownIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  )
-                }
+                IconComponent={() => {
+                  return changeArrow(menuOpen, setMenuOpen);
+                }}
               >
                 {/* <MenuItem value='este_anho'>Este año</MenuItem> */}
                 <MenuItem value="ult_6_meses">Últimos 6 meses</MenuItem>
@@ -352,29 +285,7 @@ function BarChartCompFlujos() {
             modifiers: [["darker", 1.4]],
           }}
           tooltip={(point) => {
-            if (typeof point.data.fecha === "string") {
-              const formattedDate = formatFecha(point.data.fecha);
-              const formattedValue = formatNumberTooltip(
-                Number(point.data[point.id as keyof ItemType])
-              );
-
-              return (
-                <div
-                  style={{
-                    background: "black",
-                    padding: "8px",
-                    borderRadius: "4px",
-                    color: "white",
-                  }}
-                >
-                  <strong>{formattedDate}</strong>
-                  <div>
-                    {point.id}: {formattedValue}
-                  </div>
-                </div>
-              );
-            }
-            return null; // Devolver null si point.data.fecha no es una cadena
+            return setTooltip(point);
           }}
           axisTop={null}
           axisRight={null}
@@ -385,29 +296,12 @@ function BarChartCompFlujos() {
             legend: "",
             legendPosition: "middle",
             legendOffset: 32,
-
             tickValues: formattedData.map(
               (item: { fecha: string }) => item.fecha
             ),
             format: (value) => {
               if (typeof value === "string") {
-                const [year, month] = value.split("-");
-                const monthNames = [
-                  "Ene",
-                  "Feb",
-                  "Mar",
-                  "Abr",
-                  "May",
-                  "Jun",
-                  "Jul",
-                  "Ago",
-                  "Sep",
-                  "Oct",
-                  "Nov",
-                  "Dic",
-                ];
-                const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-                return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
+                return formatFecha(value); // Formatea la fecha si es una cadena
               } else {
                 return value; // O proporciona un valor predeterminado si no es una cadena
               }
@@ -422,7 +316,7 @@ function BarChartCompFlujos() {
             legend: "",
             legendPosition: "middle",
             legendOffset: -40,
-            format: (value) => formatNumber(value),
+            format: (value) => formatMillionsStr(value),
           }}
           labelSkipWidth={12}
           labelSkipHeight={12}
@@ -465,6 +359,33 @@ function BarChartCompFlujos() {
       )}
     </div>
   );
+}
+
+function setTooltip(point: any) {
+  if (typeof point.data.fecha === "string") {
+    const formattedDate = formatFecha(point.data.fecha);
+    const formattedValue = formatMillionsStr(
+      Number(point.data[point.id as keyof FlujosFront]),
+      1
+    );
+
+    return (
+      <div
+        style={{
+          background: "black",
+          padding: "8px",
+          borderRadius: "4px",
+          color: "white",
+        }}
+      >
+        <strong>{formattedDate}</strong>
+        <div>
+          {point.id}: {formattedValue}
+        </div>
+      </div>
+    );
+  }
+  return null; // Devolver null si point.data.fecha no es una cadena
 }
 
 export default BarChartCompFlujos;
