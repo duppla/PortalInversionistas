@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 
 // material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
-import { SelectChangeEvent } from "@mui/material/Select";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
+import { SelectChangeEvent } from "@mui/material/Select";
 import { Typography, FormControl, Select, MenuItem } from "@mui/material";
 
 // nivo imports
@@ -15,9 +15,12 @@ import { ResponsiveBar } from "@nivo/bar";
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "../../../context/authContext";
-import { formatFecha, changeArrow, formatMillionsStr } from "../utils";
+import { formatFecha, changeArrow, formatNumber } from "../utils";
 
 const endpoint = "/principal/flujo_real_esperado";
+
+/* Mensaje para el tooltip explicativo */
+const explainText = `Nota: 'Flujo Real' se refiere a los ingresos generado durante el periodo elegido, mientras que 'Flujo Esperado' alude a las proyecciones de ingreso para el mismo intervalo.`;
 
 type Flujos = {
   fecha: string;
@@ -97,7 +100,7 @@ function BarChartCompFlujos() {
   /* Función para calcular los valores de los ejes */
   const calculateAxisValues = (data: Flujos[]) => {
     const maxValue = Math.max(
-      ...data.map((item) => Math.max(item.flujo_real, item.flujo_esperado))
+      ...data?.map((item) => Math.max(item.flujo_real, item.flujo_esperado))
     );
 
     const tickCount = 6;
@@ -124,10 +127,6 @@ function BarChartCompFlujos() {
 
     return { gridYValues, tickValues: gridYValues };
   };
-
-  /* Mensaje para el tooltip explicativo */
-  const longText = `Nota: 'Flujo Real' se refiere a los ingresos generado durante el periodo elegido, mientras que 'Flujo Esperado' alude a las proyecciones de ingreso para el mismo intervalo.
-      `;
 
   return (
     <div className="grafica-barcharts nivo-text">
@@ -157,7 +156,7 @@ function BarChartCompFlujos() {
                   </Typography>
                 </Grid>
                 <Grid xs={2} sm={2} md={2} lg={2}>
-                  <Tooltip title={longText}>
+                  <Tooltip title={explainText}>
                     <InfoIcon
                       sx={{
                         color: "#757575",
@@ -179,8 +178,6 @@ function BarChartCompFlujos() {
                 value={selectedKey}
                 label="Age"
                 onChange={handleSelectChange}
-                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
-
                 sx={{
                   color: "#9B9EAB",
                   justifyContent: "flex-end",
@@ -201,7 +198,6 @@ function BarChartCompFlujos() {
                     vertical: "top",
                     horizontal: "right",
                   },
-                  /*   getContentAnchorEl: null, */
                   PaperProps: {
                     sx: {
                       backgroundColor: "#212126", // Fondo del menú desplegado
@@ -217,7 +213,6 @@ function BarChartCompFlujos() {
                   return changeArrow(menuOpen, setMenuOpen);
                 }}
               >
-                {/* <MenuItem value='este_anho'>Este año</MenuItem> */}
                 <MenuItem value="ult_6_meses">Últimos 6 meses</MenuItem>
                 <MenuItem value="ult_12_meses">Últimos 12 meses</MenuItem>
               </Select>
@@ -296,7 +291,7 @@ function BarChartCompFlujos() {
             legend: "",
             legendPosition: "middle",
             legendOffset: 32,
-            tickValues: formattedData.map(
+            tickValues: formattedData?.map(
               (item: { fecha: string }) => item.fecha
             ),
             format: (value) => {
@@ -316,7 +311,7 @@ function BarChartCompFlujos() {
             legend: "",
             legendPosition: "middle",
             legendOffset: -40,
-            format: (value) => formatMillionsStr(value),
+            format: (value) => formatNumber(value),
           }}
           labelSkipWidth={12}
           labelSkipHeight={12}
@@ -364,7 +359,7 @@ function BarChartCompFlujos() {
 function setTooltip(point: any) {
   if (typeof point.data.fecha === "string") {
     const formattedDate = formatFecha(point.data.fecha);
-    const formattedValue = formatMillionsStr(
+    const formattedValue = formatNumber(
       Number(point.data[point.id as keyof FlujosFront]),
       1
     );

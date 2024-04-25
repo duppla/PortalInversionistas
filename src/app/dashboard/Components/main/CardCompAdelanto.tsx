@@ -1,13 +1,18 @@
 "use client";
+// react imports
 import { useEffect, useState } from "react";
+
+// material-ui imports
 import { Box, Card, CardContent, Typography } from "@mui/material";
+
+// custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
-import { formatFecha } from "@/app/dashboard/Components/utils";
+import { useAuth } from "../../../context/authContext";
+import { formatFecha } from "../utils";
 
 const endpoint = "/principal/adelanto";
 
-interface ApiResponse {
+interface Adelanto {
   adelanto: number;
   fecha: string;
 }
@@ -15,24 +20,17 @@ interface ApiResponse {
 function CardCompAdelanto() {
   const { userEmail } = useAuth();
 
-  const [dataApiAdelanto, setDataApiAdelanto] = useState<ApiResponse | null>(
-    null
-  );
+  const [data, setData] = useState<Adelanto | null>(null);
 
   useEffect(() => {
     if (userEmail) {
       // Verificar si userEmail no es null
-      const email = encodeURIComponent(userEmail);
-      const options = {
-        method: "GET",
-        headers: { "User-Agent": "insomnia/2023.5.8" },
-      };
 
-      fetch(getApiUrl(endpoint + `?email=${email}`), options)
+      fetch(getApiUrl(endpoint, { email: userEmail }))
         .then((response) => response.json())
         .then((response) => {
           if (typeof response.adelanto === "number") {
-            setDataApiAdelanto(response);
+            setData(response);
           } else {
             console.error("El valor de data no es un número:");
           }
@@ -42,9 +40,7 @@ function CardCompAdelanto() {
   }, [userEmail]);
 
   // Accede directamente al primer elemento del array
-  const formattedDate = dataApiAdelanto
-    ? formatFecha(dataApiAdelanto.fecha)
-    : "";
+  const formattedDate = data ? formatFecha(data.fecha) : "";
 
   return (
     <Box
@@ -101,10 +97,7 @@ function CardCompAdelanto() {
               fontSize: "1.6rem",
             }}
           >
-            ${" "}
-            {dataApiAdelanto?.adelanto
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            $ {data?.adelanto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </Typography>
         </CardContent>
       </Card>

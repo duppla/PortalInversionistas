@@ -52,17 +52,36 @@ export function changeArrow(
   return icon;
 }
 
-export function formatMillionsStr(value: number, decimal: number = 0): string {
-  let newVal = (value / 1000000).toFixed(decimal);
+export function formatNumber(
+  value: number,
+  decimal: number = 0,
+  perc: boolean = false
+): string {
+  let newVal = "";
+  const suffixes = ["", "K", "M", "B", "T"];
+  const suffixNum = Math.floor((("" + value.toFixed(0)).length - 1) / 3);
+
+  if (perc) {
+    newVal = (value * 100).toFixed(decimal);
+  } else {
+    newVal = (
+      suffixNum !== 0 ? value / Math.pow(1000, suffixNum) : value
+    ).toFixed(decimal);
+  }
+  newVal = dropEndZero(newVal, decimal);
+  return newVal + (perc ? "%" : ` ${suffixes[suffixNum]}`);
+}
+
+function dropEndZero(value: string, decimal: number): string {
   if (decimal !== 0) {
     for (let i = 0; i < decimal; i++) {
-      if (newVal.endsWith("0")) {
-        newVal = newVal.slice(0, -1);
+      if (value.endsWith("0")) {
+        value = value.slice(0, -1);
       } else {
         break;
       }
     }
   }
-  newVal = newVal.endsWith(".") ? newVal.slice(0, -1) : newVal;
-  return newVal + " M";
+  value = value.endsWith(".") ? value.slice(0, -1) : value;
+  return value;
 }

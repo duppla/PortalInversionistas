@@ -1,13 +1,21 @@
 "use client";
-import { ResponsiveBar } from "@nivo/bar";
+// react imports
 import { useEffect, useState, ReactNode } from "react";
+
+// material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
-import { SelectChangeEvent } from "@mui/material/Select";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { SelectChangeEvent } from "@mui/material/Select";
 import { Typography, FormControl, Select, MenuItem } from "@mui/material";
+
+// nivo imports
+import { ResponsiveBar } from "@nivo/bar";
+
+// custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
+import { useAuth } from "../../../context/authContext";
+import { formatFecha, formatNumber } from "../utils";
 
 const endpoint = "/principal/porcentaje_propiedad";
 
@@ -16,6 +24,13 @@ type Propiedad = {
   clientes: number;
   duppla: number;
   inversionistas: number;
+};
+
+type PropiedadFront = {
+  fecha: string;
+  Clientes: number;
+  duppla: number;
+  Inversionistas: number;
 };
 
 type PropiedadPortafolio = {
@@ -28,31 +43,14 @@ const BarChartCompPropiedad = () => {
   const { userEmail } = useAuth();
 
   const [data, setData] = useState<PropiedadPortafolio | null>(null);
-  const [responseData, setResponseData] = useState<any>(null);
-  const [selectedDataKeyE, setSelectedDataKeyE] =
-    useState<string>("ult_12_meses");
-  const [selectedValue, setSelectedValue] = useState<string | number>(
-    "ult_12_meses"
-  );
+  const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
       try {
-        const options = {
-          method: "GET",
-          headers: { "User-Agent": "insomnia/2023.5.8" },
-        };
-        const response = await fetch(
-          getApiUrl(endpoint + `?email=${email}`),
-          options
-        );
+        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
         const responseData = await response.json();
-        setResponseData(responseData);
         setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
       } catch (error) {
         console.error(error);
@@ -62,57 +60,22 @@ const BarChartCompPropiedad = () => {
     fetchData();
   }, [userEmail]);
 
-  /* Función para actualizar la selección del usuario */
-  const handleDataSelection = (dataKey: string) => {
-    setSelectedDataKeyE(dataKey);
-  };
-
   /* Función que controla la selección del dropdown */
-  const handleSelectChange = (
-    event: SelectChangeEvent<string | number>,
-    child: ReactNode
-  ) => {
-    const selectedDataKeyE = event.target.value as string;
-    setSelectedValue(selectedDataKeyE);
-    handleDataSelection(selectedDataKeyE);
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    setSelectedKey(event.target.value);
   };
 
   /* data del enpoint para renderizar la grafica por un map */
-
-  const formattedDataa = responseData
-    ? responseData[selectedDataKeyE].map((item: Propiedad) => ({
-        fecha: item.fecha,
-        Clientes: item.clientes,
-        duppla: item.duppla,
-        Inversionistas: item.inversionistas,
-      }))
+  const formattedData: PropiedadFront[] = data
+    ? data[selectedKey as keyof PropiedadPortafolio]?.map(
+        (item: Propiedad) => ({
+          fecha: item.fecha,
+          Clientes: item.clientes,
+          duppla: item.duppla,
+          Inversionistas: item.inversionistas,
+        })
+      )
     : [];
-
-  /* Función para formatear números como porcentajes sin decimales y ceros */
-  function formatNumber(value: number): string {
-    const percentageValue = (value * 100).toFixed(1).replace(/\.0$/, ""); // Elimina el .0
-    return `${percentageValue}%`;
-  }
-
-  /* prueba de formateo data a legible tooltip */
-  function formatNumberTooltip(value: number): string {
-    if (value < 1) {
-      // Formato para valores menores que 1
-      return (value * 100).toFixed(0) + "";
-    } else {
-      // Formato para valores mayores o iguales a 1
-      const suffixes = ["", "K", "M", "B", "T"];
-      const suffixNum = Math.floor(("" + value).length / 3);
-      let shortValue = (
-        suffixNum !== 0 ? value / Math.pow(1000, suffixNum) : value
-      ).toFixed(1);
-
-      if (shortValue.endsWith(".0")) {
-        shortValue = shortValue.slice(0, -2); // Elimina el punto decimal y el cero decimal
-      }
-      return shortValue + (suffixNum > 0 ? " " + suffixes[suffixNum] : "");
-    }
-  }
 
   return (
     <div className="grafica-barcharts nivo-text">
@@ -143,11 +106,9 @@ const BarChartCompPropiedad = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={selectedValue}
+                value={selectedKey}
                 label="Age"
                 onChange={handleSelectChange}
-                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
-
                 sx={{
                   color: "#9B9EAB",
                   justifyContent: "flex-end",
@@ -215,7 +176,7 @@ const BarChartCompPropiedad = () => {
         <div></div>
       ) : (
         <ResponsiveBar
-          data={formattedDataa}
+          data={formattedData}
           keys={["Inversionistas", "Clientes", "duppla"]}
           indexBy="fecha"
           label={() => ""}
@@ -254,26 +215,11 @@ const BarChartCompPropiedad = () => {
           }}
           tooltip={(point) => {
             if (typeof point.data.fecha === "string") {
-              const [year, month] = point.data.fecha.split("-");
-              const monthNames = [
-                "Ene",
-                "Feb",
-                "Mar",
-                "Abr",
-                "May",
-                "Jun",
-                "Jul",
-                "Ago",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dic",
-              ];
-              const formattedDate = `${
-                monthNames[parseInt(month, 10) - 1]
-              } ${year}`;
-              const formattedValue = formatNumberTooltip(
-                Number(point.data[point.id])
+              const formattedDate = formatFecha(point.data.fecha);
+              const formattedValue = formatNumber(
+                Number(point.data[point.id as keyof PropiedadFront]),
+                0,
+                true
               );
 
               return (
@@ -287,7 +233,7 @@ const BarChartCompPropiedad = () => {
                 >
                   <strong>{formattedDate}</strong>
                   <div>
-                    {point.id}: {formattedValue}%
+                    {point.id}: {formattedValue}
                   </div>
                 </div>
               );
@@ -309,27 +255,11 @@ const BarChartCompPropiedad = () => {
             legend: "",
             legendPosition: "middle",
             legendOffset: 32,
-            tickValues: formattedDataa.map(
+            tickValues: formattedData?.map(
               (item: { fecha: string }) => item.fecha
             ),
             format: (value) => {
-              const [year, month] = value.split("-");
-              const monthNames = [
-                "Ene",
-                "Feb",
-                "Mar",
-                "Abr",
-                "May",
-                "Jun",
-                "Jul",
-                "Ago",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dic",
-              ];
-              const shortYear = year.slice(2); // Obtiene los últimos dos dígitos del año
-              return `${monthNames[parseInt(month, 10) - 1]} ${shortYear}`;
+              return formatFecha(value);
             },
           }}
           axisLeft={{
@@ -340,7 +270,7 @@ const BarChartCompPropiedad = () => {
             legend: "",
             legendPosition: "middle",
             legendOffset: -40,
-            format: (value) => formatNumber(value),
+            format: (value) => formatNumber(value, 0, true),
           }}
           /*   enableGridY={false} */
           labelSkipWidth={12}

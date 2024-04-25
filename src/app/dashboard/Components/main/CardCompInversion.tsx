@@ -1,35 +1,29 @@
 "use client";
+// react imports
 import { useEffect, useState } from "react";
+
+// material-ui imports
 import { Box, Card, CardContent, Typography } from "@mui/material";
+
+// custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
+import { useAuth } from "../../../context/authContext";
 
 const endpoint = "/principal/inversion_original";
 
-interface ApiResponse {
+interface Inversion {
   monto_inversion: number;
 }
 function CardCompInversion() {
   const { userEmail } = useAuth();
-  const [dataApiInversion, setDataApiInversion] = useState<ApiResponse | null>(
-    null
-  );
+  const [data, setData] = useState<Inversion | null>(null);
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const email = encodeURIComponent(userEmail);
-    const options = {
-      method: "GET",
-      headers: { "User-Agent": "insomnia/2023.5.8" },
-    };
-
-    fetch(getApiUrl(endpoint + `?email=${email}`), options)
+    fetch(getApiUrl(endpoint, { email: userEmail }))
       .then((response) => response.json())
       .then((response) => {
         if (typeof response.monto_inversion === "number") {
-          setDataApiInversion(response); // Coloca el objeto en un array para mantener consistencia
+          setData(response); // Coloca el objeto en un array para mantener consistencia
         } else {
           console.error("El valor de data no es un número:");
         }
@@ -79,7 +73,7 @@ function CardCompInversion() {
             }}
           >
             ${" "}
-            {dataApiInversion?.monto_inversion
+            {data?.monto_inversion
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </Typography>
