@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Box, Card, CardContent, Typography } from "@mui/material";
 import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
 import { formatFecha } from "@/app/dashboard/Components/utils";
+import { CardCompDateBox } from "../CardComps";
 
 const endpoint = "/principal/tasa_morosidad";
 
@@ -44,68 +44,7 @@ function CardCompMorosidad() {
     ? formatFecha(dataApiMorosidad.fecha)
     : "";
 
-  return (
-    <Box
-      className="size-card-main-componentF"
-      sx={{
-        backgroundColor: "#020101",
-        borderRadius: "14px" /* width: '360px', height:'220px' */,
-      }}
-    >
-      <Card
-        className="size-card-main-componentF"
-        sx={{
-          mt: 2,
-          mb: 2,
-          backgroundColor: "#020101",
-          borderRadius: "14px",
-          display: "flex",
-          justifyContent: "center",
-          alignContent: "center",
-          textAlign: "center",
-        }}
-      >
-        <CardContent sx={{ mt: 1, mb: 1 }}>
-          <Typography
-            className="title-D-F"
-            component="div"
-            sx={{
-              color: "#5782F2",
-              fontFamily: "Rustica",
-              fontSize: "30px",
-              fontWeight: "500",
-            }}
-          >
-            Tasa de morosidad
-          </Typography>
-          <Typography
-            component="div"
-            sx={{
-              color: "#5782F2",
-              fontFamily: "Rustica",
-              fontSize: "12px",
-              fontWeight: "500",
-            }}
-          >
-            {formattedDate}
-          </Typography>
-          <Typography
-            sx={{
-              mt: 0.2,
-              mb: 1.5,
-              color: "#E3E8F3",
-              fontStyle: "normal",
-              fontWeight: "700",
-              fontSize: "1.6rem",
-            }}
-          >
-            {/* {dataPrueba?.data}% */}
-            {porcentaje}
-          </Typography>
-        </CardContent>
-      </Card>
-    </Box>
-  );
+  return CardCompDateBox("Tasa de morosidad", formattedDate, porcentaje);
 }
 
 export default CardCompMorosidad;

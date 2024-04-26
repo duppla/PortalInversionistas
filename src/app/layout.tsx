@@ -1,12 +1,9 @@
-
 /* import type { Metadata } from 'next' */
-import { Inter } from 'next/font/google'
-import './globals.css'
-import 'mapbox-gl/dist/mapbox-gl.css';
-import Link from 'next/link';
+import { Inter } from "next/font/google";
+import "./globals.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 
-import AuthProvider from '../app/context/authContext';
-import type { Metadata as NextMetadata } from 'next'
+import AuthProvider from "../app/context/authContext";
 
 interface Metadata {
   title: string;
@@ -23,21 +20,21 @@ interface Metadata {
   // Other properties...
 }
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Portal inversionistas',
-  description: 'Inversionistas duppla',
+  title: "Portal inversionistas",
+  description: "Inversionistas duppla",
   meta: [
     {
-      tag: 'link',
-      rel: 'stylesheet',
-      href: 'https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css',
+      tag: "link",
+      rel: "stylesheet",
+      href: "https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css",
     },
   ],
   script: [
     {
-      type: 'text/javascript',
+      type: "text/javascript",
       innerHTML: `
           window.smartlook||(function(d) {
             var o=smartlook=function(){ o.api.push(arguments) },
@@ -56,15 +53,13 @@ export const metadata: Metadata = {
   ],
 };
 
-
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-
       {/*    <Head>
         <link
           rel="stylesheet"
@@ -92,13 +87,12 @@ export default function RootLayout({
         />
       </Head> */}
 
-      <body
-        className={inter.className}>
-        <AuthProvider>{/* envuelve toda la app */}
+      <body className={inter.className}>
+        <AuthProvider>
+          {/* envuelve toda la app */}
           {children}
         </AuthProvider>
-
       </body>
     </html>
-  )
+  );
 }

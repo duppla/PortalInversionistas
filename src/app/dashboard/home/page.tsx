@@ -2,16 +2,16 @@
 import React from "react";
 import { Container, Box, useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import BarChartCompFlujos from "../Components/main/BarChartCompFlujos";
-import BarChartCompPropiedad from "../Components/main/BarChartCompPropiedad";
+import BarChartFlujos from "../Components/main/BarChartFlujos";
+import BarChartPropiedad from "../Components/main/BarChartPropiedad";
 import LineChartCompHistMora from "../Components/main/LineChartCompHistMora";
 import PieChartCompCartera from "../Components/main/PieChartCompCartera";
-import CardCompInversion from "../Components/main/CardCompInversion";
+import CardInversion from "../Components/main/CardInversion";
 import CardCompParticipacion from "../Components/main/CardCompParticipacion";
 import CardCompRetorno from "../Components/main/CardCompRetorno";
 import CardCompNOI from "../Components/main/CardCompNOI";
 import CardCompMorosidad from "../Components/main/CardCompMorosidad";
-import CardCompAdelanto from "../Components/main/CardCompAdelanto";
+import CardAdelanto from "../Components/main/CardAdelanto";
 import LineChartCompRentabilidad from "../Components/main/LineChartCompRentabilidad";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -67,7 +67,7 @@ const Page = () => {
             rowGap={1}
           >
             <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
-              <CardCompInversion />
+              <CardInversion />
             </Grid>
             <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
               <CardCompParticipacion />
@@ -137,7 +137,7 @@ const Page = () => {
                 mb: 2,
               }}
             >
-              <BarChartCompFlujos />
+              <BarChartFlujos />
             </Grid>
           </Grid>
           {/* Componente E*/}
@@ -169,7 +169,7 @@ const Page = () => {
                 borderRadius: "20px",
               }}
             >
-              <BarChartCompPropiedad />
+              <BarChartPropiedad />
             </Grid>
           </Grid>
           {/* componente F*/}
@@ -196,8 +196,8 @@ const Page = () => {
             <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
               <CardCompMorosidad />
             </Grid>
-            <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
-              <CardCompAdelanto />
+            <Grid xs={9} sm={12} md={3} lg={3} sx={{}}>
+              <CardAdelanto />
             </Grid>
           </Grid>
           {/* Componente G */}

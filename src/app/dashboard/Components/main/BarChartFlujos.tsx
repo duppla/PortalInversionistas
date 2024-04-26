@@ -15,7 +15,7 @@ import { ResponsiveBar } from "@nivo/bar";
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "../../../context/authContext";
-import { formatFecha, changeArrow, formatNumber } from "../utils";
+import { formatFecha, changeArrow, formatNumber, setTooltip } from "../utils";
 
 const endpoint = "/principal/flujo_real_esperado";
 
@@ -29,20 +29,20 @@ type Flujos = {
   [key: string]: string | number;
 };
 
-type FlujosFront = {
+export type FlujosFront = {
   fecha: string;
   Real: number;
   Esperado: number;
 };
 
 type FlujoRealEsperado = {
-  ult_12_meses: [Flujos];
-  este_anho: [Flujos];
-  ult_6_meses: [Flujos];
-  [key: string]: [Flujos];
+  ult_12_meses: Flujos[];
+  este_anho: Flujos[];
+  ult_6_meses: Flujos[];
+  [key: string]: Flujos[];
 };
 
-function BarChartCompFlujos() {
+function BarChartFlujos() {
   const { userEmail } = useAuth();
 
   // data: Datos de la API
@@ -51,7 +51,7 @@ function BarChartCompFlujos() {
   const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
 
   // configuración interna de estados reactivos
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [gridYValues, setGridYValues] = useState<number[]>([]);
   const [tickValues, setTickValues] = useState<number[]>([]);
 
@@ -99,15 +99,16 @@ function BarChartCompFlujos() {
 
   /* Función para calcular los valores de los ejes */
   const calculateAxisValues = (data: Flujos[]) => {
-    const maxValue = Math.max(
-      ...data?.map((item) => Math.max(item.flujo_real, item.flujo_esperado))
+    const maxValue: number = Math.max(
+      ...(data?.map((item) => Math.max(item.flujo_real, item.flujo_esperado)) ??
+        [])
     );
 
-    const tickCount = 6;
-    let count = 0;
-    let tickIni = 500000;
-    let tickStep = tickIni;
-    let mult = tickIni / 10;
+    const tickCount: number = 6;
+    let count: number = 0;
+    let tickIni: number = 500000;
+    let tickStep: number = tickIni;
+    let mult: number = tickIni / 10;
     while (maxValue / tickCount > tickStep) {
       if (count % 4 == 0) {
         mult *= 10;
@@ -121,9 +122,12 @@ function BarChartCompFlujos() {
     }
 
     // Calcular dinámicamente los valores para gridYValues y tickValues
-    const gridYValues = Array.from({ length: tickCount + 1 }, (_, index) => {
-      return index * tickStep;
-    });
+    const gridYValues: number[] = Array.from(
+      { length: tickCount + 1 },
+      (_, index) => {
+        return index * tickStep;
+      }
+    );
 
     return { gridYValues, tickValues: gridYValues };
   };
@@ -209,9 +213,7 @@ function BarChartCompFlujos() {
                 open={menuOpen}
                 onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
                 onOpen={() => setMenuOpen(true)} // Abre el menú cuando se hace clic en el botón
-                IconComponent={() => {
-                  return changeArrow(menuOpen, setMenuOpen);
-                }}
+                IconComponent={() => changeArrow(menuOpen, setMenuOpen)}
               >
                 <MenuItem value="ult_6_meses">Últimos 6 meses</MenuItem>
                 <MenuItem value="ult_12_meses">Últimos 12 meses</MenuItem>
@@ -279,9 +281,7 @@ function BarChartCompFlujos() {
             from: "color",
             modifiers: [["darker", 1.4]],
           }}
-          tooltip={(point) => {
-            return setTooltip(point);
-          }}
+          tooltip={(point) => setTooltip(point, 1)}
           axisTop={null}
           axisRight={null}
           axisBottom={{
@@ -356,31 +356,4 @@ function BarChartCompFlujos() {
   );
 }
 
-function setTooltip(point: any) {
-  if (typeof point.data.fecha === "string") {
-    const formattedDate = formatFecha(point.data.fecha);
-    const formattedValue = formatNumber(
-      Number(point.data[point.id as keyof FlujosFront]),
-      1
-    );
-
-    return (
-      <div
-        style={{
-          background: "black",
-          padding: "8px",
-          borderRadius: "4px",
-          color: "white",
-        }}
-      >
-        <strong>{formattedDate}</strong>
-        <div>
-          {point.id}: {formattedValue}
-        </div>
-      </div>
-    );
-  }
-  return null; // Devolver null si point.data.fecha no es una cadena
-}
-
-export default BarChartCompFlujos;
+export default BarChartFlujos;

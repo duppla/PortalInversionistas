@@ -1,11 +1,9 @@
 "use client";
 // react imports
-import { useEffect, useState, ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 // material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { Typography, FormControl, Select, MenuItem } from "@mui/material";
 
@@ -15,7 +13,7 @@ import { ResponsiveBar } from "@nivo/bar";
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "../../../context/authContext";
-import { formatFecha, formatNumber } from "../utils";
+import { formatFecha, formatNumber, setTooltip, changeArrow } from "../utils";
 
 const endpoint = "/principal/porcentaje_propiedad";
 
@@ -26,7 +24,7 @@ type Propiedad = {
   inversionistas: number;
 };
 
-type PropiedadFront = {
+export type PropiedadFront = {
   fecha: string;
   Clientes: number;
   duppla: number;
@@ -39,7 +37,7 @@ type PropiedadPortafolio = {
   ult_6_meses: Propiedad[];
 };
 
-const BarChartCompPropiedad = () => {
+const BarChartPropiedad = () => {
   const { userEmail } = useAuth();
 
   const [data, setData] = useState<PropiedadPortafolio | null>(null);
@@ -141,28 +139,7 @@ const BarChartCompPropiedad = () => {
                 open={menuOpen}
                 onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
                 onOpen={() => setMenuOpen(true)} // Abre el menú cuando se hace clic en el botón
-                IconComponent={() =>
-                  // Cambia el ícono según el estado del menú
-                  menuOpen ? (
-                    <ArrowDropUpIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  ) : (
-                    <ArrowDropDownIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  )
-                }
+                IconComponent={() => changeArrow(menuOpen, setMenuOpen)}
               >
                 {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
                 <MenuItem value="ult_6_meses">Últimos 6 meses</MenuItem>
@@ -213,33 +190,7 @@ const BarChartCompPropiedad = () => {
               },
             },
           }}
-          tooltip={(point) => {
-            if (typeof point.data.fecha === "string") {
-              const formattedDate = formatFecha(point.data.fecha);
-              const formattedValue = formatNumber(
-                Number(point.data[point.id as keyof PropiedadFront]),
-                0,
-                true
-              );
-
-              return (
-                <div
-                  style={{
-                    background: "black",
-                    padding: "8px",
-                    borderRadius: "4px",
-                    color: "white",
-                  }}
-                >
-                  <strong>{formattedDate}</strong>
-                  <div>
-                    {point.id}: {formattedValue}
-                  </div>
-                </div>
-              );
-            }
-            return null; // Devolver null si point.data.fecha no es una cadena
-          }}
+          tooltip={(point) => setTooltip(point, 0, true)}
           borderRadius={2}
           borderColor={{
             from: "color",
@@ -258,9 +209,7 @@ const BarChartCompPropiedad = () => {
             tickValues: formattedData?.map(
               (item: { fecha: string }) => item.fecha
             ),
-            format: (value) => {
-              return formatFecha(value);
-            },
+            format: (value) => formatFecha(value),
           }}
           axisLeft={{
             tickSize: 5,
@@ -317,4 +266,4 @@ const BarChartCompPropiedad = () => {
   );
 };
 
-export default BarChartCompPropiedad;
+export default BarChartPropiedad;

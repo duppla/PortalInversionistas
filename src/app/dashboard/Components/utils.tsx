@@ -1,6 +1,17 @@
+// react imports
+import { PropsWithChildren, Dispatch, SetStateAction } from "react";
+
+// material-ui imports
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { Dispatch, SetStateAction } from "react";
+
+// nivo imports
+import { BarTooltipProps } from "@nivo/bar";
+
+// custom imports
+// types
+import { FlujosFront } from "./main/BarChartFlujos";
+import { PropiedadFront } from "./main/BarChartPropiedad";
 
 export function formatFecha(inputFecha: string): string {
   const meses = [
@@ -84,4 +95,36 @@ function dropEndZero(value: string, decimal: number): string {
   }
   value = value.endsWith(".") ? value.slice(0, -1) : value;
   return value;
+}
+
+export function setTooltip(
+  point: PropsWithChildren<BarTooltipProps<FlujosFront | PropiedadFront>>,
+  decimal: number = 0,
+  perc: boolean = false
+) {
+  if (typeof point.data.fecha === "string") {
+    const formattedDate = formatFecha(point.data.fecha);
+    const formattedValue = formatNumber(
+      Number(point.data[point.id as keyof (FlujosFront | PropiedadFront)]),
+      decimal,
+      perc
+    );
+
+    return (
+      <div
+        style={{
+          background: "black",
+          padding: "8px",
+          borderRadius: "4px",
+          color: "white",
+        }}
+      >
+        <strong>{formattedDate}</strong>
+        <div>
+          {point.id}: {formattedValue}
+        </div>
+      </div>
+    );
+  }
+  return null; // Devolver null si point.data.fecha no es una cadena
 }
