@@ -12,6 +12,7 @@ import { BarTooltipProps } from "@nivo/bar";
 // types
 import { FlujosFront } from "./main/BarChartFlujos";
 import { PropiedadFront } from "./main/BarChartPropiedad";
+import { PointTooltipProps } from "@nivo/line";
 
 export function formatFecha(inputFecha: string): string {
   const meses = [
@@ -97,7 +98,7 @@ function dropEndZero(value: string, decimal: number): string {
   return value;
 }
 
-export function setTooltip(
+export function setTooltipBar(
   point: PropsWithChildren<BarTooltipProps<FlujosFront | PropiedadFront>>,
   decimal: number = 0,
   perc: boolean = false
@@ -127,4 +128,60 @@ export function setTooltip(
     );
   }
   return null; // Devolver null si point.data.fecha no es una cadena
+}
+
+export function setTooltipLine(point: PropsWithChildren<PointTooltipProps>) {
+  const date: string = new Date(point.point.data.x).toISOString().split("T")[0];
+  const fecha_formateada = formatFecha(date);
+  let formattedY = "";
+  if (typeof point.point.data.y === "number") {
+    formattedY = formatNumber(point.point.data.y, 1, true);
+  }
+
+  return (
+    <div
+      style={{
+        background: "#272727",
+        color: "#5ED1B1",
+        padding: "9px 12px",
+        border: "1px solid #ccc",
+      }}
+    >
+      <div>
+        <strong>{fecha_formateada}</strong>
+      </div>
+      <div>{`Tasa Morosidad: ${formattedY}`}</div>
+    </div>
+  );
+}
+
+export function calculateAxisValues(
+  maxValue: number,
+  tickIni: number,
+  tickCount: number = 5
+): number[] {
+  let count = 0;
+  let tickStep = tickIni;
+  let mult = tickIni / 10;
+  while (maxValue / tickCount > tickStep) {
+    if (count % 4 == 0) {
+      mult *= 10;
+      tickStep += mult;
+    } else if (count % 2 == 0) {
+      tickStep += mult;
+    } else {
+      tickStep *= 2;
+    }
+    count++;
+  }
+
+  // Calcular dinámicamente los valores para gridYValues y tickValues
+  const gridYValues: number[] = Array.from(
+    { length: tickCount + 1 },
+    (_, index) => {
+      return index * tickStep;
+    }
+  );
+
+  return gridYValues;
 }

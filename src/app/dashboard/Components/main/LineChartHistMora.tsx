@@ -4,41 +4,41 @@ import { useEffect, useState } from "react";
 
 // material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
-import { FormControl } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
+import { FormControl } from "@mui/material";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
-import { titleGrid, selectGrid } from "../ChartAddons";
+import { useAuth } from "../../../context/authContext";
 import { calculateAxisValues } from "../utils";
+import { titleGrid, selectGrid } from "../ChartAddons";
 import { LineChart } from "../LineChartComps";
 
-const endpoint = "/principal/rentabilidad_portafolio";
+const endpoint = "/principal/historico_morosidad";
 
+const tickIni = 0.005;
 const tickCount = 5;
-const tickIni = 0.0005;
 
-type Rentabilidad = {
+type TasaMorosidad = {
   fecha: string;
-  rentabilidad: number;
+  tasa_morosidad: number;
 };
 
-export type RentabilidadFront = {
+export type TasaMorosidadFront = {
   x: string;
   y: number;
 };
 
-type RentabilidadPortafolio = {
-  ult_12_meses: [Rentabilidad];
-  este_anho: [Rentabilidad];
-  ult_6_meses: [Rentabilidad];
+type HistoricoMora = {
+  ult_12_meses: TasaMorosidad[];
+  este_anho: TasaMorosidad[];
+  ult_6_meses: TasaMorosidad[];
   [key: string]: any;
 };
 
-const LineChartCompRentabilidad = () => {
+function LineChartHistMora() {
   const { userEmail } = useAuth();
-  const [data, setData] = useState<RentabilidadPortafolio | null>(null);
+  const [data, setData] = useState<HistoricoMora | null>(null);
   const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -60,9 +60,9 @@ const LineChartCompRentabilidad = () => {
 
   useEffect(() => {
     if (data) {
-      const dataMora = data[selectedKey as keyof RentabilidadPortafolio];
+      const dataMora = data[selectedKey as keyof HistoricoMora];
       const maxValue = Math.max(
-        ...dataMora.map((item: Rentabilidad) => item.rentabilidad)
+        ...dataMora.map((item: TasaMorosidad) => item.tasa_morosidad)
       );
       const gridYValues = calculateAxisValues(maxValue, tickIni, tickCount);
       setGridYValues(gridYValues);
@@ -73,23 +73,22 @@ const LineChartCompRentabilidad = () => {
     setSelectedKey(event.target.value);
   };
 
-  let formattedData: RentabilidadFront[] = [];
+  let formattedData: TasaMorosidadFront[] = [];
   if (data) {
-    formattedData = data[selectedKey].map((item: Rentabilidad) => ({
+    formattedData = data[selectedKey].map((item: TasaMorosidad) => ({
       x: item.fecha,
-      y: item.rentabilidad,
+      y: item.tasa_morosidad,
     }));
   }
 
   /* Mensaje para el tooltip explicativo */
-
-  const minY = (gridYValues[0] * 100).toFixed(2);
-  const maxY = (gridYValues[gridYValues.length - 1] * 100).toFixed(2);
+  const minY = (gridYValues[0] * 100).toFixed(0);
+  const maxY = (gridYValues[gridYValues.length - 1] * 100).toFixed(0);
 
   const longText = `Nota: Los valores mostrados en esta gráfica se encuentran en un rango de ${minY}% a ${maxY}% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.`;
 
   return (
-    <div className="grafica-Linecharts">
+    <div className="grafica-Linecharts-G">
       <div>
         <FormControl fullWidth>
           <Grid
@@ -98,15 +97,15 @@ const LineChartCompRentabilidad = () => {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            {titleGrid("Rentabilidad mensual del portafolio", longText)}
+            {titleGrid("Histórico tasa de mora", longText)}
             {selectGrid(selectedKey, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
       </div>
       <br />
-      {LineChart(formattedData, gridYValues, 2, true)}
+      {LineChart(formattedData, gridYValues, 0, true)}
     </div>
   );
-};
+}
 
-export default LineChartCompRentabilidad;
+export default LineChartHistMora;

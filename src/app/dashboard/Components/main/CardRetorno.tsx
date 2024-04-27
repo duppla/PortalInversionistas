@@ -7,14 +7,14 @@ import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "../../../context/authContext";
 import { CardCompBox } from "../CardComps";
 
-const endpoint = "/principal/inversion_original";
+const endpoint = "/principal/retorno";
 
-type Inversion = {
-  monto_inversion: number;
+type Retorno = {
+  retorno: number;
 };
-function CardInversion() {
+function CardCompRetorno() {
   const { userEmail } = useAuth();
-  const [data, setData] = useState<Inversion | null>(null);
+  const [data, setData] = useState<Retorno | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,12 +30,11 @@ function CardInversion() {
     fetchData();
   }, [userEmail]);
 
-  const monto_inversion = data
-    ? "$ " +
-      data.monto_inversion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  let retorno = data
+    ? "$ " + data.retorno.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     : "";
 
-  return CardCompBox("Inversión original", monto_inversion);
+  return CardCompBox("Retorno total a la fecha", retorno);
 }
 
-export default CardInversion;
+export default CardCompRetorno;

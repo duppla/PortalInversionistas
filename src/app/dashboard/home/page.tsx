@@ -4,13 +4,13 @@ import { Container, Box, useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import BarChartFlujos from "../Components/main/BarChartFlujos";
 import BarChartPropiedad from "../Components/main/BarChartPropiedad";
-import LineChartCompHistMora from "../Components/main/LineChartCompHistMora";
+import LineChartHistMora from "../Components/main/LineChartHistMora";
 import PieChartCompCartera from "../Components/main/PieChartCompCartera";
 import CardInversion from "../Components/main/CardInversion";
-import CardCompParticipacion from "../Components/main/CardCompParticipacion";
-import CardCompRetorno from "../Components/main/CardCompRetorno";
-import CardCompNOI from "../Components/main/CardCompNOI";
-import CardCompMorosidad from "../Components/main/CardCompMorosidad";
+import CardParticipacion from "../Components/main/CardParticipacion";
+import CardRetorno from "../Components/main/CardRetorno";
+import CardNOI from "../Components/main/CardNOI";
+import CardMorosidad from "../Components/main/CardMorosidad";
 import CardAdelanto from "../Components/main/CardAdelanto";
 import LineChartCompRentabilidad from "../Components/main/LineChartCompRentabilidad";
 
@@ -70,10 +70,10 @@ const Page = () => {
               <CardInversion />
             </Grid>
             <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
-              <CardCompParticipacion />
+              <CardParticipacion />
             </Grid>
             <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
-              <CardCompRetorno />
+              <CardRetorno />
             </Grid>
           </Grid>
           {/* Componente P*/}
@@ -191,10 +191,10 @@ const Page = () => {
             rowGap={1}
           >
             <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
-              <CardCompNOI />
+              <CardNOI />
             </Grid>
             <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
-              <CardCompMorosidad />
+              <CardMorosidad />
             </Grid>
             <Grid xs={9} sm={12} md={3} lg={3} sx={{}}>
               <CardAdelanto />
@@ -232,7 +232,7 @@ const Page = () => {
                 p: 2,
               }}
             >
-              <LineChartCompHistMora />
+              <LineChartHistMora />
             </Grid>
             <Grid
               className=""

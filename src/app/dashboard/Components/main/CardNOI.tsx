@@ -1,30 +1,27 @@
 "use client";
-// react imports
 import { useEffect, useState } from "react";
-
-// custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "../../../context/authContext";
-import { formatFecha } from "../utils";
+import { useAuth } from "@/app/context/authContext";
+import { formatFecha } from "@/app/dashboard/Components/utils";
 import { CardCompDateBox } from "../CardComps";
 
-const endpoint = "/principal/adelanto";
+const endpoint = "/principal/noi";
 
-type Adelanto = {
-  adelanto: number;
+type Noi = {
+  noi: number;
   fecha: string;
 };
 
-function CardAdelanto() {
+function CardNOI() {
   const { userEmail } = useAuth();
-  const [data, setData] = useState<Adelanto | null>(null);
+  const [data, setData] = useState<Noi | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
         const responseData = await response.json();
-        setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+        setData(responseData);
       } catch (error) {
         console.error(error);
       }
@@ -34,11 +31,11 @@ function CardAdelanto() {
   }, [userEmail]);
 
   const formattedDate = data ? formatFecha(data.fecha) : "";
-  const formattedAdelanto = data
-    ? "$ " + data.adelanto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  const noi = data
+    ? "$ " + data.noi.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     : "";
 
-  return CardCompDateBox("Adelanto", formattedDate, formattedAdelanto);
+  return CardCompDateBox("NOI", formattedDate, noi);
 }
 
-export default CardAdelanto;
+export default CardNOI;

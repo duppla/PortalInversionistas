@@ -4,10 +4,8 @@ import { useEffect, useState } from "react";
 
 // material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
-import Tooltip from "@mui/material/Tooltip";
-import InfoIcon from "@mui/icons-material/Info";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { Typography, FormControl, Select, MenuItem } from "@mui/material";
+import { FormControl } from "@mui/material";
 
 // nivo imports
 import { ResponsiveBar } from "@nivo/bar";
@@ -15,12 +13,21 @@ import { ResponsiveBar } from "@nivo/bar";
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "../../../context/authContext";
-import { formatFecha, changeArrow, formatNumber, setTooltip } from "../utils";
+import {
+  formatFecha,
+  formatNumber,
+  setTooltipBar,
+  calculateAxisValues,
+} from "../utils";
+import { titleGrid, selectGrid } from "../ChartAddons";
 
 const endpoint = "/principal/flujo_real_esperado";
-
+const title = "Flujo real vs. flujo esperado";
 /* Mensaje para el tooltip explicativo */
 const explainText = `Nota: 'Flujo Real' se refiere a los ingresos generado durante el periodo elegido, mientras que 'Flujo Esperado' alude a las proyecciones de ingreso para el mismo intervalo.`;
+
+const tickCount: number = 6;
+const tickIni: number = 500000;
 
 type Flujos = {
   fecha: string;
@@ -53,7 +60,6 @@ function BarChartFlujos() {
   // configuración interna de estados reactivos
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [gridYValues, setGridYValues] = useState<number[]>([]);
-  const [tickValues, setTickValues] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,9 +81,8 @@ function BarChartFlujos() {
   };
 
   let formattedData: FlujosFront[] = [];
-
   if (data) {
-    formattedData = data[selectedKey as keyof FlujoRealEsperado]?.map(
+    formattedData = data[selectedKey as keyof FlujoRealEsperado].map(
       (item: Flujos) => {
         return {
           fecha: item.fecha,
@@ -91,46 +96,15 @@ function BarChartFlujos() {
   useEffect(() => {
     if (data) {
       const dataFlujos: Flujos[] = data[selectedKey as keyof FlujoRealEsperado];
-      const { gridYValues, tickValues } = calculateAxisValues(dataFlujos);
+      const maxValue: number = Math.max(
+        ...(dataFlujos?.map((item) =>
+          Math.max(item.flujo_real, item.flujo_esperado)
+        ) ?? [])
+      );
+      const gridYValues = calculateAxisValues(maxValue, tickIni, tickCount);
       setGridYValues(gridYValues);
-      setTickValues(tickValues);
     }
   }, [selectedKey, data]);
-
-  /* Función para calcular los valores de los ejes */
-  const calculateAxisValues = (data: Flujos[]) => {
-    const maxValue: number = Math.max(
-      ...(data?.map((item) => Math.max(item.flujo_real, item.flujo_esperado)) ??
-        [])
-    );
-
-    const tickCount: number = 6;
-    let count: number = 0;
-    let tickIni: number = 500000;
-    let tickStep: number = tickIni;
-    let mult: number = tickIni / 10;
-    while (maxValue / tickCount > tickStep) {
-      if (count % 4 == 0) {
-        mult *= 10;
-        tickStep += mult;
-      } else if (count % 2 == 0) {
-        tickStep += mult;
-      } else {
-        tickStep *= 2;
-      }
-      count++;
-    }
-
-    // Calcular dinámicamente los valores para gridYValues y tickValues
-    const gridYValues: number[] = Array.from(
-      { length: tickCount + 1 },
-      (_, index) => {
-        return index * tickStep;
-      }
-    );
-
-    return { gridYValues, tickValues: gridYValues };
-  };
 
   return (
     <div className="grafica-barcharts nivo-text">
@@ -142,217 +116,139 @@ function BarChartFlujos() {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            <Grid xs={6} md={6} lg={6}>
-              <Grid container>
-                <Grid xs={8} sm={8} md={8} lg={8}>
-                  <Typography
-                    className="title-dropdown-menu-container"
-                    variant="subtitle1"
-                    sx={{
-                      fontFamily: "Helvetica",
-                      fontWeight: 300,
-                      color: "#ffffff",
-                      fontSize: "26px",
-                      mt: 2,
-                    }}
-                  >
-                    Flujo real vs. flujo esperado{" "}
-                  </Typography>
-                </Grid>
-                <Grid xs={2} sm={2} md={2} lg={2}>
-                  <Tooltip title={explainText}>
-                    <InfoIcon
-                      sx={{
-                        color: "#757575",
-                        fill: "#757575",
-                        marginTop: "28px",
-                        height: "12px",
-                        width: "12px",
-                        marginLeft: "10px",
-                      }}
-                    />
-                  </Tooltip>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid xs={6} md={6} lg={6} sx={{ textAlign: "end" }}>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedKey}
-                label="Age"
-                onChange={handleSelectChange}
-                sx={{
-                  color: "#9B9EAB",
-                  justifyContent: "flex-end",
-                  textAlign: "end",
-                  fill: "#ffffff",
-                  "&.MuiSelect-icon": { color: "#FFFFFF !important" },
-                  "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                  },
-                }}
-                MenuProps={{
-                  anchorOrigin: {
-                    vertical: "bottom",
-                    horizontal: "right",
-                  },
-                  transformOrigin: {
-                    vertical: "top",
-                    horizontal: "right",
-                  },
-                  PaperProps: {
-                    sx: {
-                      backgroundColor: "#212126", // Fondo del menú desplegado
-                      border: "1px solid #5682F2", // Borde azul
-                      color: "#9B9EAB", // Letra blanca
-                    },
-                  },
-                }}
-                open={menuOpen}
-                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                onOpen={() => setMenuOpen(true)} // Abre el menú cuando se hace clic en el botón
-                IconComponent={() => changeArrow(menuOpen, setMenuOpen)}
-              >
-                <MenuItem value="ult_6_meses">Últimos 6 meses</MenuItem>
-                <MenuItem value="ult_12_meses">Últimos 12 meses</MenuItem>
-              </Select>
-            </Grid>
+            {titleGrid(title, explainText)}
+            {selectGrid(selectedKey, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
       </div>
-      {data == null ? (
-        <div></div>
-      ) : (
-        <ResponsiveBar
-          data={formattedData}
-          keys={["Real", "Esperado"]}
-          indexBy="fecha"
-          label={() => ""}
-          margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-          padding={0.7}
-          maxValue={gridYValues[gridYValues.length - 1]}
-          groupMode="grouped"
-          valueScale={{ type: "linear" }}
-          indexScale={{ type: "band", round: true }}
-          colors={["#6C6FFF", "#C5F5CA"]} // Define tus propios colores
-          theme={{
-            axis: {
-              ticks: {
-                text: {
-                  fill: "#9B9EAB", // Color del texto en los ejes
-                },
-              },
-            },
-            legends: {
-              text: {
-                fill: "#9B9EAB", // Color del texto de las leyendas
-              },
-            },
-            tooltip: {
-              container: {
-                background: "black", // Fondo del tooltip
-                color: "#9B9EAB", // Color del texto del tooltip
-              },
-            },
-            grid: {
-              line: {
-                stroke: "#41434C" /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
-              },
-            },
-          }}
-          fill={[
-            {
-              match: {
-                id: "Real",
-              },
-              id: "Real",
-            },
-            {
-              match: {
-                id: "Esperado",
-              },
-              id: "Esperado",
-            },
-          ]}
-          borderRadius={3}
-          borderColor={{
-            from: "color",
-            modifiers: [["darker", 1.4]],
-          }}
-          tooltip={(point) => setTooltip(point, 1)}
-          axisTop={null}
-          axisRight={null}
-          axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: "",
-            legendPosition: "middle",
-            legendOffset: 32,
-            tickValues: formattedData?.map(
-              (item: { fecha: string }) => item.fecha
-            ),
-            format: (value) => {
-              if (typeof value === "string") {
-                return formatFecha(value); // Formatea la fecha si es una cadena
-              } else {
-                return value; // O proporciona un valor predeterminado si no es una cadena
-              }
-            },
-          }}
-          gridYValues={gridYValues}
-          axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            tickValues: tickValues,
-            legend: "",
-            legendPosition: "middle",
-            legendOffset: -40,
-            format: (value) => formatNumber(value),
-          }}
-          labelSkipWidth={12}
-          labelSkipHeight={12}
-          labelTextColor={{
-            from: "color",
-            modifiers: [["darker", 1.6]],
-          }}
-          legends={[
-            {
-              dataFrom: "keys",
-              anchor: "bottom-left",
-              direction: "row",
-              justify: false,
-              translateX: 0,
-              translateY: 54,
-              itemsSpacing: 0,
-              itemDirection: "left-to-right",
-              itemWidth: 80,
-              itemHeight: 20,
-              itemOpacity: 0.75,
-              symbolSize: 12,
-              symbolShape: "square",
-              symbolBorderColor: "rgba(0, 0, 0, .5)",
-              effects: [
-                {
-                  on: "hover",
-                  style: {
-                    itemBackground: "rgba(0, 0, 0, .03)",
-                    itemOpacity: 1,
-                  },
-                },
-              ],
-            },
-          ]}
-          role="application"
-          barAriaLabel={(e) =>
-            e.id + ": " + e.formattedValue + " in country: " + e.indexValue
-          }
-        />
-      )}
+      {BarChart(formattedData, gridYValues)}
     </div>
+  );
+}
+
+function BarChart(formattedData: FlujosFront[], gridYValues: number[]) {
+  if (formattedData == null) {
+    return <div></div>;
+  }
+  return (
+    <ResponsiveBar
+      data={formattedData}
+      keys={["Real", "Esperado"]}
+      indexBy="fecha"
+      label={() => ""}
+      margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
+      padding={0.7}
+      maxValue={gridYValues[gridYValues.length - 1]}
+      groupMode="grouped"
+      valueScale={{ type: "linear" }}
+      indexScale={{ type: "band", round: true }}
+      colors={["#6C6FFF", "#C5F5CA"]} // Define tus propios colores
+      theme={{
+        axis: {
+          ticks: {
+            text: {
+              fill: "#9B9EAB", // Color del texto en los ejes
+            },
+          },
+        },
+        legends: {
+          text: {
+            fill: "#9B9EAB", // Color del texto de las leyendas
+          },
+        },
+        tooltip: {
+          container: {
+            background: "black", // Fondo del tooltip
+            color: "#9B9EAB", // Color del texto del tooltip
+          },
+        },
+        grid: {
+          line: {
+            stroke: "#41434C" /* '#5C5E6B' */, // Cambia el color de las líneas de la cuadrícula
+          },
+        },
+      }}
+      fill={[
+        {
+          match: {
+            id: "Real",
+          },
+          id: "Real",
+        },
+        {
+          match: {
+            id: "Esperado",
+          },
+          id: "Esperado",
+        },
+      ]}
+      borderRadius={3}
+      borderColor={{
+        from: "color",
+        modifiers: [["darker", 1.4]],
+      }}
+      tooltip={(point) => setTooltipBar(point, 1)}
+      axisTop={null}
+      axisRight={null}
+      axisBottom={{
+        tickSize: 5,
+        tickPadding: 5,
+        tickRotation: 0,
+        legend: "",
+        legendPosition: "middle",
+        legendOffset: 32,
+        tickValues: formattedData?.map((item: { fecha: string }) => item.fecha),
+        format: (value) => formatFecha(value), // Formatea la fecha si es una cadena
+      }}
+      gridYValues={gridYValues}
+      axisLeft={{
+        tickSize: 5,
+        tickPadding: 5,
+        tickRotation: 0,
+        tickValues: gridYValues,
+        legend: "",
+        legendPosition: "middle",
+        legendOffset: -40,
+        format: (value) => formatNumber(value),
+      }}
+      labelSkipWidth={12}
+      labelSkipHeight={12}
+      labelTextColor={{
+        from: "color",
+        modifiers: [["darker", 1.6]],
+      }}
+      legends={[
+        {
+          dataFrom: "keys",
+          anchor: "bottom-left",
+          direction: "row",
+          justify: false,
+          translateX: 0,
+          translateY: 54,
+          itemsSpacing: 0,
+          itemDirection: "left-to-right",
+          itemWidth: 80,
+          itemHeight: 20,
+          itemOpacity: 0.75,
+          symbolSize: 12,
+          symbolShape: "square",
+          symbolBorderColor: "rgba(0, 0, 0, .5)",
+          effects: [
+            {
+              on: "hover",
+              style: {
+                itemBackground: "rgba(0, 0, 0, .03)",
+                itemOpacity: 1,
+              },
+            },
+          ],
+        },
+      ]}
+      role="application"
+      barAriaLabel={(e) =>
+        e.id + ": " + e.formattedValue + " in country: " + e.indexValue
+      }
+    />
   );
 }
 

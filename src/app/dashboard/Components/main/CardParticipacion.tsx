@@ -6,15 +6,17 @@ import { useEffect, useState } from "react";
 import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "../../../context/authContext";
 import { CardCompBox } from "../CardComps";
+import { formatNumber } from "../utils";
 
-const endpoint = "/principal/inversion_original";
+const endpoint = "/principal/participacion_adquirida";
 
-type Inversion = {
-  monto_inversion: number;
+type Participacion = {
+  participacion_adquirida: number;
 };
-function CardInversion() {
+
+function CardParticipacion() {
   const { userEmail } = useAuth();
-  const [data, setData] = useState<Inversion | null>(null);
+  const [data, setData] = useState<Participacion | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,12 +32,10 @@ function CardInversion() {
     fetchData();
   }, [userEmail]);
 
-  const monto_inversion = data
-    ? "$ " +
-      data.monto_inversion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    : "";
+  let porcentaje = data?.participacion_adquirida;
+  let participacion = porcentaje ? formatNumber(porcentaje, 1, true) : "";
 
-  return CardCompBox("Inversión original", monto_inversion);
+  return CardCompBox("Participación adquirida", participacion);
 }
 
-export default CardInversion;
+export default CardParticipacion;

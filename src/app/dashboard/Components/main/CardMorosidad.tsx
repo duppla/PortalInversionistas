@@ -5,16 +5,19 @@ import { useEffect, useState } from "react";
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "../../../context/authContext";
-import { CardCompBox } from "../CardComps";
+import { formatFecha } from "../utils";
+import { CardCompDateBox } from "../CardComps";
 
-const endpoint = "/principal/inversion_original";
+const endpoint = "/principal/tasa_morosidad";
 
-type Inversion = {
-  monto_inversion: number;
+type Morosidad = {
+  tasa_morosidad: number;
+  fecha: string;
 };
-function CardInversion() {
+
+function CardMorosidad() {
   const { userEmail } = useAuth();
-  const [data, setData] = useState<Inversion | null>(null);
+  const [data, setData] = useState<Morosidad | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,12 +33,10 @@ function CardInversion() {
     fetchData();
   }, [userEmail]);
 
-  const monto_inversion = data
-    ? "$ " +
-      data.monto_inversion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    : "";
+  const morosidad = data ? (data.tasa_morosidad * 100).toFixed(1) + "%" : "";
+  const formattedDate = data ? formatFecha(data.fecha) : "";
 
-  return CardCompBox("Inversión original", monto_inversion);
+  return CardCompDateBox("Tasa de morosidad", formattedDate, morosidad);
 }
 
-export default CardInversion;
+export default CardMorosidad;
