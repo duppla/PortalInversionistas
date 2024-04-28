@@ -1,8 +1,15 @@
 "use client";
+// react imports
 import React, { useEffect, useState } from "react";
+
+// material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
+
+// nivo imports
 import { ResponsivePie } from "@nivo/pie";
+
+// custom imports
 import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
 
@@ -108,64 +115,6 @@ function PieChartCompCartera() {
                 Cartera en mora
               </Typography>
             </Grid>
-            {/*   <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedValue}
-                label="Age"
-                onChange={handleSelectChange}
-                sx={{
-                  color: '#9B9EAB',
-                  justifyContent: 'flex-end',
-                  textAlign: 'end',
-                  fill: '#ffffff',
-                  '&.MuiSelect-icon': { color: '#FFFFFF !important' },
-                  '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                  '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                }}
-                MenuProps={{
-                  anchorOrigin: {
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'right',
-                  },
-                  
-                  PaperProps: {
-                    sx: {
-                      backgroundColor: '#212126', // Fondo del menú desplegado
-                      border: '1px solid #5682F2', // Borde azul
-                      color: '#9B9EAB', // Letra blanca
-                    },
-                  },
-                }}
-                open={menuOpen}
-                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
-
-                IconComponent={() => (
-                  // Cambia el ícono según el estado del menú
-                  menuOpen ? (
-                    <ArrowDropUpIcon
-                      style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  ) : (
-                    <ArrowDropDownIcon
-                      style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  )
-                )}
-              >
-                <MenuItem value='este_anho'>Este año</MenuItem>
-                <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
-                <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
-              </Select>
-            </Grid>  */}
           </Grid>
         </FormControl>
       </div>
@@ -218,8 +167,7 @@ function PieChartCompCartera() {
               },
             ]}
             tooltip={(tooltipProps) => {
-              const { id, value, color, formattedValue, label } =
-                tooltipProps.datum;
+              const { value, color, label } = tooltipProps.datum;
 
               return (
                 <div
