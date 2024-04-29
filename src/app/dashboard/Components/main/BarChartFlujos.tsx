@@ -17,7 +17,7 @@ import {
   formatFecha,
   formatNumber,
   setTooltipBar,
-  calculateAxisValues,
+  generarTicks,
 } from "../utils";
 import { titleGrid, selectGrid } from "../ChartAddons";
 
@@ -26,8 +26,7 @@ const title = "Flujo real vs. flujo esperado";
 /* Mensaje para el tooltip explicativo */
 const explainText = `Nota: 'Flujo Real' se refiere a los ingresos generado durante el periodo elegido, mientras que 'Flujo Esperado' alude a las proyecciones de ingreso para el mismo intervalo.`;
 
-const tickCount: number = 6;
-const tickIni: number = 500000;
+const tickCount: number = 5;
 
 type Flujos = {
   fecha: string;
@@ -59,7 +58,7 @@ function BarChartFlujos() {
 
   // configuración interna de estados reactivos
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [gridYValues, setGridYValues] = useState<number[]>([]);
+  const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,8 +100,8 @@ function BarChartFlujos() {
           Math.max(item.flujo_real, item.flujo_esperado)
         ) ?? [])
       );
-      const gridYValues = calculateAxisValues(maxValue, tickIni, tickCount);
-      setGridYValues(gridYValues);
+      const ticks = generarTicks(0, maxValue, tickCount);
+      setTicks(ticks);
     }
   }, [selectedKey, data]);
 
@@ -121,12 +120,18 @@ function BarChartFlujos() {
           </Grid>
         </FormControl>
       </div>
-      {BarChart(formattedData, gridYValues)}
+      {BarChart(formattedData, ticks, 1, false, true)}
     </div>
   );
 }
 
-function BarChart(formattedData: FlujosFront[], gridYValues: number[]) {
+function BarChart(
+  formattedData: FlujosFront[],
+  ticks: number[],
+  decimal: number = 0,
+  perc: boolean = false,
+  drop_end_zeros: boolean = true
+) {
   if (formattedData == null) {
     return <div></div>;
   }
@@ -138,7 +143,7 @@ function BarChart(formattedData: FlujosFront[], gridYValues: number[]) {
       label={() => ""}
       margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
       padding={0.7}
-      maxValue={gridYValues[gridYValues.length - 1]}
+      maxValue={ticks[ticks.length - 1]}
       groupMode="grouped"
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
@@ -187,7 +192,7 @@ function BarChart(formattedData: FlujosFront[], gridYValues: number[]) {
         from: "color",
         modifiers: [["darker", 1.4]],
       }}
-      tooltip={(point) => setTooltipBar(point, 1)}
+      tooltip={(point) => setTooltipBar(point, decimal)}
       axisTop={null}
       axisRight={null}
       axisBottom={{
@@ -197,19 +202,19 @@ function BarChart(formattedData: FlujosFront[], gridYValues: number[]) {
         legend: "",
         legendPosition: "middle",
         legendOffset: 32,
-        tickValues: formattedData?.map((item: { fecha: string }) => item.fecha),
+        tickValues: formattedData?.map((item: FlujosFront) => item.fecha),
         format: (value) => formatFecha(value), // Formatea la fecha si es una cadena
       }}
-      gridYValues={gridYValues}
+      gridYValues={ticks}
       axisLeft={{
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        tickValues: gridYValues,
+        tickValues: ticks,
         legend: "",
         legendPosition: "middle",
         legendOffset: -40,
-        format: (value) => formatNumber(value),
+        format: (value) => formatNumber(value, decimal, perc, drop_end_zeros),
       }}
       labelSkipWidth={12}
       labelSkipHeight={12}

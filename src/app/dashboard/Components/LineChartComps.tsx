@@ -9,9 +9,11 @@ import { TasaMorosidadFront } from "./main/LineChartHistMora";
 
 export function LineChart(
   formattedData: RentabilidadFront[] | TasaMorosidadFront[],
-  gridYValues: number[],
+  tooltipText: string,
+  ticks: number[],
   decimal: number = 0,
-  perc: boolean = false
+  perc: boolean = false,
+  drop_end_zeros: boolean = true
 ) {
   return (
     <ResponsiveLine
@@ -33,7 +35,7 @@ export function LineChart(
       yScale={{
         type: "linear",
         min: 0,
-        max: gridYValues[gridYValues.length - 1],
+        max: ticks[ticks.length - 1],
         stacked: true,
         reverse: false,
       }}
@@ -53,11 +55,11 @@ export function LineChart(
         legend: "",
         legendOffset: -40,
         legendPosition: "middle",
-        tickValues: gridYValues,
-        format: (tick) => formatNumber(tick, decimal, perc),
+        tickValues: ticks,
+        format: (tick) => formatNumber(tick, decimal, perc, drop_end_zeros),
       }}
       enableGridX={false}
-      gridYValues={gridYValues}
+      gridYValues={ticks}
       lineWidth={3}
       pointSize={10}
       pointColor={{ theme: "background" }}
@@ -68,7 +70,9 @@ export function LineChart(
       pointLabelYOffset={-12}
       useMesh={true}
       legends={[]}
-      tooltip={(point) => setTooltipLine(point)}
+      tooltip={(point) =>
+        setTooltipLine(point, tooltipText, decimal, perc, drop_end_zeros)
+      }
       theme={{
         axis: {
           ticks: {

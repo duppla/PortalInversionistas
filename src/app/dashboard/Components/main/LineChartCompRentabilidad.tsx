@@ -11,13 +11,12 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "@/app/context/authContext";
 import { titleGrid, selectGrid } from "../ChartAddons";
-import { calculateAxisValues } from "../utils";
+import { generarTicks } from "../utils";
 import { LineChart } from "../LineChartComps";
 
 const endpoint = "/principal/rentabilidad_portafolio";
 
 const tickCount = 5;
-const tickIni = 0.0005;
 
 type Rentabilidad = {
   fecha: string;
@@ -42,7 +41,7 @@ const LineChartCompRentabilidad = () => {
   const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [gridYValues, setGridYValues] = useState<number[]>([]);
+  const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,8 +63,8 @@ const LineChartCompRentabilidad = () => {
       const maxValue = Math.max(
         ...dataMora.map((item: Rentabilidad) => item.rentabilidad)
       );
-      const gridYValues = calculateAxisValues(maxValue, tickIni, tickCount);
-      setGridYValues(gridYValues);
+      const ticks = generarTicks(0, maxValue, tickCount);
+      setTicks(ticks);
     }
   }, [selectedKey, data]);
 
@@ -83,8 +82,8 @@ const LineChartCompRentabilidad = () => {
 
   /* Mensaje para el tooltip explicativo */
 
-  const minY = (gridYValues[0] * 100).toFixed(2);
-  const maxY = (gridYValues[gridYValues.length - 1] * 100).toFixed(2);
+  const minY = (ticks[0] * 100).toFixed(2);
+  const maxY = (ticks[ticks.length - 1] * 100).toFixed(2);
 
   const longText = `Nota: Los valores mostrados en esta gráfica se encuentran en un rango de ${minY}% a ${maxY}% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.`;
 
@@ -104,7 +103,7 @@ const LineChartCompRentabilidad = () => {
         </FormControl>
       </div>
       <br />
-      {LineChart(formattedData, gridYValues, 2, true)}
+      {LineChart(formattedData, "Rentabilidad", ticks, 2, true, false)}
     </div>
   );
 };

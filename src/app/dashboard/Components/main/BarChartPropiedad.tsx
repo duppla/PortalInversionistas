@@ -158,7 +158,7 @@ function BarChart(formattedData: PropiedadFront[]) {
         legend: "",
         legendPosition: "middle",
         legendOffset: 32,
-        tickValues: formattedData?.map((item: { fecha: string }) => item.fecha),
+        tickValues: formattedData?.map((item: PropiedadFront) => item.fecha),
         format: (value) => formatFecha(value),
       }}
       axisLeft={{
@@ -205,10 +205,6 @@ function BarChart(formattedData: PropiedadFront[]) {
         },
       ]}
       role="application"
-      ariaLabel="Nivo bar chart demo"
-      barAriaLabel={(e) =>
-        e.id + ": " + e.formattedValue + " in country: " + e.indexValue
-      }
     />
   );
 }

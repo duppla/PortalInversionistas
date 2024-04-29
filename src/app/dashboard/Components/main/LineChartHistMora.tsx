@@ -10,13 +10,12 @@ import { FormControl } from "@mui/material";
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
 import { useAuth } from "../../../context/authContext";
-import { calculateAxisValues } from "../utils";
+import { generarTicks } from "../utils";
 import { titleGrid, selectGrid } from "../ChartAddons";
 import { LineChart } from "../LineChartComps";
 
 const endpoint = "/principal/historico_morosidad";
 
-const tickIni = 0.005;
 const tickCount = 5;
 
 type TasaMorosidad = {
@@ -42,7 +41,7 @@ function LineChartHistMora() {
   const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [gridYValues, setGridYValues] = useState<number[]>([]);
+  const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,8 +63,8 @@ function LineChartHistMora() {
       const maxValue = Math.max(
         ...dataMora.map((item: TasaMorosidad) => item.tasa_morosidad)
       );
-      const gridYValues = calculateAxisValues(maxValue, tickIni, tickCount);
-      setGridYValues(gridYValues);
+      const ticks = generarTicks(0, maxValue, tickCount);
+      setTicks(ticks);
     }
   }, [selectedKey, data]);
 
@@ -82,8 +81,8 @@ function LineChartHistMora() {
   }
 
   /* Mensaje para el tooltip explicativo */
-  const minY = (gridYValues[0] * 100).toFixed(0);
-  const maxY = (gridYValues[gridYValues.length - 1] * 100).toFixed(0);
+  const minY = (ticks[0] * 100).toFixed(0);
+  const maxY = (ticks[ticks.length - 1] * 100).toFixed(0);
 
   const longText = `Nota: Los valores mostrados en esta gráfica se encuentran en un rango de ${minY}% a ${maxY}% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.`;
 
@@ -103,7 +102,7 @@ function LineChartHistMora() {
         </FormControl>
       </div>
       <br />
-      {LineChart(formattedData, gridYValues, 0, true)}
+      {LineChart(formattedData, "Tasa de mora", ticks, 1, true)}
     </div>
   );
 }

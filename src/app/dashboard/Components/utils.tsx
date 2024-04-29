@@ -67,7 +67,8 @@ export function changeArrow(
 export function formatNumber(
   value: number,
   decimal: number = 0,
-  perc: boolean = false
+  perc: boolean = false,
+  drop_end_zeros: boolean = true
 ): string {
   let newVal = "";
   const suffixes = ["", "K", "M", "B", "T"];
@@ -80,7 +81,11 @@ export function formatNumber(
       suffixNum !== 0 ? value / Math.pow(1000, suffixNum) : value
     ).toFixed(decimal);
   }
-  newVal = dropEndZero(newVal, decimal);
+
+  if (drop_end_zeros) {
+    newVal = dropEndZero(newVal, decimal);
+  }
+
   return newVal + (perc ? "%" : ` ${suffixes[suffixNum]}`);
 }
 
@@ -130,12 +135,23 @@ export function setTooltipBar(
   return null; // Devolver null si point.data.fecha no es una cadena
 }
 
-export function setTooltipLine(point: PropsWithChildren<PointTooltipProps>) {
+export function setTooltipLine(
+  point: PropsWithChildren<PointTooltipProps>,
+  tooltipText: string,
+  decimal: number = 0,
+  perc: boolean = false,
+  drop_end_zeros: boolean = true
+) {
   const date: string = new Date(point.point.data.x).toISOString().split("T")[0];
   const fecha_formateada = formatFecha(date);
   let formattedY = "";
   if (typeof point.point.data.y === "number") {
-    formattedY = formatNumber(point.point.data.y, 1, true);
+    formattedY = formatNumber(
+      point.point.data.y,
+      decimal,
+      perc,
+      drop_end_zeros
+    );
   }
 
   return (
@@ -150,7 +166,7 @@ export function setTooltipLine(point: PropsWithChildren<PointTooltipProps>) {
       <div>
         <strong>{fecha_formateada}</strong>
       </div>
-      <div>{`Tasa Morosidad: ${formattedY}`}</div>
+      <div>{`${tooltipText}: ${formattedY}`}</div>
     </div>
   );
 }
@@ -184,4 +200,53 @@ export function calculateAxisValues(
   );
 
   return gridYValues;
+}
+
+export function generarTicks(
+  min: number,
+  max: number,
+  numTicks: number
+): number[] {
+  const range = max - min;
+  const paso = range / (numTicks - 1); // calcular tamaño de paso inicial
+
+  // Encontrar un paso normalizado
+  const pasoNormalizado = normalizar(paso);
+
+  // Calcular el primer tick
+  let primerTick = pasoNormalizado * Math.floor(min / pasoNormalizado);
+
+  // Generar ticks
+  const ticks = [];
+  while (primerTick <= max + pasoNormalizado) {
+    if (primerTick >= min) {
+      ticks.push(primerTick);
+    }
+    primerTick += pasoNormalizado;
+  }
+
+  return ticks;
+}
+
+function normalizar(value: number): number {
+  let exponente: number;
+  let fraccion: number;
+  let normalizacion: number;
+
+  exponente = Math.floor(Math.log10(value));
+  fraccion = value / Math.pow(10, exponente);
+
+  if (fraccion <= 1.0) {
+    normalizacion = 1.0;
+  } else if (fraccion <= 2.0) {
+    normalizacion = 2.0;
+  } else if (fraccion <= 3.0) {
+    normalizacion = 2.5;
+  } else if (fraccion <= 7.0) {
+    normalizacion = 5.0;
+  } else {
+    normalizacion = 10.0;
+  }
+
+  return normalizacion * Math.pow(10, exponente);
 }
