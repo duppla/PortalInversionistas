@@ -12,7 +12,7 @@ import { BarTooltipProps } from "@nivo/bar";
 // types
 import { FlujosFront } from "./main/BarChartFlujos";
 import { PropiedadFront } from "./main/BarChartPropiedad";
-import { PointTooltipProps } from "@nivo/line";
+import { DatumValue } from "@nivo/core";
 
 export function formatFecha(inputFecha: string): string {
   const meses = [
@@ -136,22 +136,18 @@ export function setTooltipBar(
 }
 
 export function setTooltipLine(
-  point: PropsWithChildren<PointTooltipProps>,
+  x: DatumValue,
+  y: DatumValue,
   tooltipText: string,
   decimal: number = 0,
   perc: boolean = false,
   drop_end_zeros: boolean = true
 ) {
-  const date: string = new Date(point.point.data.x).toISOString().split("T")[0];
+  const date: string = new Date(x).toISOString().split("T")[0];
   const fecha_formateada = formatFecha(date);
   let formattedY = "";
-  if (typeof point.point.data.y === "number") {
-    formattedY = formatNumber(
-      point.point.data.y,
-      decimal,
-      perc,
-      drop_end_zeros
-    );
+  if (typeof y === "number") {
+    formattedY = formatNumber(y, decimal, perc, drop_end_zeros);
   }
 
   return (

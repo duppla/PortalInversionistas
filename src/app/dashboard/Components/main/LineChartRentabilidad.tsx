@@ -9,10 +9,10 @@ import { SelectChangeEvent } from "@mui/material/Select";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
-import { titleGrid, selectGrid } from "../ChartAddons";
-import { generarTicks } from "../utils";
+import { useAuth } from "../../../context/authContext";
 import { LineChart } from "../LineChartComps";
+import { generarTicks } from "../utils";
+import { titleGrid, selectGrid } from "../ChartAddons";
 
 const endpoint = "/principal/rentabilidad_portafolio";
 
@@ -35,7 +35,7 @@ type RentabilidadPortafolio = {
   [key: string]: any;
 };
 
-const LineChartCompRentabilidad = () => {
+const LineChartRentabilidad = () => {
   const { userEmail } = useAuth();
   const [data, setData] = useState<RentabilidadPortafolio | null>(null);
   const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
@@ -108,4 +108,4 @@ const LineChartCompRentabilidad = () => {
   );
 };
 
-export default LineChartCompRentabilidad;
+export default LineChartRentabilidad;

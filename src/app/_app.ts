@@ -3,8 +3,6 @@ import { useEffect } from 'react';
 
 function MyApp({ Component, pageProps }) {
 
-  
- 
   useEffect(() => {
     const loadSmartlookScript = async () => {
       if (!window.smartlook) {

@@ -4,7 +4,7 @@ import { ResponsiveLine } from "@nivo/line";
 // custom imports
 import { formatFecha, formatNumber, setTooltipLine } from "./utils";
 // types
-import { RentabilidadFront } from "./main/LineChartCompRentabilidad";
+import { RentabilidadFront } from "./main/LineChartRentabilidad";
 import { TasaMorosidadFront } from "./main/LineChartHistMora";
 
 export function LineChart(
@@ -71,7 +71,14 @@ export function LineChart(
       useMesh={true}
       legends={[]}
       tooltip={(point) =>
-        setTooltipLine(point, tooltipText, decimal, perc, drop_end_zeros)
+        setTooltipLine(
+          point.point.data.x,
+          point.point.data.y,
+          tooltipText,
+          decimal,
+          perc,
+          drop_end_zeros
+        )
       }
       theme={{
         axis: {

@@ -51,29 +51,6 @@
   }
 }
 
-
-
-/* @font-face{
-  font-family: 'Rustica';
-  src: url('../fonts/RusticaMedium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face{
-  font-family: 'Rustica';
-  src: url('../fonts/RusticaMedium.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face{
-  font-family: 'Rustica';
-  src: url('../fonts/RusticaBold.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-} */
-
 @font-face {
   font-family: 'Rustica';
   src: url('../fonts/RusticaSemiLight.ttf') format('truetype');
@@ -175,13 +152,11 @@ a {
 .grafica-barcharts {
   width: 100% !important;
   height: 350px;
-  /* background-color: #020101; */
 }
 
 .grafica-barcharts-des {
   width: 100% !important;
   height: 480px;
-  /* background-color: #020101; */
 }
 
 .grafica-piecharts {

@@ -1,32 +1,32 @@
 "use client";
+// react modules
 import { useEffect, useState } from "react";
+
+// material-ui modules
 import Grid from "@mui/material/Unstable_Grid2";
 import { SelectChangeEvent } from "@mui/material/Select";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { FormControl, Typography, Select, MenuItem } from "@mui/material";
+import { FormControl } from "@mui/material";
+
+// nivo modules
 import { ResponsiveLine } from "@nivo/line";
 import { DatumValue } from "@nivo/core";
-import getApiUrl from "@/app/url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
-import { formatFecha } from "../utils";
+
+// custom modules
+import getApiUrl from "../../../url/ApiConfig";
+import { useAuth } from "../../../context/authContext";
+import { formatFecha, formatNumber } from "../utils";
+import { titleGrid, selectGrid } from "../ChartAddons";
 
 const endpoint = "/inmuebles/valor_inmuebles";
 
-interface Item {
-  [key: string]: any;
-  fecha: string;
-  unidades: number | null;
-}
-
-type DataType = {
+type TramoValorInm = {
   ult_12_meses: any[];
   este_anho: any[];
   ult_6_meses: any[];
   [key: string]: any;
 };
 
-type DataApiType = {
+type ValorInm = {
   fecha: string;
   fair_market_price: number;
   valor_contractual: number;
@@ -35,17 +35,9 @@ type DataApiType = {
 
 const LineChartCompValorInm = () => {
   const { userEmail } = useAuth();
+  const [data, setData] = useState<TramoValorInm | null>(null);
+  const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
 
-  const [data, setData] = useState<DataType>({
-    ult_12_meses: [],
-    este_anho: [],
-    ult_6_meses: [],
-  });
-  const [selectedDataKeyB, setSelectedDataKeyB] =
-    useState<string>("ult_12_meses");
-  const [selectedValue, setSelectedValue] = useState<string | number>(
-    "ult_12_meses"
-  );
   const [transformedDataContractual, setTransformedDataContractual] = useState<
     { x: string; y: number }[]
   >([]);
@@ -53,65 +45,32 @@ const LineChartCompValorInm = () => {
     { x: string; y: number }[]
   >([]);
   const [menuOpen, setMenuOpen] = useState(false);
-  // Nuevos estados para valores dinámicos del eje y
-  const [gridYValues, setGridYValues] = useState<number[]>([]);
-  const [tickValues, setTickValues] = useState<number[]>([]);
-
-  const [loading, setLoading] = useState(true);
+  const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
       try {
-        const options = {
-          method: "GET",
-          headers: { "User-Agent": "insomnia/2023.5.8" },
-        };
-        const response = await fetch(
-          getApiUrl(endpoint + `?email=${email}`),
-          options
-        );
-        const newData = await response.json();
-
-        setData((prevData) => {
-          const updatedData = { ...prevData };
-          updatedData[selectedValue.toString()] =
-            newData[selectedValue.toString()];
-          return updatedData;
-        });
-
-        handleDataSelection(selectedValue.toString());
+        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
+        const responseData = await response.json();
+        setData(responseData);
       } catch (error) {
         console.error(error);
-      } finally {
-        setLoading(false);
       }
     };
-    setLoading(true); // Iniciar la carga
+
     fetchData();
-  }, [selectedValue, userEmail]);
+  }, [selectedKey, userEmail]);
 
-  const handleDataSelection = (dataKey: string) => {
-    setSelectedDataKeyB(dataKey);
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    setSelectedKey(event.target.value);
   };
-
-  const handleSelectChange = (event: SelectChangeEvent<string | number>) => {
-    const selectedOption = event.target.value as string;
-    setSelectedValue(selectedOption);
-    handleDataSelection(selectedOption);
-  };
-
-  /*  función para formateo data según requerimiento de la gráfica */
 
   const transformData = (
-    data: DataType,
+    data: TramoValorInm,
     selectedDataKeyB: string,
-    field: keyof DataApiType
+    field: keyof ValorInm
   ) => {
-    return (data[selectedDataKeyB as keyof DataType] as DataApiType[]).map(
+    return (data[selectedDataKeyB as keyof TramoValorInm] as ValorInm[]).map(
       (item) => {
         let numericValue;
         if (typeof item[field] === "number") {
@@ -122,7 +81,6 @@ const LineChartCompValorInm = () => {
           numericValue = NaN;
         }
 
-        // Formateamos el valor y añadimos el sufijo "M"
         let formattedValue;
         if (!isNaN(numericValue)) {
           formattedValue =
@@ -143,7 +101,7 @@ const LineChartCompValorInm = () => {
   };
 
   // Calcula los valores máximos y mínimos
-  const calculateMinMaxValues = (data: DataApiType[]) => {
+  const calculateMinMaxValues = (data: ValorInm[]) => {
     const values = data.map((item) => item.fair_market_price);
     values.push(...data.map((item) => item.valor_contractual));
 
@@ -154,11 +112,9 @@ const LineChartCompValorInm = () => {
   };
 
   useEffect(() => {
-    if (data[selectedDataKeyB]) {
+    if (data) {
       // Calcula los valores máximos y mínimos al actualizar la data
-      const { minValue, maxValue } = calculateMinMaxValues(
-        data[selectedDataKeyB]
-      );
+      const { minValue, maxValue } = calculateMinMaxValues(data[selectedKey]);
 
       // Calcula los nuevos valores para el eje y
       const medianYValue = (minValue + maxValue) / 2;
@@ -184,28 +140,27 @@ const LineChartCompValorInm = () => {
       }
 
       let lowest = minValue - (minValue % tickStep);
-      const newGridYValues = Array.from(
+      const ticks = Array.from(
         { length: tickCount + 1 },
         (_, index) => lowest + index * tickStep
       );
 
       // Actualiza los valores en el componente
-      setGridYValues(newGridYValues);
-      setTickValues(newGridYValues);
+      setTicks(ticks);
     }
-  }, [data, selectedDataKeyB]);
+  }, [data, selectedKey]);
 
   useEffect(() => {
-    if (data[selectedDataKeyB]) {
+    if (data) {
       // Actualización de datos de gráfico aquí
       setTransformedDataContractual(
-        transformData(data, selectedDataKeyB, "valor_contractual")
+        transformData(data, selectedKey, "valor_contractual")
       );
       setTransformedDataFairMarket(
-        transformData(data, selectedDataKeyB, "fair_market_price")
+        transformData(data, selectedKey, "fair_market_price")
       );
     }
-  }, [data, selectedDataKeyB]);
+  }, [data, selectedKey]);
 
   // Función para redondear y formatear el valor
   const formatTooltipValue = (value: number) => {
@@ -224,118 +179,27 @@ const LineChartCompValorInm = () => {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB", mt: 1 }}
           >
-            <Grid xs={6} md={6} lg={6}>
-              <Typography
-                className="title-dropdown-menu-container"
-                variant="subtitle1"
-                sx={{
-                  fontFamily: "Helvetica",
-                  fontWeight: 300,
-                  color: "#ffffff",
-                  fontSize: "26px",
-                  mt: 2,
-                }}
-              >
-                Valor de los inmuebles
-              </Typography>
-            </Grid>
-            <Grid xs={6} md={6} lg={6} sx={{ textAlign: "end" }}>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedValue}
-                label="Age"
-                onChange={handleSelectChange}
-                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
-
-                sx={{
-                  color: "#9B9EAB",
-                  justifyContent: "flex-end",
-                  textAlign: "end",
-                  fill: "#ffffff",
-                  "&.MuiSelect-icon": { color: "#FFFFFF !important" },
-                  "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                  },
-                }}
-                MenuProps={{
-                  anchorOrigin: {
-                    vertical: "bottom",
-                    horizontal: "right",
-                  },
-                  transformOrigin: {
-                    vertical: "top",
-                    horizontal: "right",
-                  },
-                  /*   getContentAnchorEl: null, */
-                  PaperProps: {
-                    sx: {
-                      backgroundColor: "#212126", // Fondo del menú desplegado
-                      border: "1px solid #5682F2", // Borde azul
-                      color: "#9B9EAB", // Letra blanca
-                    },
-                  },
-                }}
-                open={menuOpen}
-                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                onOpen={() => setMenuOpen(true)} // Abre el menú cuando se hace clic en el botón
-                IconComponent={() =>
-                  // Cambia el ícono según el estado del menú
-                  menuOpen ? (
-                    <ArrowDropUpIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  ) : (
-                    <ArrowDropDownIcon
-                      style={{
-                        color: "#9B9EAB",
-                        fill: "#9B9EAB",
-                        marginLeft: "-20px",
-                      }}
-                      onClick={() => setMenuOpen(!menuOpen)}
-                    />
-                  )
-                }
-              >
-                {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
-                <MenuItem value="ult_6_meses">Últimos 6 meses</MenuItem>
-                <MenuItem value="ult_12_meses">Últimos 12 meses</MenuItem>
-              </Select>
-            </Grid>
+            {titleGrid("Valor de los inmuebles")}
+            {selectGrid(selectedKey, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
       </div>
-      {loading && (
-        <Typography sx={{ color: "#212126" }}>Cargando...</Typography>
-      )}
-      {!loading && (
+      {
         <ResponsiveLine
           axisBottom={{
             legend: "",
             legendOffset: -12,
             tickValues: "every month",
             format: (value) => {
-              const date = new Date(value);
-              const month = new Intl.DateTimeFormat("es", {
-                month: "short",
-              }).format(date);
-              return `${month.charAt(0).toUpperCase()}${month.slice(1)} ${date
-                .getFullYear()
-                .toString()
-                .slice(2)}`;
+              const date = new Date(value).toISOString().split("T")[0];
+              return formatFecha(date);
             },
           }}
-          gridYValues={gridYValues}
+          gridYValues={ticks}
           axisLeft={{
             legend: "",
             legendOffset: 12,
-            tickValues: tickValues,
+            tickValues: ticks,
             format: (value) => formatTooltipValue(value),
           }}
           tooltip={(point) => {
@@ -428,12 +292,12 @@ const LineChartCompValorInm = () => {
             useUTC: false,
           }}
           yFormat={(value: DatumValue) =>
-            typeof value === "number" ? `${value / 1000000}M` : ""
+            typeof value === "number" ? formatNumber(value) : ""
           }
           yScale={{
             type: "linear",
-            min: gridYValues[0],
-            max: gridYValues[gridYValues.length - 1],
+            min: ticks[0],
+            max: ticks[ticks.length - 1],
             stacked: false,
             reverse: false,
           }}
@@ -464,7 +328,7 @@ const LineChartCompValorInm = () => {
             },
           ]}
         />
-      )}
+      }
     </div>
   );
 };

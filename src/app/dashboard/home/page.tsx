@@ -12,7 +12,7 @@ import CardRetorno from "../Components/main/CardRetorno";
 import CardNOI from "../Components/main/CardNOI";
 import CardMorosidad from "../Components/main/CardMorosidad";
 import CardAdelanto from "../Components/main/CardAdelanto";
-import LineChartCompRentabilidad from "../Components/main/LineChartCompRentabilidad";
+import LineChartRentabilidad from "../Components/main/LineChartRentabilidad";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
@@ -105,7 +105,7 @@ const Page = () => {
                 borderRadius: "20px",
               }}
             >
-              <LineChartCompRentabilidad />
+              <LineChartRentabilidad />
             </Grid>
           </Grid>
           {/* Componente A y A1 */}
