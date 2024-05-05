@@ -89,6 +89,9 @@ export default function AuthProvider({
       // Almacenar información de autenticación en el localStorage
       localStorage.setItem("userEmail", email);
 
+      const token = await credential.user.getIdToken();
+      localStorage.setItem("token", token);
+
       return credential;
     } catch (error) {
       console.error("Error en el inicio de sesión:", error);
@@ -102,6 +105,7 @@ export default function AuthProvider({
 
     // Limpiar la información almacenada en el localStorage
     localStorage.removeItem("userEmail");
+    localStorage.removeItem("token");
 
     // Limpiar el estado local de usuario y correo electrónico
     setUser(null);
