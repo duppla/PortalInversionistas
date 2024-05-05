@@ -7,7 +7,7 @@ import AuthProvider from "../app/context/authContext";
 
 interface Metadata {
   title: string;
-  description?: string | null | undefined;
+  description: string | null | undefined;
   script: {
     type: string;
     innerHTML: string;

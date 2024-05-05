@@ -141,7 +141,3 @@ export default function AuthProvider({
     <authContext.Provider value={contextValue}>{children}</authContext.Provider>
   );
 }
-/* Consumir el contexto */
-export function useAuthContext() {
-  return useContext(authContext);
-}
