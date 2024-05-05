@@ -12,7 +12,7 @@ import { ResponsiveBar } from "@nivo/bar";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "../../../context/authContext";
+import { getEmail } from "../../../context/authContext";
 import { formatFecha, formatNumber, setTooltipBar } from "../utils";
 import { titleGrid, selectGrid } from "../ChartAddons";
 
@@ -39,7 +39,7 @@ type PropiedadPortafolio = {
 };
 
 const BarChartPropiedad = () => {
-  const { userEmail } = useAuth();
+  const email = getEmail();
 
   const [data, setData] = useState<PropiedadPortafolio | null>(null);
   const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
@@ -47,17 +47,15 @@ const BarChartPropiedad = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
-        const responseData = await response.json();
-        setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await fetch(getApiUrl(endpoint, { email: email }));
+      const responseData = await response.json();
+      setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email !== null) {
+      fetchData();
+    }
+  }, [email]);
 
   /* Función que controla la selección del dropdown */
   const handleSelectChange = (event: SelectChangeEvent<string>) => {

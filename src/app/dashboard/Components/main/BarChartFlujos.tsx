@@ -12,7 +12,7 @@ import { ResponsiveBar } from "@nivo/bar";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "../../../context/authContext";
+import { getEmail } from "../../../context/authContext";
 import {
   formatFecha,
   formatNumber,
@@ -49,7 +49,7 @@ type FlujoRealEsperado = {
 };
 
 function BarChartFlujos() {
-  const { userEmail } = useAuth();
+  const email = getEmail();
 
   // data: Datos de la API
   const [data, setData] = useState<FlujoRealEsperado | null>(null);
@@ -62,17 +62,15 @@ function BarChartFlujos() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
-        const responseData = await response.json();
-        setData(responseData);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await fetch(getApiUrl(endpoint, { email: email }));
+      const responseData = await response.json();
+      setData(responseData);
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email !== null) {
+      fetchData();
+    }
+  }, [email]);
 
   /* Función que controla la selección del dropdown */
   const handleSelectChange = (event: SelectChangeEvent<string>) => {

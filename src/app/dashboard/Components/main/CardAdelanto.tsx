@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "../../../context/authContext";
+import { getEmail } from "../../../context/authContext";
 import { formatFecha } from "../utils";
 import { CardCompDateBox } from "../CardComps";
 
@@ -16,22 +16,20 @@ type Adelanto = {
 };
 
 function CardAdelanto() {
-  const { userEmail } = useAuth();
+  const email = getEmail();
   const [data, setData] = useState<Adelanto | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
-        const responseData = await response.json();
-        setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await fetch(getApiUrl(endpoint, { email: email }));
+      const responseData = await response.json();
+      setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email !== null) {
+      fetchData();
+    }
+  }, [email]);
 
   const formattedDate = data ? formatFecha(data.fecha) : "";
   const formattedAdelanto = data

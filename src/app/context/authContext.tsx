@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useMemo,
   ReactNode,
 } from "react";
 import {
@@ -31,6 +32,16 @@ interface AuthContextType {
 }
 const authContext = createContext<AuthContextType | undefined>(undefined);
 
+export const getEmail = (): string | null => {
+  try {
+    const email = localStorage.getItem("userEmail");
+    return email;
+  } catch (error) {
+    console.error("Error al obtener el correo electrónico:", error);
+    return null;
+  }
+};
+
 export const useAuth = (): AuthContextType => {
   const context = useContext(authContext);
   if (!context) throw new Error("useAuth debe estar dentro del proveedor");
@@ -41,7 +52,9 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export default function AuthProvider({ children }: AuthProviderProps) {
+export default function AuthProvider({
+  children,
+}: Readonly<AuthProviderProps>) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -110,16 +123,19 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     return () => unsubscribe();
   }, []);
 
-  const contextValue: AuthContextType = {
-    singUp,
-    login,
-    logout,
-    user,
-    userEmail,
-    loading,
-    setUserEmail,
-    setUser,
-  };
+  const contextValue: AuthContextType = useMemo(
+    () => ({
+      singUp,
+      login,
+      logout,
+      user,
+      userEmail,
+      loading,
+      setUserEmail,
+      setUser,
+    }),
+    [singUp, login, logout, user, userEmail, loading, setUserEmail, setUser]
+  );
 
   return (
     <authContext.Provider value={contextValue}>{children}</authContext.Provider>

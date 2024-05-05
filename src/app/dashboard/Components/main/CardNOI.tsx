@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
+import { getEmail } from "@/app/context/authContext";
 import { formatFecha } from "@/app/dashboard/Components/utils";
 import { CardCompDateBox } from "../CardComps";
 
@@ -13,22 +13,20 @@ type Noi = {
 };
 
 function CardNOI() {
-  const { userEmail } = useAuth();
+  const email = getEmail();
   const [data, setData] = useState<Noi | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
-        const responseData = await response.json();
-        setData(responseData);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await fetch(getApiUrl(endpoint, { email: email }));
+      const responseData = await response.json();
+      setData(responseData);
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email !== null) {
+      fetchData();
+    }
+  }, [email]);
 
   const formattedDate = data ? formatFecha(data.fecha) : "";
   const noi = data

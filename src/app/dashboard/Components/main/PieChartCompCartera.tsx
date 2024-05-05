@@ -11,7 +11,7 @@ import { PieTooltipProps, ResponsivePie } from "@nivo/pie";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "../../../context/authContext";
+import { getEmail } from "../../../context/authContext";
 import { formatNumber } from "../utils";
 import { titleGrid } from "../ChartAddons";
 
@@ -34,22 +34,20 @@ type CarteraMora = {
 };
 
 function PieChartCompCartera() {
-  const { userEmail } = useAuth();
+  const email = getEmail();
   const [data, setData] = useState<CarteraMora | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
-        const responseData = await response.json();
-        setData(responseData);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await fetch(getApiUrl(endpoint, { email: email }));
+      const responseData = await response.json();
+      setData(responseData);
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email !== null) {
+      fetchData();
+    }
+  }, [email]);
 
   let formattedData: FormatoFront[] = [];
   if (data) {

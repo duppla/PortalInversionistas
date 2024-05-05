@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "../../../context/authContext";
+import { getEmail } from "../../../context/authContext";
 import { CardCompBox } from "../CardComps";
 
 const endpoint = "/principal/retorno";
@@ -13,22 +13,20 @@ type Retorno = {
   retorno: number;
 };
 function CardCompRetorno() {
-  const { userEmail } = useAuth();
+  const email = getEmail();
   const [data, setData] = useState<Retorno | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
-        const responseData = await response.json();
-        setData(responseData);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await fetch(getApiUrl(endpoint, { email: email }));
+      const responseData = await response.json();
+      setData(responseData);
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email !== null) {
+      fetchData();
+    }
+  }, [email]);
 
   let retorno = data
     ? "$ " + data.retorno.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")

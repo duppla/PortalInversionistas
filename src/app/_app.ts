@@ -1,28 +1,19 @@
-'use client'
-import { useEffect } from 'react';
+"use client";
+import { useEffect } from "react";
 
-function MyApp({ Component, pageProps }) {
-
+function SmartLookClient() {
   useEffect(() => {
-    const loadSmartlookScript = async () => {
-      if (!window.smartlook) {
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.async = true;
-       
-        script.src = 'https://web-sdk.smartlook.com/recorder.js';
-        document.head.appendChild(script);
-        await new Promise(resolve => script.onload = resolve);
-      }
-      window.smartlook('init', '0ed319a59b519e257c52daf7074436d3994fea98', { region: 'eu' });
-    };
-  
-    loadSmartlookScript();
+    import("smartlook-client")
+      .then((SmartLook) => {
+        SmartLook.default.init("0ed319a59b519e257c52daf7074436d3994fea98", {
+          advancedNetwork: true,
+          cookies: true,
+        });
+      })
+      .catch((error) => console.error("Error loading SmartLook", error));
   }, []);
-  
 
- 
-  return <Component {...pageProps} />;
+  return null;
 }
 
-export default MyApp; 
+export default SmartLookClient;

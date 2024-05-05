@@ -9,7 +9,7 @@ import { FormControl } from "@mui/material";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "../../../context/authContext";
+import { getEmail } from "../../../context/authContext";
 import { generarTicks } from "../utils";
 import { titleGrid, selectGrid } from "../ChartAddons";
 import { LineChart } from "../LineChartComps";
@@ -36,7 +36,7 @@ type HistoricoMora = {
 };
 
 function LineChartHistMora() {
-  const { userEmail } = useAuth();
+  const email = getEmail();
   const [data, setData] = useState<HistoricoMora | null>(null);
   const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
 
@@ -45,17 +45,15 @@ function LineChartHistMora() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
-        const responseData = await response.json();
-        setData(responseData);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await fetch(getApiUrl(endpoint, { email: email }));
+      const responseData = await response.json();
+      setData(responseData);
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email !== null) {
+      fetchData();
+    }
+  }, [email]);
 
   useEffect(() => {
     if (data) {

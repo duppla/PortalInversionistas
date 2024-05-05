@@ -9,7 +9,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "../../../context/authContext";
+import { getEmail } from "../../../context/authContext";
 import { LineChart } from "../LineChartComps";
 import { generarTicks } from "../utils";
 import { titleGrid, selectGrid } from "../ChartAddons";
@@ -36,7 +36,7 @@ type RentabilidadPortafolio = {
 };
 
 const LineChartRentabilidad = () => {
-  const { userEmail } = useAuth();
+  const email = getEmail();
   const [data, setData] = useState<RentabilidadPortafolio | null>(null);
   const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
 
@@ -45,17 +45,15 @@ const LineChartRentabilidad = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
-        const responseData = await response.json();
-        setData(responseData);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await fetch(getApiUrl(endpoint, { email: email }));
+      const responseData = await response.json();
+      setData(responseData);
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email !== null) {
+      fetchData();
+    }
+  }, [email]);
 
   useEffect(() => {
     if (data) {
