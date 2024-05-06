@@ -10,8 +10,10 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
 import getApiUrl from "@/app/url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
+import { getEmail } from "@/app/context/authContext";
 import { formatFecha } from "../utils";
+
+const endpoint = "/inmuebles/perdidas_ganancias_tabla";
 
 interface DataApiType {
   fecha: string;
@@ -23,26 +25,13 @@ interface DataApiType {
 }
 
 export default function TableCompPyG() {
-  const { userEmail } = useAuth();
+  const email = getEmail();
   const [responseData, setResponseData] = useState<DataApiType[]>([]);
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const queryParameter = userEmail;
     const fetchData = async () => {
       try {
-        const options = {
-          method: "GET",
-          headers: { "User-Agent": "insomnia/2023.5.8" },
-        };
-        const response = await fetch(
-          getApiUrl(
-            `/inmuebles/perdidas_ganancias_tabla?email=${queryParameter}`
-          ),
-          options
-        );
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
         const responseData = await response.json();
 
         setResponseData(responseData);
@@ -51,8 +40,10 @@ export default function TableCompPyG() {
       }
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email) {
+      fetchData();
+    }
+  }, [email]);
 
   // Función para formatear las cifras con separadores de miles
   const formatNumber = (value: any) => {

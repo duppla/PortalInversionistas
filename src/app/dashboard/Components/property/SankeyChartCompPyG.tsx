@@ -4,7 +4,7 @@ import { ResponsiveSankey } from "@nivo/sankey";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
 import getApiUrl from "@/app/url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
+import { getEmail } from "@/app/context/authContext";
 
 const endpoint = "/inmuebles/perdidas_ganancias_sankey";
 
@@ -25,33 +25,14 @@ type DataType = {
 };
 
 const SankeyChartCompPyG = () => {
-  const { userEmail } = useAuth();
+  const email = getEmail();
 
   const [dataSnkey, setDataSnkey] = useState<any>(null); // Estado para almacenar la data
-  const [responseData, setResponseData] = useState<any>(null);
-  const [dataApi, setDataApi] = useState<DataType[]>([]);
-  const [selectedDataKeyJ, setSelectedDataKeyJ] = useState<string>("este_anho");
-  const [selectedValue, setSelectedValue] = useState<string | number>(
-    "este_anho"
-  );
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
       try {
-        const options = {
-          method: "GET",
-          headers: { "User-Agent": "insomnia/2023.5.8" },
-        };
-        const response = await fetch(
-          getApiUrl(endpoint + `?email=${email}`),
-          options
-        );
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
         const responseData = await response.json();
 
         const reorderedNodes = [
@@ -75,17 +56,16 @@ const SankeyChartCompPyG = () => {
           })),
         };
 
-        setResponseData(responseData);
         setDataSnkey(formattedData);
-        setIsLoading(false); // Indicar que los datos se han cargado
       } catch (error) {
         console.error(error);
-        setIsLoading(false); // Manejar el estado de carga en caso de error
       }
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email) {
+      fetchData();
+    }
+  }, [email]);
 
   // Definir tus escalas de colores verdes y rojos
 

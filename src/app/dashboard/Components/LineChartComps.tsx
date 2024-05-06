@@ -46,7 +46,7 @@ export function LineChart(
         legend: "",
         legendOffset: -12,
         tickValues: "every month",
-        format: (value) => formatFecha(value.toISOString().split("T")[0]),
+        format: (value) => formatFecha(new Date(value)),
       }}
       axisLeft={{
         tickSize: 5,

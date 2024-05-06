@@ -7,7 +7,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { Typography, FormControl, Select, MenuItem } from "@mui/material";
 import getApiUrl from "@/app/url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
+import { getEmail } from "@/app/context/authContext";
 import { GridValues } from "@nivo/axes";
 import { formatFecha } from "../utils";
 
@@ -36,7 +36,7 @@ type ItemType = {
 };
 
 function BarChartCompDestino() {
-  const { userEmail } = useAuth();
+  const email = getEmail();
 
   let first = true;
 
@@ -52,21 +52,9 @@ function BarChartCompDestino() {
   let gridYValues: GridValues<number> | undefined = [];
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
       try {
-        const options = {
-          method: "GET",
-          headers: { "User-Agent": "insomnia/2023.5.8" },
-        };
-        const response = await fetch(
-          getApiUrl(endpoint + `?email=${email}`),
-          options
-        );
-
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
         const responseData = await response.json();
         setResponseData(responseData);
         setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
@@ -74,8 +62,11 @@ function BarChartCompDestino() {
         console.error(error);
       }
     };
-    fetchData();
-  }, []);
+
+    if (email) {
+      fetchData();
+    }
+  }, [email]);
 
   /* Función para actualizar la selección del usuario */
   const handleDataSelection = (dataKey: string) => {

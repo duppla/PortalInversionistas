@@ -1,16 +1,16 @@
 "use client";
-import { ReactNode, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-/* import {useRouter} from "next/router"; */
-import { useAuth } from "../context/authContext";
 
-import navigation from "next";
+import { ReactNode, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../context/authContext";
 
 interface PrivateRouteProps {
   children: ReactNode;
 }
 
-export default function ProtectedRoute({ children }: PrivateRouteProps) {
+export default function ProtectedRoute({
+  children,
+}: Readonly<PrivateRouteProps>) {
   const { user, loading } = useAuth();
   const router = useRouter();
 

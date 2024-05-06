@@ -7,7 +7,7 @@ import { Typography, FormControl, Select, MenuItem } from "@mui/material";
 import getApiUrl from "@/app/url/ApiConfig";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { useAuth } from "@/app/context/authContext";
+import { getEmail } from "@/app/context/authContext";
 import { formatFecha } from "../utils";
 
 const endpoint = "/clientes/comportamiento_pago";
@@ -27,7 +27,7 @@ type DataType = {
 function BarChartCompPago() {
   console.log = () => {};
 
-  const { userEmail } = useAuth();
+  const email = getEmail();
 
   const [data, setData] = useState<DataType | null>(null);
   const [responseData, setResponseData] = useState<any>(null);
@@ -73,20 +73,9 @@ function BarChartCompPago() {
   };
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
       try {
-        const options = {
-          method: "GET",
-          headers: { "User-Agent": "insomnia/2023.5.8" },
-        };
-        const response = await fetch(
-          getApiUrl(endpoint + `?email=${email}`),
-          options
-        );
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
 
         const responseData = await response.json();
         setResponseData(responseData);
@@ -96,8 +85,10 @@ function BarChartCompPago() {
       }
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email) {
+      fetchData();
+    }
+  }, [email]);
 
   useEffect(() => {
     if (responseData) {

@@ -4,7 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import getApiUrl from "@/app/url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
+import { getEmail } from "@/app/context/authContext";
+import { formatNumber } from "../utils";
 
 const endpoint = "/inmuebles/mapa";
 
@@ -46,7 +47,7 @@ interface Mapa {
 }
 
 function MapComponentC() {
-  const { userEmail } = useAuth();
+  const email = getEmail();
 
   const mapDivC = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<Map | null>(null);
@@ -74,22 +75,18 @@ function MapComponentC() {
   }
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const email = encodeURIComponent(userEmail);
-    const options = {
-      method: "GET",
-      headers: { "User-Agent": "insomnia/2023.5.8" },
+    const fetchData = async () => {
+      const response = await fetch(getApiUrl(endpoint, { email: email }));
+      const responseData = await response.json();
+      setData(responseData);
     };
 
-    fetch(getApiUrl(endpoint + `?email=${email}`), options)
-      .then((response) => response.json())
-      .then((result) => {
-        setData(result);
-      })
-      .catch((err) => console.error(err));
+    if (email) {
+      fetchData();
+    }
+  }, [email]);
 
+  useEffect(() => {
     const initializeMap = () => {
       let locations: HooverMapa[] = [];
       if (data.length > 0) {
@@ -162,17 +159,6 @@ function MapComponentC() {
       map.flyTo({ center, zoom: 12 }); // Ajusta el zoom según tus necesidades
     }
   };
-
-  /* prueba de formateo data a legible tooltip */
-  function formatNumber(value: number): string {
-    if (value === undefined) {
-      return "N/A"; // Manejar el caso cuando el valor es undefined
-    }
-    let millones = (Math.abs(value) / 1000000).toFixed(1);
-    let shortValue = millones.endsWith(".0") ? millones.slice(0, -2) : millones;
-
-    return shortValue + " M";
-  }
 
   const addMarkersToMap = () => {
     const cityData = data[selectedCity];

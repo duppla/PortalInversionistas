@@ -4,7 +4,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
 import { ResponsivePie } from "@nivo/pie";
 import getApiUrl from "@/app/url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
+import { getEmail } from "@/app/context/authContext";
 
 const endpoint = "/clientes/porcentaje_ownership";
 
@@ -19,24 +19,13 @@ type Ownership = {
 };
 
 const PieChartCompOwnership = () => {
-  const { userEmail } = useAuth();
+  const email = getEmail();
   const [responseData, setResponseData] = useState<Ownership>();
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
       try {
-        const options = {
-          method: "GET",
-          headers: { "User-Agent": "insomnia/2023.5.8" },
-        };
-        const response = await fetch(
-          getApiUrl(endpoint + `?email=${email}`),
-          options
-        );
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
         const responseData = await response.json();
 
         if (responseData) {
@@ -49,7 +38,7 @@ const PieChartCompOwnership = () => {
       }
     };
     fetchData();
-  }, [userEmail]);
+  }, [email]);
 
   const getColorByKey = (key: string): string => {
     switch (key) {

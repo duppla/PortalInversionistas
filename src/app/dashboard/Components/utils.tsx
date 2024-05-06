@@ -14,7 +14,7 @@ import { FlujosFront } from "./main/BarChartFlujos";
 import { PropiedadFront } from "./main/BarChartPropiedad";
 import { DatumValue } from "@nivo/core";
 
-export function formatFecha(inputFecha: string): string {
+export function formatFecha(inputFecha: string | Date): string {
   const meses = [
     "Ene",
     "Feb",
@@ -29,6 +29,10 @@ export function formatFecha(inputFecha: string): string {
     "Nov",
     "Dic",
   ];
+
+  if (inputFecha instanceof Date) {
+    inputFecha = inputFecha.toISOString().split("T")[0];
+  }
 
   const [year, month, _] = inputFecha.split("-");
   const monthIndex = parseInt(month, 10) - 1;
@@ -65,11 +69,13 @@ export function changeArrow(
 }
 
 export function formatNumber(
-  value: number,
+  value: number | DatumValue,
   decimal: number = 0,
   perc: boolean = false,
   drop_end_zeros: boolean = true
 ): string {
+  value = typeof value === "number" ? value : Number(value);
+
   let newVal = "";
   const suffixes = ["", "K", "M", "B", "T"];
   const suffixNum = Math.floor((("" + value.toFixed(0)).length - 1) / 3);
@@ -143,8 +149,7 @@ export function setTooltipLine(
   perc: boolean = false,
   drop_end_zeros: boolean = true
 ) {
-  const date: string = new Date(x).toISOString().split("T")[0];
-  const fecha_formateada = formatFecha(date);
+  const fecha_formateada = formatFecha(new Date(x));
   let formattedY = "";
   if (typeof y === "number") {
     formattedY = formatNumber(y, decimal, perc, drop_end_zeros);
@@ -215,9 +220,7 @@ export function generarTicks(
   // Generar ticks
   const ticks = [];
   while (primerTick <= max + pasoNormalizado) {
-    if (primerTick >= min) {
-      ticks.push(primerTick);
-    }
+    ticks.push(primerTick);
     primerTick += pasoNormalizado;
   }
 

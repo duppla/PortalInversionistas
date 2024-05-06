@@ -21,5 +21,6 @@ const firebaseConfig: FirebaseOptions = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+
 // Configurar la persistencia en el navegador
 setPersistence(auth, browserLocalPersistence);

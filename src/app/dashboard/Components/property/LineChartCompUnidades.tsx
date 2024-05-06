@@ -12,7 +12,7 @@ import { ResponsiveLine } from "@nivo/line";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
-import { useAuth } from "../../../context/authContext";
+import { getEmail } from "../../../context/authContext";
 import { titleGrid, selectGrid } from "../ChartAddons";
 import { formatFecha, generarTicks, setTooltipLine } from "../utils";
 
@@ -32,7 +32,7 @@ type TramoUnidades = {
 };
 
 const LineChartCompUnidades = () => {
-  const { userEmail } = useAuth();
+  const email = getEmail();
   const [data, setData] = useState<TramoUnidades | null>(null);
   const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
 
@@ -41,16 +41,15 @@ const LineChartCompUnidades = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: userEmail }));
-        const responseData = await response.json();
-        setData(responseData);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await fetch(getApiUrl(endpoint, { email: email }));
+      const responseData = await response.json();
+      setData(responseData);
     };
-    fetchData();
-  }, [userEmail]);
+
+    if (email) {
+      fetchData();
+    }
+  }, [email]);
 
   useEffect(() => {
     // Calcular el mínimo y máximo de unidades para generar los valores del eje Y
@@ -104,10 +103,7 @@ const LineChartCompUnidades = () => {
             legend: "",
             legendOffset: -12,
             tickValues: "every month",
-            format: (value) => {
-              const fecha_str = new Date(value).toISOString().split("T")[0];
-              return formatFecha(fecha_str);
-            },
+            format: (value) => formatFecha(new Date(value)),
           }}
           enableGridX={false}
           gridYValues={ticks}

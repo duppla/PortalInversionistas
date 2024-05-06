@@ -7,7 +7,7 @@ import { Typography, FormControl, Select, MenuItem } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import getApiUrl from "@/app/url/ApiConfig";
-import { useAuth } from "@/app/context/authContext";
+import { getEmail } from "@/app/context/authContext";
 import { formatFecha } from "../utils";
 
 const endpoint = "/clientes/historico_score";
@@ -46,7 +46,7 @@ interface DataType {
 }
 
 function StreamChartCompScore() {
-  const { userEmail } = useAuth();
+  const email = getEmail();
 
   const [data, setData] = useState<DataType | null>(null);
   const [responseData, setResponseData] = useState<any>(null);
@@ -58,20 +58,9 @@ function StreamChartCompScore() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (!userEmail) {
-      return;
-    }
-    const email = encodeURIComponent(userEmail);
     const fetchData = async () => {
       try {
-        const options = {
-          method: "GET",
-          headers: { "User-Agent": "insomnia/2023.5.8" },
-        };
-        const response = await fetch(
-          getApiUrl(endpoint + `?email=${email}`),
-          options
-        );
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
 
         const responseData = await response.json();
         setResponseData(responseData);
@@ -81,8 +70,10 @@ function StreamChartCompScore() {
       }
     };
 
-    fetchData();
-  }, [userEmail]);
+    if (email) {
+      fetchData();
+    }
+  }, [email]);
 
   /* Función para actualizar la selección del usuario */
   const handleDataSelection = (dataKey: string) => {
@@ -110,11 +101,6 @@ function StreamChartCompScore() {
     })) || [];
 
   // Asegúrate de que tus datos tengan la estructura adecuada
-
-  function formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toISOString(); // Puedes personalizar este método según el formato que necesites
-  }
 
   const sortedFormattedData = formattedData
     .slice()
