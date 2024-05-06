@@ -25,26 +25,36 @@ type Unidades = {
 };
 
 export type TramoUnidades = {
-  ult_12_meses: any[];
-  este_anho: any[];
-  ult_6_meses: any[];
-  [key: string]: any;
+  ult_12_meses: Unidades[];
+  este_anho: Unidades[];
+  ult_6_meses: Unidades[];
+};
+
+type UnidadesFront = {
+  x: string;
+  y: number;
 };
 
 const LineChartCompUnidades = () => {
   const email = getEmail();
-  const [data, setData] = useState<TramoUnidades | null>(null);
-  const [selectedKey, setSelectedKey] =
-    useState<keyof TramoUnidades>("ult_12_meses");
+
+  const [data, setData] = useState<TramoUnidades>();
+  const [key, setKey] = useState<keyof TramoUnidades>("ult_12_meses");
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      setData(responseData);
+      try {
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
+        const responseData = await response.json();
+        if (responseData) {
+          setData(responseData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     if (email) {
@@ -52,34 +62,26 @@ const LineChartCompUnidades = () => {
     }
   }, [email]);
 
+  let formattedData: UnidadesFront[] = [];
+  if (data) {
+    formattedData = data[key].map((item: Unidades) => ({
+      x: item.fecha,
+      y: item.unidades,
+    }));
+  }
+
   useEffect(() => {
-    // Calcular el mínimo y máximo de unidades para generar los valores del eje Y
     if (data) {
-      const unidades = data[selectedKey].map((item: Unidades) => item.unidades);
+      const unidades = data[key].map((item: Unidades) => item.unidades);
       const maxValue = Math.max(...unidades);
       const ticks = generarTicks(0, maxValue, tickCount);
       setTicks(ticks);
     }
-  }, [data, selectedKey]);
+  }, [data, key]);
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    setSelectedKey(event.target.value);
+    setKey(event.target.value as keyof TramoUnidades);
   };
-
-  const tranformeDataApi = (
-    data: TramoUnidades,
-    selectedKey: keyof TramoUnidades
-  ) => {
-    return (data[selectedKey] as Unidades[]).map((item) => ({
-      x: item.fecha,
-      y: item.unidades,
-    }));
-  };
-
-  let tranformedData: any[] = [];
-  if (data) {
-    tranformedData = tranformeDataApi(data, selectedKey);
-  }
 
   return (
     <div className="grafica-Linecharts">
@@ -92,7 +94,7 @@ const LineChartCompUnidades = () => {
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
             {titleGrid("Número de unidades")}
-            {selectGrid(selectedKey, handleSelectChange, menuOpen, setMenuOpen)}
+            {selectGrid(key, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
       </div>
@@ -137,13 +139,7 @@ const LineChartCompUnidades = () => {
             )
           }
           curve="monotoneX"
-          data={[
-            {
-              data: tranformedData,
-
-              id: "Unidades",
-            },
-          ]}
+          data={[{ data: formattedData, id: "Unidades" }]}
           colors={["#5ED1B1"]}
           enablePointLabel={false}
           margin={{
@@ -170,7 +166,7 @@ const LineChartCompUnidades = () => {
           yScale={{
             type: "linear",
             min: 0,
-            max: ticks[ticks.length - 1],
+            max: ticks.at(-1),
             stacked: false,
             reverse: false,
           }}

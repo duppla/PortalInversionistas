@@ -18,14 +18,18 @@ function CardInversion() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      setData(responseData);
+      try {
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
+        const responseData = await response.json();
+        if (responseData) {
+          setData(responseData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    if (email !== null) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   const monto_inversion = data

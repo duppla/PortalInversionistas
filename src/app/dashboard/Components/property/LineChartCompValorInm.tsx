@@ -24,7 +24,6 @@ type TramoValorInm = {
   ult_12_meses: ValorInm[];
   este_anho: ValorInm[];
   ult_6_meses: ValorInm[];
-  [key: string]: any;
 };
 
 type ValorInm = {
@@ -40,8 +39,9 @@ type ValorInmFront = {
 
 const LineChartCompValorInm = () => {
   const email = getEmail();
-  const [data, setData] = useState<TramoValorInm | null>(null);
-  const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
+
+  const [data, setData] = useState<TramoValorInm>();
+  const [key, setKey] = useState<keyof TramoValorInm>("ult_12_meses");
 
   const [formatContract, setFormatContract] = useState<ValorInmFront[]>([]);
   const [formatFairMarket, setFormatFairMarket] = useState<ValorInmFront[]>([]);
@@ -51,18 +51,22 @@ const LineChartCompValorInm = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      setData(responseData);
+      try {
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
+        const responseData = await response.json();
+        if (responseData) {
+          setData(responseData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    if (email) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    setSelectedKey(event.target.value);
+    setKey(event.target.value as keyof TramoValorInm);
   };
 
   const formatData = (
@@ -90,15 +94,15 @@ const LineChartCompValorInm = () => {
 
   useEffect(() => {
     if (data) {
-      const { minValue, maxValue } = calculateMinMaxValues(data[selectedKey]);
+      const { minValue, maxValue } = calculateMinMaxValues(data[key]);
       const ticks = generarTicks(minValue, maxValue, tickCount);
       setTicks(ticks);
 
-      const selectedData = data[selectedKey];
+      const selectedData = data[key];
       setFormatContract(formatData(selectedData, "valor_contractual"));
       setFormatFairMarket(formatData(selectedData, "fair_market_price"));
     }
-  }, [data, selectedKey]);
+  }, [data, key]);
 
   return (
     <div className="grafica-linecharts-b nivo-text">
@@ -111,7 +115,7 @@ const LineChartCompValorInm = () => {
             sx={{ borderBottom: "1px solid #9B9EAB", mt: 1 }}
           >
             {titleGrid("Valor de los inmuebles")}
-            {selectGrid(selectedKey, handleSelectChange, menuOpen, setMenuOpen)}
+            {selectGrid(key, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
       </div>

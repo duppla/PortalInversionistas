@@ -23,7 +23,6 @@ import { titleGrid, selectGrid } from "../ChartAddons";
 
 const endpoint = "/principal/flujo_real_esperado";
 const title = "Flujo real vs. flujo esperado";
-/* Mensaje para el tooltip explicativo */
 const explainText = `Nota: 'Flujo Real' se refiere a los ingresos generado durante el periodo elegido, mientras que 'Flujo Esperado' alude a las proyecciones de ingreso para el mismo intervalo.`;
 
 const tickCount: number = 5;
@@ -32,7 +31,6 @@ type Flujos = {
   fecha: string;
   flujo_real: number;
   flujo_esperado: number;
-  [key: string]: string | number;
 };
 
 export type FlujosFront = {
@@ -45,63 +43,58 @@ type FlujoRealEsperado = {
   ult_12_meses: Flujos[];
   este_anho: Flujos[];
   ult_6_meses: Flujos[];
-  [key: string]: Flujos[];
 };
 
 function BarChartFlujos() {
   const email = getEmail();
 
-  // data: Datos de la API
-  const [data, setData] = useState<FlujoRealEsperado | null>(null);
-  // selectedKey: periodo seleccionada por el usuario (default ult_12_meses)
-  const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
+  const [data, setData] = useState<FlujoRealEsperado>();
+  const [key, setKey] = useState<keyof FlujoRealEsperado>("ult_12_meses");
 
-  // configuración interna de estados reactivos
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      setData(responseData);
+      try {
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
+        const responseData = await response.json();
+        if (responseData) {
+          setData(responseData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    if (email !== null) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
-  /* Función que controla la selección del dropdown */
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    setSelectedKey(event.target.value);
+    setKey(event.target.value as keyof FlujoRealEsperado);
   };
 
   let formattedData: FlujosFront[] = [];
   if (data) {
-    formattedData = data[selectedKey as keyof FlujoRealEsperado].map(
-      (item: Flujos) => {
-        return {
-          fecha: item.fecha,
-          Real: item.flujo_real, // Cambia la leyenda de flujo_real a Flujo
-          Esperado: item.flujo_esperado, // Cambia la leyenda de flujo_esperado a Esperado
-        };
-      }
-    );
+    formattedData = data[key].map((item: Flujos) => {
+      return {
+        fecha: item.fecha,
+        Real: item.flujo_real,
+        Esperado: item.flujo_esperado,
+      };
+    });
   }
 
   useEffect(() => {
     if (data) {
-      const dataFlujos: Flujos[] = data[selectedKey as keyof FlujoRealEsperado];
-      const maxValue: number = Math.max(
-        ...(dataFlujos?.map((item) =>
-          Math.max(item.flujo_real, item.flujo_esperado)
-        ) ?? [])
+      const monthMax = data[key].map((item) =>
+        Math.max(item.flujo_real, item.flujo_esperado)
       );
+      const maxValue: number = Math.max(...monthMax);
       const ticks = generarTicks(0, maxValue, tickCount);
       setTicks(ticks);
     }
-  }, [selectedKey, data]);
+  }, [key, data]);
 
   return (
     <div className="grafica-barcharts nivo-text">
@@ -114,7 +107,7 @@ function BarChartFlujos() {
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
             {titleGrid(title, explainText)}
-            {selectGrid(selectedKey, handleSelectChange, menuOpen, setMenuOpen)}
+            {selectGrid(key, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
       </div>
@@ -141,7 +134,7 @@ function BarChart(
       label={() => ""}
       margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
       padding={0.7}
-      maxValue={ticks[ticks.length - 1]}
+      maxValue={ticks.at(-1)}
       groupMode="grouped"
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
@@ -200,8 +193,8 @@ function BarChart(
         legend: "",
         legendPosition: "middle",
         legendOffset: 32,
-        tickValues: formattedData?.map((item: FlujosFront) => item.fecha),
-        format: (value) => formatFecha(value), // Formatea la fecha si es una cadena
+        tickValues: formattedData.map((item: FlujosFront) => item.fecha),
+        format: (value) => formatFecha(value),
       }}
       gridYValues={ticks}
       axisLeft={{
@@ -248,9 +241,6 @@ function BarChart(
         },
       ]}
       role="application"
-      barAriaLabel={(e) =>
-        e.id + ": " + e.formattedValue + " in country: " + e.indexValue
-      }
     />
   );
 }

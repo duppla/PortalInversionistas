@@ -1,11 +1,9 @@
 "use client";
 // react imports
-import { useEffect, useState, ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 // material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { FormControl } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 
@@ -29,11 +27,17 @@ type TramoScore = {
 };
 
 type HistTramoScore = {
-  [key: string]: any; // Esto es una firma de índice.
-  id: string;
   ult_12_meses: TramoScore[];
   este_anho: TramoScore[];
   ult_6_meses: TramoScore[];
+};
+
+type TramoScoreFront = {
+  id: string;
+  Alto: number;
+  Medio: number;
+  Bajo: number;
+  "Muy bajo": number;
 };
 
 function StreamChartScore() {
@@ -64,18 +68,16 @@ function StreamChartScore() {
     setKey(event.target.value as keyof HistTramoScore);
   };
 
-  const formattedData =
-    data?.[key]?.map((dataItem: any) => ({
-      id: dataItem.fecha, // El identificador de cada serie es la fecha
-      Alto: dataItem.alto ? dataItem.alto : 0,
-      Medio: dataItem.medio ? dataItem.medio : 0,
-      Bajo: dataItem.bajo ? dataItem.bajo : 0,
-      Muy_bajo: dataItem.muy_bajo ? dataItem.muy_bajo : 0,
-    })) || [];
-
-  const sortedFormattedData = formattedData
-    .slice()
-    .sort((a: { fecha: number }, b: { fecha: number }) => a.fecha - b.fecha);
+  let formattedData: TramoScoreFront[] = [];
+  if (data) {
+    formattedData = data[key].map((item: TramoScore) => ({
+      id: item.fecha,
+      Alto: item.alto ? item.alto : 0,
+      Medio: item.medio ? item.medio : 0,
+      Bajo: item.bajo ? item.bajo : 0,
+      "Muy bajo": item.muy_bajo ? item.muy_bajo : 0,
+    }));
+  }
 
   return (
     <div className="grafica-barcharts-des nivo-text">
@@ -98,7 +100,7 @@ function StreamChartScore() {
         <ResponsiveStream
           animate={true}
           data={formattedData}
-          keys={["Muy_bajo", "Bajo", "Medio", "Alto"]}
+          keys={["Muy bajo", "Bajo", "Medio", "Alto"]}
           margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
           axisTop={null}
           axisRight={null}
@@ -109,24 +111,9 @@ function StreamChartScore() {
             legend: "",
             legendPosition: "middle",
             legendOffset: 32,
-
-            tickValues:
-              sortedFormattedData.length > 0
-                ? sortedFormattedData.map(
-                    (item: { id: string }, index: number) => index
-                  )
-                : [],
-
-            format: (index) => {
-              if (
-                sortedFormattedData.length > 0 &&
-                index < sortedFormattedData.length
-              ) {
-                const { id } = sortedFormattedData[index];
-                return formatFecha(id);
-              }
-              return ""; // Retorna una cadena vacía si no hay datos o el índice es inválido
-            },
+            tickValues: formattedData.map((_, index: number) => index),
+            format: (index) =>
+              formatFecha(formattedData[index] ? formattedData[index].id : ""),
           }}
           gridYValues={[0, 0.25, 0.5, 0.75, 1]}
           axisLeft={{
@@ -148,7 +135,7 @@ function StreamChartScore() {
           fillOpacity={0.099}
           enableStackTooltip={true}
           isInteractive={true}
-          valueFormat={(value) => `${Number(value * 100).toFixed(0)}%`}
+          valueFormat={(value) => formatNumber(value, 0, true)}
           theme={{
             axis: {
               ticks: {
@@ -216,28 +203,5 @@ function StreamChartScore() {
     </div>
   );
 }
-
-const setIconComponent = (menuOpen: boolean, setMenuOpen: any) => {
-  const icon = menuOpen ? (
-    <ArrowDropUpIcon
-      style={{
-        color: "#9B9EAB",
-        fill: "#9B9EAB",
-        marginLeft: "-20px",
-      }}
-      onClick={() => setMenuOpen(!menuOpen)}
-    />
-  ) : (
-    <ArrowDropDownIcon
-      style={{
-        color: "#9B9EAB",
-        fill: "#9B9EAB",
-        marginLeft: "-20px",
-      }}
-      onClick={() => setMenuOpen(!menuOpen)}
-    />
-  );
-  return icon;
-};
 
 export default StreamChartScore;

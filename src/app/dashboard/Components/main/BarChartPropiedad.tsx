@@ -41,40 +41,40 @@ type PropiedadPortafolio = {
 const BarChartPropiedad = () => {
   const email = getEmail();
 
-  const [data, setData] = useState<PropiedadPortafolio | null>(null);
-  const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
+  const [data, setData] = useState<PropiedadPortafolio>();
+  const [key, setKey] = useState<keyof PropiedadPortafolio>("ult_12_meses");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+      try {
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
+        const responseData = await response.json();
+        if (responseData) {
+          setData(responseData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    if (email !== null) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
-  /* Función que controla la selección del dropdown */
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    setSelectedKey(event.target.value);
+    setKey(event.target.value as keyof PropiedadPortafolio);
   };
 
-  /* data del enpoint para renderizar la grafica por un map */
   let formattedData: PropiedadFront[] = [];
   if (data) {
-    formattedData = data[selectedKey as keyof PropiedadPortafolio].map(
-      (item: Propiedad) => {
-        return {
-          fecha: item.fecha,
-          Clientes: item.clientes,
-          duppla: item.duppla,
-          Inversionistas: item.inversionistas,
-        };
-      }
-    );
+    formattedData = data[key].map((item: Propiedad) => {
+      return {
+        fecha: item.fecha,
+        Clientes: item.clientes,
+        duppla: item.duppla,
+        Inversionistas: item.inversionistas,
+      };
+    });
   }
 
   return (
@@ -88,7 +88,7 @@ const BarChartPropiedad = () => {
             sx={{ borderBottom: "1px solid #9B9EAB", mt: 1 }}
           >
             {titleGrid("Porcentaje de propiedad del portafolio")}
-            {selectGrid(selectedKey, handleSelectChange, menuOpen, setMenuOpen)}
+            {selectGrid(key, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
       </div>
@@ -97,7 +97,11 @@ const BarChartPropiedad = () => {
   );
 };
 
-function BarChart(formattedData: PropiedadFront[]) {
+function BarChart(
+  formattedData: PropiedadFront[],
+  decimal: number = 0,
+  perc: boolean = true
+) {
   if (formattedData == null) {
     return <div></div>;
   }
@@ -140,7 +144,7 @@ function BarChart(formattedData: PropiedadFront[]) {
           },
         },
       }}
-      tooltip={(point) => setTooltipBar(point, 0, true)}
+      tooltip={(point) => setTooltipBar(point, decimal, perc)}
       borderRadius={2}
       borderColor={{
         from: "color",
@@ -156,7 +160,7 @@ function BarChart(formattedData: PropiedadFront[]) {
         legend: "",
         legendPosition: "middle",
         legendOffset: 32,
-        tickValues: formattedData?.map((item: PropiedadFront) => item.fecha),
+        tickValues: formattedData.map((item: PropiedadFront) => item.fecha),
         format: (value) => formatFecha(value),
       }}
       axisLeft={{
@@ -167,7 +171,7 @@ function BarChart(formattedData: PropiedadFront[]) {
         legend: "",
         legendPosition: "middle",
         legendOffset: -40,
-        format: (value) => formatNumber(value, 0, true),
+        format: (value) => formatNumber(value, decimal, perc),
       }}
       labelSkipWidth={12}
       labelSkipHeight={12}

@@ -17,18 +17,22 @@ type Adelanto = {
 
 function CardAdelanto() {
   const email = getEmail();
-  const [data, setData] = useState<Adelanto | null>(null);
+  const [data, setData] = useState<Adelanto>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+      try {
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
+        const responseData = await response.json();
+        if (responseData) {
+          setData(responseData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    if (email !== null) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   const formattedDate = data ? formatFecha(data.fecha) : "";

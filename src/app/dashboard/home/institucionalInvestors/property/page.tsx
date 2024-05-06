@@ -3,7 +3,7 @@ import React from "react";
 import { Grid, Container, Box } from "@mui/material";
 import LineChartCompValorInm from "../../../Components/property/LineChartCompValorInm";
 import LineChartCompUnidades from "../../../Components/property/LineChartCompUnidades";
-import MapCompMapa from "../../../Components/property/MapCompMapa";
+import MapMapa from "../../../Components/property/MapMapa";
 import SankeyChartCompPyG from "../../../Components/property/SankeyChartCompPyG";
 import TableCompPyG from "../../../Components/property/TableCompPyG";
 
@@ -42,7 +42,7 @@ const page = () => {
               mt: 2,
             }}
           >
-            <MapCompMapa />
+            <MapMapa />
           </Grid>
         </Grid>
         {/* Componente B */}
