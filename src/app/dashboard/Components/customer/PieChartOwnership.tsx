@@ -1,97 +1,71 @@
 "use client";
+// react imports
 import React, { useEffect, useState } from "react";
+
+// material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
-import { Typography, FormControl } from "@mui/material";
-import { ResponsivePie } from "@nivo/pie";
-import getApiUrl from "@/app/url/ApiConfig";
-import { getEmail } from "@/app/context/authContext";
+import { FormControl } from "@mui/material";
+
+// nivo imports
+import { PieTooltipProps, ResponsivePie } from "@nivo/pie";
+
+// custom imports
+import getApiUrl from "../../../url/ApiConfig";
+import { getEmail } from "../../../context/authContext";
+import { titleGrid } from "../ChartAddons";
+import { formatNumber } from "../utils";
 
 const endpoint = "/clientes/porcentaje_ownership";
 
-type Ownership = {
-  total: number;
-  rango_15_30: number;
-  rango_30_40: number;
-  mayor_40: number;
-  porcent_15_30: number;
-  porcent_30_40: number;
-  porcent_40: number;
+type OwnershipItem = {
+  label: "rango_15_30" | "rango_30_40" | "mayor_40";
+  count: number;
+  percentage: number;
 };
 
-const PieChartCompOwnership = () => {
+type Ownership = {
+  total: number;
+  items: OwnershipItem[];
+};
+
+type OwnershipFront = {
+  id: "rango_15_30" | "rango_30_40" | "mayor_40";
+  label: "Rango 15% - 30%" | "Rango 30% - 40%" | "Mayor a 40%";
+  value: number;
+  percentage: number;
+};
+
+const PieChartOwnership = () => {
   const email = getEmail();
-  const [responseData, setResponseData] = useState<Ownership>();
+
+  const [data, setData] = useState<Ownership>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(getApiUrl(endpoint, { email: email }));
         const responseData = await response.json();
-
         if (responseData) {
-          setResponseData(responseData);
-        } else {
-          console.error("Respuesta de la API vacía");
+          setData(responseData);
         }
       } catch (error) {
         console.error(error);
       }
     };
+
     fetchData();
   }, [email]);
 
-  const getColorByKey = (key: string): string => {
-    switch (key) {
-      case "a_tiempo":
-        return "green";
-      case "en_mora":
-        return "red";
-      default:
-        return "gray";
-    }
-  };
-
-  const formatRange = (key: string): string => {
-    switch (key) {
-      case "rango_15_30":
-        return "Rango 15% - 30%";
-      case "rango_30_40":
-        return "Rango 30% - 40%";
-      case "mayor_40":
-        return "Mayor a 40%";
-      default:
-        return "";
-    }
-  };
-
-  // Excluye las claves que no deseas incluir en formattedDataPie
-  const excludedKeys = [
-    "total",
-    "porcent_15_30",
-    "porcent_30_40",
-    "porcent_40",
-  ];
-
-  const formattedDataPie: {
-    id: string;
-    label: string;
-    value: number;
-    formattedValue: string;
-    color: string;
-  }[] = [];
-
-  if (responseData !== undefined) {
-    Object.keys(responseData).forEach((key: string) => {
-      if (!excludedKeys.includes(key)) {
-        const label = formatRange(key);
-        formattedDataPie.push({
-          id: key,
-          label: label,
-          value: responseData[key as keyof Ownership] ?? 0,
-          formattedValue: `${responseData[key as keyof Ownership] ?? 0}`,
-          color: getColorByKey(key),
-        });
-      }
+  let formattedData: OwnershipFront[] = [];
+  if (data) {
+    formattedData = data.items.map((item: OwnershipItem) => {
+      const label = formatLabel(item.label);
+      return {
+        id: item.label,
+        label: label,
+        value: item.count,
+        percentage: item.percentage,
+      };
     });
   }
 
@@ -108,29 +82,15 @@ const PieChartCompOwnership = () => {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            <Grid xs={6} md={6} lg={6}>
-              <Typography
-                className="title-dropdown-menu-container"
-                variant="subtitle1"
-                sx={{
-                  fontFamily: "Helvetica",
-                  fontWeight: 300,
-                  color: "#ffffff",
-                  fontSize: "26px",
-                  mt: 2,
-                }}
-              >
-                Porcentaje ownership
-              </Typography>
-            </Grid>
+            {titleGrid("Porcentaje ownership")}
           </Grid>
         </FormControl>
       </div>
 
-      {formattedDataPie && formattedDataPie.length > 0 ? (
+      {formattedData ? (
         <div style={{ position: "relative", width: "100%", height: "100%" }}>
           <ResponsivePie
-            data={formattedDataPie}
+            data={formattedData}
             margin={{ top: 40, right: 80, bottom: 80, left: -40 }}
             startAngle={0}
             innerRadius={0.7}
@@ -174,9 +134,7 @@ const PieChartCompOwnership = () => {
                 spacing: 10,
               },
             ]}
-            tooltip={(tooltipProps) => {
-              return PieChartTooltip(tooltipProps, responseData);
-            }}
+            tooltip={(props) => PieChartTooltip(props)}
             legends={[
               {
                 anchor: "right",
@@ -212,30 +170,13 @@ const PieChartCompOwnership = () => {
   );
 };
 
-export default PieChartCompOwnership;
+export default PieChartOwnership;
 
-const getPercentageKey = (id: string): string => {
-  if (id.startsWith("rango_")) {
-    return `porcent_${id.substring(6).replace("_", "_")}`;
-  } else if (id.startsWith("mayor_")) {
-    return `porcent_${id.substring(6)}`;
-  }
-  return "";
-};
-const PieChartTooltip = (tooltipProps: any, responseData: any) => {
-  const { id, value, color } = tooltipProps.datum;
-
-  // Obtenemos la clave correspondiente al porcentaje
-  const percentageKey = getPercentageKey(id as string);
-
-  // Verificamos si la clave de porcentaje es válida
-  let percentageValue = 0;
-  if (percentageKey && responseData) {
-    percentageValue = responseData[percentageKey as keyof Ownership] * 100;
-  }
-
-  // Creamos las etiquetas para el tooltip
-  const percentageLabel = `${percentageValue.toFixed(0)}%`;
+const PieChartTooltip = (
+  props: React.PropsWithChildren<PieTooltipProps<OwnershipFront>>
+) => {
+  const { value, color } = props.datum;
+  const percentage = props.datum.data.percentage;
   const clientLabel = value > 1 ? `Clientes: ${value}` : `Cliente: ${value}`;
 
   // Resto de tu código de tooltip
@@ -250,11 +191,24 @@ const PieChartTooltip = (tooltipProps: any, responseData: any) => {
       }}
     >
       <div>
-        <strong>{percentageLabel}</strong>
+        <strong>{formatNumber(percentage, 0, true)}</strong>
       </div>
       <div>
         <strong>{clientLabel}</strong>
       </div>
     </div>
   );
+};
+
+const formatLabel = (
+  key: "rango_15_30" | "rango_30_40" | "mayor_40"
+): "Rango 15% - 30%" | "Rango 30% - 40%" | "Mayor a 40%" => {
+  switch (key) {
+    case "rango_15_30":
+      return "Rango 15% - 30%";
+    case "rango_30_40":
+      return "Rango 30% - 40%";
+    case "mayor_40":
+      return "Mayor a 40%";
+  }
 };

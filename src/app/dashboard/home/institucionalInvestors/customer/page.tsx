@@ -2,10 +2,10 @@
 import React from "react";
 import { Grid, Container, Box, useMediaQuery } from "@mui/material";
 import PieChartActEcon from "@/app/dashboard/Components/customer/PieChartActEcon";
-import PieChartCompOwnership from "@/app/dashboard/Components/customer/PieChartCompOwnership";
+import PieChartOwnership from "@/app/dashboard/Components/customer/PieChartOwnership";
 import BarChartPago from "@/app/dashboard/Components/customer/BarChartPago";
 import BarChartDestino from "@/app/dashboard/Components/customer/BarChartDestino";
-import StreamChartCompScore from "@/app/dashboard/Components/customer/StreamChartCompScore";
+import StreamChartScore from "@/app/dashboard/Components/customer/StreamChartScore";
 
 const Customer = () => {
   let isLargeScreenK = useMediaQuery("min-width: 1200px");
@@ -59,7 +59,7 @@ const Customer = () => {
               p: 3,
             }}
           >
-            <PieChartCompOwnership />
+            <PieChartOwnership />
           </Grid>
         </Grid>
         {/* Componente N */}
@@ -121,7 +121,7 @@ const Customer = () => {
               borderRadius: "20px",
             }}
           >
-            <StreamChartCompScore />
+            <StreamChartScore />
           </Grid>
         </Grid>
         {/* Componente O */}

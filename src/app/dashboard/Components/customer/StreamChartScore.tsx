@@ -1,69 +1,54 @@
 "use client";
-import { ResponsiveStream } from "@nivo/stream";
+// react imports
 import { useEffect, useState, ReactNode } from "react";
+
+// material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
-import { SelectChangeEvent } from "@mui/material/Select";
-import { Typography, FormControl, Select, MenuItem } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import getApiUrl from "@/app/url/ApiConfig";
-import { getEmail } from "@/app/context/authContext";
-import { formatFecha } from "../utils";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { FormControl } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material/Select";
+
+// nivo imports
+import { ResponsiveStream } from "@nivo/stream";
+
+// custom imports
+import getApiUrl from "../../../url/ApiConfig";
+import { getEmail } from "../../../context/authContext";
+import { formatFecha, formatNumber } from "../utils";
+import { titleGrid, selectGrid } from "../ChartAddons";
 
 const endpoint = "/clientes/historico_score";
 
-type DataApiType = {
+type TramoScore = {
   fecha: string;
-  alto: any;
-  medio: any;
-  bajo: any;
-  muy_bajo: any;
+  alto: number;
+  medio: number;
+  bajo: number;
+  muy_bajo: number;
 };
-interface MyTooltipProps {
-  slice: {
-    id: string;
-    height: number;
-    total: number;
-    color: string;
-    stack: {
-      id: string;
-      points: {
-        id: string;
-        value: number;
-        y: number;
-      }[];
-    };
-  };
-}
 
-interface DataType {
+type HistTramoScore = {
   [key: string]: any; // Esto es una firma de índice.
   id: string;
-  ult_12_meses: DataApiType[];
-  este_anho: DataApiType[];
-  ult_6_meses: DataApiType[];
-  // Aquí puedes agregar las demás propiedades de DataType.
-}
+  ult_12_meses: TramoScore[];
+  este_anho: TramoScore[];
+  ult_6_meses: TramoScore[];
+};
 
-function StreamChartCompScore() {
+function StreamChartScore() {
   const email = getEmail();
 
-  const [data, setData] = useState<DataType | null>(null);
-  const [responseData, setResponseData] = useState<any>(null);
-  const [selectedDataKeyL, setSelectedDataKeyL] =
-    useState<string>("ult_12_meses");
-  const [selectedValue, setSelectedValue] = useState<string | number>(
-    "ult_12_meses"
-  );
+  const [data, setData] = useState<HistTramoScore | null>(null);
+  const [key, setKey] = useState<keyof HistTramoScore>("ult_12_meses");
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(getApiUrl(endpoint, { email: email }));
-
         const responseData = await response.json();
-        setResponseData(responseData);
         setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
       } catch (error) {
         console.error(error);
@@ -75,24 +60,12 @@ function StreamChartCompScore() {
     }
   }, [email]);
 
-  /* Función para actualizar la selección del usuario */
-  const handleDataSelection = (dataKey: string) => {
-    setSelectedDataKeyL(dataKey);
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    setKey(event.target.value as keyof HistTramoScore);
   };
 
-  /* Función que controla la selección del dropdown */
-  const handleSelectChange = (
-    event: SelectChangeEvent<string | number>,
-    child: ReactNode
-  ) => {
-    const selectedDataKeyL = event.target.value as string;
-    setSelectedValue(selectedDataKeyL);
-    handleDataSelection(selectedDataKeyL);
-  };
-
-  // Este código podría ir en el lugar donde obtienes las fechas del servidor
   const formattedData =
-    responseData?.[selectedDataKeyL]?.map((dataItem: any) => ({
+    data?.[key]?.map((dataItem: any) => ({
       id: dataItem.fecha, // El identificador de cada serie es la fecha
       Alto: dataItem.alto ? dataItem.alto : 0,
       Medio: dataItem.medio ? dataItem.medio : 0,
@@ -100,17 +73,9 @@ function StreamChartCompScore() {
       Muy_bajo: dataItem.muy_bajo ? dataItem.muy_bajo : 0,
     })) || [];
 
-  // Asegúrate de que tus datos tengan la estructura adecuada
-
   const sortedFormattedData = formattedData
     .slice()
     .sort((a: { fecha: number }, b: { fecha: number }) => a.fecha - b.fecha);
-
-  /* Función para formatear números como porcentajes sin decimales y ceros */
-  function formatNumber(value: number): string {
-    const percentageValue = (value * 100).toFixed(1).replace(/\.0$/, ""); // Elimina el .0
-    return `${percentageValue}%`;
-  }
 
   return (
     <div className="grafica-barcharts-des nivo-text">
@@ -122,69 +87,8 @@ function StreamChartCompScore() {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            <Grid xs={6} md={6} lg={6}>
-              <Typography
-                className="title-dropdown-menu-container"
-                variant="subtitle1"
-                sx={{
-                  fontFamily: "Helvetica",
-                  fontWeight: 300,
-                  color: "#ffffff",
-                  fontSize: "26px",
-                  mt: 2,
-                }}
-              >
-                Evaluaciones puntaje crediticio
-              </Typography>
-            </Grid>
-            <Grid xs={6} md={6} lg={6} sx={{ textAlign: "end" }}>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedValue}
-                label="Age"
-                onChange={handleSelectChange}
-                /*  IconComponent={() => <KeyboardArrowDownIcon />} */
-
-                sx={{
-                  color: "#9B9EAB",
-                  justifyContent: "flex-end",
-                  textAlign: "end",
-                  fill: "#ffffff",
-                  "&.MuiSelect-select": { color: "#9B9EAB", fill: "#ffffff" },
-                  "&.MuiSelect-icon": { color: "#9B9EAB", fill: "#ffffff" },
-                  "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                  },
-                }}
-                MenuProps={{
-                  anchorOrigin: {
-                    vertical: "bottom",
-                    horizontal: "right",
-                  },
-                  transformOrigin: {
-                    vertical: "top",
-                    horizontal: "right",
-                  },
-                  PaperProps: {
-                    sx: {
-                      backgroundColor: "#212126", // Fondo del menú desplegado
-                      border: "1px solid #5682F2", // Borde azul
-                      color: "#9B9EAB", // Letra blanca
-                    },
-                  },
-                }}
-                open={menuOpen}
-                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                onOpen={() => setMenuOpen(true)} // Abre el menú cuando se hace clic en el botón
-                IconComponent={() => setIconComponent(menuOpen, setMenuOpen)}
-              >
-                {/*  <MenuItem value='este_anho'>Este año</MenuItem> */}
-                <MenuItem value="ult_6_meses">Últimos 6 meses</MenuItem>
-                <MenuItem value="ult_12_meses">Últimos 12 meses</MenuItem>
-              </Select>
-            </Grid>
+            {titleGrid("Evaluaciones puntaje crediticio")}
+            {selectGrid(key, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
       </div>
@@ -233,7 +137,7 @@ function StreamChartCompScore() {
             legend: "",
             legendPosition: "middle",
             legendOffset: -40,
-            format: (value) => formatNumber(value),
+            format: (value) => formatNumber(value, 0, true),
           }}
           enableGridY={false}
           curve="catmullRom"
@@ -336,4 +240,4 @@ const setIconComponent = (menuOpen: boolean, setMenuOpen: any) => {
   return icon;
 };
 
-export default StreamChartCompScore;
+export default StreamChartScore;

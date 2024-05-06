@@ -7,7 +7,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { FormControl } from "@mui/material";
 
 // nivo imports
-import { ResponsivePie } from "@nivo/pie";
+import { PieTooltipProps, ResponsivePie } from "@nivo/pie";
 
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
@@ -27,6 +27,7 @@ type ActividadEconomicaFront = {
   id: string;
   label: string;
   value: number;
+  percentage: number;
 };
 
 function PieChatActEcon() {
@@ -53,6 +54,7 @@ function PieChatActEcon() {
         id: data.actividad_economica,
         label: changeLabel(data.actividad_economica),
         value: data.count,
+        percentage: data.porcentaje,
       };
     });
   }
@@ -122,7 +124,7 @@ function PieChatActEcon() {
                 spacing: 10,
               },
             ]}
-            tooltip={(props) => PieChartTooltip(props, data)}
+            tooltip={(props) => PieChartTooltip(props)}
             legends={[
               {
                 anchor: "right",
@@ -157,26 +159,12 @@ function PieChatActEcon() {
 }
 
 function PieChartTooltip(
-  tooltipProps: any,
-  data: ActividadEconomica[] | undefined
+  props: React.PropsWithChildren<PieTooltipProps<ActividadEconomicaFront>>
 ) {
-  const { id, color, value, label } = tooltipProps.datum;
+  const { color, value, label } = props.datum;
+  const percentage = props.datum.data.percentage;
 
-  let count = 0;
-  let porcentaje = "0%";
-
-  if (data) {
-    const currentData = data.find(
-      (item: ActividadEconomica) => item.actividad_economica === id
-    );
-
-    if (currentData) {
-      count = currentData.count;
-      porcentaje = formatNumber(currentData.porcentaje, 0, true);
-    }
-  }
-
-  const labelWithCount = count > 1 ? `${label}s` : label;
+  const labelWithCount = value > 1 ? `${label}s` : label;
 
   return (
     <div
@@ -189,7 +177,7 @@ function PieChartTooltip(
       }}
     >
       <div>
-        <strong>{porcentaje} </strong>
+        <strong>{formatNumber(percentage, 0, true)} </strong>
       </div>
       <div>
         {labelWithCount}: {value}
