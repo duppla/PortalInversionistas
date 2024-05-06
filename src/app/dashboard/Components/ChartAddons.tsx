@@ -1,10 +1,17 @@
+// react imports
+import { Dispatch, SetStateAction } from "react";
+
 // material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
 import { Typography, Select, MenuItem } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
+
+// custom imports
 import { changeArrow } from "./utils";
+
+// type imports
+import { TramoUnidades } from "./property/LineChartCompUnidades";
 
 export function titleGrid(title: string, explainText: string = "") {
   return (
@@ -32,7 +39,7 @@ export function titleGrid(title: string, explainText: string = "") {
 }
 
 export function selectGrid(
-  selectedKey: string,
+  selectedKey: string | keyof TramoUnidades,
   handleSelectChange: any,
   menuOpen: boolean,
   setMenuOpen: Dispatch<SetStateAction<boolean>>

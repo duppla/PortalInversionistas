@@ -24,7 +24,7 @@ type Unidades = {
   unidades: number;
 };
 
-type TramoUnidades = {
+export type TramoUnidades = {
   ult_12_meses: any[];
   este_anho: any[];
   ult_6_meses: any[];
@@ -34,7 +34,8 @@ type TramoUnidades = {
 const LineChartCompUnidades = () => {
   const email = getEmail();
   const [data, setData] = useState<TramoUnidades | null>(null);
-  const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
+  const [selectedKey, setSelectedKey] =
+    useState<keyof TramoUnidades>("ult_12_meses");
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [ticks, setTicks] = useState<number[]>([]);
@@ -54,9 +55,7 @@ const LineChartCompUnidades = () => {
   useEffect(() => {
     // Calcular el mínimo y máximo de unidades para generar los valores del eje Y
     if (data) {
-      const unidades = data[selectedKey as keyof TramoUnidades].map(
-        (item: Unidades) => item.unidades
-      );
+      const unidades = data[selectedKey].map((item: Unidades) => item.unidades);
       const maxValue = Math.max(...unidades);
       const ticks = generarTicks(0, maxValue, tickCount);
       setTicks(ticks);
@@ -67,13 +66,14 @@ const LineChartCompUnidades = () => {
     setSelectedKey(event.target.value);
   };
 
-  const tranformeDataApi = (data: TramoUnidades, selectedKey: string) => {
-    return (data[selectedKey as keyof TramoUnidades] as Unidades[]).map(
-      (item) => ({
-        x: item.fecha,
-        y: item.unidades,
-      })
-    );
+  const tranformeDataApi = (
+    data: TramoUnidades,
+    selectedKey: keyof TramoUnidades
+  ) => {
+    return (data[selectedKey] as Unidades[]).map((item) => ({
+      x: item.fecha,
+      y: item.unidades,
+    }));
   };
 
   let tranformedData: any[] = [];
