@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import { Grid, Container, Box, useMediaQuery } from "@mui/material";
-import PieChartCompActEcon from "@/app/dashboard/Components/customer/PieChartCompActEcon";
+import PieChartActEcon from "@/app/dashboard/Components/customer/PieChartActEcon";
 import PieChartCompOwnership from "@/app/dashboard/Components/customer/PieChartCompOwnership";
-import BarChartCompPago from "@/app/dashboard/Components/customer/BarChartCompPago";
-import BarChartCompDestino from "@/app/dashboard/Components/customer/BarChartCompDestino";
+import BarChartPago from "@/app/dashboard/Components/customer/BarChartPago";
+import BarChartDestino from "@/app/dashboard/Components/customer/BarChartDestino";
 import StreamChartCompScore from "@/app/dashboard/Components/customer/StreamChartCompScore";
 
 const Customer = () => {
@@ -43,7 +43,7 @@ const Customer = () => {
               height: "360px",
             }}
           >
-            <PieChartCompActEcon />
+            <PieChartActEcon />
           </Grid>
           <Grid
             className=""
@@ -90,7 +90,7 @@ const Customer = () => {
               borderRadius: "20px",
             }}
           >
-            <BarChartCompDestino />
+            <BarChartDestino />
           </Grid>
         </Grid>
         {/* Componente L*/}
@@ -152,7 +152,7 @@ const Customer = () => {
               borderRadius: "20px",
             }}
           >
-            <BarChartCompPago />
+            <BarChartPago />
           </Grid>
         </Grid>
       </Container>

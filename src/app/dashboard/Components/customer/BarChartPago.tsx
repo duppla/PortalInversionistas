@@ -1,5 +1,4 @@
 "use client";
-
 // react imports
 import { useEffect, useState } from "react";
 
@@ -14,46 +13,49 @@ import { ResponsiveBar } from "@nivo/bar";
 // custom imports
 import getApiUrl from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
-import { formatFecha, formatNumber, generarTicks } from "../utils";
 import { titleGrid, selectGrid } from "../ChartAddons";
+import { formatFecha, formatNumber, generarTicks } from "../utils";
 
-const endpoint = "/clientes/destino_pagos";
+const endpoint = "/clientes/comportamiento_pago";
 const tickCount: number = 5;
 
-type PagosDestino = {
+type CompPago = {
   fecha: string;
-  arriendo: number;
-  intereses: number;
-  prepago: number;
+  pagado: any;
+  mora: any;
 };
 
-type TramoPagosDestino = {
-  ult_12_meses: PagosDestino[];
-  este_anho: PagosDestino[];
-  ult_6_meses: PagosDestino[];
+type TramoCompPago = {
+  ult_12_meses: CompPago[];
+  este_anho: CompPago[];
+  ult_6_meses: CompPago[];
 };
 
-type PagosDestinoFront = {
+type CompPagoFront = {
   fecha: string;
-  Arriendo: number;
-  Adelanto: number;
-  "Intereses moratorios": number;
+  "Pago a tiempo": number;
+  "Pago con atraso": number;
 };
 
-function BarChartCompDestino() {
+function BarChartPago() {
   const email = getEmail();
 
-  const [data, setData] = useState<TramoPagosDestino | null>(null);
-  const [key, setKey] = useState<keyof TramoPagosDestino>("ult_12_meses");
+  const [data, setData] = useState<TramoCompPago | null>(null);
+  const [key, setKey] = useState<keyof TramoCompPago>("ult_12_meses");
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+      try {
+        const response = await fetch(getApiUrl(endpoint, { email: email }));
+
+        const responseData = await response.json();
+        setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     if (email) {
@@ -61,27 +63,19 @@ function BarChartCompDestino() {
     }
   }, [email]);
 
-  /* Función para actualizar la selección del usuario */
-  const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    setKey(event.target.value as keyof TramoPagosDestino);
-  };
-
-  let formattedData: PagosDestinoFront[] = [];
+  let formattedData: CompPagoFront[] = [];
   if (data) {
-    formattedData = data[key].map((item: PagosDestino) => {
-      return {
-        fecha: item.fecha,
-        "Intereses moratorios": item.intereses,
-        Arriendo: item.arriendo,
-        Adelanto: item.prepago,
-      };
-    });
+    formattedData = data[key].map((item: CompPago) => ({
+      fecha: item.fecha,
+      "Pago a tiempo": item.pagado,
+      "Pago con atraso": Math.abs(item.mora), // Convertir valores a positivo
+    }));
   }
 
   useEffect(() => {
     if (data) {
       const monthTotal: number[] = data[key].map((item) => {
-        return item.arriendo + item.prepago + item.intereses;
+        return item.pagado + Math.abs(item.mora);
       });
       const maxValue = Math.max(...monthTotal);
 
@@ -89,8 +83,12 @@ function BarChartCompDestino() {
     }
   }, [key, data]);
 
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    setKey(event.target.value as keyof TramoCompPago);
+  };
+
   return (
-    <div className="grafica-barcharts nivo-text">
+    <div className="grafica-barcharts-des nivo-text">
       <div>
         <FormControl fullWidth>
           <Grid
@@ -99,7 +97,7 @@ function BarChartCompDestino() {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            {titleGrid("Pagos mensuales y destino")}
+            {titleGrid("Comportamiento de pago")}
             {selectGrid(key, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
@@ -109,15 +107,13 @@ function BarChartCompDestino() {
       ) : (
         <ResponsiveBar
           data={formattedData}
-          keys={["Arriendo", "Adelanto", "Intereses moratorios"]}
+          keys={["Pago a tiempo", "Pago con atraso"]}
           indexBy="fecha"
           label={() => ""}
           margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-          padding={0.7}
+          padding={0.8}
           maxValue={ticks[ticks.length - 1]}
-          valueScale={{ type: "linear", min: 0 }}
-          indexScale={{ type: "band", round: true }}
-          colors={["#5782F2", "#5ED1B1", " #FFB024"]}
+          colors={["#12CA98", "#FFB024"]}
           theme={{
             axis: {
               ticks: {
@@ -126,6 +122,7 @@ function BarChartCompDestino() {
                 },
               },
             },
+
             legends: {
               text: {
                 fill: "#9B9EAB", // Color del texto de las leyendas
@@ -143,7 +140,19 @@ function BarChartCompDestino() {
               },
             },
           }}
-          groupMode="stacked"
+          valueFormat={(v) => v.toString()} // Convertir valores a positivos antes de formatear
+          gridYValues={ticks}
+          axisLeft={{
+            tickSize: 2,
+            tickPadding: 5,
+            tickRotation: 0,
+            tickValues: ticks,
+            legend: "",
+
+            legendPosition: "middle",
+            legendOffset: -40,
+            format: (value) => formatNumber(value),
+          }}
           tooltip={(point) => setTooltip(point)}
           borderRadius={4}
           borderColor={{
@@ -154,7 +163,7 @@ function BarChartCompDestino() {
           axisRight={null}
           axisBottom={{
             tickSize: 5,
-            tickPadding: 5,
+            tickPadding: 0,
             tickRotation: 0,
             legend: "",
             legendPosition: "middle",
@@ -164,23 +173,10 @@ function BarChartCompDestino() {
             ),
             format: (value) => formatFecha(value),
           }}
-          gridYValues={ticks}
-          axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            tickValues: ticks,
-            legend: "",
-            legendPosition: "middle",
-            legendOffset: -40,
-            format: (value) => formatNumber(value),
-          }}
           labelSkipWidth={12}
           labelSkipHeight={12}
-          labelTextColor={{
-            from: "color",
-            modifiers: [["darker", 1.6]],
-          }}
+          layout="vertical"
+          groupMode="stacked"
           legends={[
             {
               dataFrom: "keys",
@@ -209,10 +205,6 @@ function BarChartCompDestino() {
             },
           ]}
           role="application"
-          ariaLabel="Nivo bar chart demo"
-          barAriaLabel={(e) =>
-            e.id + ": " + e.formattedValue + " in country: " + e.indexValue
-          }
         />
       )}
     </div>
@@ -243,4 +235,4 @@ const setTooltip = (point: any) => {
   return null;
 };
 
-export default BarChartCompDestino;
+export default BarChartPago;
