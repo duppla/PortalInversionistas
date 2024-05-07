@@ -1,11 +1,23 @@
 "use client";
+// react imports
 import React, { useEffect, useState } from "react";
-import { ResponsiveSankey } from "@nivo/sankey";
+
+// material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
-import getApiUrl from "@/app/url/ApiConfig";
-import { getEmail } from "@/app/context/authContext";
+
+// nivo imports
+import {
+  ResponsiveSankey,
+  SankeyNodeDatum,
+  SankeyLinkDatum,
+} from "@nivo/sankey";
+
+// custom imports
+import getApiUrl from "../../../url/ApiConfig";
+import { getEmail } from "../../../context/authContext";
 import { titleGrid } from "../ChartAddons";
+import { formatNumber } from "../utils";
 
 const endpoint = "/inmuebles/perdidas_ganancias_sankey";
 
@@ -34,29 +46,9 @@ const SankeyChartPyG = () => {
       try {
         const response = await fetch(getApiUrl(endpoint, { email: email }));
         const responseData = await response.json();
-
-        const reorderedNodes = [
-          "Ingresos",
-          "Utilidad bruta",
-          "NOI",
-          "Gastos",
-          "Reservas",
-        ].map((nodeId) => {
-          return responseData.nodes.find((node: Node) => node.id === nodeId);
-        });
-        const formattedData = {
-          nodes: reorderedNodes.map((node) => ({
-            id: node.id,
-            nodeColor: getColor(node),
-          })),
-          links: responseData.links.map((link: any) => ({
-            source: link.source,
-            target: link.target,
-            value: link.value,
-          })),
-        };
-
-        setData(formattedData);
+        if (responseData) {
+          setData(responseData);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -64,39 +56,6 @@ const SankeyChartPyG = () => {
 
     fetchData();
   }, [email]);
-
-  // Definir tus escalas de colores verdes y rojos
-
-  // Función de color personalizada
-  const getColor = (node: any) => {
-    const nodeId = typeof node === "string" ? node : node.id;
-
-    if (nodeId === "Ingresos") {
-      return "#8fffad";
-    } else if (nodeId === "Utilidad bruta") {
-      return "#76B17D";
-    } else if (nodeId === "NOI") {
-      return "#04c437";
-    } else if (nodeId === "Gastos") {
-      return "#FF1818";
-    } else if (nodeId === "Reservas") {
-      return "#f18282";
-    }
-
-    return "#cccccc";
-  };
-
-  const formatValue = (value: any) => {
-    if (value >= 1000000) {
-      return `${(value / 1000000).toFixed(1)}M`;
-    } else if (value >= 1000) {
-      // Si el valor es mayor o igual a 1000, formatearlo en mil
-      return `${(value / 1000).toFixed(0)} Mil`;
-    } else {
-      // Si el valor es menor que 1000, mostrarlo tal como está
-      return value.toString();
-    }
-  };
 
   return (
     <div className="grafica-barcharts-des nivo-text">
@@ -130,8 +89,6 @@ const SankeyChartPyG = () => {
           data={data}
           margin={{ top: 20, right: 50, bottom: 80, left: 50 }}
           align="justify"
-          /*  colors={['#FFFFBA','#6C9FFF', '#F4DCFF','#FF9900',  '#BAFCC5',]}   */
-          /*   colors={{ scheme: 'set2' }} */
           colors={getColor}
           nodeOpacity={1}
           nodeHoverOthersOpacity={0.35}
@@ -150,54 +107,8 @@ const SankeyChartPyG = () => {
           labelPadding={16}
           labelOrientation="horizontal"
           /* Tooltip para la grafica */
-
-          nodeTooltip={({ node }) => (
-            <div
-              style={{
-                backgroundColor: "black",
-                color: "#9B9EAB",
-                padding: "10px",
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: node.color,
-                  width: "10px",
-                  height: "10px",
-                  display: "inline-block",
-                  marginRight: "5px",
-                }}
-              ></div>
-              <strong>{node.label}</strong>
-              <br />
-              {formatValue(node.value)}
-            </div>
-          )}
-          linkTooltip={({ link }) => (
-            <div
-              style={{
-                backgroundColor: "black",
-                color: "#9B9EAB",
-                padding: "10px",
-              }}
-            >
-              <p>
-                {" "}
-                <strong>{link.source.label}</strong> a{" "}
-                <strong>{link.target.label}</strong>
-              </p>
-              <div
-                style={{
-                  backgroundColor: link.color,
-                  width: "10px",
-                  height: "10px",
-                  display: "inline-block",
-                  marginRight: "5px",
-                }}
-              ></div>
-              {formatValue(link.value)}
-            </div>
-          )}
+          nodeTooltip={({ node }) => nodeTooltip(node)}
+          linkTooltip={({ link }) => linkTooltip(link)}
           layout="horizontal"
           labelTextColor={{
             from: "color",
@@ -254,3 +165,74 @@ const SankeyChartPyG = () => {
 };
 
 export default SankeyChartPyG;
+
+const getColor = (node: Node) => {
+  const nodeId = node.id;
+
+  if (nodeId === "Ingresos") {
+    return "#8fffad";
+  } else if (nodeId === "Utilidad bruta") {
+    return "#76B17D";
+  } else if (nodeId === "NOI") {
+    return "#04c437";
+  } else if (nodeId === "Gastos") {
+    return "#FF1818";
+  } else if (nodeId === "Reservas") {
+    return "#f18282";
+  }
+
+  return "#cccccc";
+};
+
+function nodeTooltip(node: SankeyNodeDatum<Node, Link>) {
+  return (
+    <div
+      style={{
+        backgroundColor: "black",
+        color: "#9B9EAB",
+        padding: "10px",
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: node.color,
+          width: "10px",
+          height: "10px",
+          display: "inline-block",
+          marginRight: "5px",
+        }}
+      ></div>
+      <strong>{node.label}</strong>
+      <br />
+      {formatNumber(node.value, 2)}
+    </div>
+  );
+}
+
+function linkTooltip(link: SankeyLinkDatum<Node, Link>) {
+  return (
+    <div
+      style={{
+        backgroundColor: "black",
+        color: "#9B9EAB",
+        padding: "10px",
+      }}
+    >
+      <p>
+        {" "}
+        <strong>{link.source.label}</strong> a{" "}
+        <strong>{link.target.label}</strong>
+      </p>
+      <div
+        style={{
+          backgroundColor: link.color,
+          width: "10px",
+          height: "10px",
+          display: "inline-block",
+          marginRight: "5px",
+        }}
+      ></div>
+      {formatNumber(link.value, 2)}
+    </div>
+  );
+}
