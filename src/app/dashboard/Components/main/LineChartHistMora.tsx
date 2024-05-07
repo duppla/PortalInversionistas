@@ -32,13 +32,12 @@ type HistoricoMora = {
   ult_12_meses: TasaMorosidad[];
   este_anho: TasaMorosidad[];
   ult_6_meses: TasaMorosidad[];
-  [key: string]: any;
 };
 
 function LineChartHistMora() {
   const email = getEmail();
-  const [data, setData] = useState<HistoricoMora | null>(null);
-  const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
+  const [data, setData] = useState<HistoricoMora>();
+  const [key, setKey] = useState<keyof HistoricoMora>("ult_12_meses");
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [ticks, setTicks] = useState<number[]>([]);
@@ -47,32 +46,32 @@ function LineChartHistMora() {
     const fetchData = async () => {
       const response = await fetch(getApiUrl(endpoint, { email: email }));
       const responseData = await response.json();
-      setData(responseData);
+      if (responseData) {
+        setData(responseData);
+      }
     };
 
-    if (email !== null) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   useEffect(() => {
     if (data) {
-      const dataMora = data[selectedKey as keyof HistoricoMora];
+      const dataMora = data[key];
       const maxValue = Math.max(
         ...dataMora.map((item: TasaMorosidad) => item.tasa_morosidad)
       );
       const ticks = generarTicks(0, maxValue, tickCount);
       setTicks(ticks);
     }
-  }, [selectedKey, data]);
+  }, [key, data]);
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    setSelectedKey(event.target.value);
+    setKey(event.target.value as keyof HistoricoMora);
   };
 
   let formattedData: TasaMorosidadFront[] = [];
   if (data) {
-    formattedData = data[selectedKey].map((item: TasaMorosidad) => ({
+    formattedData = data[key].map((item: TasaMorosidad) => ({
       x: item.fecha,
       y: item.tasa_morosidad,
     }));
@@ -95,7 +94,7 @@ function LineChartHistMora() {
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
             {titleGrid("Histórico tasa de mora", longText)}
-            {selectGrid(selectedKey, handleSelectChange, menuOpen, setMenuOpen)}
+            {selectGrid(key, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
       </div>

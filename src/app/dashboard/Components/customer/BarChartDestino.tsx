@@ -43,7 +43,7 @@ type PagosDestinoFront = {
 function BarChartDestino() {
   const email = getEmail();
 
-  const [data, setData] = useState<TramoPagosDestino | null>(null);
+  const [data, setData] = useState<TramoPagosDestino>();
   const [key, setKey] = useState<keyof TramoPagosDestino>("ult_12_meses");
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -53,7 +53,9 @@ function BarChartDestino() {
     const fetchData = async () => {
       const response = await fetch(getApiUrl(endpoint, { email: email }));
       const responseData = await response.json();
-      setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+      if (responseData) {
+        setData(responseData);
+      }
     };
 
     if (email) {

@@ -17,18 +17,18 @@ type Morosidad = {
 
 function CardMorosidad() {
   const email = getEmail();
-  const [data, setData] = useState<Morosidad | null>(null);
+  const [data, setData] = useState<Morosidad>();
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(getApiUrl(endpoint, { email: email }));
       const responseData = await response.json();
-      setData(responseData);
+      if (responseData) {
+        setData(responseData);
+      }
     };
 
-    if (email !== null) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   const morosidad = data ? (data.tasa_morosidad * 100).toFixed(1) + "%" : "";

@@ -35,18 +35,18 @@ type CarteraMora = {
 
 function PieChartCompCartera() {
   const email = getEmail();
-  const [data, setData] = useState<CarteraMora | null>(null);
+  const [data, setData] = useState<CarteraMora>();
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(getApiUrl(endpoint, { email: email }));
       const responseData = await response.json();
-      setData(responseData);
+      if (responseData) {
+        setData(responseData);
+      }
     };
 
-    if (email !== null) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   let formattedData: FormatoFront[] = [];

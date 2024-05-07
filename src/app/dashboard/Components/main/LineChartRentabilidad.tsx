@@ -32,13 +32,12 @@ type RentabilidadPortafolio = {
   ult_12_meses: [Rentabilidad];
   este_anho: [Rentabilidad];
   ult_6_meses: [Rentabilidad];
-  [key: string]: any;
 };
 
 const LineChartRentabilidad = () => {
   const email = getEmail();
-  const [data, setData] = useState<RentabilidadPortafolio | null>(null);
-  const [selectedKey, setSelectedKey] = useState<string>("ult_12_meses");
+  const [data, setData] = useState<RentabilidadPortafolio>();
+  const [key, setKey] = useState<keyof RentabilidadPortafolio>("ult_12_meses");
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [ticks, setTicks] = useState<number[]>([]);
@@ -47,32 +46,32 @@ const LineChartRentabilidad = () => {
     const fetchData = async () => {
       const response = await fetch(getApiUrl(endpoint, { email: email }));
       const responseData = await response.json();
-      setData(responseData);
+      if (responseData) {
+        setData(responseData);
+      }
     };
 
-    if (email !== null) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   useEffect(() => {
     if (data) {
-      const dataMora = data[selectedKey as keyof RentabilidadPortafolio];
+      const dataMora = data[key];
       const maxValue = Math.max(
         ...dataMora.map((item: Rentabilidad) => item.rentabilidad)
       );
       const ticks = generarTicks(0, maxValue, tickCount);
       setTicks(ticks);
     }
-  }, [selectedKey, data]);
+  }, [key, data]);
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    setSelectedKey(event.target.value);
+    setKey(event.target.value as keyof RentabilidadPortafolio);
   };
 
   let formattedData: RentabilidadFront[] = [];
   if (data) {
-    formattedData = data[selectedKey].map((item: Rentabilidad) => ({
+    formattedData = data[key].map((item: Rentabilidad) => ({
       x: item.fecha,
       y: item.rentabilidad,
     }));
@@ -96,7 +95,7 @@ const LineChartRentabilidad = () => {
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
             {titleGrid("Rentabilidad mensual del portafolio", longText)}
-            {selectGrid(selectedKey, handleSelectChange, menuOpen, setMenuOpen)}
+            {selectGrid(key, handleSelectChange, menuOpen, setMenuOpen)}
           </Grid>
         </FormControl>
       </div>

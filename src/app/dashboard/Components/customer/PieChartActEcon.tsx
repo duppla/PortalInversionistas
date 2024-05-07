@@ -39,12 +39,12 @@ function PieChatActEcon() {
     const fetchData = async () => {
       const response = await fetch(getApiUrl(endpoint, { email: email }));
       const responseData = await response.json();
-      setData(responseData);
+      if (responseData) {
+        setData(responseData);
+      }
     };
 
-    if (email) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   let formattedData: ActividadEconomicaFront[] = [];

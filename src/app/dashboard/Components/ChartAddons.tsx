@@ -10,9 +10,6 @@ import { Typography, Select, MenuItem } from "@mui/material";
 // custom imports
 import { changeArrow } from "./utils";
 
-// type imports
-import { TramoUnidades } from "./property/LineChartUnidades";
-
 export function titleGrid(title: string, explainText: string = "") {
   return (
     <Grid xs={6} md={6} lg={6}>
@@ -38,8 +35,14 @@ export function titleGrid(title: string, explainText: string = "") {
   );
 }
 
+type Tramos = {
+  este_anho: string;
+  ult_6_meses: string;
+  ult_12_meses: string;
+};
+
 export function selectGrid(
-  selectedKey: string | keyof TramoUnidades,
+  selectedKey: keyof Tramos,
   handleSelectChange: any,
   menuOpen: boolean,
   setMenuOpen: Dispatch<SetStateAction<boolean>>

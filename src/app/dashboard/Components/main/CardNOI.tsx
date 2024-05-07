@@ -14,18 +14,18 @@ type Noi = {
 
 function CardNOI() {
   const email = getEmail();
-  const [data, setData] = useState<Noi | null>(null);
+  const [data, setData] = useState<Noi>();
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(getApiUrl(endpoint, { email: email }));
       const responseData = await response.json();
-      setData(responseData);
+      if (responseData) {
+        setData(responseData);
+      }
     };
 
-    if (email !== null) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   const formattedDate = data ? formatFecha(data.fecha) : "";

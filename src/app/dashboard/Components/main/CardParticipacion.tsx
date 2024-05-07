@@ -16,18 +16,18 @@ type Participacion = {
 
 function CardParticipacion() {
   const email = getEmail();
-  const [data, setData] = useState<Participacion | null>(null);
+  const [data, setData] = useState<Participacion>();
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(getApiUrl(endpoint, { email: email }));
       const responseData = await response.json();
-      setData(responseData);
+      if (responseData) {
+        setData(responseData);
+      }
     };
 
-    if (email !== null) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   let porcentaje = data?.participacion_adquirida;

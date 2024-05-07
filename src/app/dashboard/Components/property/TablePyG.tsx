@@ -1,5 +1,8 @@
 "use client";
+// react imports
 import React, { useEffect, useState } from "react";
+
+// material-ui imports
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,51 +12,46 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
-import getApiUrl from "@/app/url/ApiConfig";
-import { getEmail } from "@/app/context/authContext";
-import { formatFecha } from "../utils";
+
+// custom imports
+import getApiUrl from "../../../url/ApiConfig";
+import { getEmail } from "../../../context/authContext";
+import { formatFecha, formatNumber } from "../utils";
+import { titleGrid } from "../ChartAddons";
 
 const endpoint = "/inmuebles/perdidas_ganancias_tabla";
 
-interface DataApiType {
+type PyGRow = {
   fecha: string;
   gastos: number;
   reserva: number;
   noi: number;
   utilidad_bruta: number;
   ingresos: number;
-}
+};
 
 export default function TablePyG() {
   const email = getEmail();
-  const [responseData, setResponseData] = useState<DataApiType[]>([]);
+
+  const [data, setData] = useState<PyGRow[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(getApiUrl(endpoint, { email: email }));
         const responseData = await response.json();
-
-        setResponseData(responseData);
+        if (responseData) {
+          setData(responseData);
+        }
       } catch (error) {
         console.error(error);
       }
     };
 
-    if (email) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   // Función para formatear las cifras con separadores de miles
-  const formatNumber = (value: any) => {
-    // Verificar si el valor es numérico antes de aplicar el formato
-    if (!isNaN(value) && typeof value === "number") {
-      return value.toLocaleString();
-    }
-    return value;
-  };
-
   return (
     <div className="custom-table nivo-text">
       <div>
@@ -64,76 +62,7 @@ export default function TablePyG() {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            <Grid xs={6} md={6} lg={6}>
-              <Typography
-                className="title-dropdown-menu-container"
-                variant="subtitle1"
-                sx={{
-                  fontFamily: "Helvetica",
-                  fontWeight: 300,
-                  color: "#ffffff",
-                  fontSize: "26px",
-                  mt: 2,
-                }}
-              >
-                Perdidas y Ganancias portafolio
-              </Typography>
-            </Grid>
-            {/*   <Grid xs={6} md={6} lg={6} sx={{ textAlign: 'end' }}>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={selectedValue}
-                                label="Age"
-                                onChange={handleSelectChange}
-                                sx={{
-                                    color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill: '#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
-                                    '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                                    '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
-
-                                }}
-                                MenuProps={{
-                                    anchorOrigin: {
-                                        vertical: 'bottom',
-                                        horizontal: 'right',
-                                    },
-                                    transformOrigin: {
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    },
-                                  
-                                    PaperProps: {
-                                        sx: {
-                                            backgroundColor: '#212126', // Fondo del menú desplegado
-                                            border: '1px solid #5682F2', // Borde azul
-                                            color: '#9B9EAB', // Letra blanca
-                                        },
-                                    },
-                                }}
-                                open={menuOpen}
-                                onClose={() => setMenuOpen(false)} // Cierra el menú cuando se hace clic fuera de él
-                                onOpen={() => setMenuOpen(true)}   // Abre el menú cuando se hace clic en el botón
-
-                                IconComponent={() => (
-                                    // Cambia el ícono según el estado del menú
-                                    menuOpen ? (
-                                        <ArrowDropUpIcon
-                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
-                                            onClick={() => setMenuOpen(!menuOpen)}
-                                        />
-                                    ) : (
-                                        <ArrowDropDownIcon
-                                            style={{ color: '#9B9EAB', fill: '#9B9EAB', marginLeft: '-20px' }}
-                                            onClick={() => setMenuOpen(!menuOpen)}
-                                        />
-                                    )
-                                )}
-                            >
-                                <MenuItem value='este_anho'>Este año</MenuItem>
-                                <MenuItem value='ult_6_meses'>Últimos 6 meses</MenuItem>
-                                <MenuItem value='ult_12_meses'>Últimos 12 meses</MenuItem>
-                            </Select>
-                        </Grid> */}
+            {titleGrid("Perdidas y Ganancias portafolio")}
           </Grid>
         </FormControl>
       </div>
@@ -162,9 +91,8 @@ export default function TablePyG() {
                   }}
                   align="right"
                 ></TableCell>
-                {responseData &&
-                  responseData.length > 0 &&
-                  responseData.map((row: any, index: any) => (
+                {data.length > 0 &&
+                  data.map((row: PyGRow) => (
                     <TableCell
                       key={row.fecha}
                       sx={{
@@ -182,189 +110,194 @@ export default function TablePyG() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {responseData &&
-                Array.isArray(responseData) &&
-                responseData.length > 0 && (
-                  <>
-                    <TableRow
-                      key="ingresos"
+              {data.length > 0 && (
+                <>
+                  <TableRow
+                    key="ingresos"
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      color: "#9B9EAB",
+                    }}
+                  >
+                    <TableCell
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        color: "#9B9EAB",
+                        color: "#6C9FFF",
+                        textAlign: "left",
+                        fontFamily: "Rustica",
+                        fontSize: "1rem",
+                        minWidth: 170,
                       }}
+                      align="right"
                     >
+                      Ingresos
+                    </TableCell>
+                    {data.map((row: any) => (
                       <TableCell
+                        key={row.fecha}
                         sx={{
-                          color: "#6C9FFF",
-                          textAlign: "left",
+                          color: "#9B9EAB",
+                          textAlign: "end",
+                          minWidth: 170,
                           fontFamily: "Rustica",
                           fontSize: "1rem",
-                          minWidth: 170,
                         }}
                         align="right"
                       >
-                        Ingresos
+                        ${formatNumber(row.ingresos, 0, false, false, true)}
                       </TableCell>
-                      {responseData.map((row: any) => (
-                        <TableCell
-                          key={row.fecha}
-                          sx={{
-                            color: "#9B9EAB",
-                            textAlign: "end",
-                            minWidth: 170,
-                            fontFamily: "Rustica",
-                            fontSize: "1rem",
-                          }}
-                          align="right"
-                        >
-                          ${formatNumber(row.ingresos)}
-                        </TableCell>
-                      ))}
-                    </TableRow>
+                    ))}
+                  </TableRow>
 
-                    <TableRow
-                      key="gastos"
+                  <TableRow
+                    key="gastos"
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      color: "#9B9EAB",
+                    }}
+                  >
+                    <TableCell
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        color: "#9B9EAB",
+                        color: "#6C9FFF",
+                        textAlign: "left",
+                        fontFamily: "Rustica",
+                        fontSize: "1rem",
+                        minWidth: 170,
                       }}
+                      align="right"
                     >
+                      Gastos
+                    </TableCell>
+                    {data.map((row: any) => (
                       <TableCell
+                        key={row.fecha}
                         sx={{
-                          color: "#6C9FFF",
-                          textAlign: "left",
+                          color: "#9B9EAB",
+                          textAlign: "end",
+                          minWidth: 170,
                           fontFamily: "Rustica",
                           fontSize: "1rem",
-                          minWidth: 170,
                         }}
                         align="right"
                       >
-                        Gastos
+                        -${formatNumber(row.gastos, 0, false, false, true)}
                       </TableCell>
-                      {responseData.map((row: any) => (
-                        <TableCell
-                          key={row.fecha}
-                          sx={{
-                            color: "#9B9EAB",
-                            textAlign: "end",
-                            minWidth: 170,
-                            fontFamily: "Rustica",
-                            fontSize: "1rem",
-                          }}
-                          align="right"
-                        >
-                          $-{formatNumber(row.gastos)}
-                        </TableCell>
-                      ))}
-                    </TableRow>
+                    ))}
+                  </TableRow>
 
-                    <TableRow
-                      key="utilidad_bruta"
+                  <TableRow
+                    key="utilidad_bruta"
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      color: "#9B9EAB",
+                    }}
+                  >
+                    <TableCell
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        color: "#9B9EAB",
+                        color: "#6C9FFF",
+                        textAlign: "left",
+                        fontFamily: "Rustica",
+                        fontSize: "1rem",
+                        minWidth: 170,
                       }}
+                      align="right"
                     >
+                      Utilidad bruta
+                    </TableCell>
+                    {data.map((row: any) => (
                       <TableCell
+                        key={row.fecha}
                         sx={{
-                          color: "#6C9FFF",
-                          textAlign: "left",
+                          color: "#9B9EAB",
+                          textAlign: "end",
+                          minWidth: 170,
                           fontFamily: "Rustica",
                           fontSize: "1rem",
-                          minWidth: 170,
                         }}
                         align="right"
                       >
-                        Utilidad bruta
+                        $
+                        {formatNumber(
+                          row.utilidad_bruta,
+                          0,
+                          false,
+                          false,
+                          true
+                        )}
                       </TableCell>
-                      {responseData.map((row: any) => (
-                        <TableCell
-                          key={row.fecha}
-                          sx={{
-                            color: "#9B9EAB",
-                            textAlign: "end",
-                            minWidth: 170,
-                            fontFamily: "Rustica",
-                            fontSize: "1rem",
-                          }}
-                          align="right"
-                        >
-                          ${formatNumber(row.utilidad_bruta)}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                    <TableRow
-                      key="reserva"
+                    ))}
+                  </TableRow>
+                  <TableRow
+                    key="reserva"
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      color: "#9B9EAB",
+                    }}
+                  >
+                    <TableCell
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        color: "#9B9EAB",
+                        color: "#6C9FFF",
+                        textAlign: "left",
+                        fontFamily: "Rustica",
+                        fontSize: "1rem",
+                        minWidth: 170,
                       }}
+                      align="right"
                     >
+                      Reserva
+                    </TableCell>
+                    {data.map((row: any) => (
                       <TableCell
+                        key={row.fecha}
                         sx={{
-                          color: "#6C9FFF",
-                          textAlign: "left",
+                          color: "#9B9EAB",
+                          textAlign: "end",
+                          minWidth: 170,
                           fontFamily: "Rustica",
                           fontSize: "1rem",
-                          minWidth: 170,
                         }}
                         align="right"
                       >
-                        Reserva
+                        -${formatNumber(row.reserva, 0, false, false, true)}
                       </TableCell>
-                      {responseData.map((row: any) => (
-                        <TableCell
-                          key={row.fecha}
-                          sx={{
-                            color: "#9B9EAB",
-                            textAlign: "end",
-                            minWidth: 170,
-                            fontFamily: "Rustica",
-                            fontSize: "1rem",
-                          }}
-                          align="right"
-                        >
-                          $-{formatNumber(row.reserva)}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                    <TableRow
-                      key="noi"
+                    ))}
+                  </TableRow>
+                  <TableRow
+                    key="noi"
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      color: "#9B9EAB",
+                    }}
+                  >
+                    <TableCell
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        color: "#9B9EAB",
+                        color: "#6C9FFF",
+                        textAlign: "left",
+                        fontFamily: "Rustica",
+                        fontSize: "1rem",
+                        minWidth: 170,
                       }}
+                      align="right"
                     >
+                      NOI
+                    </TableCell>
+                    {data.map((row: any) => (
                       <TableCell
+                        key={row.fecha}
                         sx={{
-                          color: "#6C9FFF",
-                          textAlign: "left",
+                          color: "#9B9EAB",
+                          textAlign: "end",
+                          minWidth: 170,
                           fontFamily: "Rustica",
                           fontSize: "1rem",
-                          minWidth: 170,
                         }}
                         align="right"
                       >
-                        NOI
+                        ${formatNumber(row.noi, 0, false, false, true)}
                       </TableCell>
-                      {responseData.map((row: any) => (
-                        <TableCell
-                          key={row.fecha}
-                          sx={{
-                            color: "#9B9EAB",
-                            textAlign: "end",
-                            minWidth: 170,
-                            fontFamily: "Rustica",
-                            fontSize: "1rem",
-                          }}
-                          align="right"
-                        >
-                          ${formatNumber(row.noi)}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </>
-                )}
+                    ))}
+                  </TableRow>
+                </>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

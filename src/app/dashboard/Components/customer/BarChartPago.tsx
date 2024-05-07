@@ -40,7 +40,7 @@ type CompPagoFront = {
 function BarChartPago() {
   const email = getEmail();
 
-  const [data, setData] = useState<TramoCompPago | null>(null);
+  const [data, setData] = useState<TramoCompPago>();
   const [key, setKey] = useState<keyof TramoCompPago>("ult_12_meses");
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -52,7 +52,9 @@ function BarChartPago() {
         const response = await fetch(getApiUrl(endpoint, { email: email }));
 
         const responseData = await response.json();
-        setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+        if (responseData) {
+          setData(responseData);
+        }
       } catch (error) {
         console.error(error);
       }

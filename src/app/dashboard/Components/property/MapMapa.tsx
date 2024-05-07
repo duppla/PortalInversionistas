@@ -92,7 +92,7 @@ function MapMapa() {
 
     // Limpieza al desmontar el componente
     return () => {
-      map && map.remove();
+      map?.remove();
     };
   }, []);
 

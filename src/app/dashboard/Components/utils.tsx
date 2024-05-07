@@ -72,9 +72,14 @@ export function formatNumber(
   value: number | DatumValue,
   decimal: number = 0,
   perc: boolean = false,
-  drop_end_zeros: boolean = true
+  drop_end_zeros: boolean = true,
+  to_locale: boolean = false
 ): string {
   value = typeof value === "number" ? value : Number(value);
+
+  if (to_locale) {
+    return value.toLocaleString();
+  }
 
   let newVal = "";
   const suffixes = ["", "K", "M", "B", "T"];

@@ -53,15 +53,15 @@ function StreamChartScore() {
       try {
         const response = await fetch(getApiUrl(endpoint, { email: email }));
         const responseData = await response.json();
-        setData(responseData); // Actualiza los datos cuando la respuesta de la API llega
+        if (responseData) {
+          setData(responseData);
+        }
       } catch (error) {
         console.error(error);
       }
     };
 
-    if (email) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {

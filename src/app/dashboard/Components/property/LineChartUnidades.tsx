@@ -57,9 +57,7 @@ const LineChartUnidades = () => {
       }
     };
 
-    if (email) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   let formattedData: UnidadesFront[] = [];
