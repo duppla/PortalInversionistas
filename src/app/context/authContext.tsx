@@ -34,8 +34,12 @@ const authContext = createContext<AuthContextType | undefined>(undefined);
 
 export const getEmail = (): string | null => {
   try {
-    const email = localStorage.getItem("userEmail");
-    return email;
+    if (typeof window !== "undefined") {
+      const email = localStorage.getItem("userEmail");
+      return email;
+    } else {
+      return "";
+    }
   } catch (error) {
     console.error("Error al obtener el correo electrónico:", error);
     return null;
