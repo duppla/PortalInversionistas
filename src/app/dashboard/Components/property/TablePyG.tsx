@@ -51,7 +51,9 @@ export default function TablePyG() {
     fetchData();
   }, [email]);
 
-  // Función para formatear las cifras con separadores de miles
+  const padRight = "60px";
+  const posColor = "#9B9EAB";
+  const negColor = "#f18282";
   return (
     <div className="custom-table nivo-text">
       <div>
@@ -60,7 +62,7 @@ export default function TablePyG() {
             container
             spacing={2}
             alignItems="center"
-            sx={{ borderBottom: "1px solid #9B9EAB" }}
+            sx={{ borderBottom: "1px solid " + posColor }}
           >
             {titleGrid("Perdidas y Ganancias portafolio")}
           </Grid>
@@ -75,37 +77,36 @@ export default function TablePyG() {
         }}
       >
         <TableContainer sx={{ mt: 4 }}>
-          <Table
-            sx={{ minWidth: 550, background: "#212126" }}
-            aria-label="simple table"
-          >
+          <Table sx={{ background: "#212126" }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell
+                  padding="none"
                   sx={{
                     color: "#6C9FFF",
                     textAlign: "center",
                     fontFamily: "Rustica",
                     fontSize: "20px",
-                    minWidth: 170,
                   }}
                   align="right"
                 ></TableCell>
                 {data.length > 0 &&
                   data.map((row: PyGRow) => (
-                    <TableCell
-                      key={row.fecha}
-                      sx={{
-                        color: "#9B9EAB",
-                        textAlign: "end",
-                        minWidth: 170,
-                        fontFamily: "Rustica",
-                        fontSize: "1rem",
-                      }}
-                      align="right"
-                    >
-                      {formatFecha(row.fecha)}
-                    </TableCell>
+                    <>
+                      <TableCell></TableCell>
+                      <TableCell
+                        key={row.fecha}
+                        sx={{
+                          color: "#9B9EAB",
+                          textAlign: "end",
+                          fontFamily: "Rustica",
+                          fontSize: "1rem",
+                          paddingRight: padRight,
+                        }}
+                      >
+                        {formatFecha(row.fecha)}
+                      </TableCell>
+                    </>
                   ))}
               </TableRow>
             </TableHead>
@@ -122,32 +123,17 @@ export default function TablePyG() {
                     <TableCell
                       sx={{
                         color: "#6C9FFF",
-                        textAlign: "left",
                         fontFamily: "Rustica",
                         fontSize: "1rem",
-                        minWidth: 170,
+                        minWidth: "170px",
                       }}
-                      align="right"
                     >
                       Ingresos
                     </TableCell>
-                    {data.map((row: any) => (
-                      <TableCell
-                        key={row.fecha}
-                        sx={{
-                          color: "#9B9EAB",
-                          textAlign: "end",
-                          minWidth: 170,
-                          fontFamily: "Rustica",
-                          fontSize: "1rem",
-                        }}
-                        align="right"
-                      >
-                        ${formatNumber(row.ingresos, 0, false, false, true)}
-                      </TableCell>
-                    ))}
+                    {data.map((row: PyGRow) =>
+                      dollarValuePairCells(row.ingresos, posColor, padRight)
+                    )}
                   </TableRow>
-
                   <TableRow
                     key="gastos"
                     sx={{
@@ -158,32 +144,16 @@ export default function TablePyG() {
                     <TableCell
                       sx={{
                         color: "#6C9FFF",
-                        textAlign: "left",
                         fontFamily: "Rustica",
                         fontSize: "1rem",
-                        minWidth: 170,
                       }}
-                      align="right"
                     >
                       Gastos
                     </TableCell>
-                    {data.map((row: any) => (
-                      <TableCell
-                        key={row.fecha}
-                        sx={{
-                          color: "#9B9EAB",
-                          textAlign: "end",
-                          minWidth: 170,
-                          fontFamily: "Rustica",
-                          fontSize: "1rem",
-                        }}
-                        align="right"
-                      >
-                        -${formatNumber(row.gastos, 0, false, false, true)}
-                      </TableCell>
-                    ))}
+                    {data.map((row: PyGRow) =>
+                      dollarValuePairCells(-row.gastos, negColor, padRight)
+                    )}
                   </TableRow>
-
                   <TableRow
                     key="utilidad_bruta"
                     sx={{
@@ -194,37 +164,19 @@ export default function TablePyG() {
                     <TableCell
                       sx={{
                         color: "#6C9FFF",
-                        textAlign: "left",
                         fontFamily: "Rustica",
                         fontSize: "1rem",
-                        minWidth: 170,
                       }}
-                      align="right"
                     >
                       Utilidad bruta
                     </TableCell>
-                    {data.map((row: any) => (
-                      <TableCell
-                        key={row.fecha}
-                        sx={{
-                          color: "#9B9EAB",
-                          textAlign: "end",
-                          minWidth: 170,
-                          fontFamily: "Rustica",
-                          fontSize: "1rem",
-                        }}
-                        align="right"
-                      >
-                        $
-                        {formatNumber(
-                          row.utilidad_bruta,
-                          0,
-                          false,
-                          false,
-                          true
-                        )}
-                      </TableCell>
-                    ))}
+                    {data.map((row: PyGRow) =>
+                      dollarValuePairCells(
+                        row.utilidad_bruta,
+                        posColor,
+                        padRight
+                      )
+                    )}
                   </TableRow>
                   <TableRow
                     key="reserva"
@@ -236,30 +188,15 @@ export default function TablePyG() {
                     <TableCell
                       sx={{
                         color: "#6C9FFF",
-                        textAlign: "left",
                         fontFamily: "Rustica",
                         fontSize: "1rem",
-                        minWidth: 170,
                       }}
-                      align="right"
                     >
                       Reserva
                     </TableCell>
-                    {data.map((row: any) => (
-                      <TableCell
-                        key={row.fecha}
-                        sx={{
-                          color: "#9B9EAB",
-                          textAlign: "end",
-                          minWidth: 170,
-                          fontFamily: "Rustica",
-                          fontSize: "1rem",
-                        }}
-                        align="right"
-                      >
-                        -${formatNumber(row.reserva, 0, false, false, true)}
-                      </TableCell>
-                    ))}
+                    {data.map((row: PyGRow) =>
+                      dollarValuePairCells(-row.reserva, negColor, padRight)
+                    )}
                   </TableRow>
                   <TableRow
                     key="noi"
@@ -271,30 +208,15 @@ export default function TablePyG() {
                     <TableCell
                       sx={{
                         color: "#6C9FFF",
-                        textAlign: "left",
                         fontFamily: "Rustica",
                         fontSize: "1rem",
-                        minWidth: 170,
                       }}
-                      align="right"
                     >
                       NOI
                     </TableCell>
-                    {data.map((row: any) => (
-                      <TableCell
-                        key={row.fecha}
-                        sx={{
-                          color: "#9B9EAB",
-                          textAlign: "end",
-                          minWidth: 170,
-                          fontFamily: "Rustica",
-                          fontSize: "1rem",
-                        }}
-                        align="right"
-                      >
-                        ${formatNumber(row.noi, 0, false, false, true)}
-                      </TableCell>
-                    ))}
+                    {data.map((row: PyGRow) =>
+                      dollarValuePairCells(row.noi, posColor, padRight)
+                    )}
                   </TableRow>
                 </>
               )}
@@ -303,5 +225,49 @@ export default function TablePyG() {
         </TableContainer>
       </Paper>
     </div>
+  );
+}
+
+function dollarSignCell(color: string) {
+  return (
+    <TableCell
+      sx={{
+        color: color,
+        textAlign: "end",
+        fontFamily: "Rustica",
+        fontSize: "1rem",
+      }}
+    >
+      $
+    </TableCell>
+  );
+}
+
+function valueCell(value: number, color: string, paddingRight: string) {
+  return (
+    <TableCell
+      sx={{
+        color: color,
+        textAlign: "end",
+        fontFamily: "Rustica",
+        fontSize: "1rem",
+        paddingRight: paddingRight,
+      }}
+    >
+      {formatNumber(value, 0, false, false, true)}
+    </TableCell>
+  );
+}
+
+function dollarValuePairCells(
+  value: number,
+  color: string,
+  paddingRight: string
+) {
+  return (
+    <>
+      {dollarSignCell(color)}
+      {valueCell(value, color, paddingRight)}
+    </>
   );
 }
