@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import { Grid, Container, Box } from "@mui/material";
-import LineChartCompValorInm from "../../../Components/property/LineChartCompValorInm";
-import LineChartCompUnidades from "../../../Components/property/LineChartCompUnidades";
+import LineChartValorInm from "../../../Components/property/LineChartValorInm";
+import LineChartUnidades from "../../../Components/property/LineChartUnidades";
 import MapMapa from "../../../Components/property/MapMapa";
-import SankeyChartCompPyG from "../../../Components/property/SankeyChartCompPyG";
-import TableCompPyG from "../../../Components/property/TableCompPyG";
+import SankeyChartPyG from "../../../Components/property/SankeyChartPyG";
+import TablePyG from "../../../Components/property/TablePyG";
 
 const page = () => {
   return (
@@ -74,7 +74,7 @@ const page = () => {
               borderRadius: "20px",
             }}
           >
-            <LineChartCompValorInm />
+            <LineChartValorInm />
           </Grid>
         </Grid>
 
@@ -106,7 +106,7 @@ const page = () => {
               /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
             }}
           >
-            <SankeyChartCompPyG />
+            <SankeyChartPyG />
           </Grid>
         </Grid>
 
@@ -138,7 +138,7 @@ const page = () => {
               /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
             }}
           >
-            <TableCompPyG />
+            <TablePyG />
           </Grid>
         </Grid>
         {/* Componente H */}
@@ -170,7 +170,7 @@ const page = () => {
               /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
             }}
           >
-            <LineChartCompUnidades />
+            <LineChartUnidades />
           </Grid>
         </Grid>
       </Container>

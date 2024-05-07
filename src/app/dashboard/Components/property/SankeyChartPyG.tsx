@@ -5,29 +5,29 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
 import getApiUrl from "@/app/url/ApiConfig";
 import { getEmail } from "@/app/context/authContext";
+import { titleGrid } from "../ChartAddons";
 
 const endpoint = "/inmuebles/perdidas_ganancias_sankey";
 
-type DataApiType = {
-  fecha: string;
-  pagado: any;
-  mora: any;
-};
-interface Node {
-  id: string;
-  // otras propiedades...
-}
-
-type DataType = {
-  ult_12_meses: DataApiType[];
-  este_anho: DataApiType[];
-  ult_6_meses: DataApiType[];
+type Node = {
+  id: "Ingresos" | "Utilidad bruta" | "NOI" | "Gastos" | "Reservas";
 };
 
-const SankeyChartCompPyG = () => {
+type Link = {
+  source: "Ingresos" | "Utilidad bruta" | "NOI" | "Gastos" | "Reservas";
+  target: "Ingresos" | "Utilidad bruta" | "NOI" | "Gastos" | "Reservas";
+  value: number;
+};
+
+type Sankey = {
+  nodes: Node[];
+  links: Link[];
+};
+
+const SankeyChartPyG = () => {
   const email = getEmail();
 
-  const [dataSnkey, setDataSnkey] = useState<any>(null); // Estado para almacenar la data
+  const [data, setData] = useState<Sankey>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,15 +56,13 @@ const SankeyChartCompPyG = () => {
           })),
         };
 
-        setDataSnkey(formattedData);
+        setData(formattedData);
       } catch (error) {
         console.error(error);
       }
     };
 
-    if (email) {
-      fetchData();
-    }
+    fetchData();
   }, [email]);
 
   // Definir tus escalas de colores verdes y rojos
@@ -110,21 +108,7 @@ const SankeyChartCompPyG = () => {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            <Grid xs={6} md={6} lg={6}>
-              <Typography
-                className="title-dropdown-menu-container"
-                variant="subtitle1"
-                sx={{
-                  fontFamily: "Helvetica",
-                  fontWeight: 300,
-                  color: "#ffffff",
-                  fontSize: "26px",
-                  mt: 2,
-                }}
-              >
-                Pérdidas y Ganancias portafolio
-              </Typography>
-            </Grid>
+            {titleGrid("Pérdidas y Ganancias portafolio")}
             <Grid xs={6} md={6} lg={6} sx={{ textAlign: "end" }}></Grid>
           </Grid>
         </FormControl>
@@ -141,9 +125,9 @@ const SankeyChartCompPyG = () => {
       >
         Mes actual
       </Typography>
-      {dataSnkey && (
+      {data && (
         <ResponsiveSankey
-          data={dataSnkey}
+          data={data}
           margin={{ top: 20, right: 50, bottom: 80, left: 50 }}
           align="justify"
           /*  colors={['#FFFFBA','#6C9FFF', '#F4DCFF','#FF9900',  '#BAFCC5',]}   */
@@ -269,4 +253,4 @@ const SankeyChartCompPyG = () => {
   );
 };
 
-export default SankeyChartCompPyG;
+export default SankeyChartPyG;

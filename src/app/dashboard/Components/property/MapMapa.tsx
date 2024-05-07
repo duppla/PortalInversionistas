@@ -123,22 +123,14 @@ function MapMapa() {
       markerElement.style.width = "28px";
 
       let popupContent = `
-        <p style="color: black;"><strong>${upperCityName}</strong></p> <!-- Mostrar el nombre de la ciudad en mayúsculas -->
-        ${
-          location.barrio
-            ? `<p style="color: black;"><strong>Barrio:</strong> ${location.barrio}</p>`
-            : ""
-        }
-        <p style="color: black;"><strong>Valor del inmueble:</strong> ${formatNumber(
-          location.valor_inmueble
-        )}</p>
-        <p style="color: black;"><strong>¿Está en mora?:</strong> ${
-          location.mora ? "Sí" : "No"
-        }</p>
+        ${popupTitle(upperCityName)}
+        ${popupBarrio(location.barrio)}
+        ${popupValorInmueble(location.valor_inmueble)}
+        ${popupMora(location.mora)}
         `;
       // Agregar categoría de mora si es necesario
       if (location.mora) {
-        popupContent += `<p style="color: black;"><strong>¿Cuánto?:</strong> ${location.categoria_mora}</p>`;
+        popupContent += popupCategoriaMora(location.categoria_mora);
       }
 
       const popup = new mapboxgl.Popup().setHTML(popupContent);
@@ -163,7 +155,6 @@ function MapMapa() {
       const locations = data[city].inmuebles;
       if (locations.length > 0) {
         map.flyTo({ center: avgCoords(locations), zoom: 11 });
-        addMarkersToMap();
       }
     }
   };
@@ -173,14 +164,6 @@ function MapMapa() {
       map.flyTo({ center: [location.longitud, location.latitud], zoom: 15 });
     }
   };
-
-  // Función para capitalizar la primera letra de la cadena
-  function toTitleCase(text: string): string {
-    return text
-      .split(" ")
-      .map((l: string) => l[0].toUpperCase() + l.substring(1))
-      .join(" ");
-  }
 
   return (
     <ThemeProvider theme={themeBtn}>
@@ -266,3 +249,46 @@ const themeBtn = createTheme({
     },
   },
 });
+
+const popupTitle = (cityName: string) => {
+  return `<p style="color: black;">
+    <strong>${cityName}</strong>
+  </p>`;
+};
+
+const popupBarrio = (barrio: string | null) => {
+  return barrio
+    ? `<p style="color: black;">
+    <strong>Barrio:</strong> ${barrio}
+  </p>`
+    : "";
+};
+
+const popupValorInmueble = (valor: number) => {
+  return `<p style="color: black;">
+    <strong>Valor del inmueble:</strong> ${formatNumber(valor)}
+  </p>`;
+};
+
+const popupMora = (mora: boolean) => {
+  return `<p style="color: black;">
+    <strong>¿Está en mora?:</strong> ${mora ? "Sí" : "No"}
+  </p>`;
+};
+
+const popupCategoriaMora = (categoria: string) => {
+  return `<p style="color: black;">
+    <strong>¿Cuánto?:</strong> ${categoria}
+  </p>`;
+};
+
+function toTitleCase(text: string): string {
+  let str = text.toLowerCase().split("");
+  str[0] = str[0].toUpperCase();
+  for (let i = 1; i < str.length; i++) {
+    if (str[i] === " " || str[i] === ".") {
+      str[i + 1] = str[i + 1]?.toUpperCase();
+    }
+  }
+  return str.join("");
+}

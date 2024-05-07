@@ -11,7 +11,7 @@ import { Typography, Select, MenuItem } from "@mui/material";
 import { changeArrow } from "./utils";
 
 // type imports
-import { TramoUnidades } from "./property/LineChartCompUnidades";
+import { TramoUnidades } from "./property/LineChartUnidades";
 
 export function titleGrid(title: string, explainText: string = "") {
   return (

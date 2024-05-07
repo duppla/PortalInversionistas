@@ -24,7 +24,7 @@ interface DataApiType {
   ingresos: number;
 }
 
-export default function TableCompPyG() {
+export default function TablePyG() {
   const email = getEmail();
   const [responseData, setResponseData] = useState<DataApiType[]>([]);
 
@@ -86,8 +86,6 @@ export default function TableCompPyG() {
                                 value={selectedValue}
                                 label="Age"
                                 onChange={handleSelectChange}
-                               
-
                                 sx={{
                                     color: '#9B9EAB', justifyContent: 'flex-end', textAlign: 'end', fill: '#ffffff', '&.MuiSelect-icon': { color: '#FFFFFF !important' },
                                     '& .MuiOutlinedInput-notchedOutline': { border: 'none' },

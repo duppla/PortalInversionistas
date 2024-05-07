@@ -35,7 +35,7 @@ type UnidadesFront = {
   y: number;
 };
 
-const LineChartCompUnidades = () => {
+const LineChartUnidades = () => {
   const email = getEmail();
 
   const [data, setData] = useState<TramoUnidades>();
@@ -176,4 +176,4 @@ const LineChartCompUnidades = () => {
   );
 };
 
-export default LineChartCompUnidades;
+export default LineChartUnidades;

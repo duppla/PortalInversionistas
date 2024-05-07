@@ -37,7 +37,7 @@ type ValorInmFront = {
   y: number;
 };
 
-const LineChartCompValorInm = () => {
+const LineChartValorInm = () => {
   const email = getEmail();
 
   const [data, setData] = useState<TramoValorInm>();
@@ -238,7 +238,7 @@ const LineChartCompValorInm = () => {
   );
 };
 
-export default LineChartCompValorInm;
+export default LineChartValorInm;
 
 function setTooltip(x: DatumValue, y: DatumValue) {
   const formattedValue = formatNumber(y as number, 2, false, false);
