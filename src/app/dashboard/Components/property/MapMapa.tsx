@@ -89,7 +89,7 @@ function MapMapa() {
       const locations = data[city].inmuebles;
       if (locations.length > 0) {
         map.flyTo({ center: avgCoords(locations), zoom: 11 });
-        addMarkersToMap();
+        addMarkersToMap(map);
       }
     }
   }, [map, city, data]);
@@ -98,7 +98,7 @@ function MapMapa() {
     setCity(city);
   };
 
-  const addMarkersToMap = () => {
+  const addMarkersToMap = (map: mapboxgl.Map) => {
     const cityName = data[city].ciudad;
     const upperCityName = cityName.toUpperCase();
     const locations = data[city].inmuebles;
@@ -126,7 +126,7 @@ function MapMapa() {
       new mapboxgl.Marker({ element: markerElement })
         .setLngLat([location.longitud, location.latitud])
         .setPopup(popup)
-        .addTo(map!);
+        .addTo(map);
 
       // Agregar evento de clic al marcador
       markerElement.addEventListener("click", () =>
