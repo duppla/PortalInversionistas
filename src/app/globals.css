@@ -1,25 +1,24 @@
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
-  --color-verde-duppla: #C5F5CA;
-  --color-cimiento-duppla: #0A3323;
-  --color-sombra-duppla: #EEEFF3;
-  --color-fondo-gris: #F9F9F9;
-  --azulDupplaOscuro: #5682F2;
-  --azulDupplaClaro: #6C9FFF;
-  --naranjaDuppla: #FE864B;
-  --fondo1: #0B0B0D;
-  --fondo2: #1E1E1E;
+  --color-verde-duppla: #c5f5ca;
+  --color-cimiento-duppla: #0a3323;
+  --color-sombra-duppla: #eeeff3;
+  --color-fondo-gris: #f9f9f9;
+  --azulDupplaOscuro: #5682f2;
+  --azulDupplaClaro: #6c9fff;
+  --naranjaDuppla: #fe864b;
+  --fondo1: #0b0b0d;
+  --fondo2: #1e1e1e;
   --fondo3: #272727;
   --fondo4: #272727;
-  --tipografiaPrincipal: #FFFFFF;
-  --tipografiaSecundaria: #B8B8B8;
-  --tipografiaDisabled: #B8B8B8;
-
+  --tipografiaPrincipal: #ffffff;
+  --tipografiaSecundaria: #b8b8b8;
+  --tipografiaDisabled: #b8b8b8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,20 +28,24 @@
     --background-end-rgb: 0, 0, 0;
 
     --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(to bottom right,
-        rgba(1, 65, 255, 0),
-        rgba(1, 65, 255, 0),
-        rgba(1, 65, 255, 0.3));
+    --secondary-glow: linear-gradient(
+      to bottom right,
+      rgba(1, 65, 255, 0),
+      rgba(1, 65, 255, 0),
+      rgba(1, 65, 255, 0.3)
+    );
 
     --tile-start-rgb: 2, 13, 46;
     --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(#ffffff80,
-        #ffffff40,
-        #ffffff30,
-        #ffffff20,
-        #ffffff10,
-        #ffffff10,
-        #ffffff80);
+    --tile-border: conic-gradient(
+      #ffffff80,
+      #ffffff40,
+      #ffffff30,
+      #ffffff20,
+      #ffffff10,
+      #ffffff10,
+      #ffffff80
+    );
 
     --callout-rgb: 20, 20, 20;
     --callout-border-rgb: 108, 108, 108;
@@ -52,36 +55,36 @@
 }
 
 @font-face {
-  font-family: 'Rustica';
-  src: url('../fonts/RusticaSemiLight.ttf') format('truetype');
+  font-family: "Rustica";
+  src: url("../fonts/RusticaSemiLight.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Rustica';
-  src: url('../fonts/RusticaSemiLight.ttf') format('truetype');
+  font-family: "Rustica";
+  src: url("../fonts/RusticaSemiLight.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Rustica';
-  src: url('../fonts/RusticaSemiLightItalic.ttf') format('truetype');
+  font-family: "Rustica";
+  src: url("../fonts/RusticaSemiLightItalic.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'HelveticaNowText';
-  src: url('../fonts/HelveticaNowTextMedium.otf') format('truetype');
+  font-family: "HelveticaNowText";
+  src: url("../fonts/HelveticaNowTextMedium.otf") format("truetype");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Helvetica';
-  src: url('../fonts/HelveticaNowTextRegular.otf') format('truetype');
+  font-family: "Helvetica";
+  src: url("../fonts/HelveticaNowTextRegular.otf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
@@ -102,13 +105,15 @@ body {
 
 body {
   color: rgb(var(--fondo1));
-  background: linear-gradient(to bottom,
+  background: linear-gradient(
+      to bottom,
       transparent,
-      rgb(var(--azulDupplaOscuro))) rgb(var(--azulDupplaClaro));
+      rgb(var(--azulDupplaOscuro))
+    )
+    rgb(var(--azulDupplaClaro));
 }
 
 a {
- 
   text-decoration: none;
 }
 
@@ -116,28 +121,30 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 /* sección navbar */
 
 .colorBackgroundPrincipal {
-  background: radial-gradient(151.92% 127.02% at 15.32% 21.04%, rgba(165, 239, 255, 0.20) 0%, rgba(110, 191, 244, 0.04) 77.08%, rgba(70, 144, 212, 0.00) 100%) !important;
+  background: radial-gradient(
+    151.92% 127.02% at 15.32% 21.04%,
+    rgba(165, 239, 255, 0.2) 0%,
+    rgba(110, 191, 244, 0.04) 77.08%,
+    rgba(70, 144, 212, 0) 100%
+  ) !important;
   background-size: 100%;
   background-repeat: no-repeat;
 
   border-bottom-left-radius: 35px;
   border-bottom-right-radius: 35px;
-  border-bottom: 2px solid #7DA0FB;
-  
+  border-bottom: 2px solid #7da0fb;
 
   background-blend-mode: overlay, normal;
   backdrop-filter: blur(1.5rem) !important;
-
 }
 
 .img-home {
-  width: 230px; 
+  width: 230px;
   height: 98px;
   margin-top: 4px;
   margin-bottom: 2px;
@@ -163,13 +170,11 @@ a {
 .grafica-piecharts {
   width: auto !important;
   height: 320px !important;
-
 }
 
 .grafica-piecharts-G2 {
   width: auto !important;
   height: 340px !important;
-
 }
 
 .grafica-Linecharts {
@@ -177,13 +182,14 @@ a {
   height: 230px;
   /* O el valor que desees para pantallas más grandes */
 }
+
 .grafica-Linecharts-G {
   width: 100%;
   height: 230px;
 
-  
   /* O el valor que desees para pantallas más grandes */
 }
+
 .grafica-linecharts-b {
   width: 100%;
   height: 420px;
@@ -203,9 +209,9 @@ a {
 
 /* Estilos titulos componentes Dy F main */
 .title-D-F {
-  font-family: 'Rustica', sans-serif !important;
+  font-family: "Rustica", sans-serif !important;
   font-style: normal;
-  color: #5682F2;
+  color: #5682f2;
   font-weight: 500;
   font-size: 18px !important;
   margin-top: -8px !important;
@@ -217,7 +223,6 @@ a {
   color: #ffffff;
   font-weight: 300;
   font-size: 22px;
-
 }
 
 @media (prefers-color-scheme: dark) {
@@ -226,56 +231,33 @@ a {
   }
 }
 
-
 /* Para intensificar el color de las leyendas durante el hover */
 /* Para intensificar el color de las leyendas durante el hover */
 .nivo_legend_item:hover {
   opacity: 1 !important;
-  filter: saturate(150%) !important; /* Ajusta el porcentaje según sea necesario */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important; /* Ajusta según sea necesario */
+  filter: saturate(150%) !important;
+  /* Ajusta el porcentaje según sea necesario */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+  /* Ajusta según sea necesario */
 }
 
 /* Para intensificar el color de las etiquetas durante el hover */
 .nivo_sankey_labels text:hover {
+  font-size: 16px;
   opacity: 1 !important;
-  filter: saturate(150%) !important; /* Ajusta el porcentaje según sea necesario */
-}
-
-/* Para intensificar el color de las etiquetas durante el hover */
-.nivo_sankey_labels text:hover {
-  opacity: 1 !important;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important; /* Ajusta según sea necesario */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+  filter: saturate(200%);
 }
 
 /* Para intensificar el color de los textos de las etiquetas dentro de la gráfica */
 .nivo_sankey_labels text {
-  filter: saturate(150%); /* Ajusta el porcentaje según sea necesario */
-  transition: filter 0.3s ease; /* Agrega una transición suave */
-}
-
-/* Para intensificar el color de los textos de las etiquetas durante el hover */
-.nivo_sankey_labels text:hover {
-  filter: saturate(200%); /* Ajusta el porcentaje según sea necesario */
-}
-
-/* Ajusta el tamaño de la letra de las etiquetas dentro de la gráfica */
-/* Ejemplo con !important */
-.nivo_sankey_labels text {
+  filter: saturate(150%);
+  /* Ajusta el porcentaje según sea necesario */
   font-size: 34px !important;
   transition: font-size 0.3s ease !important;
 }
 
-
-/* Ajusta el tamaño de la letra de las etiquetas durante el hover */
-.nivo_sankey_labels text:hover {
-  font-size: 16px; /* Ajusta el tamaño durante el hover según sea necesario */
-}
-
-
-
-
 @media screen and (min-width: 300px) {
-
   /* clases login */
   .img-login-logo {
     margin-top: 6.25rem;
@@ -287,6 +269,7 @@ a {
     width: 100% !important;
     height: 780px !important;
   }
+
   .size-card-main-f {
     width: 100% !important;
     height: 780px !important;
@@ -306,23 +289,20 @@ a {
   .size-container-h1-h2 {
     width: 100% !important;
     height: 980px !important;
-
   }
 
   /* Clase titulos sección */
   .title-component {
-    font-family: 'Rustica', sans-serif;
+    font-family: "Rustica", sans-serif;
     font-style: normal;
-    color: #5682F2;
+    color: #5682f2;
     font-weight: 500;
     font-size: 38px;
     margin-left: 8px !important;
-
   }
 }
 
 @media screen and (min-width: 375px) {
-
   /* clases login */
   .img-login-logo {
     margin-top: 6.25rem;
@@ -335,76 +315,11 @@ a {
     height: 780px !important;
   }
 
-  .size-card-main-f{
-    width: 100% !important;
-    height: 780px !important;
-  }
-
-  .size-card-main-d-f {
-    width: 340 !important;
-    height: 120px !important;
-  }
-
-  .size-card-main-componentF {
-    width: 340 !important;
-    height: 140px !important;
-  }
-
-  /* Responsive inmueble */
-  .size-container-h1-h2 {
-    width: 100% !important;
-    height: 980px !important;
-
-  }
-
-  .size-container-k1-k2 {
-    width: 100% !important;
-    height: 980px !important;
-
-  }
-
-  /* Clase titulos sección */
-  .title-component {
-    font-family: 'Rustica', sans-serif;
-    font-style: normal;
-    color: #5682F2;
-    font-weight: 500;
-    font-size: 38px;
-    margin-left: 8px !important;
-
-  }
-
-  .title-dropdown-menu-container{
-    font-family: 'Helvetica' !important;
-    font-style: normal;
-    color: #ffffff;
-    font-weight: 300;
-    font-size: 16px !important; 
-  
-  }
-
-  .container-G{   
-    height: 500px !important;  
-  }
-}
-
-@media screen and (min-width: 425px) {
-
-  /* clases login */
-  .img-login-logo {
-    margin-top: 6.25rem;
-    width: 100% !important;
-    height: 287px;
-  }
-
-  .size-card-main {
-    width: 100% !important;
-    height: 780px !important;
-  }
   .size-card-main-f {
     width: 100% !important;
     height: 780px !important;
   }
+
   .size-card-main-d-f {
     width: 340 !important;
     height: 120px !important;
@@ -419,44 +334,101 @@ a {
   .size-container-h1-h2 {
     width: 100% !important;
     height: 980px !important;
-
   }
 
   .size-container-k1-k2 {
     width: 100% !important;
     height: 980px !important;
-
   }
 
   /* Clase titulos sección */
   .title-component {
-    font-family: 'Rustica', sans-serif;
+    font-family: "Rustica", sans-serif;
     font-style: normal;
-    color: #5682F2;
+    color: #5682f2;
     font-weight: 500;
     font-size: 38px;
     margin-left: 8px !important;
-
   }
 
-  .title-dropdown-menu-container{
-    font-family: 'Helvetica' !important;
+  .title-dropdown-menu-container {
+    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
     font-style: normal;
     color: #ffffff;
     font-weight: 300;
-    font-size: 18px !important; 
-  
+    font-size: 16px !important;
+  }
+
+  .container-G {
+    height: 500px !important;
+  }
+}
+
+@media screen and (min-width: 425px) {
+  /* clases login */
+  .img-login-logo {
+    margin-top: 6.25rem;
+    width: 100% !important;
+    height: 287px;
+  }
+
+  .size-card-main {
+    width: 100% !important;
+    height: 780px !important;
+  }
+
+  .size-card-main-f {
+    width: 100% !important;
+    height: 780px !important;
+  }
+
+  .size-card-main-d-f {
+    width: 340 !important;
+    height: 120px !important;
+  }
+
+  .size-card-main-componentF {
+    width: 340 !important;
+    height: 140px !important;
+  }
+
+  /* Responsive inmueble */
+  .size-container-h1-h2 {
+    width: 100% !important;
+    height: 980px !important;
+  }
+
+  .size-container-k1-k2 {
+    width: 100% !important;
+    height: 980px !important;
+  }
+
+  /* Clase titulos sección */
+  .title-component {
+    font-family: "Rustica", sans-serif;
+    font-style: normal;
+    color: #5682f2;
+    font-weight: 500;
+    font-size: 38px;
+    margin-left: 8px !important;
+  }
+
+  .title-dropdown-menu-container {
+    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
+    font-style: normal;
+    color: #ffffff;
+    font-weight: 300;
+    font-size: 18px !important;
   }
 
   .grafica-Linecharts-G {
     width: 100%;
-    height: 320px;    
+    height: 320px;
     /* O el valor que desees para pantallas más grandes */
   }
 }
 
 @media screen and (min-width: 768px) {
-
   /* clases login */
   .img-login-logo {
     margin-top: 6.25rem;
@@ -475,20 +447,18 @@ a {
   .size-card-main {
     width: 100% !important;
     height: auto !important;
-
   }
 
   .size-card-main-f {
     width: 100% !important;
     height: auto !important;
-
   }
 
   .size-card-main-d-f {
     width: auto !important;
     height: 140px !important;
-
   }
+
   .size-card-main-componentF {
     width: 340 !important;
     height: 160px !important;
@@ -498,33 +468,29 @@ a {
   .size-container-h1-h2 {
     width: 100% !important;
     height: 980px !important;
-
   }
 
   .size-container-k1-k2 {
     width: 100% !important;
     height: 980px !important;
-
   }
 
   /* Clase titulos sección */
   .title-component {
-    font-family: 'Rustica', sans-serif;
+    font-family: "Rustica", sans-serif;
     font-style: normal;
-    color: #5682F2;
+    color: #5682f2;
     font-weight: 500;
     font-size: 38px;
     margin-left: 16px !important;
-
   }
 
   .title-dropdown-menu-container {
-    font-family: 'Helvetica' !important;
+    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
     font-style: normal;
     color: #ffffff;
     font-weight: 300;
     font-size: 18px !important;
-
   }
 
   .custom-table {
@@ -532,14 +498,12 @@ a {
     height: 480px !important;
   }
 
-  .container-G{   
-    height: 460px !important;    
+  .container-G {
+    height: 460px !important;
   }
-
 }
 
 @media screen and (min-width: 1020px) {
-
   /* Clases login */
   .img-login-logo {
     margin-top: 6.25rem;
@@ -555,7 +519,6 @@ a {
     z-index: 1;
   }
 
-
   .div-center-pie-h1 {
     position: absolute;
     top: 46%;
@@ -568,19 +531,18 @@ a {
   .size-card-main {
     width: 100% !important;
     height: 180px !important;
-
   }
+
   .size-card-main-f {
     width: 100% !important;
     height: 180px !important;
-
   }
 
   .size-card-main-d-f {
     width: auto !important;
     height: 104px !important;
-
   }
+
   .size-card-main-componentF {
     width: 340 !important;
     height: 120px !important;
@@ -590,7 +552,6 @@ a {
   .size-container-h1-h2 {
     width: 100% !important;
     height: 480px !important;
-
   }
 
   .size-container-k1-k2 {
@@ -600,21 +561,20 @@ a {
 
   /* Clase titulos sección */
   .title-component {
-    font-family: 'Rustica', sans-serif;
+    font-family: "Rustica", sans-serif;
     font-style: normal;
-    color: #5682F2;
+    color: #5682f2;
     font-weight: 500;
     font-size: 38px;
     margin-left: 22px !important;
   }
 
   .title-dropdown-menu-container {
-    font-family: 'Helvetica' !important;
+    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
     font-style: normal;
     color: #ffffff;
     font-weight: 300;
     font-size: 20px !important;
-
   }
 
   .custom-table {
@@ -622,16 +582,13 @@ a {
     height: 480px !important;
   }
 
-  .container-G{
+  .container-G {
     overflow-y: hidden;
-    height: 500px !important;    
+    height: 500px !important;
   }
-
-
 }
 
 @media screen and (min-width: 1200px) {
-
   /* Clases login */
   .img-login-logo {
     margin-top: 6.25rem;
@@ -659,19 +616,18 @@ a {
   .size-card-main {
     width: 100% !important;
     height: 180px !important;
-
   }
+
   .size-card-main-f {
     width: 100% !important;
     height: 180px !important;
-
   }
 
   .size-card-main-d-f {
     width: 440 !important;
     height: 100px !important;
-
   }
+
   .size-card-main-componentF {
     width: 440 !important;
     height: 120px !important;
@@ -681,33 +637,29 @@ a {
   .size-container-h1-h2 {
     width: 100% !important;
     height: 480px !important;
-
   }
 
   .size-container-k1-k2 {
     width: 100% !important;
     height: auto !important;
-
   }
 
   /* Clase titulos sección */
   .title-component {
-    font-family: 'Rustica', sans-serif;
+    font-family: "Rustica", sans-serif;
     font-style: normal;
-    color: #5682F2;
+    color: #5682f2;
     font-weight: 500;
     font-size: 38px;
     margin-left: 30px !important;
-
   }
 
   .title-dropdown-menu-container {
-    font-family: 'Helvetica' !important;
+    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
     font-style: normal;
     color: #ffffff;
     font-weight: 300;
     font-size: 20px !important;
-
   }
 
   .custom-table {
@@ -715,14 +667,12 @@ a {
     height: 480px !important;
   }
 
-  .container-G{   
-    height: 420px !important;      
+  .container-G {
+    height: 420px !important;
   }
-
 }
 
 @media screen and (min-width: 1600px) {
-
   /* Clases login */
   .img-login-logo {
     margin-top: 6.25rem;
@@ -757,67 +707,59 @@ a {
   .size-card-main {
     width: 100% !important;
     height: 140px !important;
-
   }
+
   .size-card-main-f {
     width: 100% !important;
     height: 160px !important;
-
   }
+
   .size-card-main-d-f {
     width: 440 !important;
     height: 100px !important;
-
   }
+
   .size-card-main-componentF {
     width: 440 !important;
     height: 120px !important;
   }
 
-
   /* Responsive inmueble */
   .size-container-h1-h2 {
     width: 100% !important;
     height: 480px !important;
-
   }
 
   .size-container-k1-k2 {
     width: 100% !important;
     height: 360px !important;
-
   }
 
   /* Clase titulos sección */
   .title-component {
-    font-family: 'Rustica', sans-serif;
+    font-family: "Rustica", sans-serif;
     font-style: normal;
-    color: #5682F2;
+    color: #5682f2;
     font-weight: 500;
     font-size: 38px;
     margin-left: 205px !important;
-
   }
 
   .title-dropdown-menu-container {
-    font-family: 'Helvetica' !important;
+    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
     font-style: normal;
     color: #ffffff;
     font-weight: 300;
     font-size: 20px !important;
-
   }
 
   .custom-table {
     width: 1240px !important;
     height: 480px !important;
   }
-
-
 }
 
 @media screen and (min-width: 2200px) {
-
   /* Clases login */
   .img-login-logo {
     margin-top: 6.25rem;
@@ -836,17 +778,17 @@ a {
     width: 100% !important;
     height: 140px !important;
   }
+
   .size-card-main-f {
     width: 100% !important;
     height: 160px !important;
-
   }
 
   .size-card-main-d-f {
     width: 440 !important;
     height: 100px !important;
-
   }
+
   .size-card-main-componentF {
     width: 440 !important;
     height: 120px !important;
@@ -856,35 +798,32 @@ a {
   .size-container-h1-h2 {
     width: 100% !important;
     height: 480px !important;
-
   }
 
   /* Responsive inmueble */
   .size-container-k1-k2 {
     width: 100% !important;
     height: 360px !important;
-
   }
 
   /* Clase titulos sección */
   .title-component {
-    font-family: 'Rustica', sans-serif;
+    font-family: "Rustica", sans-serif;
     font-style: normal;
-    color: #5682F2;
+    color: #5682f2;
     font-weight: 500;
     font-size: 38px;
     margin-left: 382px !important;
-
   }
 
   .title-dropdown-menu-container {
-    font-family: 'Helvetica' !important;
+    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
     font-style: normal;
     color: #ffffff;
     font-weight: 300;
     font-size: 22px !important;
-
   }
+
   .custom-table {
     width: 1280px !important;
     height: 480px !important;
