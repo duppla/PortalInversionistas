@@ -61,7 +61,7 @@ function PieChatActEcon() {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            {titleGrid("Actividad económica")}
+            {titleGrid("Actividad económica", "", -1)}
           </Grid>
         </FormControl>
       </div>

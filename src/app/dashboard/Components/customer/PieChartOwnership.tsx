@@ -67,7 +67,7 @@ const PieChartOwnership = () => {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            {titleGrid("Porcentaje ownership")}
+            {titleGrid("Porcentaje ownership", "", -1)}
           </Grid>
         </FormControl>
       </div>

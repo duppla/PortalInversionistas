@@ -6,6 +6,7 @@ import PieChartOwnership from "@/app/dashboard/Components/customer/PieChartOwner
 import BarChartPago from "@/app/dashboard/Components/customer/BarChartPago";
 import BarChartDestino from "@/app/dashboard/Components/customer/BarChartDestino";
 import StreamChartScore from "@/app/dashboard/Components/customer/StreamChartScore";
+import { chartBlocks } from "../../ChartBlocks";
 
 const Customer = () => {
   let isLargeScreenK = useMediaQuery("min-width: 1200px");
@@ -25,7 +26,8 @@ const Customer = () => {
             justifyItems: "center",
             backgroundColor: "#0B0B0D",
             borderRadius: "20px",
-            mt: 2,
+            mt: 0,
+            mb: 3,
           }}
           columnGap={isLargeScreenK ? 13.5 : 10}
           rowGap={1}
@@ -62,99 +64,9 @@ const Customer = () => {
             <PieChartOwnership />
           </Grid>
         </Grid>
-        {/* Componente N */}
-        <Grid
-          container
-          sx={{
-            marginTop: "40px",
-            display: "flex",
-            justifyContent: "center",
-            justifyItems: "center",
-            width: "100%",
-            height: "440px",
-            backgroundColor: "#212126",
-            borderRadius: "20px",
-          }}
-        >
-          {/*Grafica principal-datos del inmueble*/}
-          <Grid
-            className=""
-            xs={12}
-            sm={12}
-            md={10}
-            lg={10}
-            sx={{
-              width: "100%",
-              height: "440px",
-              backgroundColor: "#212126",
-              borderRadius: "20px",
-            }}
-          >
-            <BarChartDestino />
-          </Grid>
-        </Grid>
-        {/* Componente L*/}
-        <Grid
-          container
-          sx={{
-            marginTop: "40px",
-            display: "flex",
-            justifyContent: "center",
-            justifyItems: "center",
-            width: "100%",
-            height: "560px",
-            backgroundColor: "#212126",
-            borderRadius: "20px",
-          }}
-        >
-          {/*Grafica principal-datos del inmueble*/}
-          <Grid
-            className=""
-            xs={12}
-            sm={12}
-            md={10}
-            lg={10}
-            sx={{
-              width: "100%",
-              height: "460px",
-              backgroundColor: "#212126",
-              borderRadius: "20px",
-            }}
-          >
-            <StreamChartScore />
-          </Grid>
-        </Grid>
-        {/* Componente O */}
-        <Grid
-          container
-          sx={{
-            marginTop: "40px",
-            display: "flex",
-            justifyContent: "center",
-            justifyItems: "center",
-            width: "100%",
-            height: "600px",
-            backgroundColor: "#212126",
-            borderRadius: "20px",
-          }}
-        >
-          {/*Grafica principal-datos del inmueble*/}
-          <Grid
-            className=""
-            xs={12}
-            sm={12}
-            md={10}
-            lg={10}
-            sx={{
-              width: "100%",
-              height: "520px",
-              backgroundColor: "#212126",
-              borderRadius: "20px",
-            }}
-          >
-            <BarChartPago />
-          </Grid>
-        </Grid>
+        {chartBlocks(<BarChartDestino />, 440, 440)}
+        {chartBlocks(<StreamChartScore />, 560, 460)}
+        {chartBlocks(<BarChartPago />, 560, 520)}
       </Container>
     </Box>
   );
