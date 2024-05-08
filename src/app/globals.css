@@ -212,7 +212,7 @@ a {
 }
 
 .title-dropdown-menu-container {
-  font-family: 'Helvetica';
+  font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif;
   font-style: normal;
   color: #ffffff;
   font-weight: 300;
@@ -232,18 +232,13 @@ a {
 .nivo_legend_item:hover {
   opacity: 1 !important;
   filter: saturate(150%) !important; /* Ajusta el porcentaje según sea necesario */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important; /* Ajusta según sea necesario */
 }
 
 /* Para intensificar el color de las etiquetas durante el hover */
 .nivo_sankey_labels text:hover {
   opacity: 1 !important;
   filter: saturate(150%) !important; /* Ajusta el porcentaje según sea necesario */
-}
-
-/* Para intensificar el color de las leyendas durante el hover */
-.nivo_legend_item:hover {
-  opacity: 1 !important;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important; /* Ajusta según sea necesario */
 }
 
 /* Para intensificar el color de las etiquetas durante el hover */
