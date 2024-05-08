@@ -24,9 +24,7 @@ function CardAdelanto() {
   }, [email]);
 
   const formattedDate = data ? formatFecha(data.fecha) : "";
-  const formattedAdelanto = data
-    ? "$ " + data.adelanto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    : "";
+  const formattedAdelanto = data ? "$ " + data.adelanto.toLocaleString() : "";
 
   return CardCompDateBox("Adelanto", formattedDate, formattedAdelanto);
 }

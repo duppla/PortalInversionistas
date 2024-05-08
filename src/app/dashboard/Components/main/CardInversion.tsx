@@ -21,12 +21,9 @@ function CardInversion() {
     fetchData(endpoint, email, setData);
   }, [email]);
 
-  const monto_inversion = data
-    ? "$ " +
-      data.monto_inversion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    : "";
+  const inversion = data ? "$ " + data.monto_inversion.toLocaleString() : "";
 
-  return CardCompBox("Inversión original", monto_inversion);
+  return CardCompBox("Inversión original", inversion);
 }
 
 export default CardInversion;

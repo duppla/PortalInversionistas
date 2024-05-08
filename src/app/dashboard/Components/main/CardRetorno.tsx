@@ -20,9 +20,7 @@ function CardCompRetorno() {
     fetchData(endpoint, email, setData);
   }, [email]);
 
-  let retorno = data
-    ? "$ " + data.retorno.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    : "";
+  let retorno = data ? "$ " + data.retorno.toLocaleString() : "";
 
   return CardCompBox("Retorno total a la fecha", retorno);
 }

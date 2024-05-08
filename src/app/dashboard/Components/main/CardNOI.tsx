@@ -24,9 +24,7 @@ function CardNOI() {
   }, [email]);
 
   const formattedDate = data ? formatFecha(data.fecha) : "";
-  const noi = data
-    ? "$ " + data.noi.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    : "";
+  const noi = data ? "$ " + data.noi.toLocaleString() : "";
 
   return CardCompDateBox("NOI", formattedDate, noi);
 }
