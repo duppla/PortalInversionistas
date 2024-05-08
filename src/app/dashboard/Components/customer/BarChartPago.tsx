@@ -15,6 +15,7 @@ import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { titleGrid, selectGrid } from "../ChartAddons";
 import { formatFecha, formatNumber, generarTicks } from "../utils";
+import { BarChartTooltip } from "../BarChartComps";
 
 const endpoint = "/clientes/comportamiento_pago";
 const tickCount: number = 5;
@@ -140,7 +141,7 @@ function BarChartPago() {
             legendOffset: -40,
             format: (value) => formatNumber(value),
           }}
-          tooltip={(point) => setTooltip(point)}
+          tooltip={(point) => BarChartTooltip(point)}
           borderRadius={4}
           borderColor={{
             from: "color",
@@ -197,29 +198,5 @@ function BarChartPago() {
     </div>
   );
 }
-
-const setTooltip = (point: any) => {
-  if (typeof point.data.fecha === "string") {
-    const formattedDate = formatFecha(point.data.fecha);
-    const formattedValue = formatNumber(Number(point.data[point.id]), 1);
-
-    return (
-      <div
-        style={{
-          background: "black",
-          padding: "8px",
-          borderRadius: "4px",
-          color: "white",
-        }}
-      >
-        <strong>{formattedDate}</strong>
-        <div>
-          {point.id}: {formattedValue}
-        </div>
-      </div>
-    );
-  }
-  return null;
-};
 
 export default BarChartPago;

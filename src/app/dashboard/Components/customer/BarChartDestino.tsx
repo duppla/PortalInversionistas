@@ -16,6 +16,7 @@ import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { formatFecha, formatNumber, generarTicks } from "../utils";
 import { titleGrid, selectGrid } from "../ChartAddons";
+import { BarChartTooltip } from "../BarChartComps";
 
 const endpoint = "/clientes/destino_pagos";
 const tickCount: number = 5;
@@ -136,7 +137,7 @@ function BarChartDestino() {
             },
           }}
           groupMode="stacked"
-          tooltip={(point) => setTooltip(point)}
+          tooltip={(point) => BarChartTooltip(point)}
           borderRadius={4}
           borderColor={{
             from: "color",
@@ -210,29 +211,5 @@ function BarChartDestino() {
     </div>
   );
 }
-
-const setTooltip = (point: any) => {
-  if (typeof point.data.fecha === "string") {
-    const formattedDate = formatFecha(point.data.fecha);
-    const formattedValue = formatNumber(Number(point.data[point.id]), 1);
-
-    return (
-      <div
-        style={{
-          background: "black",
-          padding: "8px",
-          borderRadius: "4px",
-          color: "white",
-        }}
-      >
-        <strong>{formattedDate}</strong>
-        <div>
-          {point.id}: {formattedValue}
-        </div>
-      </div>
-    );
-  }
-  return null;
-};
 
 export default BarChartDestino;
