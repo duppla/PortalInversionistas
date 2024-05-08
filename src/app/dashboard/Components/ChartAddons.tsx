@@ -107,7 +107,7 @@ export function setExplanationText(explanationText: string) {
           sx={{
             color: "#757575",
             fill: "#757575",
-            marginTop: "21px",
+            marginTop: 1.5,
             height: "12px",
             width: "12px",
             marginLeft: "10px",

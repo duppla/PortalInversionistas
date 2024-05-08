@@ -36,6 +36,7 @@ type RentabilidadPortafolio = {
 
 const LineChartRentabilidad = () => {
   const email = getEmail();
+
   const [data, setData] = useState<RentabilidadPortafolio>();
   const [key, setKey] = useState<keyof RentabilidadPortafolio>("ult_12_meses");
 

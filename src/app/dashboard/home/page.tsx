@@ -13,6 +13,7 @@ import CardNOI from "../Components/main/CardNOI";
 import CardMorosidad from "../Components/main/CardMorosidad";
 import CardAdelanto from "../Components/main/CardAdelanto";
 import LineChartRentabilidad from "../Components/main/LineChartRentabilidad";
+import { chartBlocks } from "./ChartBlocks";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
@@ -54,7 +55,7 @@ const Page = () => {
             container
             className="size-card-main"
             sx={{
-              marginTop: "10px",
+              mb: 5,
               display: "flex",
               justifyContent: "center",
               justifyItems: "center",
@@ -76,102 +77,9 @@ const Page = () => {
               <CardRetorno />
             </Grid>
           </Grid>
-          {/* Componente P*/}
-          <Grid
-            container
-            sx={{
-              marginTop: "40px",
-              display: "flex",
-              justifyContent: "center",
-              justifyItems: "center",
-              width: "100%",
-              height: "305px",
-              backgroundColor: "#212126",
-              borderRadius: "20px",
-              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-            }}
-          >
-            {/*Grafica principal-datos del inmueble  A2*/}
-            <Grid
-              className=""
-              xs={12}
-              sm={12}
-              md={10}
-              lg={10}
-              sx={{
-                width: "100%",
-                height: "305px",
-                backgroundColor: "#212126",
-                borderRadius: "20px",
-              }}
-            >
-              <LineChartRentabilidad />
-            </Grid>
-          </Grid>
-          {/* Componente A y A1 */}
-          <Grid
-            container
-            sx={{
-              marginTop: "40px",
-              display: "flex",
-              justifyContent: "center",
-              justifyItems: "center",
-              width: "100%",
-
-              backgroundColor: "#212126",
-              borderRadius: "20px",
-            }}
-          >
-            {/*Grafica principal-datos del inmueble*/}
-            <Grid
-              className=""
-              xs={12}
-              sm={12}
-              md={10}
-              lg={10}
-              sx={{
-                width: "auto",
-                height: "440px",
-                borderRadius: "20px",
-
-                mb: 2,
-              }}
-            >
-              <BarChartFlujos />
-            </Grid>
-          </Grid>
-          {/* Componente E*/}
-          <Grid
-            container
-            sx={{
-              marginTop: "40px",
-              display: "flex",
-              justifyContent: "center",
-              justifyItems: "center",
-              width: "100%",
-              height: "440px",
-              backgroundColor: "#212126",
-              borderRadius: "20px",
-              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-            }}
-          >
-            {/*Grafica principal-datos del inmueble  A2*/}
-            <Grid
-              className=""
-              xs={12}
-              sm={12}
-              md={10}
-              lg={10}
-              sx={{
-                width: "100%",
-                height: "440px",
-                backgroundColor: "#212126",
-                borderRadius: "20px",
-              }}
-            >
-              <BarChartPropiedad />
-            </Grid>
-          </Grid>
+          {chartBlocks(<LineChartRentabilidad />, 305, 305)}
+          {chartBlocks(<BarChartFlujos />, 440, 440)}
+          {chartBlocks(<BarChartPropiedad />, 460, 460)}
           {/* componente F*/}
           <Grid
             container
