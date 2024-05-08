@@ -55,7 +55,7 @@ const SankeyChartPyG = () => {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            {titleGrid("Pérdidas y Ganancias portafolio")}
+            {titleGrid("Pérdidas y Ganancias portafolio", "", 2, 1)}
             <Grid xs={6} md={6} lg={6} sx={{ textAlign: "end" }}></Grid>
           </Grid>
         </FormControl>

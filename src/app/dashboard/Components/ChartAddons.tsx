@@ -10,9 +10,14 @@ import { Typography, Select, MenuItem } from "@mui/material";
 // custom imports
 import { changeArrow } from "./utils";
 
-export function titleGrid(title: string, explainText: string = "") {
+export function titleGrid(
+  title: string,
+  explainText: string = "",
+  mt: number = 0,
+  mb: number = 0
+) {
   return (
-    <Grid xs={6} md={6} lg={6}>
+    <Grid xs={6} md={6} lg={6} sx={{ mt: mt, mb: mb }}>
       <Grid container>
         <Grid xs={8} sm={8} md={8} lg={8}>
           <Typography
@@ -23,7 +28,6 @@ export function titleGrid(title: string, explainText: string = "") {
               fontWeight: 300,
               color: "#ffffff",
               fontSize: "26px",
-              mt: 1,
             }}
           >
             {title}

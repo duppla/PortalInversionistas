@@ -9,173 +9,56 @@ import TablePyG from "../../../Components/property/TablePyG";
 
 const page = () => {
   return (
-    <Box sx={{ flexGrow: 1, mt: 1, ml: 1, mr: 1, borderRadius: "20px" }}>
-      {/* Sección dashborad */}
-      <Container maxWidth="xl" sx={{ mt: 2, mb: 4 }} className="">
-        {/* Componente C -Mapa*/}
-        <Grid
-          container
-          sx={{
-            marginTop: "4px",
-            display: "flex",
-            justifyContent: "center",
-            justifyItems: "center",
-            width: "100%",
-            height: "640px",
-            backgroundColor: "#212126",
-            borderRadius: "20px",
-            boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-          }}
-        >
-          {/*Grafica principal-datos del inmueble*/}
-          <Grid
-            className=""
-            xs={12}
-            sm={12}
-            md={10}
-            lg={10}
-            sx={{
-              width: "100%",
-              height: "480px",
-              borderRadius: "20px",
-              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-              mt: 2,
-            }}
-          >
-            <MapMapa />
-          </Grid>
-        </Grid>
-        {/* Componente B */}
-        <Grid
-          container
-          sx={{
-            marginTop: "40px",
-            display: "flex",
-            justifyContent: "center",
-            justifyItems: "center",
-            width: "100%",
-            height: "560px",
-            backgroundColor: "#212126",
-            borderRadius: "20px",
-            boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-          }}
-        >
-          {/*Grafica principal-datos del inmueble*/}
-          <Grid
-            className=""
-            xs={12}
-            sm={12}
-            md={10}
-            lg={10}
-            sx={{
-              width: "100%",
-              height: "460px",
-              backgroundColor: "#212126",
-              borderRadius: "20px",
-            }}
-          >
-            <LineChartValorInm />
-          </Grid>
-        </Grid>
-
-        {/* Componente J */}
-        <Grid
-          container
-          sx={{
-            marginTop: "40px",
-            display: "flex",
-            justifyContent: "center",
-            justifyItems: "center",
-            width: "100%",
-            height: "560px",
-            backgroundColor: "#212126",
-            borderRadius: "20px",
-            boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-          }}
-        >
-          <Grid
-            className=""
-            xs={12}
-            sm={12}
-            md={10}
-            lg={10}
-            sx={{
-              width: "100%",
-              /*  backgroundColor: '#9B9EAB',  */
-              borderRadius: "20px",
-              /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
-            }}
-          >
-            <SankeyChartPyG />
-          </Grid>
-        </Grid>
-
-        {/* Componente J */}
-        <Grid
-          container
-          sx={{
-            marginTop: "40px",
-            display: "flex",
-            justifyContent: "center",
-            justifyItems: "center",
-            width: "100%",
-            height: "540px",
-            backgroundColor: "#212126",
-            borderRadius: "20px",
-            boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-          }}
-        >
-          <Grid
-            className=""
-            xs={12}
-            sm={12}
-            md={10}
-            lg={10}
-            sx={{
-              width: "100%",
-              /*  backgroundColor: '#9B9EAB', */
-              borderRadius: "20px",
-              /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
-            }}
-          >
-            <TablePyG />
-          </Grid>
-        </Grid>
-        {/* Componente H */}
-        <Grid
-          /* className='size-container-h1-h2' */ container
-          sx={{
-            marginTop: "40px",
-            display: "flex",
-            justifyContent: "center",
-            justifyItems: "center",
-            backgroundColor: "#212126",
-            height: "305px",
-            borderRadius: "20px",
-          }}
-          rowSpacing={2}
-          gap={12.6}
-          columnSpacing={{ md: 1, lg: 1 }}
-        >
-          <Grid
-            className=""
-            xs={12}
-            sm={12}
-            md={10}
-            lg={10}
-            sx={{
-              width: "100%",
-              /*  backgroundColor: '#9B9EAB', */
-              borderRadius: "20px",
-              /* boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', */
-            }}
-          >
-            <LineChartUnidades />
-          </Grid>
-        </Grid>
+    <Box sx={{ flexGrow: 1, mt: 0, ml: 1, mr: 1, borderRadius: "20px" }}>
+      <Container maxWidth="xl" sx={{ mt: 0, mb: 0 }} className="">
+        {chartBlocks(<MapMapa />, 640, 460, 2)}
+        {chartBlocks(<LineChartValorInm />, 520)}
+        {chartBlocks(<SankeyChartPyG />, 560)}
+        {chartBlocks(<TablePyG />, 460)}
+        {chartBlocks(<LineChartUnidades />, 300, 300)}
       </Container>
     </Box>
   );
 };
-
 export default page;
+
+function chartBlocks(
+  element: JSX.Element,
+  height_container: number = 560,
+  height_element: number = 460,
+  mt: number = 0
+) {
+  return (
+    <Grid
+      container
+      sx={{
+        marginTop: "60px",
+        display: "flex",
+        justifyContent: "center",
+        justifyItems: "center",
+        width: "100%",
+        height: height_container,
+        backgroundColor: "#212126",
+        borderRadius: "20px",
+        boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+      }}
+    >
+      <Grid
+        className=""
+        xs={12}
+        sm={12}
+        md={10}
+        lg={10}
+        sx={{
+          width: "100%",
+          height: height_element,
+          backgroundColor: "#212126",
+          borderRadius: "20px",
+          mt: mt,
+        }}
+      >
+        {element}
+      </Grid>
+    </Grid>
+  );
+}

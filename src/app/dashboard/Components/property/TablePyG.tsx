@@ -52,7 +52,7 @@ export default function TablePyG() {
             alignItems="center"
             sx={{ borderBottom: "1px solid " + posColor }}
           >
-            {titleGrid("Perdidas y Ganancias portafolio")}
+            {titleGrid("Perdidas y Ganancias portafolio", "", 2, 1)}
           </Grid>
         </FormControl>
       </div>
