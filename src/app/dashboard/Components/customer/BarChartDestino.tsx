@@ -12,7 +12,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { ResponsiveBar } from "@nivo/bar";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { formatFecha, formatNumber, generarTicks } from "../utils";
 import { titleGrid, selectGrid } from "../ChartAddons";
@@ -50,17 +50,7 @@ function BarChartDestino() {
   const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      if (responseData) {
-        setData(responseData);
-      }
-    };
-
-    if (email) {
-      fetchData();
-    }
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   /* Función para actualizar la selección del usuario */

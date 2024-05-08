@@ -11,7 +11,7 @@ import { FormControl } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { titleGrid, selectGrid } from "../ChartAddons";
 import { formatFecha, generarTicks, setTooltipLine } from "../utils";
@@ -45,19 +45,7 @@ const LineChartUnidades = () => {
   const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: email }));
-        const responseData = await response.json();
-        if (responseData) {
-          setData(responseData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   let formattedData: UnidadesFront[] = [];

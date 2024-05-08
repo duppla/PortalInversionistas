@@ -11,7 +11,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { ResponsiveBar } from "@nivo/bar";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { titleGrid, selectGrid } from "../ChartAddons";
 import { formatFecha, formatNumber, generarTicks } from "../utils";
@@ -47,22 +47,7 @@ function BarChartPago() {
   const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: email }));
-
-        const responseData = await response.json();
-        if (responseData) {
-          setData(responseData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    if (email) {
-      fetchData();
-    }
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   let formattedData: CompPagoFront[] = [];

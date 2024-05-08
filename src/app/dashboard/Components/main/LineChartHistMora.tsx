@@ -8,7 +8,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { FormControl } from "@mui/material";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { generarTicks } from "../utils";
 import { titleGrid, selectGrid } from "../ChartAddons";
@@ -43,15 +43,7 @@ function LineChartHistMora() {
   const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      if (responseData) {
-        setData(responseData);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   useEffect(() => {

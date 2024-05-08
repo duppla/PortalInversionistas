@@ -10,7 +10,7 @@ import { FormControl } from "@mui/material";
 import { PieTooltipProps, ResponsivePie } from "@nivo/pie";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { titleGrid } from "../ChartAddons";
 import { formatNumber } from "../utils";
@@ -41,19 +41,7 @@ const PieChartOwnership = () => {
   const [data, setData] = useState<Ownership>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: email }));
-        const responseData = await response.json();
-        if (responseData) {
-          setData(responseData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   let formattedData: OwnershipFront[] = [];

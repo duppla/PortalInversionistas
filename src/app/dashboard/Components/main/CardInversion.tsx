@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { CardCompBox } from "../CardComps";
 
@@ -14,22 +14,11 @@ type Inversion = {
 };
 function CardInversion() {
   const email = getEmail();
-  const [data, setData] = useState<Inversion | null>(null);
+
+  const [data, setData] = useState<Inversion>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: email }));
-        const responseData = await response.json();
-        if (responseData) {
-          setData(responseData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   const monto_inversion = data

@@ -10,7 +10,7 @@ import { Button, Stack } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { formatNumber } from "../utils";
 
@@ -48,19 +48,7 @@ function MapMapa() {
   const [city, setCity] = useState<number>(0);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: email }));
-        const responseData = await response.json();
-        if (responseData) {
-          setData(responseData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   let locations: HooverMapa[] = [];

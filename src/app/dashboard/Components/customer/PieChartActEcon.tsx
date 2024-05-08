@@ -10,7 +10,7 @@ import { FormControl } from "@mui/material";
 import { PieTooltipProps, ResponsivePie } from "@nivo/pie";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { titleGrid } from "../ChartAddons";
 import { formatNumber } from "../utils";
@@ -36,15 +36,7 @@ function PieChatActEcon() {
   const [data, setData] = useState<ActividadEconomica[]>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      if (responseData) {
-        setData(responseData);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   let formattedData: ActividadEconomicaFront[] = [];

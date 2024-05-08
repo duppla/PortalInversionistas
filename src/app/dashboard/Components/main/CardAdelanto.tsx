@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { formatFecha } from "../utils";
 import { CardCompDateBox } from "../CardComps";
@@ -20,19 +20,7 @@ function CardAdelanto() {
   const [data, setData] = useState<Adelanto>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(getApiUrl(endpoint, { email: email }));
-        const responseData = await response.json();
-        if (responseData) {
-          setData(responseData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   const formattedDate = data ? formatFecha(data.fecha) : "";

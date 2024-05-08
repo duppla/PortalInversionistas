@@ -8,7 +8,7 @@ import { FormControl } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { LineChart } from "../LineChartComps";
 import { generarTicks } from "../utils";
@@ -43,15 +43,7 @@ const LineChartRentabilidad = () => {
   const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      if (responseData) {
-        setData(responseData);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   useEffect(() => {

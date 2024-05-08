@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { CardCompBox } from "../CardComps";
 import { formatNumber } from "../utils";
@@ -19,15 +19,7 @@ function CardParticipacion() {
   const [data, setData] = useState<Participacion>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      if (responseData) {
-        setData(responseData);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   let porcentaje = data?.participacion_adquirida;

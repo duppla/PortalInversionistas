@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { formatFecha } from "../utils";
 import { CardCompDateBox } from "../CardComps";
@@ -20,15 +20,7 @@ function CardMorosidad() {
   const [data, setData] = useState<Morosidad>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      if (responseData) {
-        setData(responseData);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   const morosidad = data ? (data.tasa_morosidad * 100).toFixed(1) + "%" : "";

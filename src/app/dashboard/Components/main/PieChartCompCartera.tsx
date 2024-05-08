@@ -10,7 +10,7 @@ import { Typography, FormControl } from "@mui/material";
 import { PieTooltipProps, ResponsivePie } from "@nivo/pie";
 
 // custom imports
-import getApiUrl from "../../../url/ApiConfig";
+import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { formatNumber } from "../utils";
 import { titleGrid } from "../ChartAddons";
@@ -38,15 +38,7 @@ function PieChartCompCartera() {
   const [data, setData] = useState<CarteraMora>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(getApiUrl(endpoint, { email: email }));
-      const responseData = await response.json();
-      if (responseData) {
-        setData(responseData);
-      }
-    };
-
-    fetchData();
+    fetchData(endpoint, email, setData);
   }, [email]);
 
   let formattedData: FormatoFront[] = [];
