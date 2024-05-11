@@ -182,6 +182,10 @@ export function calculateAxisValues(
   tickIni: number,
   tickCount: number = 5
 ): number[] {
+  if (maxValue === 0) {
+    return [0, 1];
+  }
+
   let count = 0;
   let tickStep = tickIni;
   let mult = tickIni / 10;
