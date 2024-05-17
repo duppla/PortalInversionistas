@@ -18,7 +18,6 @@ function Layout({ children }: { readonly children: ReactNode }) {
             height: "100vh",
           }}
         >
-          {/*Nabvar fixed Mui*/}
           <Navbar />
           {/*----------------------------visualización dashboard-------------------------------------------- */}
           <Box
@@ -35,7 +34,7 @@ function Layout({ children }: { readonly children: ReactNode }) {
               <Container maxWidth="xl" sx={{ mt: 4, mb: 2 }} className="">
                 <Container maxWidth="xl" sx={{ mt: 4 }}>
                   <Grid container spacing={1}>
-                    {/*Segunda columna principal*/}
+                    {/*Primera columna vacía*/}
                     <Grid item xs={12} sm={12} md={6} lg={6}></Grid>
                     {/*Segunda columna principal*/}
                     <Grid
@@ -56,86 +55,12 @@ function Layout({ children }: { readonly children: ReactNode }) {
                         spacing={1}
                         sx={{ justifyContent: "flex-end" }}
                       >
-                        <Link href="/dashboard/home">
-                          <Button
-                            variant="outlined"
-                            sx={{
-                              backgroundColor: "#212126",
-                              color: "#ffffff",
-                              fontFamily: "Rustica",
-                              fontStyle: "normal",
-                              fontWeight: "400",
-                              fontSize: "16px",
-                              textTransform: "none",
-                              width: "200px",
-                              borderColor: "#5682F2",
-                              "&:hover": {
-                                backgroundColor: "#3158A3", // Cambia el fondo al pasar el mouse
-                                borderColor: "#3158A3", // Cambia el borde al pasar el mouse
-                              },
-                              "&.Mui-disabled": {
-                                color: "#9A9A9A",
-                                backgroundColor: "#6C9FFF",
-                              },
-                            }}
-                          >
-                            Dashboard principal
-                          </Button>
-                        </Link>
-                        <Link href="/dashboard/home/institucionalInvestors/property">
-                          <Button
-                            variant="outlined"
-                            sx={{
-                              backgroundColor: "#212126",
-                              color: "#ffffff",
-                              fontFamily: "Rustica",
-                              fontStyle: "normal",
-                              fontWeight: "400",
-                              fontSize: "16px",
-                              textTransform: "none",
-                              width: "120px",
-                              borderColor: "#5682F2",
-                              "&:hover": {
-                                backgroundColor: "#3158A3", // Cambia el fondo al pasar el mouse
-                                borderColor: "#3158A3", // Cambia el borde al pasar el mouse
-                              },
-                              "&.Mui-disabled": {
-                                color: "#9A9A9A",
-                                backgroundColor: "#6C9FFF",
-                                // Letra blanca cuando está deshabilitado
-                              },
-                            }}
-                          >
-                            Inmuebles
-                          </Button>
-                        </Link>
-                        <Link href="/dashboard/home/institucionalInvestors/customer">
-                          <Button
-                            variant="outlined"
-                            sx={{
-                              backgroundColor: "#212126",
-                              color: "#ffffff",
-                              fontFamily: "Rustica",
-                              fontStyle: "normal",
-                              fontWeight: "400",
-                              fontSize: "16px",
-                              textTransform: "none",
-                              width: "120px",
-                              borderColor: "#5682F2",
-                              "&:hover": {
-                                backgroundColor: "#3158A3", // Cambia el fondo al pasar el mouse
-                                borderColor: "#3158A3", // Cambia el borde al pasar el mouse
-                              },
-                              "&.Mui-disabled": {
-                                color: "#9A9A9A",
-                                backgroundColor: "#6C9FFF",
-                                // Letra blanca cuando está deshabilitado
-                              },
-                            }}
-                          >
-                            Clientes
-                          </Button>
-                        </Link>
+                        {botonDashboard(
+                          "Dashboard principal",
+                          "/dashboard/principal"
+                        )}
+                        {botonDashboard("Inmuebles", "/dashboard/property")}
+                        {botonDashboard("Clientes", "/dashboard/customer")}
                       </Stack>
                     </Grid>
                   </Grid>
@@ -151,3 +76,34 @@ function Layout({ children }: { readonly children: ReactNode }) {
 }
 
 export default Layout;
+
+function botonDashboard(texto: string, link: string) {
+  return (
+    <Link href={link}>
+      <Button
+        variant="outlined"
+        sx={{
+          backgroundColor: "#212126",
+          color: "#ffffff",
+          fontFamily: "Rustica",
+          fontStyle: "normal",
+          fontWeight: "400",
+          fontSize: "16px",
+          textTransform: "none",
+          borderColor: "#5682F2",
+          "&:hover": {
+            backgroundColor: "#3158A3", // Cambia el fondo al pasar el mouse
+            borderColor: "#3158A3", // Cambia el borde al pasar el mouse
+          },
+          "&.Mui-disabled": {
+            color: "#9A9A9A",
+            backgroundColor: "#6C9FFF",
+            // Letra blanca cuando está deshabilitado
+          },
+        }}
+      >
+        {texto}
+      </Button>
+    </Link>
+  );
+}

@@ -49,7 +49,7 @@ export default function Home() {
     password: "",
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handleChange = ({
     target: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,53 +61,28 @@ export default function Home() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    setIsLoading(true);
+    setLoading(true);
+
     try {
       await login(datos.email, datos.password);
-      setIsLoading(false);
-      navigate.push("/dashboard/home");
+      navigate.push("/dashboard/principal");
+      setLoading(false);
     } catch (error) {
-      setIsLoading(false);
-      if (
-        error instanceof Error &&
-        "code" in error &&
-        typeof error.code === "string"
-      ) {
-        if (error.code === "auth/user-not-found") {
-          swal({
-            text: "El usuario no se encuentra registrado",
-            icon: "info",
-            buttons: ["Cerrar"],
-            timer: 5000,
-          });
-        } else if (
-          error.code === "auth/invalid-credential" ||
-          error.code === "auth/invalid-login-credentials"
-        ) {
-          swal({
-            text: "La contraseña o correo es incorrecto, intente nuevamente",
-            icon: "info",
-            buttons: ["Cerrar"],
-            timer: 5000,
-          });
-        } else if (error.code === "auth/invalid-email") {
-          swal({
-            text: "Ingrese datos validos",
-            icon: "info",
-            buttons: ["Cerrar"],
-            timer: 5000,
-          });
-        } else if (error.code === "auth/missing-password") {
-          swal({
-            text: "Contraseña requerida, intente nuevamente",
-            icon: "info",
-            buttons: ["Cerrar"],
-            timer: 5000,
-          });
+      if (error instanceof Error && "code" in error) {
+        const code = error.code as string;
+        if (errorUsuarioNoRegistrado.includes(code)) {
+          alert_error("El usuario no se encuentra registrado");
+        } else if (errorCredenciales.includes(code)) {
+          alert_error("El correo y/o la contraseña son incorrectos");
+        } else if (errorEmailInvalido.includes(code)) {
+          alert_error("El correo ingresado no es válido");
+        } else if (errorMissingPassword.includes(code)) {
+          alert_error("La contraseña es requerida");
         } else {
           console.error("Error de autenticación:", error);
         }
       }
+      setLoading(false);
     }
   };
 
@@ -218,7 +193,7 @@ export default function Home() {
               type="submit"
               fullWidth
               variant="contained"
-              disabled={isLoading}
+              disabled={loading}
               sx={{
                 marginTop: "40px",
                 mb: 2,
@@ -230,7 +205,7 @@ export default function Home() {
                 fontWeight: "400",
               }}
             >
-              {isLoading ? (
+              {loading ? (
                 <ContentLoader
                   speed={2}
                   width={89}
@@ -252,3 +227,20 @@ export default function Home() {
     </ThemeProvider>
   );
 }
+
+function alert_error(text: string) {
+  return swal({
+    text: text,
+    icon: "info",
+    buttons: ["Cerrar"],
+    timer: 5000,
+  });
+}
+
+const errorCredenciales: string[] = [
+  "auth/invalid-credential",
+  "auth/invalid-login-credentials",
+];
+const errorUsuarioNoRegistrado: string[] = ["auth/user-not-found"];
+const errorEmailInvalido: string[] = ["auth/invalid-email"];
+const errorMissingPassword: string[] = ["auth/missing-password"];

@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import { Container, Box } from "@mui/material";
-import LineChartValorInm from "../../../Components/property/LineChartValorInm";
-import LineChartUnidades from "../../../Components/property/LineChartUnidades";
-import MapMapa from "../../../Components/property/MapMapa";
-import SankeyChartPyG from "../../../Components/property/SankeyChartPyG";
-import TablePyG from "../../../Components/property/TablePyG";
-import { chartBlocks } from "../../ChartBlocks";
+import LineChartValorInm from "../Components/property/LineChartValorInm";
+import LineChartUnidades from "../Components/property/LineChartUnidades";
+import MapMapa from "../Components/property/MapMapa";
+import SankeyChartPyG from "../Components/property/SankeyChartPyG";
+import TablePyG from "../Components/property/TablePyG";
+import { chartBlocks } from "../Components/ChartBlocks";
 
 const page = () => {
   return (

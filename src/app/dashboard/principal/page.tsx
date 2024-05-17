@@ -13,7 +13,7 @@ import CardNOI from "../Components/main/CardNOI";
 import CardMorosidad from "../Components/main/CardMorosidad";
 import CardAdelanto from "../Components/main/CardAdelanto";
 import LineChartRentabilidad from "../Components/main/LineChartRentabilidad";
-import { chartBlocks } from "./ChartBlocks";
+import { chartBlocks } from "../Components/ChartBlocks";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 

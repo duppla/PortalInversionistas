@@ -54,7 +54,7 @@ function ResponsiveAppBar() {
               margin: "0px",
             }}
           >
-            <Link href="/dashboard/home">
+            <Link href="/dashboard/principal">
               <Image
                 src={LogoInversionistas}
                 alt="Inversionistas logo"

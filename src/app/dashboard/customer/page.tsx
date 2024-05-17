@@ -6,7 +6,7 @@ import PieChartOwnership from "@/app/dashboard/Components/customer/PieChartOwner
 import BarChartPago from "@/app/dashboard/Components/customer/BarChartPago";
 import BarChartDestino from "@/app/dashboard/Components/customer/BarChartDestino";
 import StreamChartScore from "@/app/dashboard/Components/customer/StreamChartScore";
-import { chartBlocks } from "../../ChartBlocks";
+import { chartBlocks } from "../Components/ChartBlocks";
 
 const Customer = () => {
   let isLargeScreenK = useMediaQuery("min-width: 1200px");
