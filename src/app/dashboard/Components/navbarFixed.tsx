@@ -17,8 +17,6 @@ import SettingDupplaMenu from "./../../../img/setting-icon.svg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const settings = ["Cerrar Sesión"];
-
 function ResponsiveAppBar() {
   const { logout } = useAuth();
   const navigate = useRouter();
@@ -27,6 +25,7 @@ function ResponsiveAppBar() {
 
   const handleOpenUserMenu = (event: any) => {
     setAnchorElUser(event.currentTarget);
+    console.log(event.currentTarget);
   };
 
   const handleLogout = () => {
@@ -67,17 +66,8 @@ function ResponsiveAppBar() {
             </Link>
           </Container>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
-
-          <Box
-            /* className= 'icon-setting-navbar' */ sx={{
-              position: "absolute",
-              right: 0,
-              mt: 6,
-              mr: 1,
-            }}
-          >
-            <Tooltip title="Open settings">
+          <Box sx={{ position: "absolute", right: 0, mt: 6, mr: 1 }}>
+            <Tooltip title="Abrir configuración">
               <IconButton
                 onClick={handleOpenUserMenu}
                 className=""
@@ -92,26 +82,20 @@ function ResponsiveAppBar() {
                 />
               </IconButton>
             </Tooltip>
-            <Box
-              sx={{
-                mt: "45px",
-              }}
-            >
+            <Box sx={{ mt: "45px" }}>
               <Menu
                 id="menu-appbar"
-                anchorEl={anchorElUser}
+                anchorEl={anchorElUser} //la referencia para la posicion
                 anchorOrigin={{
-                  vertical: "top",
+                  vertical: "bottom",
                   horizontal: "right",
                 }}
-                keepMounted
                 transformOrigin={{
                   vertical: "top",
                   horizontal: "right",
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
-                sx={{ mt: "45px" }}
                 slotProps={{
                   paper: {
                     sx: {
@@ -122,26 +106,14 @@ function ResponsiveAppBar() {
                   },
                 }}
               >
-                {settings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={
-                      setting === "Cerrar Sesión"
-                        ? handleLogout
-                        : handleCloseUserMenu
-                    }
+                <MenuItem key={"Cerrar Sesión"} onClick={handleLogout}>
+                  <Typography
+                    sx={{ fontFamily: "Rustica", color: "#ffffff" }}
+                    textAlign="center"
                   >
-                    <Typography
-                      sx={{
-                        fontFamily: "Rustica",
-                        color: "#ffffff" /* fontSize:'26px', mt:2 */,
-                      }}
-                      textAlign="center"
-                    >
-                      {setting}
-                    </Typography>
-                  </MenuItem>
-                ))}
+                    {"Cerrar Sesión"}
+                  </Typography>
+                </MenuItem>
               </Menu>
             </Box>
           </Box>
