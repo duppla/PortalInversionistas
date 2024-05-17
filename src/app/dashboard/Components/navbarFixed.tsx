@@ -15,11 +15,13 @@ import Image from "next/image";
 import LogoInversionistas from "./../../../img/logoinversionistas.svg";
 import SettingDupplaMenu from "./../../../img/setting-icon.svg";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const settings = ["Cerrar Sesión"];
 
 function ResponsiveAppBar() {
   const { logout } = useAuth();
+  const navigate = useRouter();
 
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -30,6 +32,7 @@ function ResponsiveAppBar() {
   const handleLogout = () => {
     logout(); // Llama a la función de logout desde el contexto
     handleCloseUserMenu(); // Cierra el menú después de cerrar sesión
+    navigate.push("/"); // Redirecciona a la página de inicio
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -108,10 +111,7 @@ function ResponsiveAppBar() {
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
-                sx={{
-                  // Fondo del menú
-                  mt: "45px",
-                }}
+                sx={{ mt: "45px" }}
                 slotProps={{
                   paper: {
                     sx: {
