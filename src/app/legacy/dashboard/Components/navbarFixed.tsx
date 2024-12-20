@@ -12,8 +12,8 @@ import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
-import LogoInversionistas from "./../../../img/logoinversionistas.svg";
-import SettingDupplaMenu from "./../../../img/setting-icon.svg";
+import LogoInversionistas from "../../../../img/logoinversionistas.svg";
+import SettingDupplaMenu from "../../../../img/setting-icon.svg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

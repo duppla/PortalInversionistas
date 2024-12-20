@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import { Grid, Container, Box, useMediaQuery } from "@mui/material";
-import PieChartActEcon from "@/app/dashboard/Components/customer/PieChartActEcon";
-import PieChartOwnership from "@/app/dashboard/Components/customer/PieChartOwnership";
-import BarChartPago from "@/app/dashboard/Components/customer/BarChartPago";
-import BarChartDestino from "@/app/dashboard/Components/customer/BarChartDestino";
-import StreamChartScore from "@/app/dashboard/Components/customer/StreamChartScore";
+import PieChartActEcon from "@/app/legacy/dashboard/Components/customer/PieChartActEcon";
+import PieChartOwnership from "@/app/legacy/dashboard/Components/customer/PieChartOwnership";
+import BarChartPago from "@/app/legacy/dashboard/Components/customer/BarChartPago";
+import BarChartDestino from "@/app/legacy/dashboard/Components/customer/BarChartDestino";
+import StreamChartScore from "@/app/legacy/dashboard/Components/customer/StreamChartScore";
 import { chartBlocks } from "../Components/ChartBlocks";
 
 const Customer = () => {

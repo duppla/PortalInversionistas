@@ -1,831 +1,142 @@
-:root {
-  --max-width: 1100px;
-  --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
-    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
-    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+/* styles/globals.css */
 
-  --color-verde-duppla: #c5f5ca;
-  --color-cimiento-duppla: #0a3323;
-  --color-sombra-duppla: #eeeff3;
-  --color-fondo-gris: #f9f9f9;
-  --azulDupplaOscuro: #5682f2;
-  --azulDupplaClaro: #6c9fff;
-  --naranjaDuppla: #fe864b;
-  --fondo1: #0b0b0d;
-  --fondo2: #1e1e1e;
-  --fondo3: #272727;
-  --fondo4: #272727;
-  --tipografiaPrincipal: #ffffff;
-  --tipografiaSecundaria: #b8b8b8;
-  --tipografiaDisabled: #b8b8b8;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Emoji&display=swap');
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(
-      to bottom right,
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0.3)
-    );
-
-    --tile-start-rgb: 2, 13, 46;
-    --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(
-      #ffffff80,
-      #ffffff40,
-      #ffffff30,
-      #ffffff20,
-      #ffffff10,
-      #ffffff10,
-      #ffffff80
-    );
-
-    --callout-rgb: 20, 20, 20;
-    --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 100, 100, 100;
-    --card-border-rgb: 200, 200, 200;
+    --background-1: #111827;
+    
+    --background-2: #1F2937;
+    
+    --blue-dark: #4299E1;
+    
+    --text-base: #F3F4F6;
+   
+    --text-secondary: #9CA3AF;
+    
   }
-}
-
+} */
 @font-face {
-  font-family: "Rustica";
-  src: url("../fonts/RusticaSemiLight.ttf") format("truetype");
-  font-weight: 500;
+  font-family: 'RusticaMedium';
+  src: url('./../assets/fonts/RusticaMedium.ttf') format('truetype');
+  font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Rustica";
-  src: url("../fonts/RusticaSemiLight.ttf") format("truetype");
+  font-family: 'RusticaLight';
+  src: url('./../assets/fonts/RusticaLight.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
-}
-
-@font-face {
-  font-family: "Rustica";
-  src: url("../fonts/RusticaSemiLightItalic.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "HelveticaNowText";
-  src: url("../fonts/HelveticaNowTextMedium.otf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Helvetica";
-  src: url("../fonts/HelveticaNowTextRegular.otf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 html,
 body {
-  max-width: 100vw;
   overflow-x: hidden;
 
-  background-color: var(--fondo1) !important;
 }
+
 
 body {
-  color: rgb(var(--fondo1));
-  background: linear-gradient(
-      to bottom,
+  color: var(--text-base);
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--azulDupplaOscuro))
-    )
-    rgb(var(--azulDupplaClaro));
+      var(--background-1)) var(--background-1);
 }
 
-a {
-  text-decoration: none;
+ul {
+  list-style-type: disc;
+  /* Viñeta redonda */
 }
 
-.centrado {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* sección navbar */
-
-.colorBackgroundPrincipal {
-  background: radial-gradient(
-    151.92% 127.02% at 15.32% 21.04%,
-    rgba(165, 239, 255, 0.2) 0%,
-    rgba(110, 191, 244, 0.04) 77.08%,
-    rgba(70, 144, 212, 0) 100%
-  ) !important;
-  background-size: 100%;
-  background-repeat: no-repeat;
-
-  border-bottom-left-radius: 35px;
-  border-bottom-right-radius: 35px;
-  border-bottom: 2px solid #7da0fb;
-
-  background-blend-mode: overlay, normal;
-  backdrop-filter: blur(1.5rem) !important;
-}
-
-.img-home {
-  width: 230px;
-  height: 98px;
-  margin-top: 4px;
-  margin-bottom: 2px;
-}
-
-.icon-setting-home {
-  width: 48px;
-  height: 48px;
-  margin-top: 4px;
-  margin-bottom: 2px;
-}
-
-.grafica-barcharts {
-  width: 100% !important;
-  height: 350px;
-}
-
-.grafica-barcharts-des {
-  width: 100% !important;
-  height: 480px;
-}
-
-.grafica-piecharts {
-  width: auto !important;
-  height: 320px !important;
-}
-
-.grafica-piecharts-G2 {
-  width: auto !important;
-  height: 340px !important;
-}
-
-.grafica-Linecharts {
-  width: 100%;
-  height: 230px;
-  /* O el valor que desees para pantallas más grandes */
-}
-
-.grafica-Linecharts-G {
-  width: 100%;
-  height: 230px;
-
-  /* O el valor que desees para pantallas más grandes */
-}
-
-.grafica-linecharts-b {
-  width: 100%;
-  height: 420px;
-  /* O el valor que desees para pantallas más grandes */
-}
-
-/* Estilo para los elementos text dentro del gráfico */
-.nivo-text {
-  fill: #ffffff !important;
-  /* Cambia el color del texto a blanco */
-}
-
-.ChartContainerSizeManager {
-  width: 100% !important;
-  height: 480px;
-}
-
-/* Estilos titulos componentes Dy F main */
-.title-D-F {
-  font-family: "Rustica", sans-serif !important;
+.mukta-extralight {
+  font-family: "Mukta", sans-serif;
+  font-weight: 200;
   font-style: normal;
-  color: #5682f2;
-  font-weight: 500;
-  font-size: 18px !important;
-  margin-top: -8px !important;
 }
 
-.title-dropdown-menu-container {
-  font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif;
-  font-style: normal;
-  color: #ffffff;
+.mukta-light {
+  font-family: "Mukta", sans-serif;
   font-weight: 300;
-  font-size: 22px;
+  font-style: normal;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.mukta-regular {
+  font-family: "Mukta", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
-/* Para intensificar el color de las leyendas durante el hover */
-/* Para intensificar el color de las leyendas durante el hover */
-.nivo_legend_item:hover {
-  opacity: 1 !important;
-  filter: saturate(150%) !important;
-  /* Ajusta el porcentaje según sea necesario */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
-  /* Ajusta según sea necesario */
+.mukta-medium {
+  font-family: "Mukta", sans-serif;
+  font-weight: 500;
+  font-style: normal;
 }
 
-/* Para intensificar el color de las etiquetas durante el hover */
-.nivo_sankey_labels text:hover {
-  font-size: 16px;
-  opacity: 1 !important;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
-  filter: saturate(200%);
+.mukta-semibold {
+  font-family: "Mukta", sans-serif;
+  font-weight: 600;
+  font-style: normal;
 }
 
-/* Para intensificar el color de los textos de las etiquetas dentro de la gráfica */
-.nivo_sankey_labels text {
-  filter: saturate(150%);
-  /* Ajusta el porcentaje según sea necesario */
-  font-size: 34px !important;
-  transition: font-size 0.3s ease !important;
+.mukta-bold {
+  font-family: "Mukta", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
 
-@media screen and (min-width: 300px) {
-  /* clases login */
-  .img-login-logo {
-    margin-top: 6.25rem;
-    width: 100%;
-    height: 287px;
-  }
+.mukta-extrabold {
+  font-family: "Mukta", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
 
-  .size-card-main {
-    width: 100% !important;
-    height: 780px !important;
-  }
+.noto-emoji {
+  font-family: 'Noto Emoji', sans-serif;
+}
 
-  .size-card-main-f {
-    width: 100% !important;
-    height: 780px !important;
-  }
+.rustica {
+  font-family: 'RusticaLight', sans-serif;
+  /*  font-weight: 500;  */
+}
 
-  .size-card-main-d-f {
-    width: 300 !important;
-    height: 120px !important;
-  }
+.rustica-bold {
+  font-family: 'RusticaMedium', sans-serif;
+  /*  font-weight: 500;  */
+}
 
-  .size-card-main-componentF {
-    width: 300 !important;
-    height: 140px !important;
-  }
+/* Para WebKit (Chrome, Safari) */
+input[type="range"]::-webkit-slider-thumb {
+  background-color: #3182ce;
+  /* Color azul claro */
+}
 
-  /* Responsive inmueble */
-  .size-container-h1-h2 {
-    width: 100% !important;
-    height: 980px !important;
-  }
+/* Para Mozilla (Firefox) */
+input[type="range"]::-moz-range-thumb {
+  background-color: #3182ce;
+  /* Color azul claro */
+}
 
-  /* Clase titulos sección */
-  .title-component {
-    font-family: "Rustica", sans-serif;
-    font-style: normal;
-    color: #5682f2;
-    font-weight: 500;
-    font-size: 38px;
-    margin-left: 8px !important;
+/* CheckboxFormComponent.css */
+.checked-container {
+
+  border: 0.5px solid var(--indigo-200, #C7D2FE);
+  background: var(--indigo-50, #EEF2FF);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }
 
-@media screen and (min-width: 375px) {
-  /* clases login */
-  .img-login-logo {
-    margin-top: 6.25rem;
-    width: 100% !important;
-    height: 287px;
-  }
-
-  .size-card-main {
-    width: 100% !important;
-    height: 780px !important;
-  }
-
-  .size-card-main-f {
-    width: 100% !important;
-    height: 780px !important;
-  }
-
-  .size-card-main-d-f {
-    width: 340 !important;
-    height: 120px !important;
-  }
-
-  .size-card-main-componentF {
-    width: 340 !important;
-    height: 140px !important;
-  }
-
-  /* Responsive inmueble */
-  .size-container-h1-h2 {
-    width: 100% !important;
-    height: 980px !important;
-  }
-
-  .size-container-k1-k2 {
-    width: 100% !important;
-    height: 980px !important;
-  }
-
-  /* Clase titulos sección */
-  .title-component {
-    font-family: "Rustica", sans-serif;
-    font-style: normal;
-    color: #5682f2;
-    font-weight: 500;
-    font-size: 38px;
-    margin-left: 8px !important;
-  }
-
-  .title-dropdown-menu-container {
-    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
-    font-style: normal;
-    color: #ffffff;
-    font-weight: 300;
-    font-size: 16px !important;
-  }
-
-  .container-G {
-    height: 500px !important;
-  }
-}
-
-@media screen and (min-width: 425px) {
-  /* clases login */
-  .img-login-logo {
-    margin-top: 6.25rem;
-    width: 100% !important;
-    height: 287px;
-  }
-
-  .size-card-main {
-    width: 100% !important;
-    height: 780px !important;
-  }
-
-  .size-card-main-f {
-    width: 100% !important;
-    height: 780px !important;
-  }
-
-  .size-card-main-d-f {
-    width: 340 !important;
-    height: 120px !important;
-  }
-
-  .size-card-main-componentF {
-    width: 340 !important;
-    height: 140px !important;
-  }
-
-  /* Responsive inmueble */
-  .size-container-h1-h2 {
-    width: 100% !important;
-    height: 980px !important;
-  }
-
-  .size-container-k1-k2 {
-    width: 100% !important;
-    height: 980px !important;
-  }
-
-  /* Clase titulos sección */
-  .title-component {
-    font-family: "Rustica", sans-serif;
-    font-style: normal;
-    color: #5682f2;
-    font-weight: 500;
-    font-size: 38px;
-    margin-left: 8px !important;
-  }
-
-  .title-dropdown-menu-container {
-    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
-    font-style: normal;
-    color: #ffffff;
-    font-weight: 300;
-    font-size: 18px !important;
-  }
-
-  .grafica-Linecharts-G {
-    width: 100%;
-    height: 320px;
-    /* O el valor que desees para pantallas más grandes */
-  }
-}
-
-@media screen and (min-width: 768px) {
-  /* clases login */
-  .img-login-logo {
-    margin-top: 6.25rem;
-    width: 492px !important;
-    height: 287px;
-  }
-
-  .div-center-pie {
-    position: absolute;
-    top: 47%;
-    margin-left: 2%;
-    translate: translate(-50%, -50%);
-    z-index: 1;
-  }
-
-  .size-card-main {
-    width: 100% !important;
-    height: auto !important;
-  }
-
-  .size-card-main-f {
-    width: 100% !important;
-    height: auto !important;
-  }
-
-  .size-card-main-d-f {
-    width: auto !important;
-    height: 140px !important;
-  }
-
-  .size-card-main-componentF {
-    width: 340 !important;
-    height: 160px !important;
-  }
-
-  /* Responsive inmueble */
-  .size-container-h1-h2 {
-    width: 100% !important;
-    height: 980px !important;
-  }
-
-  .size-container-k1-k2 {
-    width: 100% !important;
-    height: 980px !important;
-  }
-
-  /* Clase titulos sección */
-  .title-component {
-    font-family: "Rustica", sans-serif;
-    font-style: normal;
-    color: #5682f2;
-    font-weight: 500;
-    font-size: 38px;
-    margin-left: 16px !important;
-  }
-
-  .title-dropdown-menu-container {
-    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
-    font-style: normal;
-    color: #ffffff;
-    font-weight: 300;
-    font-size: 18px !important;
-  }
-
-  .custom-table {
-    width: 680px !important;
-    height: 480px !important;
-  }
-
-  .container-G {
-    height: 460px !important;
-  }
-}
-
-@media screen and (min-width: 1020px) {
-  /* Clases login */
-  .img-login-logo {
-    margin-top: 6.25rem;
-    width: 492px !important;
-    height: 287px;
-  }
-
-  .div-center-pie {
-    position: absolute;
-    top: 46%;
-    margin-left: -2% !important;
-    translate: translate(-50%, -50%);
-    z-index: 1;
-  }
-
-  .div-center-pie-h1 {
-    position: absolute;
-    top: 46%;
-    margin-left: -2% !important;
-    translate: translate(-50%, -50%);
-    z-index: 1;
-  }
-
-  /* Ajustes sesión main */
-  .size-card-main {
-    width: 100% !important;
-    height: 180px !important;
-  }
-
-  .size-card-main-f {
-    width: 100% !important;
-    height: 180px !important;
-  }
-
-  .size-card-main-d-f {
-    width: auto !important;
-    height: 104px !important;
-  }
-
-  .size-card-main-componentF {
-    width: 340 !important;
-    height: 120px !important;
-  }
-
-  /* Responsive inmueble */
-  .size-container-h1-h2 {
-    width: 100% !important;
-    height: 480px !important;
-  }
-
-  .size-container-k1-k2 {
-    width: 100% !important;
-    height: auto !important;
-  }
-
-  /* Clase titulos sección */
-  .title-component {
-    font-family: "Rustica", sans-serif;
-    font-style: normal;
-    color: #5682f2;
-    font-weight: 500;
-    font-size: 38px;
-    margin-left: 22px !important;
-  }
-
-  .title-dropdown-menu-container {
-    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
-    font-style: normal;
-    color: #ffffff;
-    font-weight: 300;
-    font-size: 20px !important;
-  }
-
-  .custom-table {
-    width: 900px !important;
-    height: 480px !important;
-  }
-
-  .container-G {
-    overflow-y: hidden;
-    height: 500px !important;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  /* Clases login */
-  .img-login-logo {
-    margin-top: 6.25rem;
-    width: 492px !important;
-    height: 287px;
-  }
-
-  .div-center-pie {
-    position: absolute;
-    top: 47%;
-    margin-left: 31%;
-    translate: translate(-50%, -50%);
-    z-index: 1;
-  }
-
-  .div-center-pie-h1 {
-    position: absolute;
-    top: 47%;
-    margin-left: 32% !important;
-    translate: translate(-50%, -50%);
-    z-index: 1;
-  }
-
-  /* Ajustes sesión main */
-  .size-card-main {
-    width: 100% !important;
-    height: 180px !important;
-  }
-
-  .size-card-main-f {
-    width: 100% !important;
-    height: 180px !important;
-  }
-
-  .size-card-main-d-f {
-    width: 440 !important;
-    height: 100px !important;
-  }
-
-  .size-card-main-componentF {
-    width: 440 !important;
-    height: 120px !important;
-  }
-
-  /* Responsive inmueble */
-  .size-container-h1-h2 {
-    width: 100% !important;
-    height: 480px !important;
-  }
-
-  .size-container-k1-k2 {
-    width: 100% !important;
-    height: auto !important;
-  }
-
-  /* Clase titulos sección */
-  .title-component {
-    font-family: "Rustica", sans-serif;
-    font-style: normal;
-    color: #5682f2;
-    font-weight: 500;
-    font-size: 38px;
-    margin-left: 30px !important;
-  }
-
-  .title-dropdown-menu-container {
-    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
-    font-style: normal;
-    color: #ffffff;
-    font-weight: 300;
-    font-size: 20px !important;
-  }
-
-  .custom-table {
-    width: 1080px !important;
-    height: 480px !important;
-  }
-
-  .container-G {
-    height: 420px !important;
-  }
-}
-
-@media screen and (min-width: 1600px) {
-  /* Clases login */
-  .img-login-logo {
-    margin-top: 6.25rem;
-    width: 492px !important;
-    height: 287px;
-  }
-
-  .div-center-pie {
-    position: absolute;
-    top: 47%;
-    margin-left: 0% !important;
-    translate: translate(-50%, -50%);
-    z-index: 1;
-  }
-
-  .div-center-pie-h1 {
-    position: absolute;
-    top: 47%;
-    margin-left: 34% !important;
-    translate: translate(-50%, -50%);
-    z-index: 1;
-  }
-
-  .icon-setting-navbar {
-    margin-top: 4px;
-    margin-bottom: 2px;
-    margin-left: 620px !important;
-  }
-
-  /* Ajustes sesión main */
-  /* Ajustes sesión main */
-  .size-card-main {
-    width: 100% !important;
-    height: 140px !important;
-  }
-
-  .size-card-main-f {
-    width: 100% !important;
-    height: 160px !important;
-  }
-
-  .size-card-main-d-f {
-    width: 440 !important;
-    height: 100px !important;
-  }
-
-  .size-card-main-componentF {
-    width: 440 !important;
-    height: 120px !important;
-  }
-
-  /* Responsive inmueble */
-  .size-container-h1-h2 {
-    width: 100% !important;
-    height: 480px !important;
-  }
-
-  .size-container-k1-k2 {
-    width: 100% !important;
-    height: 360px !important;
-  }
-
-  /* Clase titulos sección */
-  .title-component {
-    font-family: "Rustica", sans-serif;
-    font-style: normal;
-    color: #5682f2;
-    font-weight: 500;
-    font-size: 38px;
-    margin-left: 205px !important;
-  }
-
-  .title-dropdown-menu-container {
-    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
-    font-style: normal;
-    color: #ffffff;
-    font-weight: 300;
-    font-size: 20px !important;
-  }
-
-  .custom-table {
-    width: 1240px !important;
-    height: 480px !important;
-  }
-}
-
-@media screen and (min-width: 2200px) {
-  /* Clases login */
-  .img-login-logo {
-    margin-top: 6.25rem;
-    width: 492px !important;
-    height: 287px;
-  }
-
-  .icon-setting-navbar {
-    margin-top: 4px;
-    margin-bottom: 2px;
-    margin-left: 1060px !important;
-  }
-
-  /* Ajustes sesión main */
-  .size-card-main {
-    width: 100% !important;
-    height: 140px !important;
-  }
-
-  .size-card-main-f {
-    width: 100% !important;
-    height: 160px !important;
-  }
-
-  .size-card-main-d-f {
-    width: 440 !important;
-    height: 100px !important;
-  }
-
-  .size-card-main-componentF {
-    width: 440 !important;
-    height: 120px !important;
-  }
-
-  /* Responsive inmueble */
-  .size-container-h1-h2 {
-    width: 100% !important;
-    height: 480px !important;
-  }
-
-  /* Responsive inmueble */
-  .size-container-k1-k2 {
-    width: 100% !important;
-    height: 360px !important;
-  }
-
-  /* Clase titulos sección */
-  .title-component {
-    font-family: "Rustica", sans-serif;
-    font-style: normal;
-    color: #5682f2;
-    font-weight: 500;
-    font-size: 38px;
-    margin-left: 382px !important;
-  }
-
-  .title-dropdown-menu-container {
-    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif !important;
-    font-style: normal;
-    color: #ffffff;
-    font-weight: 300;
-    font-size: 22px !important;
-  }
-
-  .custom-table {
-    width: 1280px !important;
-    height: 480px !important;
-  }
+.login-container {
+  background: linear-gradient(180deg, #FFF 0%, #D4E0FF 100%) !important;
+  height: 100vh !important;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
