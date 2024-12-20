@@ -2,7 +2,6 @@
 import Navbar from "./Components/navbar";
 import Link from "next/link";
 import Button from "./Components/button";
-import Image from "next/image";
 import Card from "./Components/card";
 
 export default function Home() {
@@ -22,9 +21,11 @@ export default function Home() {
   return (
     <main className="flex w-full flex-col items-center justify-between absolute">
       <Navbar hero={hero}>
-        <Link href="/saber-mas">Simulador</Link>
-        <Link href="/saber-mas">Contacto</Link>
-        <Button id={"login"} onClick={() => { }}>Login</Button>
+        <Link href="/saber-mas" className="hover:underline">Simulador</Link>
+        <Link href="/saber-mas" className="hover:underline">Registrarse</Link>
+        <Link href="/legacy">
+          <Button id={"login"} onClick={() => { }}>Ingresar</Button>
+        </Link>
       </Navbar>
       <div className="container mx-auto p-4 my-10 text-center text-sonador">
         <h3 className="text-4xl rustica-bold text-ilusion my-10">Conoce las ventajas de invertir con duppla</h3>
@@ -46,13 +47,13 @@ export default function Home() {
             <p className="text-lg rustica">Nuestro equipo selecciona por ti los activos en los que invertirás</p>
           </div>
         </div>
-        <Card className="p-0 mt-20 content-center" color="light">
+        <Card className="mt-20 content-center" color="light">
           <div className="flex flex-col md:flex-row gap-4 gap-4">
-            <div className="relative h-[400px] w-full md:w-3/6 bg-cover bg-center bg-[url('https://s3.amazonaws.com/imgs-website/forbes-2.png')]
-          // rounded-[11px] shadow-inner shadow-futuro-darker/50">
-              <Link href="/saber-mas">
-                <div className="opacity-0 hover:opacity-100 absolute inset-0 rounded-[11px] bg-gradient-to-r from-futuro-darker/80 to-futuro-darker/50 content-center">
-                  <p className="text-lg rustica-bold text-sonador-darker">Leer nota</p>
+            <div className="relative h-[400px] w-full md:w-3/6 bg-cover bg-top bg-[url('https://s3.amazonaws.com/imgs-website/Skandia_forbes.jpeg')]
+          // rounded-lg shadow-inner shadow-futuro-darker/50">
+              <Link href="https://forbes.co/2023/12/05/negocios/skandia-invierte-en-duppla-adquirio-el-90-de-un-portafolio-residencial">
+                <div className="opacity-0 hover:opacity-100 absolute inset-0 rounded-lg bg-gradient-to-r from-futuro-darker/80 to-futuro-darker/50 content-center">
+                  <p className="text-lg rustica-bold text-sonador-dark underline">Leer nota en forbes.co</p>
                 </div>
               </Link>
             </div>
