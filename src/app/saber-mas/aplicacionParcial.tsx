@@ -16,7 +16,7 @@ interface Props {
 
 export default function AplicacionParcial({
   controller,
-  campaign,
+  campaign = "",
 }: Readonly<Props>) {
   // let params = useSearchParams();
   const [fullRegister, setFullRegister] = useState<boolean>(true);
@@ -114,7 +114,7 @@ export default function AplicacionParcial({
 
     controller.postFormLead(
       lead,
-      campaign ?? "",
+      campaign,
       "",
       //params.get("owner") ?? "",
       (lead_id: string) => {

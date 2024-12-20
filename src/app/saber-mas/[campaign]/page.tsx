@@ -1,9 +1,9 @@
-/* "use client";
+"use client";
 import Controller from "../../Controllers/controller";
 import FormsController from "../../Controllers/forms_controller";
 import AplicacionParcial from "../aplicacionParcial";
 
-export default function Aplicar({ params }: { params: { campaign: string } }) {
+export default function Aplicar({ params }: { params: any }) {
   const controller: Controller = FormsController.getInstance();
 
   return (
@@ -15,6 +15,3 @@ export default function Aplicar({ params }: { params: { campaign: string } }) {
     </main>
   );
 }
- */
-
-export default function Temp() { }
