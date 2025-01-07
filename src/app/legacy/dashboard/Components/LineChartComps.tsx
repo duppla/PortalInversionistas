@@ -35,7 +35,7 @@ export function LineChart(
       yScale={{
         type: "linear",
         min: 0,
-        max: ticks[ticks.length - 1],
+        max: ticks ? ticks[ticks.length - 1] : 0,
         stacked: true,
         reverse: false,
       }}

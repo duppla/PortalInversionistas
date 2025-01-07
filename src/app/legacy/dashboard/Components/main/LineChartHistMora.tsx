@@ -71,7 +71,7 @@ function LineChartHistMora() {
 
   /* Mensaje para el tooltip explicativo */
   const minY = (ticks[0] * 100).toFixed(0);
-  const maxY = (ticks[ticks.length - 1] * 100).toFixed(0);
+  const maxY = ticks ? (ticks[ticks.length - 1] * 100).toFixed(0) : 0;
 
   const longText = `Nota: Los valores mostrados en esta gráfica se encuentran en un rango de ${minY}% a ${maxY}% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.`;
 

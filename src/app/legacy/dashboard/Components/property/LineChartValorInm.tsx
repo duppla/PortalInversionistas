@@ -177,7 +177,7 @@ const LineChartValorInm = () => {
           }}
           pointBorderWidth={1}
           pointSize={16}
-          pointSymbol={function noRefCheck() {}}
+          pointSymbol={function noRefCheck() { }}
           useMesh
           xFormat="time:%Y-%m-%d"
           xScale={{
@@ -190,7 +190,7 @@ const LineChartValorInm = () => {
           yScale={{
             type: "linear",
             min: ticks[0],
-            max: ticks[ticks.length - 1],
+            max: ticks ? ticks[ticks.length - 1] : 0,
             stacked: false,
             reverse: false,
           }}

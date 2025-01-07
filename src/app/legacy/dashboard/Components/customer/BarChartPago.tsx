@@ -100,7 +100,7 @@ function BarChartPago() {
           label={() => ""}
           margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
           padding={0.8}
-          maxValue={ticks[ticks.length - 1]}
+          maxValue={ticks ? ticks[ticks.length - 1] : 0}
           colors={["#12CA98", "#FFB024"]}
           theme={{
             axis: {

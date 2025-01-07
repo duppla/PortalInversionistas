@@ -54,7 +54,7 @@ function MapMapa() {
   let locations: HooverMapa[] = [];
   let center = defaultCenter;
   if (data.length > 0) {
-    locations = data[city].inmuebles;
+    locations = data[city].inmuebles || [];
     center = locations.length > 0 ? avgCoords(locations) : defaultCenter;
   }
 

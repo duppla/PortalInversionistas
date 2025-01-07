@@ -73,7 +73,7 @@ const LineChartRentabilidad = () => {
   /* Mensaje para el tooltip explicativo */
 
   const minY = (ticks[0] * 100).toFixed(2);
-  const maxY = (ticks[ticks.length - 1] * 100).toFixed(2);
+  const maxY = ticks ? (ticks[ticks.length - 1] * 100).toFixed(2) : 0;
 
   const longText = `Nota: Los valores mostrados en esta gráfica se encuentran en un rango de ${minY}% a ${maxY}% para facilitar su legibilidad. Verifique la escala para una interpretación precisa.`;
 
