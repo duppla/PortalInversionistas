@@ -30,7 +30,7 @@ export default function Navbar({ children, hero }: Readonly<Props>) {
 
     return (
         <>
-            <nav className="bg-futuro-darker/50 backdrop-blur-xl text-sonador shadow-md shadow-futuro-darker/30 w-full z-50 order-first">
+            <nav className={`${hero ? 'bg-gradient-to-tr' : 'bg-gradient-to-r'} from-futuro-darker/50 from-50% to-highlight/50 backdrop-blur-xl text-sonador shadow-md shadow-futuro-darker/30 w-full z-50 order-first`}>
                 <div className="xl:container xl:mx-auto flex flex-row items-center gap-8 sm:gap-16 justify-between p-4">
                     <Link href="/">
                         <Image
@@ -66,7 +66,7 @@ export default function Navbar({ children, hero }: Readonly<Props>) {
       rounded-2xl fixed bottom-4 z-50 transition-opacity ease-in duration-300
           ${isVisible ? "opacity-100" : "opacity-0"}`}>
                 <div className="md:container md:mx-auto p-4 rustica text-md">
-                    <div className="flex flex-row items-center gap-8 justify-between">
+                    <div className="flex flex-row items-center gap-4 md:gap-8 justify-between">
                         <Link href="/">
                             <Image
                                 src="https://s3.amazonaws.com/webpages-general-assets/dpp_inv_door.svg"

@@ -11,7 +11,7 @@ export default function Aplicar() {
   const controller: Controller = FormsController.getInstance();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between absolute">
+    <main className="flex w-full min-h-screen flex-col items-center justify-between absolute">
       <Navbar>
         <Link href="/saber-mas" className="hover:underline">Simulador</Link>
         <Link href="/saber-mas" className="hover:underline">Registrarse</Link>

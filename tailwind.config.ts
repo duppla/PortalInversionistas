@@ -8,12 +8,17 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: '1rem'
+    },
     extend: {
       colors: {
         transparent: 'transparent',
         gray: colors.zinc,
         white: '#ffffff',
         black: '#18181b',
+        highlight: '#2232C2',
         futuro: {
           50: '#eef4ff',
           100: '#dae6ff',
@@ -100,7 +105,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-container-break-out')]
 }
 
 export {}

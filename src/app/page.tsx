@@ -3,6 +3,8 @@ import Navbar from "./Components/navbar";
 import Link from "next/link";
 import Button from "./Components/button";
 import Card from "./Components/card";
+import News from "./Components/news";
+import Image from "next/image";
 
 export default function Home() {
 
@@ -19,7 +21,7 @@ export default function Home() {
   );
 
   return (
-    <main className="flex w-full flex-col items-center justify-between absolute">
+    <main className="flex w-full flex-col items-center">
       <Navbar hero={hero}>
         <Link href="/saber-mas" className="hover:underline">Simulador</Link>
         <Link href="/saber-mas" className="hover:underline">Registrarse</Link>
@@ -27,8 +29,8 @@ export default function Home() {
           <Button id={"login"} onClick={() => { }}>Ingresar</Button>
         </Link>
       </Navbar>
-      <div className="container mx-auto p-4 my-10 text-center text-sonador">
-        <h3 className="text-4xl rustica-bold text-ilusion my-10">Conoce las ventajas de invertir con duppla</h3>
+      <div className="flex flex-col text-center text-sonador gap-12 container mx-auto">
+        <h3 className="text-4xl rustica-bold text-ilusion mt-20">Conoce las ventajas de invertir con duppla</h3>
         <div className="grid md:grid-cols-2 gap-4 my-10 gap-8">
           <div className="flex flex-col items-center gap-4">
             <h4 className="text-6xl rustica-bold">15% E.A.</h4>
@@ -47,23 +49,28 @@ export default function Home() {
             <p className="text-lg rustica">Nuestro equipo selecciona por ti los activos en los que invertirás</p>
           </div>
         </div>
-        <Card className="mt-20 content-center" color="light">
-          <div className="flex flex-col md:flex-row gap-4 gap-4">
-            <div className="relative h-[400px] w-full md:w-3/6 bg-cover bg-top bg-[url('https://s3.amazonaws.com/imgs-website/Skandia_forbes.jpeg')]
-          // rounded-lg shadow-inner shadow-futuro-darker/50">
-              <Link href="https://forbes.co/2023/12/05/negocios/skandia-invierte-en-duppla-adquirio-el-90-de-un-portafolio-residencial">
-                <div className="opacity-0 hover:opacity-100 absolute inset-0 rounded-lg bg-gradient-to-r from-futuro-darker/80 to-futuro-darker/50 content-center">
-                  <p className="text-lg rustica-bold text-sonador-dark underline">Leer nota en forbes.co</p>
-                </div>
-              </Link>
+        <Card className="flex flex-col relative md:flex-row gap-4 max-xl:rounded-none max-xl:rounded-r-lg max-xl:ml-break-out p-8"
+          color="highlight">
+          <div className="absolute inset-y-0 left-0 -rotate-[90deg] hidden md:block">
+            <Image className="w-full -z-50" src={"https://s3.amazonaws.com/webpages-general-assets/moneyconXduppla.svg"} width={90} height={90} alt={'Recuerda realizar tu inversión'}
+              style={{ opacity: 0.2 }}></Image>
+          </div>
+          <div className="flex flex-col justify-center text-left gap-4 max-xl:pl-break-out z-50">
+            <h4 className="text-5xl rustica-bold">¿Quieres saber más sobre inversiones en finca raiz?</h4>
+            <p className="text-2xl rustica">Únete a la charla de nuestros fundadores en Moneycon 2025</p>
+            <p className="text-lg rustica">Inversionistas institucionales como Skandia confían en Duppla</p>
+            <div className="w-full">
+              <Button id={"moneycon"} onClick={() => { }} className="w-full md:w-1/2">
+                <p className="text-lg rustica-bold">¡Me interesa!</p>
+              </Button>
             </div>
-            <div className="flex flex-col justify-center gap-4 p-4">
-              <h4 className="text-6xl rustica-bold">Una inversión confiable</h4>
-              <p className="text-lg rustica">Inversionistas institucionales como Skandia confían en Duppla</p>
-            </div>
+
           </div>
         </Card>
+        <div className="container mx-auto">
+          <News />
+        </div>
       </div>
-    </main>
+    </main >
   );
 }

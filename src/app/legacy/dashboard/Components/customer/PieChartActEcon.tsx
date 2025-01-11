@@ -30,7 +30,7 @@ export type ActividadEconomicaFront = {
 function PieChatActEcon() {
   const email = getEmail();
 
-  const [data, setData] = useState<ActividadEconomica[]>();
+  const [data, setData] = useState<ActividadEconomica[]>([]);
 
   useEffect(() => {
     fetchData(endpoint, email, setData);

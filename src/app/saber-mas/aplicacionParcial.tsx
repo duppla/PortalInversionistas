@@ -19,7 +19,6 @@ export default function AplicacionParcial({
   campaign = "",
 }: Readonly<Props>) {
   // let params = useSearchParams();
-  const [fullRegister, setFullRegister] = useState<boolean>(true);
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -40,33 +39,33 @@ export default function AplicacionParcial({
   const [isModalErrOpen, setIsModalErrOpen] = useState<boolean>(false);
   const [optDoc, setOptDoc] = useState<any[]>([
     {
-      id: "< $50M",
-      label: "Menos de 50 Millones de pesos",
-      value: "<50",
+      id: "Menos de $30M",
+      label: "Menos de 30 Millones de pesos",
+      value: "<30",
       textTwo: "",
       disabled: false,
       isSelected: false,
     },
     {
-      id: "$50M a $100M",
-      label: "50 a 100 Millones de pesos",
-      value: "50-100",
+      id: "$30M a $50M",
+      label: "30 a 50 Millones de pesos",
+      value: "30-500",
       textTwo: "",
       disabled: false,
       isSelected: false,
     },
     {
-      id: "$100M a $300M",
-      label: "100 a 300 Millones de pesos",
-      value: "100-300",
+      id: "$50M a $200M",
+      label: "50 a 200 Millones de pesos",
+      value: "50-200",
       textTwo: "",
       disabled: false,
       isSelected: false,
     },
     {
-      id: "> $300M",
-      label: "Más de 300 Millones de pesos",
-      value: ">300",
+      id: "Más de $200M",
+      label: "Más de 200 Millones de pesos",
+      value: ">200",
       textTwo: "",
       disabled: false,
       isSelected: false,
@@ -135,6 +134,7 @@ export default function AplicacionParcial({
       formData.firstname == "" ||
       formData.lastname == "" ||
       formData.phone == 0 ||
+      selectedValue == undefined ||
       !formData.tyc
     );
   }
@@ -154,7 +154,7 @@ export default function AplicacionParcial({
       })
     );
   };
-  const currentDoc = optDoc.filter((o) => o.isSelected, optDoc[0]).pop();
+  const selectedValue = optDoc.filter((o) => o.isSelected, optDoc[0]).pop();
 
   return (
     <>
@@ -240,7 +240,7 @@ export default function AplicacionParcial({
               htmlFor="Correo"
               className="block font-nunito-sans text-sm font-medium"
             >
-              Correo electrónico<span className="text-sonador-darker">*</span>
+              Correo electrónico
             </label>
             <input
               className="block p-2.5 w-full z-20 text-sm bg-sonador-dark/40 backdrop-blur shadow-inner shadow-futuro-darker/30 rounded-lg focus:ring-blue-500 focus:border-blue-500 my-2"
@@ -249,21 +249,25 @@ export default function AplicacionParcial({
               id="Correo"
               onChange={handleInputChange}
               name="email"
-              required
             />
           </div>
-          <hr className="border-sonador-darker" />
+          <div className="col-span-1 flex flex-row gap-2 items-center">
+            <p className="text-left font-nunito-sans text-sonador-darker text-sm shrink-0">
+              Información de inversión
+            </p>
+            <hr className="border-sonador-darker w-full" />
+          </div>
           <div className="col-span-1">
             <label
               htmlFor="TipoDocumento"
               className="block font-nunito-sans text-sm font-medium  "
             >
-              Monto de inversión aproximada
+              Monto aproximado a invertir<span className="text-sonador-darker">*</span>
             </label>
             <div className="py-2">
               <Accordeon
                 textLeft="Deseo invertir:"
-                textRight={currentDoc ? currentDoc.id : ""}
+                textRight={selectedValue ? selectedValue.id : ""}
                 defaultOpen
               >
                 <div className="border border-sonador/50 rounded-xl rounded-t-none divide-y divide-sonador/40 border-t-0">
@@ -286,7 +290,12 @@ export default function AplicacionParcial({
               </Accordeon>
             </div>
           </div>
-          <hr className="border-sonador-darker" />
+          <div className="col-span-1 flex flex-row gap-2 items-center">
+            <p className="text-left font-nunito-sans text-sonador-darker text-sm shrink-0">
+              Datos complementarios
+            </p>
+            <hr className="border-sonador-darker w-full" />
+          </div>
           <div className="col-span-1">
             <label
               htmlFor="Empleo"
@@ -321,12 +330,6 @@ export default function AplicacionParcial({
               name="document_number"
             />
           </div>
-          <p className="col-span-1 md:col-span-6 text-center text-balance font-mukta text-sonador-darker text-sm">
-            <span className="font-semibold">Importante:</span> Necesitamos tu
-            numero de celular real para contactarte. Por favor no llenes los
-            campos con informacion alterna ya que nuestro sistema no la
-            reconocera.
-          </p>
         </div>
         <div
           className={
@@ -370,7 +373,7 @@ export default function AplicacionParcial({
             className="w-full col-span-1 md:col-span-3"
           >
             <h2 className={"rustica-bold text-lg text-center"}>
-              Finalizar registro {!fullRegister && "parcial"}
+              Finalizar registro
             </h2>
           </Button>
         </div>

@@ -6,7 +6,8 @@ interface Props {
   color?: string,
   shadowColor?: string,
   className?: string,
-  isFull?: boolean
+  isFull?: boolean,
+  noPadding?: boolean
 }
 
 export default function Card({
@@ -14,10 +15,11 @@ export default function Card({
   color = "sonador",
   shadowColor,
   className = '',
-  isFull = true
+  isFull = true,
+  noPadding = false
 }: Props) {
   return (
-    <div className={`${colorsCard[color]} ${isFull && 'h-full'} rounded-xl p-3 content-center ${className}`}
+    <div className={`${colorsCard[color]} ${isFull && 'h-full'} rounded-xl ${noPadding ? 'p-0' : 'p-3'} content-center ${className}`}
       style={{
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
