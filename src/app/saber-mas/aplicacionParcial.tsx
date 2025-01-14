@@ -33,7 +33,7 @@ export default function AplicacionParcial({
     tyc: false,
   });
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [declaraRenta, setDeclaraRenta] = useState<boolean>(true);
+  const [declaraRenta, setDeclaraRenta] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isModalErrOpen, setIsModalErrOpen] = useState<boolean>(false);
   const [optAge, setOptAge] = useState<any[]>([
@@ -105,6 +105,14 @@ export default function AplicacionParcial({
     },
   ]);
   const [optOcu, setOptOcu] = useState<any[]>([
+    {
+      id: "Rentista de Capital",
+      label: "Rentista de Capital",
+      value: "Rentista de Capital",
+      textTwo: "role",
+      disabled: false,
+      isSelected: false,
+    },
     {
       id: "Empresario / Ejecutivo",
       label: "Empresario / Ejecutivo",
@@ -338,7 +346,7 @@ export default function AplicacionParcial({
               name="email"
             />
           </div>
-          <div className="col-span-1 flex flex-row gap-2 items-center">
+          {/* <div className="col-span-1 flex flex-row gap-2 items-center">
             <p className="text-left font-nunito-sans text-sonador-darker text-sm shrink-0">
               Información de inversión
             </p>
@@ -353,7 +361,7 @@ export default function AplicacionParcial({
             </label>
             <div className="py-2">
               <Accordeon
-                textLeft="Deseo invertir:"
+                textLeft="Piensos invertir:"
                 textRight={selectedValueInv ? selectedValueInv.id : ""}
                 defaultOpen
               >
@@ -376,7 +384,7 @@ export default function AplicacionParcial({
                 </div>
               </Accordeon>
             </div>
-          </div>
+          </div> */}
           <div className="col-span-1 flex flex-row gap-2 items-center">
             <p className="text-left font-nunito-sans text-sonador-darker text-sm shrink-0">
               Datos complementarios
