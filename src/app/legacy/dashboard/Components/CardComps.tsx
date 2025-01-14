@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
 
-export function CardCompBox(title: string, data: string) {
+export const CardCompBox = (props: { title: string; data: string }) =>  {
   const box = (
     <Box
       className="size-card-main-d-f"
@@ -30,7 +30,7 @@ export function CardCompBox(title: string, data: string) {
               fontWeight: "500",
             }}
           >
-            {title}
+            {props.title}
           </Typography>
           <Typography
             sx={{
@@ -42,7 +42,7 @@ export function CardCompBox(title: string, data: string) {
               fontSize: "1.6rem",
             }}
           >
-            {data}
+            {props.data}
           </Typography>
         </CardContent>
       </Card>

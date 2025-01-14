@@ -7,10 +7,14 @@ import fetchData from "../../../url/ApiConfig";
 import { getEmail } from "../../../context/authContext";
 import { CardCompBox } from "../CardComps";
 
-const endpoint = "/principal/inversion_original";
+const endpoint = "/dashboard";
 
 type Inversion = {
-  monto_inversion: number;
+  inversion_original: number;
+  participacion_adquirida: number;
+  fechas: string[];
+  retorno_a_la_fecha: number[];
+  devolucion_capital_acumulado: number[];
 };
 function CardInversion() {
   const email = getEmail();
@@ -21,9 +25,9 @@ function CardInversion() {
     fetchData(endpoint, email, setData);
   }, [email]);
 
-  const inversion = data ? "$ " + data.monto_inversion.toLocaleString() : "";
+  const inversion = data ? "$ " + data.inversion_original.toLocaleString() : "";
 
-  return CardCompBox("Inversión original", inversion);
+  return CardCompBox({"title": "Inversión", "data": inversion});
 }
 
 export default CardInversion;

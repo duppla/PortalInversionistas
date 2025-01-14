@@ -22,7 +22,7 @@ function CardCompRetorno() {
 
   let retorno = data ? "$ " + data.retorno.toLocaleString() : "";
 
-  return CardCompBox("Retorno total a la fecha", retorno);
+  return CardCompBox({ "title": "Retorno total a la fecha", "data": retorno });
 }
 
 export default CardCompRetorno;

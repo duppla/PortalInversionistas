@@ -57,10 +57,10 @@ function Layout({ children }: { readonly children: ReactNode }) {
                       >
                         {botonDashboard(
                           "Dashboard principal",
-                          "/dashboard/principal"
+                          "/legacy/dashboard/principal"
                         )}
-                        {botonDashboard("Inmuebles", "/dashboard/property")}
-                        {botonDashboard("Clientes", "/dashboard/customer")}
+                        {botonDashboard("Inmuebles", "/legacy/dashboard/property")}
+                        {botonDashboard("Clientes", "/legacy/dashboard/customer")}
                       </Stack>
                     </Grid>
                   </Grid>

@@ -34,12 +34,13 @@ const authContext = createContext<AuthContextType | undefined>(undefined);
 
 export const getEmail = (): string | null => {
   try {
-    if (typeof window !== "undefined") {
-      const email = localStorage.getItem("userEmail");
-      return email;
-    } else {
-      return "";
-    }
+    return "fernando@skandia.co"
+    // if (typeof window !== "undefined") {
+    //   const email = localStorage.getItem("userEmail");
+    //   return email;
+    // } else {
+    //   return "";
+    // }
   } catch (error) {
     console.error("Error al obtener el correo electrónico:", error);
     return null;

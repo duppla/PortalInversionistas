@@ -6,8 +6,6 @@ import BarChartFlujos from "../Components/main/BarChartFlujos";
 import BarChartPropiedad from "../Components/main/BarChartPropiedad";
 import LineChartHistMora from "../Components/main/LineChartHistMora";
 import PieChartCompCartera from "../Components/main/PieChartCompCartera";
-import CardInversion from "../Components/main/CardInversion";
-import CardParticipacion from "../Components/main/CardParticipacion";
 import CardRetorno from "../Components/main/CardRetorno";
 import CardNOI from "../Components/main/CardNOI";
 import CardMorosidad from "../Components/main/CardMorosidad";
@@ -16,6 +14,14 @@ import LineChartRentabilidad from "../Components/main/LineChartRentabilidad";
 import { chartBlocks } from "../Components/ChartBlocks";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { CardCompBox } from "../Components/CardComps";
+
+import { getEmail } from "../../context/authContext";
+import { useEffect, useState } from "react";
+
+import fetchData from "../../url/ApiConfig";
+
+import { formatNumber } from "../Components/utils";
 
 const theme = createTheme({
   palette: {
@@ -34,8 +40,28 @@ const theme = createTheme({
   },
 });
 
+
+const endpoint = "/dashboard";
+
+
+type Inversion = {
+  inversion_original: number;
+  participacion_adquirida: number;
+  fechas: string[];
+  retorno_a_la_fecha: number[];
+  devolucion_capital_acumulado: number[];
+};
+
 const Page = () => {
-  let isLargeScreenK = useMediaQuery("min-width: 1200px");
+  let isLargeScreenK = useMediaQuery("(min-width: 1200px)");
+
+  const [data, setData] = useState<Inversion>();
+
+  useEffect(() => {
+    const email = getEmail();
+    fetchData(endpoint, email, setData);
+  }, []);
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -68,13 +94,13 @@ const Page = () => {
             rowGap={1}
           >
             <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
-              <CardInversion />
+              <CardCompBox title="Inversión original" data={data ? "$ " + data.inversion_original.toLocaleString() : ""} />
             </Grid>
             <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
-              <CardParticipacion />
+              <CardCompBox title="Participación adquirida" data={data ? formatNumber(data.participacion_adquirida, 1, true) : ""} />
             </Grid>
             <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
-              <CardRetorno />
+              <CardCompBox title="Retorno total a la fecha" data={data ? "$ " + data.retorno_a_la_fecha.slice(-1).toLocaleString() : ""}/>
             </Grid>
           </Grid>
           {chartBlocks(<LineChartRentabilidad />, 305, 305)}

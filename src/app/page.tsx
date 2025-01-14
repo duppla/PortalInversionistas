@@ -25,7 +25,7 @@ export default function Home() {
       <Navbar hero={hero}>
         <Link href="/saber-mas" className="hover:underline">Simulador</Link>
         <Link href="/saber-mas" className="hover:underline">Registrarse</Link>
-        <Link href="/legacy">
+        <Link href="/legacy/dashboard/principal">
           <Button id={"login"} onClick={() => { }}>Ingresar</Button>
         </Link>
       </Navbar>

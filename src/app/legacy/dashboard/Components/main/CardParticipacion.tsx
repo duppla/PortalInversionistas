@@ -25,7 +25,7 @@ function CardParticipacion() {
   let porcentaje = data?.participacion_adquirida;
   let participacion = porcentaje ? formatNumber(porcentaje, 1, true) : "";
 
-  return CardCompBox("Participación adquirida", participacion);
+  return CardCompBox({ "title": "Participación adquirida", "data": participacion });
 }
 
 export default CardParticipacion;
