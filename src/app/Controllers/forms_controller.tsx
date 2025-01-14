@@ -22,7 +22,7 @@ class FormsController extends Controller {
     setterCallback: (params: any) => void,
     errorCallback: () => void
   ) {
-    let endpoint = `webpage/aplicar-investor/${campaign}`;
+    let endpoint = `webpage/inversionistas/aplicar/${campaign}`;
     if (owner) {
       endpoint += `?owner=${owner}`;
     }

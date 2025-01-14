@@ -3,8 +3,11 @@ const colorsButton: Record<string, string> = {
   proyeccion: 'bg-proyeccion border-2 border-proyeccion hover:bg-proyeccion-600 text-white focus:outline-proyeccion/10',
   cimiento: 'bg-cimiento border-2 border-cimiento hover:bg-cimiento-800 text-white focus:outline-cimiento/10',
   ilusion: 'bg-ilusion border-2 border-ilusion hover:bg-ilusion-dark text-futuro-darker focus:outline-cimiento/10 shadow-md shadow-futuro-darker/20',
+  sonador: 'bg-sonador-dark border-2 border-none hover:bg-sonador text-futuro-darker focus:outline-cimiento/10 shadow-md shadow-futuro-darker/20',
   light: 'bg-sonador-darker/50 border-2 border-sonador-darker/30 hover:bg-sonador-darker text-sonador shadow-inner shadow-sonador/20 focus:outline-futuro/10',
-  transparent: 'bg-transparent border-2 border-futuro hover:bg-futuro-100 text-futuro focus:outline-futuro/10',
+  transparent: 'bg-transparent border-2 border-none hover:bg-sonador-darker/30 text-white focus:outline-futuro/10',
+  toggle_l: 'bg-transparent border-2 border-none hover:bg-gradient-to-r from-sonador-darker/30 text-white focus:outline-futuro/10',
+  toggle_r: 'bg-transparent border-2 border-none hover:bg-gradient-to-l from-sonador-darker/30 text-white focus:outline-futuro/10',
   disabled: 'cursor-not-allowed bg-neutral-500 border-2 border-neutral-500 text-neutral-800'
 }
 
@@ -33,7 +36,7 @@ const colorsCard: Record<string, string> = {
   ilusion: 'bg-ilusion text-cimiento',
   warning: 'bg-warning text-white',
   warningLight: 'bg-warning-light text-warning',
-  highlight: 'bg-gradient-to-r from-futuro-darker/50 to-50% to-highlight/50 border border-l-0 border-sonador-darker/30 text-sonador shadow-2xl shadow-highlight/50',
+  highlight: 'bg-gradient-to-r from-futuro-darker/50 to-80% to-highlight/50 border border-l-0 border-sonador-darker/30 text-sonador shadow-2xl shadow-highlight/50',
   light: 'bg-sonador-darker/50 border border-sonador-darker/30 text-sonador shadow-inner shadow-sonador/20',
   transparent: 'bg-transparent text-black',
   sonador: 'bg-sonador/10 border border-sonador/30 text-sonador shadow-inner shadow-sonador/20',

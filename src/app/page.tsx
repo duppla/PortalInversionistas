@@ -49,10 +49,10 @@ export default function Home() {
             <p className="text-lg rustica">Nuestro equipo selecciona por ti los activos en los que invertirás</p>
           </div>
         </div>
-        <Card className="flex flex-col relative md:flex-row gap-4 max-xl:rounded-none max-xl:rounded-r-lg max-xl:ml-break-out p-8"
+        <Card className="flex flex-col relative md:flex-row gap-4 xl:border xl:border-highlight max-xl:rounded-none max-xl:rounded-r-lg max-xl:ml-break-out p-8"
           color="highlight">
-          <div className="absolute inset-y-0 left-0 -rotate-[90deg] hidden md:block">
-            <Image className="w-full -z-50" src={"https://s3.amazonaws.com/webpages-general-assets/moneyconXduppla.svg"} width={90} height={90} alt={'Recuerda realizar tu inversión'}
+          <div className="absolute inset-y-0 left-0 -rotate-[90deg] hidden md:block xl:hidden">
+            <Image className="w-full xl:w-1/2 -z-50" src={"https://s3.amazonaws.com/webpages-general-assets/moneyconXduppla.svg"} width={90} height={90} alt={'Recuerda realizar tu inversión'}
               style={{ opacity: 0.2 }}></Image>
           </div>
           <div className="flex flex-col justify-center text-left gap-4 max-xl:pl-break-out z-50">

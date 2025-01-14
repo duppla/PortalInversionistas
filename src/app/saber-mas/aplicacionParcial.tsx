@@ -8,6 +8,7 @@ import Controller from "../Controllers/controller";
 import Lead from "../Models/forms_models";
 import FormsController from "../Controllers/forms_controller";
 import Link from "next/link";
+import Card from "../Components/card";
 
 interface Props {
   controller: Controller;
@@ -16,60 +17,135 @@ interface Props {
 
 export default function AplicacionParcial({
   controller,
-  campaign = "",
+  campaign = "701Rb00000MA4fDIAT",
 }: Readonly<Props>) {
   // let params = useSearchParams();
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
     phone: 0,
+    age: undefined,
     email: undefined,
-    document_type: undefined,
-    document_number: 0,
-    income: undefined,
-    downpayment: undefined,
-    property_val: undefined,
-    property_type: undefined,
-    search_status: undefined,
-    notes: undefined,
+    investment: "",
+    company: "",
+    role: "",
+    incomeTax: true,
     tyc: false,
   });
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [declaraRenta, setDeclaraRenta] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isModalErrOpen, setIsModalErrOpen] = useState<boolean>(false);
-  const [optDoc, setOptDoc] = useState<any[]>([
+  const [optAge, setOptAge] = useState<any[]>([
+    {
+      id: "18 a 24 Años",
+      label: "18 a 24 Años",
+      value: "18 - 24 Años",
+      textTwo: "age",
+      disabled: false,
+      isSelected: false,
+    },
+    {
+      id: "25 a 45 Años",
+      label: "25 a 45 Años",
+      value: "25 - 45 Años",
+      textTwo: "age",
+      disabled: false,
+      isSelected: false,
+    },
+    {
+      id: "46 a 60 Años",
+      label: "46 a 60 Años",
+      value: "46 - 60 Años",
+      textTwo: "age",
+      disabled: false,
+      isSelected: false,
+    },
+    {
+      id: "Más de 60 Años",
+      label: "Más de 60 Años",
+      value: "> 60 Años",
+      textTwo: "age",
+      disabled: false,
+      isSelected: false,
+    },
+  ]);
+  const [optInv, setOptInv] = useState<any[]>([
     {
       id: "Menos de $30M",
       label: "Menos de 30 Millones de pesos",
-      value: "<30",
-      textTwo: "",
+      value: "Menos de 30 Millones",
+      textTwo: "investment",
       disabled: false,
       isSelected: false,
     },
     {
       id: "$30M a $50M",
       label: "30 a 50 Millones de pesos",
-      value: "30-500",
-      textTwo: "",
+      value: "30 a 50 Millones",
+      textTwo: "investment",
       disabled: false,
       isSelected: false,
     },
     {
       id: "$50M a $200M",
       label: "50 a 200 Millones de pesos",
-      value: "50-200",
-      textTwo: "",
+      value: "50 a 200 Millones",
+      textTwo: "investment",
       disabled: false,
       isSelected: false,
     },
     {
       id: "Más de $200M",
       label: "Más de 200 Millones de pesos",
-      value: ">200",
-      textTwo: "",
+      value: "Mas de 200 Millones",
+      textTwo: "investment",
       disabled: false,
       isSelected: false,
     },
+  ]);
+  const [optOcu, setOptOcu] = useState<any[]>([
+    {
+      id: "Empresario / Ejecutivo",
+      label: "Empresario / Ejecutivo",
+      value: "Empresario / Ejecutivo",
+      textTwo: "role",
+      disabled: false,
+      isSelected: false,
+    },
+    {
+      id: "Profesional Independiente",
+      label: "Profesional Independiente",
+      value: "Profesional Independiente",
+      textTwo: "role",
+      disabled: false,
+      isSelected: false,
+    },
+    {
+      id: "Empleado",
+      label: "Empleado",
+      value: "Empleado",
+      textTwo: "role",
+      disabled: false,
+      isSelected: false,
+    },
+    {
+      id: "Pensionado",
+      label: "Pensionado",
+      value: "Pensionado",
+      textTwo: "role",
+      disabled: false,
+      isSelected: false,
+    },
+
+    {
+      id: "Estudiante",
+      label: "Estudiante",
+      value: "Estudiante",
+      textTwo: "role",
+      disabled: false,
+      isSelected: false,
+    }
   ]);
 
   const handleInputChange = (
@@ -79,6 +155,15 @@ export default function AplicacionParcial({
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+
+  const handleInputChangeTax = (
+    value: boolean,
+  ) => {
+    setFormData({
+      ...formData,
+      incomeTax: value,
     });
   };
 
@@ -134,18 +219,18 @@ export default function AplicacionParcial({
       formData.firstname == "" ||
       formData.lastname == "" ||
       formData.phone == 0 ||
-      selectedValue == undefined ||
+      formData.investment == undefined ||
       !formData.tyc
     );
   }
 
-  const handleOptionChangeDoc = (event: React.MouseEvent, value: any) => {
-    setOptDoc(
-      optDoc.map((option: any) => {
+  const handleOptionChangeSelector = (event: React.MouseEvent, value: any, [opt, setter]: any[], formItem: string) => {
+    setter(
+      opt.map((option: any) => {
         if (option.value === value) {
           setFormData({
             ...formData,
-            document_type: value,
+            [formItem]: value,
           });
           return { ...option, isSelected: true };
         } else {
@@ -154,7 +239,9 @@ export default function AplicacionParcial({
       })
     );
   };
-  const selectedValue = optDoc.filter((o) => o.isSelected, optDoc[0]).pop();
+  const selectedValueAge = optAge.filter((o) => o.isSelected, optAge[0]).pop();
+  const selectedValueInv = optInv.filter((o) => o.isSelected, optInv[0]).pop();
+  const selectedValueOcu = optOcu.filter((o) => o.isSelected, optOcu[0]).pop();
 
   return (
     <>
@@ -259,7 +346,7 @@ export default function AplicacionParcial({
           </div>
           <div className="col-span-1">
             <label
-              htmlFor="TipoDocumento"
+              htmlFor="Inversion"
               className="block font-nunito-sans text-sm font-medium  "
             >
               Monto aproximado a invertir<span className="text-sonador-darker">*</span>
@@ -267,19 +354,19 @@ export default function AplicacionParcial({
             <div className="py-2">
               <Accordeon
                 textLeft="Deseo invertir:"
-                textRight={selectedValue ? selectedValue.id : ""}
+                textRight={selectedValueInv ? selectedValueInv.id : ""}
                 defaultOpen
               >
                 <div className="border border-sonador/50 rounded-xl rounded-t-none divide-y divide-sonador/40 border-t-0">
-                  {optDoc.map((o: any, index: number) => (
+                  {optInv.map((o: any, index: number) => (
                     <div
                       key={o.id}
                       className={`flex flex-row justify-between p-2 backdrop-blur bg-sonador/10 ${o.isSelected && "bg-sonador-darker/50"
-                        } hover:bg-sonador-darker/20 ${index == optDoc.length - 1 &&
+                        } hover:bg-sonador-darker/20 ${index == optInv.length - 1 &&
                         "rounded-[11px] rounded-t-none"
                         }`}
                       style={{ cursor: "pointer" }}
-                      onClick={(e) => handleOptionChangeDoc(e, o.value)}
+                      onClick={(e) => handleOptionChangeSelector(e, o.value, [optInv, setOptInv], o.textTwo)}
                     >
                       <p className="font-nunito-sans font-bold">
                         {o.label}
@@ -298,6 +385,72 @@ export default function AplicacionParcial({
           </div>
           <div className="col-span-1">
             <label
+              htmlFor="Edad"
+              className="block font-nunito-sans text-sm font-medium  "
+            >
+              Edad
+            </label>
+            <div className="py-2">
+              <Accordeon
+                textLeft="Tengo:"
+                textRight={selectedValueAge ? selectedValueAge.id : ""}
+                defaultOpen
+              >
+                <div className="border border-sonador/50 rounded-xl rounded-t-none divide-y divide-sonador/40 border-t-0">
+                  {optAge.map((o: any, index: number) => (
+                    <div
+                      key={o.id}
+                      className={`flex flex-row justify-between p-2 backdrop-blur bg-sonador/10 ${o.isSelected && "bg-sonador-darker/50"
+                        } hover:bg-sonador-darker/20 ${index == optAge.length - 1 &&
+                        "rounded-[11px] rounded-t-none"
+                        }`}
+                      style={{ cursor: "pointer" }}
+                      onClick={(e) => handleOptionChangeSelector(e, o.value, [optAge, setOptAge], o.textTwo)}
+                    >
+                      <p className="font-nunito-sans font-bold">
+                        {o.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </Accordeon>
+            </div>
+          </div>
+          <div className="col-span-1">
+            <label
+              htmlFor="Inversion"
+              className="block font-nunito-sans text-sm font-medium  "
+            >
+              Ocupación
+            </label>
+            <div className="py-2">
+              <Accordeon
+                textLeft="Soy:"
+                textRight={selectedValueOcu ? selectedValueOcu.id : ""}
+                defaultOpen
+              >
+                <div className="border border-sonador/50 rounded-xl rounded-t-none divide-y divide-sonador/40 border-t-0">
+                  {optOcu.map((o: any, index: number) => (
+                    <div
+                      key={o.id}
+                      className={`flex flex-row justify-between p-2 backdrop-blur bg-sonador/10 ${o.isSelected && "bg-sonador-darker/50"
+                        } hover:bg-sonador-darker/20 ${index == optOcu.length - 1 &&
+                        "rounded-[11px] rounded-t-none"
+                        }`}
+                      style={{ cursor: "pointer" }}
+                      onClick={(e) => handleOptionChangeSelector(e, o.value, [optOcu, setOptOcu], o.textTwo)}
+                    >
+                      <p className="font-nunito-sans font-bold">
+                        {o.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </Accordeon>
+            </div>
+          </div>
+          {/* <div className="col-span-1">
+            <label
               htmlFor="Empleo"
               className="block font-nunito-sans text-sm font-medium  "
             >
@@ -308,9 +461,9 @@ export default function AplicacionParcial({
               placeholder="Empresa"
               type="text"
               min={0}
-              id="NumeroDocumento"
+              id="Empresa"
               onChange={handleInputChange}
-              name="document_number"
+              name="company"
             />
           </div>
           <div className="col-span-1">
@@ -325,11 +478,17 @@ export default function AplicacionParcial({
               placeholder="Cargo"
               type="text"
               min={0}
-              id="NumeroDocumento"
+              id="Cargo"
               onChange={handleInputChange}
-              name="document_number"
+              name="role"
             />
-          </div>
+          </div> */}
+          <Card className="col-span-1 rounded-[9px]" noPadding>
+            <div className="col-span-1 flex flex-row">
+              <Button id="Declaro" onClick={() => { handleInputChangeTax(true), setDeclaraRenta(true) }} color={declaraRenta ? "sonador" : "toggle_l"} className="w-full">Debo declarar renta</Button>
+              <Button id="No declaro" onClick={() => { handleInputChangeTax(false), setDeclaraRenta(false) }} color={declaraRenta ? "toggle_r" : "sonador"} className="w-full">No debo declarar renta</Button>
+            </div>
+          </Card>
         </div>
         <div
           className={
@@ -385,13 +544,14 @@ export default function AplicacionParcial({
             title={"¡Inscripción realizada con éxito!"}
             image={"https://cotizacion-web.s3.amazonaws.com/5.png"}
             body={
-              "Ya estas un paso más cerca de cumplir el sueño de tener casa propia. Nuestros expertos se pondrán en contacto contigo próximamente para continuar con el proceso."
+              "Ya estás más cerca de hacer crecer tu dinero. Nuestros expertos se pondrán en contacto contigo próximamente para continuar con el proceso."
             }
             textButton="Aceptar"
             onAccept={() => {
               setIsModalOpen(false);
             }}
             toggleModal={() => setIsModalOpen(!isModalOpen)}
+            buttonUrl="/"
           ></Modal>
         )}
       </div>
