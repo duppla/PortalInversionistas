@@ -38,32 +38,32 @@ export default function AplicacionParcial({
   const [isModalErrOpen, setIsModalErrOpen] = useState<boolean>(false);
   const [optAge, setOptAge] = useState<any[]>([
     {
-      id: "18 a 24 Años",
-      label: "18 a 24 Años",
+      id: "18 a 24 años",
+      label: "18 a 24 años",
       value: "18 - 24 Años",
       textTwo: "age",
       disabled: false,
       isSelected: false,
     },
     {
-      id: "25 a 45 Años",
-      label: "25 a 45 Años",
+      id: "25 a 45 años",
+      label: "25 a 45 años",
       value: "25 - 45 Años",
       textTwo: "age",
       disabled: false,
       isSelected: false,
     },
     {
-      id: "46 a 60 Años",
-      label: "46 a 60 Años",
+      id: "46 a 60 años",
+      label: "46 a 60 años",
       value: "46 - 60 Años",
       textTwo: "age",
       disabled: false,
       isSelected: false,
     },
     {
-      id: "Más de 60 Años",
-      label: "Más de 60 Años",
+      id: "Más de 60 años",
+      label: "Más de 60 años",
       value: "> 60 Años",
       textTwo: "age",
       disabled: false,
@@ -344,6 +344,7 @@ export default function AplicacionParcial({
               id="Correo"
               onChange={handleInputChange}
               name="email"
+              required
             />
           </div>
           {/* <div className="col-span-1 flex flex-row gap-2 items-center">

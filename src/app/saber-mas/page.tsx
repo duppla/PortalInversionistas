@@ -13,7 +13,7 @@ export default function Aplicar() {
   return (
     <main className="flex w-full min-h-screen flex-col items-center justify-between absolute">
       <Navbar>
-        <Link href="/saber-mas" className="hover:underline">Simulador</Link>
+        <Link href="/simulador" className="hover:underline">Simulador</Link>
         <Link href="/saber-mas" className="hover:underline">Registrarse</Link>
         <Link href="/legacy" className="hover:underline">
           <Button id={"login"} onClick={() => { }}>Ingresar</Button>
