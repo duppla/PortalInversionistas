@@ -7,6 +7,7 @@ const colorsButton: Record<string, string> = {
   light: 'bg-sonador-darker/50 border-2 border-sonador-darker/30 hover:bg-sonador-darker text-sonador shadow-inner shadow-sonador/20 focus:outline-futuro/10',
   transparent: 'bg-transparent border-2 border-none hover:bg-sonador-darker/30 text-white focus:outline-futuro/10',
   toggle_l: 'bg-transparent border-2 border-none hover:bg-gradient-to-r from-sonador-darker/30 text-white focus:outline-futuro/10',
+  toggle_c: 'bg-transparent border-2 border-none hover:bg-gradient-to-r from-transparent via-sonador-darker/30 text-white focus:outline-futuro/10',
   toggle_r: 'bg-transparent border-2 border-none hover:bg-gradient-to-l from-sonador-darker/30 text-white focus:outline-futuro/10',
   disabled: 'cursor-not-allowed bg-neutral-500 border-2 border-neutral-500 text-neutral-800'
 }
@@ -33,7 +34,7 @@ const colorsCard: Record<string, string> = {
   futuro: 'bg-futuro text-white',
   proyeccion: 'bg-proyeccion text-black',
   cimiento: 'bg-cimiento text-ilusion',
-  ilusion: 'bg-ilusion text-cimiento',
+  ilusion: 'bg-gradient-to-r from-ilusion-dark to-ilusion text-futuro-darker border border-ilusion-dark/30 shadow-lg shadow-ilusion-dark/20',
   warning: 'bg-warning text-white',
   warningLight: 'bg-warning-light text-warning',
   highlight: 'bg-gradient-to-r from-futuro-darker/50 to-80% to-highlight/50 border border-l-0 border-sonador-darker/30 text-sonador shadow-2xl shadow-highlight/50',

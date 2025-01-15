@@ -41,7 +41,7 @@ export default function Button({
             onClick ? onClick() : undefined
         }}
             disabled={!onClick || disabled}
-            className={`${onClick && !disabled ? colorsButton[color] : colorsButton["disabled"]} font-medium rounded-lg text-sm px-4 py-2 text-center items-center ${className ?? className}`}
+            className={`${onClick && !disabled ? colorsButton[color] : colorsButton["disabled"]} font-medium font-nunito-sans rounded-lg text-sm px-4 py-2 text-center items-center ${className ?? className}`}
             style={shadow ? style : undefined}>
             <div className="flex flex-col justify-center items-center">
                 {iconTop && <div className="mb-2">{iconTop}</div>}
