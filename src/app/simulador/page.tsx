@@ -137,7 +137,7 @@ export default function Simulador() {
                   (simuladorData && index === simuladorData.inmuebles?.length - 1) ? "" :
                     (<tr key={inm.numero + inm.inmueble}>
                       <td className="border-t p-0.5 pt-1.5 border-sonador/20">{inm.inmueble}</td>
-                      <td className="border-t p-0.5 pt-1.5 border-sonador/20">{inm.spv_irr ? (inm.spv_irr * 100).toLocaleString("es-CO") : ""}%</td>
+                      <td className="border-t p-0.5 pt-1.5 border-sonador/20">{inm.spv_irr ? (inm.spv_irr * 100).toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ""}%</td>
                       {simuladorData?.inmuebles[index]?.flujo.map((flu, i) => (
                         <td key={flu.monto + inm.inmueble + i} className="border-t p-0.5 pt-1.5 border-sonador/20">{formatNumber(flu.monto)}</td>)
                       )}
@@ -202,7 +202,7 @@ export default function Simulador() {
                 Correo electrónico
               </label>
               <input
-                className="block p-2.5 w-full z-20 text-sm bg-sonador-dark/40 backdrop-blur shadow-inner shadow-futuro-darker/30 rounded-lg focus:ring-blue-500 focus:border-blue-500 mt-2"
+                className="block p-2.5 w-full z-20 bg-sonador-dark/40 backdrop-blur shadow-inner shadow-futuro-darker/30 rounded-lg focus:ring-blue-500 focus:border-blue-500 mt-2 text-sm"
                 placeholder="correo@electrónico.com"
                 type="email"
                 id="Correo"
@@ -219,7 +219,7 @@ export default function Simulador() {
                 Monto a invertir
               </label>
               <input
-                className="block p-2.5 w-full z-20 text-sm bg-sonador-dark/40 backdrop-blur shadow-inner shadow-futuro-darker/30 rounded-lg focus:ring-blue-500 focus:border-blue-500 mt-2"
+                className="block p-2.5 w-full z-20 bg-sonador-dark/40 backdrop-blur shadow-inner shadow-futuro-darker/30 rounded-lg focus:ring-blue-500 focus:border-blue-500 mt-2 text-sm"
                 placeholder="$100.000.000"
                 type="text"
                 value={"$" + inv.toLocaleString("es-CO")}
@@ -230,7 +230,7 @@ export default function Simulador() {
               />
 
             </div>
-            <Button id="Simular" onClick={email && inv && !isLoading ? () => { setIsLoading(true); simulate() } : undefined} color="ilusion" className="md:col-span-2">
+            <Button id="Simular" onClick={email && inv >= 1000000 && !isLoading ? () => { setIsLoading(true); simulate() } : undefined} color="ilusion" className="md:col-span-2">
               <p className="text-lg rustica-bold">Simular inversión</p>
             </Button>
           </Card>}

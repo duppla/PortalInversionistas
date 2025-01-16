@@ -23,7 +23,7 @@ class SimuladorController extends Controller {
   ) {
     let endpoint = `inversionistas/simulador/?email=${email}&monto_inversion=${amount}`;
 
-    this.postData(endpoint, null)
+    this.postData(endpoint)
       .then((response) => {
         setterCallback(new SimuladorData(response));
       })

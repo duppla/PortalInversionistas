@@ -66,13 +66,13 @@ abstract class Controller {
     return responseData;
   }
 
-  protected async postData(endpoint: string, body: any) {
+  protected async postData(endpoint: string, body?: any) {
     let options = {
       method: "POST", // Cambiar el método a POST
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: body ? JSON.stringify(body) : undefined,
     };
     const response = await fetch(`https://back.duppla.co/${endpoint}`, options);
     const responseData = await response.json();
