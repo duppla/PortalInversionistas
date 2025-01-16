@@ -8,15 +8,17 @@ import Image from "next/image";
 
 export default function Home() {
 
-  const hero = (< div className="grid md:grid-cols-4 items-center justify-center h-[60vh] w-full text-sonador pt-8">
-    <h1 className="px-4 md:max-w-screen-sm md:ml-auto md:col-span-2 text-6xl rustica-bold">Invierte seguro con rentabilidades de hasta el 16% <span className="text-3xl">E.A.</span><span className="text-3xl text-sonador-darker">*</span></h1>
-    <div className="hidden md:block md:row-span-3 md:col-span-2 h-full bg-[url('https://s3.amazonaws.com/webpages-general-assets/hero-inv.png')] bg-cover"></div>
-    <h2 className="px-4 md:max-w-screen-sm md:ml-auto md:col-span-2 md:col-start-1 text-2xl rustica">Adquiere derechos fiduciarios e invierte en portafolios de apartamentos que generan hasta el doble de retorno que las rentas tradicionales.</h2>
-    <div className="px-4 md:max-w-screen-sm lg:ml-auto w-full md:col-span-2 md:col-start-1">
-      <Button id={"invierte"} onClick={() => { }} className="w-full xl:w-1/2">
-        <p className="text-2xl rustica-bold">Quiero saber más</p>
-      </Button>
+  const hero = (< div className="grid grid-cols-1 md:grid-cols-4 items-center justify-center text-sonador overflow-hidden" >
+    <div className="flex flex-col xl:pl-break-out max-xl:p-4 md:col-span-2 place-content-around gap-8 h-full xl:py-8">
+      <h1 className="md:max-w-screen-sm md:col-span-2 text-4xl lg:text-6xl rustica-bold text-pretty">Invierte seguro con rentabilidades de hasta el 16% <span className="text-3xl">E.A.</span><span className="text-3xl text-sonador-darker">*</span></h1>
+      <h2 className="md:max-w-screen-sm md:col-span-2 md:col-start-1 text-2xl rustica">Adquiere derechos fiduciarios e invierte en portafolios de apartamentos que generan hasta el doble de retorno que las rentas tradicionales.</h2>
+      <div className="md:col-span-2 md:col-start-1">
+        <Button id={"invierte"} onClick={() => { }} className="w-full xl:w-1/2">
+          <p className="text-2xl rustica-bold">Quiero saber más</p>
+        </Button>
+      </div>
     </div>
+    <div className="hidden md:block md:col-span-2 h-full bg-[url('https://s3.amazonaws.com/webpages-general-assets/hero-inv.png')] bg-cover"></div>
   </div>
   );
 
@@ -30,7 +32,7 @@ export default function Home() {
         </Link>
       </Navbar>
       <div className="flex flex-col text-center text-sonador gap-12 xl:container xl:mx-auto max-md:p-4 max-xl:p-8">
-        <h3 className="text-4xl rustica-bold text-ilusion mt-20">Conoce las ventajas de invertir con Duppla</h3>
+        <h3 className="text-4xl rustica-bold text-ilusion mt-10">Conoce las ventajas de invertir con Duppla</h3>
         <div className="grid md:grid-cols-2 gap-4 my-10 gap-8">
           <div className="flex flex-col items-center gap-4">
             <h4 className="text-6xl rustica-bold">16% <span className="text-3xl">E.A.</span><span className="text-3xl text-sonador-darker">*</span></h4>
@@ -65,9 +67,6 @@ export default function Home() {
           </div>
         </Card>
         <News />
-        <div className="flex flex-col items-left text-left text-xs font-nunito-sans text-sonador-darker">
-          <p>* Remuneración objetivo o rentabilidades esperadas de hasta el 16% E.A.</p>
-        </div>
       </div>
     </main >
   );
