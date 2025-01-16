@@ -51,6 +51,7 @@ class SimuladorData {
     public mes: number[];
     public pago_mensual: number[];
     public porcentaje_mes: number[];
+    public porcentaje_acumulado: number[];
     public dinero_acumulado: number[];
 
     constructor(data: any) {
@@ -83,6 +84,7 @@ class SimuladorData {
         this.mes = data.mes;
         this.pago_mensual = data.pago_mensual;
         this.porcentaje_mes = data.porcentaje_mes;
+        this.porcentaje_acumulado = data.porcentaje_acumulado;
         this.dinero_acumulado = data.dinero_acumulado;
     }
 }

@@ -114,16 +114,15 @@ export default function Simulador() {
               </tr>
             </thead>
             <tbody>
-              {simuladorData?.inmuebles.map((inm, index) => {
-                if (index === simuladorData?.inmuebles.length - 1) return;
-                return (<tr key={index + inm.inmueble}>
-                  <td className="border-t p-0.5 border-sonador/20">{inm.inmueble}</td>
-                  <td className="border-t p-0.5 border-sonador/20">{inm.spv_irr ? (inm.spv_irr * 100).toLocaleString("es-CO") : ""}%</td>
-                  {simuladorData?.inmuebles[index]?.flujo.map((flu) => (
-                    <td className="border-t p-0.5 border-sonador/20">{formatNumber(flu.monto)}</td>)
-                  )}
-                </tr>)
-              }
+              {simuladorData?.inmuebles.map((inm, index) =>
+                (simuladorData && index === simuladorData.inmuebles?.length - 1) ? "" :
+                  (<tr key={inm.numero + inm.inmueble}>
+                    <td className="border-t p-0.5 border-sonador/20">{inm.inmueble}</td>
+                    <td className="border-t p-0.5 border-sonador/20">{inm.spv_irr ? (inm.spv_irr * 100).toLocaleString("es-CO") : ""}%</td>
+                    {simuladorData?.inmuebles[index]?.flujo.map((flu) => (
+                      <td key={flu.monto} className="border-t p-0.5 border-sonador/20">{formatNumber(flu.monto)}</td>)
+                    )}
+                  </tr>)
               )}
             </tbody>
             <tfoot className="text-ilusion font-bold">
@@ -131,7 +130,7 @@ export default function Simulador() {
                 <td className="border-t pt-0.5 border-sonador">{simuladorData?.inmuebles[simuladorData?.inmuebles.length - 1]?.inmueble}</td>
                 <td className="border-t pt-0.5 border-sonador">{simuladorData?.inmuebles[simuladorData?.inmuebles.length - 1]?.spv_irr}</td>
                 {simuladorData?.inmuebles[simuladorData?.inmuebles.length - 1]?.flujo.map((flu) =>
-                  (<td className="border-t pt-0.5 border-sonador">{formatNumber(flu.monto)}</td>)
+                  (<td key={flu.monto} className="border-t pt-0.5 border-sonador">{formatNumber(flu.monto)}</td>)
                 )}
               </tr>
             </tfoot>
@@ -198,39 +197,28 @@ export default function Simulador() {
         </div>
         <div className="flex flex-col text-left col-span-1 md:col-span-4">
           <h3 className="text-2xl rustica-bold">Flujos futuros</h3>
-          <Card className="col-span-1 md:col-span-3 lg:col-span-4 overflow-scroll">
-            <table className="border-collapse col-span-4 font-nunito-sans text-sm text-left">
+          <Card className="col-span-1 md:col-span-3 lg:col-span-4 overflow-scroll max-h-[500px]">
+            <table className="border-collapse col-span-4 font-nunito-sans text-sm text-left w-full">
               <thead className="font-bold text-base text-nowrap ">
                 <tr>
-                  <th className="border-b pr-4 border-sonador">Inmueble</th>
-                  <th className="border-b pr-4 border-sonador">SPV IRR</th>
-                  {simuladorData?.inmuebles[0].flujo.map((inm) => (
-                    <th key={inm.fecha} className="border-b pr-2 border-sonador">{inm.fecha}</th>)
-                  )}
+                  <th className="border-b pr-4 border-sonador">Mes</th>
+                  <th className="border-b pr-4 border-sonador">Pago Mensual</th>
+                  <th className="border-b pr-4 border-sonador">Porcentaje Mes</th>
+                  <th className="border-b pr-4 border-sonador">Porcentaje acumulado</th>
+                  <th className="border-b pr-4 border-sonador">Dinero Acumulado</th>
                 </tr>
               </thead>
               <tbody>
-                {simuladorData?.inmuebles.map((inm, index) => {
-                  if (index === simuladorData?.inmuebles.length - 1) return;
-                  return (<tr key={index + inm.inmueble}>
-                    <td className="border-t p-0.5 border-sonador/20">{inm.inmueble}</td>
-                    <td className="border-t p-0.5 border-sonador/20">{inm.spv_irr ? (inm.spv_irr * 100).toLocaleString("es-CO") : ""}%</td>
-                    {simuladorData?.inmuebles[index]?.flujo.map((flu) => (
-                      <td className="border-t p-0.5 border-sonador/20">{formatNumber(flu.monto)}</td>)
-                    )}
-                  </tr>)
-                }
+                {simuladorData?.mes.map((m, index) =>
+                (<tr key={index + m}>
+                  <td className="border-t p-0.5 border-sonador/20">{m}</td>
+                  <td className="border-t p-0.5 border-sonador/20">{formatNumber(simuladorData?.pago_mensual[index] ?? 0)}</td>
+                  <td className="border-t p-0.5 border-sonador/20">{((simuladorData?.porcentaje_mes[index] ?? 0) * 100).toLocaleString("es-CO")}%</td>
+                  <td className="border-t p-0.5 border-sonador/20">{((simuladorData?.porcentaje_acumulado[index] ?? 0) * 100).toLocaleString("es-CO")}%</td>
+                  <td className="border-t p-0.5 border-sonador/20">{formatNumber(simuladorData?.dinero_acumulado[index] ?? 0)}</td>
+                </tr>)
                 )}
               </tbody>
-              <tfoot className="text-ilusion font-bold">
-                <tr className="">
-                  <td className="border-t pt-0.5 border-sonador">{simuladorData?.inmuebles[simuladorData?.inmuebles.length - 1]?.inmueble}</td>
-                  <td className="border-t pt-0.5 border-sonador">{simuladorData?.inmuebles[simuladorData?.inmuebles.length - 1]?.spv_irr}</td>
-                  {simuladorData?.inmuebles[simuladorData?.inmuebles.length - 1]?.flujo.map((flu) =>
-                    (<td className="border-t pt-0.5 border-sonador">{formatNumber(flu.monto)}</td>)
-                  )}
-                </tr>
-              </tfoot>
             </table>
           </Card>
         </div>
