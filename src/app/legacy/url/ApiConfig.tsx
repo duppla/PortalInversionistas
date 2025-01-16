@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000/inversionistas";
+const BASE_URL = "https://back.duppla.co/inversionistas";
 
 type QueryParams = {
   [key: string]: string | number | null;
