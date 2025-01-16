@@ -5,15 +5,12 @@ import { useAuth } from "../../context/authContext";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import LogoInversionistas from "../../../../img/logoinversionistas.svg";
-import SettingDupplaMenu from "../../../../img/setting-icon.svg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -22,11 +19,6 @@ function ResponsiveAppBar() {
   const navigate = useRouter();
 
   const [anchorElUser, setAnchorElUser] = useState(null);
-
-  const handleOpenUserMenu = (event: any) => {
-    setAnchorElUser(event.currentTarget);
-    console.log(event.currentTarget);
-  };
 
   const handleLogout = () => {
     logout(); // Llama a la función de logout desde el contexto
@@ -67,21 +59,6 @@ function ResponsiveAppBar() {
           </Container>
 
           <Box sx={{ position: "absolute", right: 0, mt: 6, mr: 1 }}>
-            <Tooltip title="Abrir configuración">
-              <IconButton
-                onClick={handleOpenUserMenu}
-                className=""
-                sx={{ justifyContent: "flex-end" }}
-              >
-                <Image
-                  src={SettingDupplaMenu}
-                  alt=""
-                  className=""
-                  width={48}
-                  height={48}
-                />
-              </IconButton>
-            </Tooltip>
             <Box sx={{ mt: "45px" }}>
               <Menu
                 id="menu-appbar"

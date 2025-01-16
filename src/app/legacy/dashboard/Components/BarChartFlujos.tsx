@@ -4,85 +4,49 @@ import { useEffect, useState } from "react";
 
 // material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
-import { SelectChangeEvent } from "@mui/material/Select";
 import { FormControl } from "@mui/material";
 
 // nivo imports
 import { ResponsiveBar } from "@nivo/bar";
 
 // custom imports
-import fetchData from "../../../url/ApiConfig";
-import { getEmail } from "../../../context/authContext";
 import {
   formatFecha,
   formatNumber,
   setTooltipBar,
   generarTicks,
-} from "../utils";
-import { titleGrid, selectGrid } from "../ChartAddons";
+} from "./utils";
+import { titleGrid } from "./ChartAddons";
 
-const endpoint = "/principal/flujo_real_esperado";
-const title = "Flujo real vs. flujo esperado";
-const explainText = `Nota: 'Flujo Real' se refiere a los ingresos generado durante el periodo elegido, mientras que 'Flujo Esperado' alude a las proyecciones de ingreso para el mismo intervalo.`;
+const title = "Dispersión de pagos";
 
 const tickCount: number = 5;
 
-type Flujos = {
-  fecha: string;
-  flujo_real: number;
-  flujo_esperado: number;
-};
-
 export type FlujosFront = {
-  fecha: string;
-  Real: number;
-  Esperado: number;
+  x: string;
+  Flujo: number;
+  Adelanto: number;
+  "Reducción cartera": number;
+  "NOI ajustado": number;
 };
 
-type FlujoRealEsperado = {
-  ult_12_meses: Flujos[];
-  este_anho: Flujos[];
-  ult_6_meses: Flujos[];
-};
-
-function BarChartFlujos() {
-  const email = getEmail();
-
-  const [data, setData] = useState<FlujoRealEsperado>();
-  const [key, setKey] = useState<keyof FlujoRealEsperado>("ult_12_meses");
-
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+function BarChartFlujos(props: Readonly<{ fechas: string[]; flujo: number[]; adelanto: number[]; reduccion_cartera: number[]; noi_ajustado: number[] }>) {
   const [ticks, setTicks] = useState<number[]>([]);
 
   useEffect(() => {
-    fetchData(endpoint, email, setData);
-  }, [email]);
-
-  const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    setKey(event.target.value as keyof FlujoRealEsperado);
-  };
+    const maxValue = Math.max(...props.flujo);
+    const ticks = generarTicks(0, maxValue, tickCount);
+    setTicks(ticks);
+  }, [props.fechas, props.flujo]);
 
   let formattedData: FlujosFront[] = [];
-  if (data) {
-    formattedData = data[key].map((item: Flujos) => {
-      return {
-        fecha: item.fecha,
-        Real: item.flujo_real,
-        Esperado: item.flujo_esperado,
-      };
-    });
-  }
-
-  useEffect(() => {
-    if (data) {
-      const monthMax = data[key].map((item) =>
-        Math.max(item.flujo_real, item.flujo_esperado)
-      );
-      const maxValue: number = Math.max(...monthMax);
-      const ticks = generarTicks(0, maxValue, tickCount);
-      setTicks(ticks);
-    }
-  }, [key, data]);
+  formattedData = props.fechas.map((item: string, index: number) => ({
+    x: item,
+    Flujo: props.flujo[index],
+    Adelanto: props.adelanto[index],
+    "Reducción cartera": props.reduccion_cartera[index],
+    "NOI ajustado": props.noi_ajustado[index],
+  }));
 
   return (
     <div className="grafica-barcharts nivo-text">
@@ -94,8 +58,7 @@ function BarChartFlujos() {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            {titleGrid(title, explainText)}
-            {selectGrid(key, handleSelectChange, menuOpen, setMenuOpen)}
+            {titleGrid(title)}
           </Grid>
         </FormControl>
       </div>
@@ -117,16 +80,15 @@ function BarChart(
   return (
     <ResponsiveBar
       data={formattedData}
-      keys={["Real", "Esperado"]}
-      indexBy="fecha"
+      keys={["Adelanto", "Reducción cartera", "NOI ajustado"]}
+      indexBy="x"
       label={() => ""}
       margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
       padding={0.7}
       maxValue={ticks.at(-1)}
-      groupMode="grouped"
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
-      colors={["#6C6FFF", "#C5F5CA"]} // Define tus propios colores
+      colors={["#723DFD", "#28ACFF", "#5ED1B1"]} // Define tus propios colores
       theme={{
         axis: {
           ticks: {
@@ -155,16 +117,10 @@ function BarChart(
       fill={[
         {
           match: {
-            id: "Real",
+            id: "y",
           },
-          id: "Real",
-        },
-        {
-          match: {
-            id: "Esperado",
-          },
-          id: "Esperado",
-        },
+          id: "y",
+        }
       ]}
       borderRadius={3}
       borderColor={{
@@ -181,7 +137,7 @@ function BarChart(
         legend: "",
         legendPosition: "middle",
         legendOffset: 32,
-        tickValues: formattedData.map((item: FlujosFront) => item.fecha),
+        tickValues: formattedData.map((item: FlujosFront) => item.x),
         format: (value) => formatFecha(value),
       }}
       gridYValues={ticks}
@@ -204,14 +160,14 @@ function BarChart(
       legends={[
         {
           dataFrom: "keys",
-          anchor: "bottom-left",
+          anchor: "bottom",
           direction: "row",
           justify: false,
           translateX: 0,
           translateY: 54,
-          itemsSpacing: 0,
+          itemsSpacing: 10,
           itemDirection: "left-to-right",
-          itemWidth: 80,
+          itemWidth: 150,
           itemHeight: 20,
           itemOpacity: 0.75,
           symbolSize: 12,

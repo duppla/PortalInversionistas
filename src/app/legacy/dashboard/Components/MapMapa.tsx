@@ -10,11 +10,7 @@ import { Button, Stack } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 // custom imports
-import fetchData from "../../../url/ApiConfig";
-import { getEmail } from "../../../context/authContext";
-import { formatNumber } from "../utils";
-
-const endpoint = "/inmuebles/mapa";
+import { formatNumber } from "./utils";
 
 let defaultCenter: { lat: number; lng: number } = {
   lat: 4.710989,
@@ -24,37 +20,30 @@ let defaultCenter: { lat: number; lng: number } = {
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWFyZXZhbG8iLCJhIjoiY2xwaWxxNGgwMDBtZDJwdGo0YjZzNHlnZyJ9.X_xxMOm_DCKERmwnhC4izA";
 
-type HooverMapa = {
-  codigo_inmueble: string;
+type Inmueble = {
+  codigo: string;
+  ciudad: string;
   latitud: number;
   longitud: number;
+  estrato: string;
+  valor_compra: number;
   barrio: string;
-  valor_inmueble: number;
-  mora: boolean;
-  categoria_mora: string;
 };
 
 type Mapa = {
   ciudad: string;
-  inmuebles: HooverMapa[];
-};
+  inmuebles: Inmueble[];
+}
 
-function MapMapa() {
-  const email = getEmail();
-
+function MapMapa(props: Readonly<{ mapa: Mapa[] }>) {
   const mapDiv = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<Map>();
-  const [data, setData] = useState<Mapa[]>([]);
   const [city, setCity] = useState<number>(0);
 
-  useEffect(() => {
-    fetchData(endpoint, email, setData);
-  }, [email]);
-
-  let locations: HooverMapa[] = [];
+  let locations: Inmueble[] = [];
   let center = defaultCenter;
-  if (data.length > 0) {
-    locations = data[city].inmuebles || [];
+  if (props.mapa.length > 0) {
+    locations = props.mapa[city].inmuebles || [];
     center = locations.length > 0 ? avgCoords(locations) : defaultCenter;
   }
 
@@ -85,23 +74,21 @@ function MapMapa() {
   }, []);
 
   useEffect(() => {
-    if (map && data[city]) {
-      const locations = data[city].inmuebles;
+    if (map && props.mapa[city]) {
+      const locations = props.mapa[city].inmuebles;
       if (locations.length > 0) {
         map.flyTo({ center: avgCoords(locations), zoom: 11 });
         addMarkersToMap(map);
       }
     }
-  }, [map, city, data]);
+  }, [map, city, props.mapa]);
 
   const handleCityChange = (city: number) => {
     setCity(city);
   };
 
   const addMarkersToMap = (map: mapboxgl.Map) => {
-    const cityName = data[city].ciudad;
-    const upperCityName = cityName.toUpperCase();
-    const locations = data[city].inmuebles;
+    const locations = props.mapa[city].inmuebles;
 
     locations.forEach((location) => {
       const markerElement = document.createElement("img");
@@ -111,15 +98,11 @@ function MapMapa() {
       markerElement.style.width = "28px";
 
       let popupContent = `
-        ${popupTitle(upperCityName)}
+        ${popupTitle(location.codigo)}
         ${popupBarrio(location.barrio)}
-        ${popupValorInmueble(location.valor_inmueble)}
-        ${popupMora(location.mora)}
+        ${popupValorInmueble(location.valor_compra)}
+        ${popupEstrato(location.estrato)}
         `;
-      // Agregar categoría de mora si es necesario
-      if (location.mora) {
-        popupContent += popupCategoriaMora(location.categoria_mora);
-      }
 
       const popup = new mapboxgl.Popup().setHTML(popupContent);
 
@@ -139,15 +122,15 @@ function MapMapa() {
   };
 
   const handlePopupClose = () => {
-    if (map && data.length > 0) {
-      const locations = data[city].inmuebles;
+    if (map && props.mapa.length > 0) {
+      const locations = props.mapa[city].inmuebles;
       if (locations.length > 0) {
         map.flyTo({ center: avgCoords(locations), zoom: 11 });
       }
     }
   };
 
-  const handleMarkerClick = (location: HooverMapa) => {
+  const handleMarkerClick = (location: Inmueble) => {
     if (map) {
       map.flyTo({ center: [location.longitud, location.latitud], zoom: 15 });
     }
@@ -167,7 +150,7 @@ function MapMapa() {
             spacing={2}
             sx={{ justifyContent: "flex-start", mt: 2 }}
           >
-            {data.map((mapa: Mapa, index: number) => (
+            {props.mapa.map((mapa: Mapa, index: number) => (
               <Button
                 key={mapa.ciudad}
                 variant="outlined"
@@ -207,7 +190,7 @@ function MapMapa() {
 export default MapMapa;
 
 // Función para calcular el centro promedio de un conjunto de ubicaciones
-function avgCoords(locations: HooverMapa[]): { lat: number; lng: number } {
+function avgCoords(locations: Inmueble[]): { lat: number; lng: number } {
   const count = locations.length;
   const sumLat = locations.reduce((sum, item) => sum + item.latitud, 0);
   const sumLng = locations.reduce((sum, item) => sum + item.longitud, 0);
@@ -248,6 +231,14 @@ const popupBarrio = (barrio: string | null) => {
   return barrio
     ? `<p style="color: black;">
     <strong>Barrio:</strong> ${barrio}
+  </p>`
+    : "";
+};
+
+const popupEstrato = (estrato: string | null) => {
+  return estrato
+    ? `<p style="color: black;">
+    <strong>Estrato:</strong> ${estrato}
   </p>`
     : "";
 };
