@@ -30,7 +30,7 @@ export default function Home() {
         </Link>
       </Navbar>
       <div className="flex flex-col text-center text-sonador gap-12 xl:container xl:mx-auto max-md:p-4 max-xl:p-8">
-        <h3 className="text-4xl rustica-bold text-ilusion mt-10">Conoce las ventajas de invertir con Duppla</h3>
+        <h3 className="text-4xl rustica-bold text-ilusion mt-10">Conoce las ventajas de invertir con duppla</h3>
         <div className="grid md:grid-cols-2 gap-4 my-10 gap-8">
           <div className="flex flex-col items-center gap-4">
             <h4 className="text-6xl rustica-bold">16% <span className="text-3xl">E.A.</span><span className="text-3xl text-sonador-darker">*</span></h4>
