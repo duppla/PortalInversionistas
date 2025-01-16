@@ -19,12 +19,12 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="bg-futuro-darker bg-pattern-investor bg-left-top bg-no-repeat">
-        <GoogleAnalytics gaId="G-FF0V434HDN" />
-        <GoogleTagManager gtmId="GTM-529X3G26" />
+        <GoogleAnalytics gaId="G-ZM5NCXGK24" />
+        <GoogleTagManager gtmId="GTM-NWMQPMG6" />
         <main>
           {children}
           <noscript>
-            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-529X3G26" title="analytics"
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWMQPMG6" title="analytics"
               height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}>
             </iframe>
           </noscript>

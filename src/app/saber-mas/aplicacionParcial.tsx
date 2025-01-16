@@ -530,7 +530,7 @@ export default function AplicacionParcial({
             He leido y acepto los{" "}
             <Link
               className="text-sonador-darker hover:underline"
-              href="https://duppla.co/terminos-y-condiciones"
+              href="/TyC"
               target="_blank"
             >
               {" "}

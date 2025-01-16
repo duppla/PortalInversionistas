@@ -166,7 +166,7 @@ export default function Simulador() {
           <h2 className="text-4xl rustica-bold text-ilusion">Tu inversión</h2>
         </div>
         {sim ? <><Card className="col-span-1 md:col-span-3 lg:col-span-2 grid grid-flow-row p-8 gap-2">
-          <h4 className={'rustica text-lg text-left'}>Ingresos*</h4>
+          <h4 className={'rustica text-lg text-left'}>Renta acumulada*</h4>
           <h4 className={'rustica-bold text-lg text-right'}>{formatNumber(simuladorData?.total_acumulado_portafolio ?? 0)}</h4>
           <h4 className={'rustica text-lg text-left'}>Inversión</h4>
           <h4 className={'rustica-bold text-lg text-right'}>-{formatNumber(simuladorData?.monto_a_invertir ?? 0)}</h4>
@@ -175,8 +175,8 @@ export default function Simulador() {
           <h4 className={'rustica-bold text-lg text-right text-ilusion'}>{formatNumber(simuladorData?.ganancia_5_anhos ?? 0)}</h4>
         </Card>
           <Card className="col-span-1 md:col-span-3 lg:col-span-2 grid grid-flow-row p-8 gap-1.5">
-            <h4 className={'rustica text-lg text-left'}>Participación adquirida</h4>
-            <h4 className={'rustica-bold text-lg text-right'}>{((simuladorData?.participacion_comprada ?? 0) * 100).toLocaleString("es-CO")}%</h4>
+            <h4 className={'rustica text-lg text-left text-sonador-darker'}>Participación adquirida</h4>
+            <h4 className={'rustica-bold text-lg text-right text-sonador-darker'}>{((simuladorData?.participacion_comprada ?? 0) * 100).toLocaleString("es-CO")}%</h4>
             <hr className="col-span-2 invisible"></hr>
             <h4 className={'rustica text-lg text-left'}>Retorno mensual promedio</h4>
             <h4 className={'rustica-bold text-lg text-right'}>{formatNumberCompact(simuladorData?.promedio_rentas_mas_valorizacion ?? 0)}</h4>
@@ -230,14 +230,14 @@ export default function Simulador() {
               />
 
             </div>
-            <Button id="Simular" onClick={email && inv >= 1000000 && !isLoading ? () => { setIsLoading(true); simulate() } : undefined} color="ilusion" className="md:col-span-2">
+            <Button id="Simular" onClick={email && inv >= 1000000 && inv <= 3000000000 && !isLoading ? () => { setIsLoading(true); simulate() } : undefined} color="ilusion" className="md:col-span-2">
               <p className="text-lg rustica-bold">Simular inversión</p>
             </Button>
           </Card>}
         <Card color="ilusion" className="col-span-1 md:col-span-6 lg:col-span-2">
-          <h4 className={'rustica text-lg text-pretty'}>Con Duppla tu dinero puede crecer <span className={'rustica-bold text-2xl'}> {simuladorData?.total_acumulado_portafolio_porc} </span>veces.
-            Con ganancias de hasta<span className={'rustica-bold text-2xl'}> {((simuladorData?.ganancia_5_anhos_porc ?? 0.444) * 100).toLocaleString("es-CO")}% </span>a 5 años.
-            Y rentas mensuales promedio del<span className={'rustica-bold text-2xl'}> {((simuladorData?.renta_mensual_promedio_porc ?? 0.0167) * 100).toLocaleString("es-CO")}%</span></h4>
+          <h4 className={'rustica text-lg text-pretty'}>Con <span className="rustica-bold">duppla</span> tu dinero puede crecer <span className={'rustica-bold text-2xl'}> {simuladorData?.total_acumulado_portafolio_porc} </span>veces en 5 años.
+            Con rentas mensuales promedio del<span className={'rustica-bold text-2xl'}> {((simuladorData?.renta_mensual_promedio_porc ?? 0.0167) * 100).toLocaleString("es-CO")}%</span> y una rentabilidad esperada del
+            <span className={'rustica-bold text-2xl'}> {simuladorData?.rentabilidad}</span>.</h4>
         </Card>
         <div className={`flex flex-col text-left col-span-1 md:col-span-6 ${!sim && 'blur-sm'}`}>
           <h3 className="text-2xl rustica-bold">Ingreso acumulado</h3>
@@ -319,7 +319,7 @@ export default function Simulador() {
         <Card className="col-span-1 md:col-span-6 grid grid-cols-1 lg:grid-cols-6 md:flex-row p-8 gap-4" color="highlight">
           <div className="col-span-1 md:col-span-4 flex flex-col gap-2 justify-between">
             <h4 className={'rustica-bold text-lg text-left'}>¿Te interesa invertir en este portafolio?</h4>
-            <h4 className={'rustica text-lg text-left'}>Habla con nuestros expertos y haz crecer tu dinero con Duppla.</h4>
+            <h4 className={'rustica text-lg text-left'}>Habla con nuestros expertos y haz crecer tu dinero con duppla.</h4>
           </div>
           <Button id="Simular" onClick={() => { window.open("./saber-mas", '_self') }} color="ilusion" className="col-span-1 md:col-span-2 md:h-full shrink-0">
             <p className="text-lg md:text-2xl rustica-bold">Quiero invertir</p>
