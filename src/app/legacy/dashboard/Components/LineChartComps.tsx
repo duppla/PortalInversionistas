@@ -4,8 +4,8 @@ import { ResponsiveLine } from "@nivo/line";
 // custom imports
 import { formatFecha, formatNumber, setTooltipLine } from "./utils";
 // types
-import { RentabilidadFront } from "./main/LineChartRentabilidad";
-import { TasaMorosidadFront } from "./main/LineChartHistMora";
+import { RentabilidadFront } from "./LineChartRentabilidad";
+import { TasaMorosidadFront } from "./LineChartHistMora";
 
 export function LineChart(
   formattedData: RentabilidadFront[] | TasaMorosidadFront[],
@@ -34,7 +34,7 @@ export function LineChart(
       }}
       yScale={{
         type: "linear",
-        min: 0,
+        min: ticks[0],
         max: ticks ? ticks[ticks.length - 1] : 0,
         stacked: true,
         reverse: false,

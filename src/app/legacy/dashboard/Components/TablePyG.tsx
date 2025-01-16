@@ -1,6 +1,6 @@
 "use client";
 // react imports
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 // material-ui imports
 import Table from "@mui/material/Table";
@@ -14,30 +14,43 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { FormControl } from "@mui/material";
 
 // custom imports
-import fetchData from "../../../url/ApiConfig";
-import { getEmail } from "../../../context/authContext";
-import { formatFecha, formatNumber } from "../utils";
-import { titleGrid } from "../ChartAddons";
-
-const endpoint = "/inmuebles/perdidas_ganancias_tabla";
+import { formatFecha, formatNumber } from "./utils";
+import { titleGrid } from "./ChartAddons";
 
 type PyGRow = {
   fecha: string;
-  gastos: number;
-  reserva: number;
-  noi: number;
-  utilidad_bruta: number;
-  ingresos: number;
+  gastos: number; //opex
+  reserva: number; //reserva predial + reserva mantenimiento + reserva capex
+  noi: number; //noi ajustado
+  utilidad_bruta: number; //noi
+  ingresos: number; //venta total + reduc cartera
 };
 
-export default function TablePyG() {
-  const email = getEmail();
+export default function TablePyG(props: Readonly<{ fechas: string[]; opex: number[]; reserva_predial: number[]; reserva_mantenimiento: number[]; reserva_capex: number[]; noi_ajustado: number[]; noi: number[]; venta_total: number[]; reduc_cartera: number[]; }>) {
+  let formattedData: PyGRow[] = [];
 
-  const [data, setData] = useState<PyGRow[]>([]);
-
-  useEffect(() => {
-    fetchData(endpoint, email, setData);
-  }, [email]);
+  const max_months = 5;
+  // if the length of the fechas array is greater than max_months just take the last 4 elements
+  if (props.fechas.length > max_months) {
+    formattedData = props.fechas.slice(-max_months).map((item: string, index: number) => ({
+      fecha: item,
+      gastos: props.opex.slice(-max_months)[index],
+      reserva: props.reserva_predial.slice(-max_months)[index] + props.reserva_mantenimiento.slice(-max_months)[index] + props.reserva_capex.slice(-max_months)[index],
+      noi: props.noi_ajustado.slice(-max_months)[index],
+      utilidad_bruta: props.noi.slice(-max_months)[index],
+      ingresos: props.venta_total.slice(-max_months)[index] + props.reduc_cartera.slice(-max_months)[index],
+    }));
+  }
+  else {
+    formattedData = props.fechas.map((item: string, index: number) => ({
+      fecha: item,
+      gastos: props.opex[index],
+      reserva: props.reserva_predial[index] + props.reserva_mantenimiento[index] + props.reserva_capex[index],
+      noi: props.noi_ajustado[index],
+      utilidad_bruta: props.noi[index],
+      ingresos: props.venta_total[index] + props.reduc_cartera[index],
+    }));
+  }
 
   const padRight = "60px";
   const posColor = "#9B9EAB";
@@ -66,8 +79,8 @@ export default function TablePyG() {
       >
         <TableContainer sx={{ mt: 4 }}>
           <Table sx={{ background: "#212126" }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
+            <TableHead key="table_head">
+              <TableRow key="first_row">
                 <TableCell
                   padding="none"
                   sx={{
@@ -77,13 +90,14 @@ export default function TablePyG() {
                     fontSize: "20px",
                   }}
                   align="right"
+                  key="empty_cell"
                 ></TableCell>
-                {data.length > 0 &&
-                  data.map((row: PyGRow) => (
+                {formattedData.length > 0 &&
+                  formattedData.map((row: PyGRow, index: number) => (
                     <>
-                      <TableCell></TableCell>
+                      <TableCell key={"empty_cell_2" + index}></TableCell>
                       <TableCell
-                        key={row.fecha}
+                        key={row.fecha + index}
                         sx={{
                           color: "#9B9EAB",
                           textAlign: "end",
@@ -99,7 +113,7 @@ export default function TablePyG() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.length > 0 && (
+              {formattedData.length > 0 && (
                 <>
                   <TableRow
                     key="ingresos"
@@ -118,7 +132,7 @@ export default function TablePyG() {
                     >
                       Ingresos
                     </TableCell>
-                    {data.map((row: PyGRow) =>
+                    {formattedData.map((row: PyGRow) =>
                       dollarValuePairCells(row.ingresos, posColor, padRight)
                     )}
                   </TableRow>
@@ -138,8 +152,8 @@ export default function TablePyG() {
                     >
                       Gastos
                     </TableCell>
-                    {data.map((row: PyGRow) =>
-                      dollarValuePairCells(-row.gastos, negColor, padRight)
+                    {formattedData.map((row: PyGRow) =>
+                      dollarValuePairCells(row.gastos, negColor, padRight)
                     )}
                   </TableRow>
                   <TableRow
@@ -158,7 +172,7 @@ export default function TablePyG() {
                     >
                       Utilidad bruta
                     </TableCell>
-                    {data.map((row: PyGRow) =>
+                    {formattedData.map((row: PyGRow) =>
                       dollarValuePairCells(
                         row.utilidad_bruta,
                         posColor,
@@ -182,8 +196,8 @@ export default function TablePyG() {
                     >
                       Reserva
                     </TableCell>
-                    {data.map((row: PyGRow) =>
-                      dollarValuePairCells(-row.reserva, negColor, padRight)
+                    {formattedData.map((row: PyGRow) =>
+                      dollarValuePairCells(row.reserva, negColor, padRight)
                     )}
                   </TableRow>
                   <TableRow
@@ -202,7 +216,7 @@ export default function TablePyG() {
                     >
                       NOI
                     </TableCell>
-                    {data.map((row: PyGRow) =>
+                    {formattedData.map((row: PyGRow) =>
                       dollarValuePairCells(row.noi, posColor, padRight)
                     )}
                   </TableRow>

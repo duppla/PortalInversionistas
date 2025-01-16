@@ -1,17 +1,15 @@
 "use client";
 // react imports
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 // material-ui imports
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography, FormControl } from "@mui/material";
 
 // custom imports
-import fetchData from "../../../url/ApiConfig";
-import { getEmail } from "../../../context/authContext";
-import { formatNumber } from "../utils";
-import { titleGrid } from "../ChartAddons";
-import PieChart from "../PieChartComps";
+import { formatNumber } from "./utils";
+import { titleGrid } from "./ChartAddons";
+import PieChart from "./PieChartComps";
 
 const endpoint = "/principal/cartera_mora";
 
@@ -33,23 +31,32 @@ type CarteraMora = {
   total: number;
 };
 
-function PieChartCompCartera() {
-  const email = getEmail();
-  const [data, setData] = useState<CarteraMora>();
+function PieChartCompCartera(props: Readonly<{ mora_30: number; mora_60: number; mora_90: number }>) {
+  const total = props.mora_30 + props.mora_60 + props.mora_90;
+  const percentage_30 = (props.mora_30 / total);
+  const percentage_60 = (props.mora_60 / total);
+  const percentage_90 = (props.mora_90 / total);
 
-  useEffect(() => {
-    fetchData(endpoint, email, setData);
-  }, [email]);
-
-  let formattedData: FormatoFront[] = [];
-  if (data) {
-    formattedData = data.cartera_mora.map((item) => ({
-      id: item.label,
-      label: item.label,
-      value: item.value,
-      percentage: item.percentage,
-    }));
-  }
+  const formattedData: FormatoFront[] = [
+    {
+      id: "Entre 31 y 60",
+      label: "Entre 31 y 60",
+      value: props.mora_30,
+      percentage: percentage_30,
+    },
+    {
+      id: "Entre 61 y 90",
+      label: "Entre 61 y 90",
+      value: props.mora_60,
+      percentage: percentage_60,
+    },
+    {
+      id: "Mayor a 90",
+      label: "Mayor a 90",
+      value: props.mora_90,
+      percentage: percentage_90,
+    },
+  ];
 
   return (
     <div
@@ -64,13 +71,13 @@ function PieChartCompCartera() {
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            {titleGrid("Cartera en mora", "", -1, 1.5)}
+            {titleGrid("Cartera a la fecha", "", -1, 1.5)}
           </Grid>
         </FormControl>
       </div>
 
       {
-        <div style={{ position: "relative", width: "100%", height: "100%" }}>
+        <div style={{ position: "relative", width: "110%", height: "100%" }}>
           {PieChart(formattedData, 0.6, 0.5)}
         </div>
       }
@@ -101,7 +108,7 @@ function PieChartCompCartera() {
               fontSize: "28px",
             }}
           >
-            {data ? "$ " + formatNumber(data.total, 1) : ""}
+            {props.mora_30 ? "$ " + formatNumber(total, 1) : ""}
           </Typography>
           <Typography
             sx={{
