@@ -109,7 +109,7 @@ export default function Simulador() {
             </div>
           </Card>
           <div className="text-center col-span-1 md:col-span-6">
-            <h2 className="text-4xl rustica-bold text-ilusion">Información del portafolio</h2>
+            <h2 className="text-4xl rustica-bold text-ilusion mt-4">Información del portafolio</h2>
           </div>
           <Card color="highlight" className="col-span-1 md:col-span-3 lg:col-span-2 grid grid-cols-2 p-8 gap-2">
             <h4 className={'rustica text-lg text-left'}>Valor presente</h4>
@@ -162,7 +162,7 @@ export default function Simulador() {
         </Link>
       </Navbar>
       <div className="grid grid-cols-1 md:grid-cols-6 w-full text-center text-sonador gap-8 xl:container xl:mx-auto max-md:p-4 max-xl:p-8">
-        <div className="text-center col-span-1 md:col-span-6 mt-8">
+        <div className="text-center col-span-1 md:col-span-6 mt-4">
           <h2 className="text-4xl rustica-bold text-ilusion">Tu inversión</h2>
         </div>
         {sim ? <><Card className="col-span-1 md:col-span-3 lg:col-span-2 grid grid-flow-row p-8 gap-2">
@@ -236,8 +236,8 @@ export default function Simulador() {
           </Card>}
         <Card color="ilusion" className="col-span-1 md:col-span-6 lg:col-span-2">
           <h4 className={'rustica text-lg text-pretty'}>Con Duppla tu dinero puede crecer <span className={'rustica-bold text-2xl'}> {simuladorData?.total_acumulado_portafolio_porc} </span>veces.
-            Con ganancias de hasta<span className={'rustica-bold text-2xl'}> {((simuladorData?.ganancia_5_anhos_porc ?? 0) * 100).toLocaleString("es-CO")}% </span>a 5 años.
-            Y rentas mensuales promedio del<span className={'rustica-bold text-2xl'}> {((simuladorData?.renta_mensual_promedio_porc ?? 0) * 100).toLocaleString("es-CO")}%</span></h4>
+            Con ganancias de hasta<span className={'rustica-bold text-2xl'}> {((simuladorData?.ganancia_5_anhos_porc ?? 0.444) * 100).toLocaleString("es-CO")}% </span>a 5 años.
+            Y rentas mensuales promedio del<span className={'rustica-bold text-2xl'}> {((simuladorData?.renta_mensual_promedio_porc ?? 0.0167) * 100).toLocaleString("es-CO")}%</span></h4>
         </Card>
         <div className={`flex flex-col text-left col-span-1 md:col-span-6 ${!sim && 'blur-sm'}`}>
           <h3 className="text-2xl rustica-bold">Ingreso acumulado</h3>

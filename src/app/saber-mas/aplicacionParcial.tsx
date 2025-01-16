@@ -262,15 +262,15 @@ export default function AplicacionParcial({
         >
           <h1
             className={
-              "md:col-span-6 rustica-bold text-5xl text-center"
+              "md:col-span-6 rustica-bold text-5xl text-center px-4"
             }
           >
             ¿Quieres saber más?
           </h1>
           <h2
-            className={"md:col-span-6 rustica text-xl text-center"}
+            className={"md:col-span-6 rustica text-xl text-center px-4"}
           >
-            Invertir con duppla es fácil y seguro, deja tus datos.
+            Invertir con duppla es fácil y seguro, deja tus datos y nuestro equipo de expertos se contactará contigo
           </h2>
         </div>
         <div

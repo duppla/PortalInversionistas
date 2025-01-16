@@ -4,8 +4,6 @@ import Link from "next/link";
 import Button from "./Components/button";
 import Card from "./Components/card";
 import News from "./Components/news";
-import Image from "next/image";
-
 export default function Home() {
 
   const hero = (< div className="grid grid-cols-1 md:grid-cols-4 items-center justify-center text-sonador overflow-hidden" >
@@ -13,7 +11,7 @@ export default function Home() {
       <h1 className="md:max-w-screen-sm md:col-span-2 text-4xl lg:text-6xl rustica-bold text-pretty">Invierte seguro con rentabilidades de hasta el 16% <span className="text-3xl">E.A.</span><span className="text-3xl text-sonador-darker">*</span></h1>
       <h2 className="md:max-w-screen-sm md:col-span-2 md:col-start-1 text-2xl rustica">Adquiere derechos fiduciarios e invierte en portafolios de apartamentos que generan hasta el doble de retorno que las rentas tradicionales.</h2>
       <div className="md:col-span-2 md:col-start-1">
-        <Button id={"invierte"} onClick={() => { }} className="w-full xl:w-1/2">
+        <Button id={"invierte"} onClick={() => { window.open("/saber-mas", '_self') }} className="w-full xl:w-1/2">
           <p className="text-2xl rustica-bold">Quiero saber más</p>
         </Button>
       </div>
@@ -60,7 +58,7 @@ export default function Home() {
             <h4 className="text-4xl lg:text-5xl rustica-bold">¿Quieres saber más sobre inversiones en finca raíz?</h4>
             <p className="text-2xl rustica">Únete a la charla de nuestros fundadores en Moneycon 2025</p>
             <div className="w-full">
-              <Button id={"moneycon"} onClick={() => { }} className="w-full md:w-1/2">
+              <Button id={"moneycon"} onClick={() => { window.open("https://www.eticket.co/masinformacion.aspx?idevento=25559", '_blank') }} className="w-full md:w-1/2">
                 <p className="text-lg rustica-bold">¡Me interesa!</p>
               </Button>
             </div>
