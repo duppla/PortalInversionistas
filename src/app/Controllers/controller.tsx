@@ -1,10 +1,13 @@
+const BASE_URL = 'https://back.duppla.co';
+//const BASE_URL = 'http://localhost:8000';
+
 abstract class Controller {
   protected constructor() { }
 
   protected async getData(endpoint: string, queryParameters?: string) {
     const options = { method: "GET" };
     const response = await fetch(
-      `https://back.duppla.co/${endpoint}${queryParameters ?? ""}`,
+      `${BASE_URL}/${endpoint}${queryParameters ?? ""}`,
       options
     );
     const responseData = await response.json();
@@ -74,7 +77,7 @@ abstract class Controller {
       },
       body: body ? JSON.stringify(body) : undefined,
     };
-    const response = await fetch(`https://back.duppla.co/${endpoint}`, options);
+    const response = await fetch(`${BASE_URL}/${endpoint}`, options);
     const responseData = await response.json();
 
     if (!responseData) {

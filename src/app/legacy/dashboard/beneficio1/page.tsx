@@ -5,7 +5,7 @@ import fetchData from "../../url/ApiConfig";
 
 import PageGenerator, { Inversion } from "../page_generator";
 
-const endpoint = "/dashboard?portafolio=beneficio1";
+const endpoint = "/inversionistas/dashboard?portafolio=beneficio1";
 
 const Page = () => {
   const [data, setData] = useState<Inversion>();
