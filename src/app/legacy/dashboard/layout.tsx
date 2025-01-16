@@ -55,12 +55,9 @@ function Layout({ children }: { readonly children: ReactNode }) {
                         spacing={1}
                         sx={{ justifyContent: "flex-end" }}
                       >
-                        {botonDashboard(
-                          "Dashboard principal",
-                          "/legacy/dashboard/principal"
-                        )}
-                        {botonDashboard("Inmuebles", "/legacy/dashboard/property")}
-                        {botonDashboard("Clientes", "/legacy/dashboard/customer")}
+                        {botonDashboard("Beneficio 1", "/legacy/dashboard/beneficio1")}
+                        {botonDashboard("Beneficio 2", "/legacy/dashboard/beneficio2")}
+                        {botonDashboard("Beneficio 3", "/legacy/dashboard/beneficio3")}
                       </Stack>
                     </Grid>
                   </Grid>

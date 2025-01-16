@@ -1,6 +1,7 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
+import { formatFecha } from "./utils";
 
-export const CardCompBox = (props: { title: string; data: string }) =>  {
+export const CardCompBox = (props: { title: string; data: string }) => {
   const box = (
     <Box
       className="size-card-main-d-f"
@@ -51,11 +52,9 @@ export const CardCompBox = (props: { title: string; data: string }) =>  {
   return box;
 }
 
-export function CardCompDateBox(
-  title: string,
-  formattedDate: string,
-  data: string
-) {
+export function CardCompDateBox(props: Readonly<{ title: string; fecha: string; value: string }>) {
+  const formattedDate = props.fecha ? formatFecha(props.fecha) : "";
+
   const box = (
     <Box
       className="card-with-date-component"
@@ -85,7 +84,7 @@ export function CardCompDateBox(
               fontWeight: "500",
             }}
           >
-            {title}
+            {props.title}
           </Typography>
           <Typography
             component="div"
@@ -108,7 +107,7 @@ export function CardCompDateBox(
               fontSize: "1.6rem",
             }}
           >
-            {data}
+            {props.value}
           </Typography>
         </CardContent>
       </Card>

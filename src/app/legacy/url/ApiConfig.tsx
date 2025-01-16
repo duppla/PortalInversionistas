@@ -20,11 +20,10 @@ export function getApiUrl(
 
 export default async function fetchData(
   endpoint: string,
-  email: string | null,
   setData: React.Dispatch<React.SetStateAction<any>>
 ) {
   try {
-    const response = await fetch(getApiUrl(endpoint, { email: email }));
+    const response = await fetch(getApiUrl(endpoint));
     const responseData = await response.json();
     setData(responseData);
   } catch (error) {

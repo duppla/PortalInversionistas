@@ -1,11 +1,9 @@
 import { PieTooltipProps, ResponsivePie } from "@nivo/pie";
-import { OwnershipFront } from "./customer/PieChartOwnership";
-import { ActividadEconomicaFront } from "./customer/PieChartActEcon";
-import { FormatoFront } from "./main/PieChartCompCartera";
+import { FormatoFront } from "./PieChartCompCartera";
 import { formatNumber } from "./utils";
 
 export default function PieChart(
-  data: OwnershipFront[] | ActividadEconomicaFront[] | FormatoFront[],
+  data: FormatoFront[],
   innerRadius: number = 0.7,
   padAngle: number = 1
 ) {
@@ -106,7 +104,7 @@ const PieChartTooltip = (
         <strong>{formatNumber(percentage, 0, true)}</strong>
       </div>
       <div>
-        {'Cantidad en "' + label + '"'}: {formatNumber(value, 2, false, true)}
+        {'Monto ' + label.toString().toLocaleLowerCase()}: {formatNumber(value, 1, false, true)}
       </div>
     </div>
   );
