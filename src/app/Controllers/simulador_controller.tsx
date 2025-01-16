@@ -1,39 +1,51 @@
-import Lead from "../Models/forms_models";
+import SimuladorData from "../Models/simulacion_models";
 import Controller from "./controller";
 
-class FormsController extends Controller {
-  private static instance: FormsController;
+class SimuladorController extends Controller {
+  private static instance: SimuladorController;
 
   private constructor() {
     super();
   }
 
-  public static getInstance(): FormsController {
-    if (!FormsController.instance) {
-      FormsController.instance = new FormsController();
+  public static getInstance(): SimuladorController {
+    if (!SimuladorController.instance) {
+      SimuladorController.instance = new SimuladorController();
     }
-    return FormsController.instance;
+    return SimuladorController.instance;
   }
 
-  public postFormLead(
-    lead: Lead,
-    campaign: string,
-    owner: string,
+  public postSimulacion(
+    email: string,
+    amount: number,
     setterCallback: (params: any) => void,
-    errorCallback: () => void
+    errorCallback: (params: any) => void
   ) {
-    let endpoint = `inversionistas/simulador/?email=fcortes@duppla.co&monto_inversion=600000000`;
-    if (owner) {
-      endpoint += `?owner=${owner}`;
-    }
-    this.postData(endpoint, lead)
+    let endpoint = `inversionistas/simulador/?email=${email}&monto_inversion=${amount}`;
+
+    this.postData(endpoint, null)
       .then((response) => {
-        setterCallback(response as string);
+        setterCallback(new SimuladorData(response));
       })
       .catch((err) => {
-        errorCallback();
+        errorCallback(err);
+      });
+  }
+
+  public getPortfolio(
+    setterCallback: (params: any) => void,
+    errorCallback: (params: any) => void
+  ) {
+    let endpoint = `inversionistas/simulador/`;
+
+    this.getData(endpoint)
+      .then((response) => {
+        setterCallback(new SimuladorData(response));
+      })
+      .catch((err) => {
+        errorCallback(err);
       });
   }
 }
 
-export default FormsController;
+export default SimuladorController;

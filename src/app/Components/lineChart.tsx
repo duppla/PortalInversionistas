@@ -3,21 +3,18 @@ import { colorsCard } from '../Styles/colors'
 import { ResponsiveLine } from "@nivo/line";
 
 interface Props {
-    data: any[]
+    data: any[],
+    formatter?: any
 }
 
 export default function LineChart({
-    data
+    data,
+    formatter
 }: Props) {
     return (
         <div className="h-96 w-full">
             <ResponsiveLine
-                data={[
-                    {
-                        "id": "banco",
-                        "data": data
-                    },
-                ]}
+                data={data}
                 theme={{
                     "text": {
                         "fontSize": 11,
@@ -136,7 +133,7 @@ export default function LineChart({
                     stacked: false,
                     reverse: false
                 }}
-                yFormat={(e) => { const eVal = parseFloat(e.toString()); return eVal.toFixed(2) + "%" }}
+                yFormat={formatter}
                 curve="catmullRom"
                 axisTop={null}
                 axisRight={null}
@@ -153,11 +150,11 @@ export default function LineChart({
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'Tu parte',
+                    legend: 'Monto recibido (COP)',
                     legendOffset: -70,
                     legendPosition: 'middle',
                     truncateTickAt: 0,
-                    format: (e) => { return e.toFixed(2) + "%" }
+                    format: formatter
                 }}
                 pointSize={7}
                 pointColor="#4F576A"
