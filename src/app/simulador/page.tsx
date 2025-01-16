@@ -91,7 +91,7 @@ export default function Simulador() {
   return (
     <main className="flex w-full min-h-screen flex-col items-center justify-between absolute">
       <Navbar hero={simuladorData != undefined && (
-        <div className="grid grid-cols-1 md:grid-cols-6 w-full text-center text-sonador gap-8 xl:container xl:mx-auto max-md:p-4 max-xl:p-8 xl:pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-6 w-full text-center text-sonador gap-8 xl:container xl:mx-auto max-xl:p-4 lg:py-8">
           <Card className="col-span-1 md:col-span-6 rounded-[9px]" noPadding>
             <div className="col-span-1 flex flex-col md:flex-row">
               <Button id="Declaro" onClick={() => { }} color={false ? "sonador" : "toggle_c"} className="w-full">
@@ -136,7 +136,7 @@ export default function Simulador() {
                 {simuladorData?.inmuebles.map((inm, index) =>
                   (simuladorData && index === simuladorData.inmuebles?.length - 1) ? "" :
                     (<tr key={inm.numero + inm.inmueble}>
-                      <td className="border-t p-0.5 pt-1.5 border-sonador/20">{inm.inmueble}</td>
+                      <td className="border-t p-0.5 pt-1.5 border-sonador/20">{inm.inmueble.toUpperCase()}</td>
                       <td className="border-t p-0.5 pt-1.5 border-sonador/20">{inm.spv_irr ? (inm.spv_irr * 100).toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ""}%</td>
                       {simuladorData?.inmuebles[index]?.flujo.map((flu, i) => (
                         <td key={flu.monto + inm.inmueble + i} className="border-t p-0.5 pt-1.5 border-sonador/20">{formatNumber(flu.monto)}</td>)
@@ -161,7 +161,7 @@ export default function Simulador() {
           <Button id={"login"} onClick={() => { }}>Ingresar</Button>
         </Link>
       </Navbar>
-      <div className="grid grid-cols-1 md:grid-cols-6 w-full text-center text-sonador gap-8 xl:container xl:mx-auto max-md:p-4 max-xl:p-8">
+      <div className="grid grid-cols-1 md:grid-cols-6 w-full text-center text-sonador gap-8 xl:container xl:mx-auto max-xl:p-4 lg:py-8">
         <div className="text-center col-span-1 md:col-span-6 mt-4">
           <h2 className="text-4xl rustica-bold text-ilusion">Tu inversión</h2>
         </div>
@@ -192,7 +192,7 @@ export default function Simulador() {
             <div className="col-span-1 md:row-span-2 flex flex-col gap-2 justify-between">
               <h4 className={'rustica-bold text-lg text-left'}>¿Quieres proyectar tu inversión?</h4>
               <h4 className={'rustica text-lg text-left'}>Evalúa ingresos, rentabilidades y flujos mensuales esperados con tan solo tu correo electrónico y el monto a invertir.</h4>
-              <p className="text-left text-xs font-nunito-sans text-sonador-darker">Recuerda, al realizar una simulación aceptas nuestra <Link href={""} className="underline">política de tratamiento de datos personales</Link></p>
+              <p className="text-left text-xs font-nunito-sans text-sonador-darker">Recuerda, al realizar una simulación aceptas nuestra <Link href={"./TyC"} className="underline">política de tratamiento de datos personales</Link></p>
             </div>
             <div className="col-span-1">
               <label
@@ -264,7 +264,7 @@ export default function Simulador() {
             </div>
           </Card>
         </div>
-        <div className={`flex flex-col text-left col-span-1 md:col-span-4 ${!sim && 'blur-sm'}`}>
+        <div className={`flex flex-col text-left col-span-1 md:col-span-3 lg:col-span-4 ${!sim && 'blur-sm'}`}>
           <h3 className="text-2xl rustica-bold">Flujos futuros</h3>
           <Card className="col-span-1 md:col-span-3 lg:col-span-4 overflow-scroll max-h-[500px]">
             <table className="border-collapse col-span-4 font-nunito-sans text-sm text-left w-full">
@@ -291,7 +291,7 @@ export default function Simulador() {
             </table>
           </Card>
         </div>
-        <div className={`flex flex-col text-left col-span-1 md:col-span-2 ${!sim && 'blur-sm'}`}>
+        <div className={`flex flex-col text-left col-span-1 md:col-span-3 lg:col-span-2 ${!sim && 'blur-sm'}`}>
           <h3 className="text-2xl rustica-bold">Ingresos</h3>
           <Card >
             <LineChart data={[
@@ -316,6 +316,15 @@ export default function Simulador() {
             </div>
           </Card>
         </div>
+        <Card className="col-span-1 md:col-span-6 grid grid-cols-1 lg:grid-cols-6 md:flex-row p-8 gap-4" color="highlight">
+          <div className="col-span-1 md:col-span-4 flex flex-col gap-2 justify-between">
+            <h4 className={'rustica-bold text-lg text-left'}>¿Te interesa invertir en este portafolio?</h4>
+            <h4 className={'rustica text-lg text-left'}>Habla con nuestros expertos y haz crecer tu dinero con Duppla.</h4>
+          </div>
+          <Button id="Simular" onClick={() => { window.open("./saber-mas", '_self') }} color="ilusion" className="col-span-1 md:col-span-2 md:h-full shrink-0">
+            <p className="text-lg md:text-2xl rustica-bold">Quiero invertir</p>
+          </Button>
+        </Card>
       </div>
     </main >
   );

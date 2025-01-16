@@ -33,7 +33,7 @@ export default function AplicacionParcial({
     tyc: false,
   });
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [declaraRenta, setDeclaraRenta] = useState<boolean>(false);
+  const [declaraRenta, setDeclaraRenta] = useState<boolean>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isModalErrOpen, setIsModalErrOpen] = useState<boolean>(false);
   const [optAge, setOptAge] = useState<any[]>([
@@ -228,6 +228,7 @@ export default function AplicacionParcial({
       formData.lastname == "" ||
       formData.phone == 0 ||
       formData.investment == undefined ||
+      declaraRenta === undefined ||
       !formData.tyc
     );
   }
@@ -335,7 +336,7 @@ export default function AplicacionParcial({
               htmlFor="Correo"
               className="block font-nunito-sans text-sm font-medium"
             >
-              Correo electrónico
+              Correo electrónico<span className="text-sonador-darker">*</span>
             </label>
             <input
               className="block p-2.5 w-full z-20 text-sm bg-sonador-dark/40 backdrop-blur shadow-inner shadow-futuro-darker/30 rounded-lg focus:ring-blue-500 focus:border-blue-500 my-2"
@@ -492,12 +493,20 @@ export default function AplicacionParcial({
               name="role"
             />
           </div> */}
-          <Card className="col-span-1 rounded-[9px]" noPadding>
-            <div className="col-span-1 flex flex-row">
-              <Button id="Declaro" onClick={() => { handleInputChangeTax(true), setDeclaraRenta(true) }} color={declaraRenta ? "sonador" : "toggle_l"} className="w-full">Debo declarar renta</Button>
-              <Button id="No declaro" onClick={() => { handleInputChangeTax(false), setDeclaraRenta(false) }} color={declaraRenta ? "toggle_r" : "sonador"} className="w-full">No debo declarar renta</Button>
-            </div>
-          </Card>
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="Declaración renta"
+              className="block font-nunito-sans text-sm font-medium"
+            >
+              Estatus declarante<span className="text-sonador-darker">*</span>
+            </label>
+            <Card className="col-span-1 rounded-[9px]" noPadding>
+              <div className="col-span-1 flex flex-row">
+                <Button id="Declaro" onClick={() => { handleInputChangeTax(true), setDeclaraRenta(true) }} color={declaraRenta === true ? "sonador" : "toggle_l"} className="w-full">Debo declarar renta</Button>
+                <Button id="No declaro" onClick={() => { handleInputChangeTax(false), setDeclaraRenta(false) }} color={declaraRenta === false ? "sonador" : "toggle_r"} className="w-full">No debo declarar renta</Button>
+              </div>
+            </Card>
+          </div>
         </div>
         <div
           className={
