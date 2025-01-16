@@ -71,7 +71,7 @@ function PieChartCompCartera(props: Readonly<{ mora_30: number; mora_60: number;
             alignItems="center"
             sx={{ borderBottom: "1px solid #9B9EAB" }}
           >
-            {titleGrid("Cartera en mora", "", -1, 1.5)}
+            {titleGrid("Cartera a la fecha", "", -1, 1.5)}
           </Grid>
         </FormControl>
       </div>
