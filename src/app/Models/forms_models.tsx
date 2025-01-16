@@ -3,14 +3,11 @@ class Lead {
     public lastname: string;
     public phone: number;
     public email: string | undefined;
-    public income: number | undefined;
-    public downpayment: number | undefined;
-    public property_val: number | undefined;
-    public document_type: string | undefined;
-    public document_number: number | undefined;
-    public property_type: string | undefined;
-    public search_status: string | undefined;
-    public notes: string | undefined;
+    public age: number | undefined;
+    public investment: string;
+    public company: string | undefined;
+    public role: string | undefined;
+    public incomeTax: boolean;
     public tyc: boolean;
 
     constructor(data: any) {
@@ -18,14 +15,11 @@ class Lead {
         this.lastname = data.lastname;
         this.phone = data.phone;
         this.email = data.email;
-        this.document_type = data.document_type;
-        this.document_number = data.document_number;
-        this.income = data.income;
-        this.downpayment = data.downpayment;
-        this.property_val = data.property_val;
-        this.property_type = data.property_type;
-        this.search_status = data.search_status;
-        this.notes = data.notes;
+        this.age = data.age;
+        this.investment = data.investment;
+        this.company = data.company;
+        this.role = data.role;
+        this.incomeTax = data.incomeTax;
         this.tyc = data.tyc;
     }
 }

@@ -27,9 +27,9 @@ function Modal({ id, title, body, image, textButton, textLink, linkUrl, buttonUr
     return (
         <div className="fixed top-0 right-0 bottom-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
             <div className="relative p-4 w-full max-w-2xl">
-                <Card color='futuro' shadowColor='#232b8522' >
+                <Card color='light' shadowColor='#232b8522' >
                     <div className="flex items-center p-2 md:p-5  ">
-                        <button onClick={toggleModal} type="button" className=" bg-transparent hover:bg-blue-400 hover:text-blue-200 rounded-lg text-sm me-auto inline-flex " data-modal-hide="default-modal">
+                        <button onClick={toggleModal} type="button" className=" bg-transparent hover:bg-sonador-darker hover:text-blue-200 rounded-lg text-sm me-auto inline-flex " data-modal-hide="default-modal">
                             <XMarkIcon className="h-8 w-8 text-white" />
                         </button>
                     </div>
@@ -48,14 +48,14 @@ function Modal({ id, title, body, image, textButton, textLink, linkUrl, buttonUr
                     </div>
                     <div className="flex flex-col justify-center items-center p-4 md:p-5 gap-4">
                         <Link href={buttonUrl}>
-                            <Button color='light' style={{}} id={id} onClick={() => { onAccept(); toggleModal(); }} >{textButton}</Button>
+                            <Button color='ilusion' style={{}} id={id} onClick={() => { onAccept(); toggleModal(); }} >{textButton}</Button>
                         </Link>
-                        {linkUrl && linkUrl.startsWith('/') ? ( 
-                            <Link href={linkUrl}> 
+                        {linkUrl && linkUrl.startsWith('/') ? (
+                            <Link href={linkUrl}>
                                 <p className="text-white text-center font-mukta font-light text-sm underline">{textLink}</p>
                             </Link>
-                        ) : ( 
-                            <a href={linkUrl} target="_self" rel="noopener noreferrer"> 
+                        ) : (
+                            <a href={linkUrl} target="_self" rel="noopener noreferrer">
                                 <p className="text-white text-center font-mukta font-light text-sm underline">{textLink}</p>
                             </a>
                         )}

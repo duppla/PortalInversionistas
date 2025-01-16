@@ -83,7 +83,7 @@ export default function Navbar({ children, hero }: Readonly<Props>) {
                     </div>
                 </div>
             </nav>
-            <footer className="text-sonador content-center shadow-md shadow-sonador-darker/10 w-full h-80 bg-pattern-investor bg-no-repeat bg-center rotate-180 order-last">
+            <footer className="text-sonador flex flex-col content-center w-full max-sm:h-[60vh] h-80 bg-pattern-investor bg-no-repeat bg-center rotate-180 order-last">
                 <div className="bg-sonador-darker/20 h-full w-full backdrop-blur-md content-center shadow-inner shadow-sonador/10 -rotate-180 ">
                     <div className="container mx-auto p-4 ">
                         <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-16 justify-between">
@@ -106,6 +106,11 @@ export default function Navbar({ children, hero }: Readonly<Props>) {
                                 <Link href="/legacy">Acceder a mis portafolios de inversión</Link>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className="-rotate-180 bg-highlight/20 backdrop-blur-md content-center shadow-md shadow-sonador-darker/10">
+                    <div className="container mx-auto p-4 flex flex-col items-left text-left text-xs font-nunito-sans text-sonador-darker">
+                        <p>* Remuneración objetivo o rentabilidades esperadas de hasta el 16% E.A.</p>
                     </div>
                 </div>
             </footer>

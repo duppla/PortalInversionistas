@@ -12,7 +12,7 @@ function News() {
     const [showNews, setShowNews] = React.useState(false);
 
     return (
-        <>
+        <div className=''>
             <h3 className="text-4xl rustica-bold text-ilusion my-10">Noticias</h3>
             <div className='grid lg:grid-cols-3 gap-4 my-10 gap-4'>
                 <Card shadowColor='#232b8522' className='flex flex-col col-span-1 p-0 content-between'>
@@ -31,11 +31,11 @@ function News() {
                 </Card >
                 {!showNews && <Button id={"invierte"} color="light" onClick={() => { setShowNews(true) }} className="w-full xl:w-1/2 md:hidden">Ver más</Button>}
                 <Card shadowColor='#232b8522' className={`flex flex-col col-span-1 p-0 content-between ${showNews ? 'visible' : 'hidden lg:block'}`}>
-                    <div className="h-60 -m-3 bg-cover bg-top bg-[url('https://s3.amazonaws.com/imgs-website/Skandia_forbes.jpeg')]
+                    <div className="h-60 -m-3 bg-cover bg-top bg-[url('https://s3.amazonaws.com/webpages-general-assets/articulo-valora.png')]
           // rounded-t-xl shadow-inner shadow-futuro-darker/50">
-                        <Link href="https://forbes.co/2023/12/05/negocios/skandia-invierte-en-duppla-adquirio-el-90-de-un-portafolio-residencial">
+                        <Link href="https://www.valoraanalitik.com/startup-busca-mitigar-los-desistimientos-de-comprar-vivienda-en-colombia/">
                             <div className="opacity-0 hover:opacity-100 absolute inset-0 rounded-xl bg-gradient-to-b from-futuro-darker/80 to-futuro-darker/50 content-center">
-                                <p className="text-lg rustica-bold text-sonador-dark underline">Leer nota en forbes.co</p>
+                                <p className="text-lg rustica-bold text-sonador-dark underline">Leer nota en valoraanalitik.com</p>
                             </div>
                         </Link>
                     </div>
@@ -45,11 +45,11 @@ function News() {
                     </div>
                 </Card >
                 <Card shadowColor='#232b8522' className={`flex flex-col col-span-1 p-0 content-between ${showNews ? 'visible' : 'hidden lg:block'}`}>
-                    <div className="h-60 -m-3 bg-cover bg-top bg-[url('https://s3.amazonaws.com/imgs-website/Skandia_forbes.jpeg')]
+                    <div className="h-60 -m-3 bg-cover bg-top bg-[url('https://s3.amazonaws.com/webpages-general-assets/articulo-portafolio.png')]
           // rounded-t-xl shadow-inner shadow-futuro-darker/50">
-                        <Link href="https://forbes.co/2023/12/05/negocios/skandia-invierte-en-duppla-adquirio-el-90-de-un-portafolio-residencial">
+                        <Link href="https://www.portafolio.co/mis-finanzas/vivienda/fintech-propone-alternativa-para-que-los-colombianos-financien-su-vivienda-615090">
                             <div className="opacity-0 hover:opacity-100 absolute inset-0 rounded-xl bg-gradient-to-b from-futuro-darker/80 to-futuro-darker/50 content-center">
-                                <p className="text-lg rustica-bold text-sonador-dark underline">Leer nota en forbes.co</p>
+                                <p className="text-lg rustica-bold text-sonador-dark underline">Leer nota en portafolio.co</p>
                             </div>
                         </Link>
                     </div>
@@ -59,7 +59,7 @@ function News() {
                     </div>
                 </Card >
             </div >
-        </>
+        </div>
 
     );
 }
