@@ -10,12 +10,13 @@ import LineChartRentabilidad from "./Components/LineChartRentabilidad";
 import { chartBlocks } from "./Components/ChartBlocks";
 import MapMapa from "./Components/MapMapa";
 import TablePyG from "./Components/TablePyG";
-import LineChartUnidades from "./Components/LineChartUnidades";
+import LineChartUnidades from "./Components/BarChartUnidades";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CardCompBox, CardCompDateBox } from "./Components/CardComps";
 
 import { formatNumber } from "./Components/utils";
+import BarChartUnidades from "./Components/BarChartUnidades";
 
 const theme = createTheme({
     palette: {
@@ -217,7 +218,7 @@ const PageGenerator = (data: Inversion) => {
                     </Grid>
                     {chartBlocks(<MapMapa mapa={data ? data.mapa : []} />, 640, 460, 2)}
                     {chartBlocks(<TablePyG fechas={data ? data.fechas : []} opex={data ? data.opex : []} reserva_predial={data ? data.reserva_predial : []} reserva_mantenimiento={data ? data.reserva_mantenimiento : []} reserva_capex={data ? data.reserva_capex : []} noi_ajustado={data ? data.noi_ajustado : []} noi={data ? data.noi : []} venta_total={data ? data.venta_total : []} reduc_cartera={data ? data.reduccion_de_cartera : []} />, 460)}
-                    {chartBlocks(<LineChartUnidades fechas={data ? data.fechas : []} num_unidades={data ? data.numero_unidades : []} />, 320, 300, 2)}
+                    {chartBlocks(<BarChartUnidades fechas={data ? data.fechas : []} num_unidades={data ? data.numero_unidades : []} />, 430, 410, 2)}
                 </Container>
             </Box>
         </ThemeProvider>

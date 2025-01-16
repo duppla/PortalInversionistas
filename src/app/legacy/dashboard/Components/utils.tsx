@@ -12,6 +12,7 @@ import { BarTooltipProps } from "@nivo/bar";
 // types
 import { FlujosFront } from "./BarChartFlujos";
 import { PropiedadFront } from "./BarChartPropiedad";
+import { UnidadesFront } from "./BarChartUnidades";
 import { DatumValue } from "@nivo/core";
 
 export function formatFecha(inputFecha: string | Date): string {
@@ -115,7 +116,7 @@ function dropEndZero(value: string, decimal: number): string {
 }
 
 export function setTooltipBar(
-  point: PropsWithChildren<BarTooltipProps<FlujosFront | PropiedadFront>>,
+  point: PropsWithChildren<BarTooltipProps<FlujosFront | PropiedadFront | UnidadesFront>>,
   decimal: number = 0,
   perc: boolean = false
 ) {
