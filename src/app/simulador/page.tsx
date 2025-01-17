@@ -235,8 +235,8 @@ export default function Simulador() {
             </Button>
           </Card>}
         <Card color="ilusion" className="col-span-1 md:col-span-6 lg:col-span-2">
-          <h4 className={'rustica text-lg text-pretty'}>Con <span className="rustica-bold">duppla</span> tu dinero puede crecer <span className={'rustica-bold text-2xl'}> {simuladorData?.total_acumulado_portafolio_porc} </span>veces en 5 años.
-            Con rentas mensuales promedio del<span className={'rustica-bold text-2xl'}> {((simuladorData?.renta_mensual_promedio_porc ?? 0.0167) * 100).toLocaleString("es-CO")}%</span> y una rentabilidad esperada del
+          <h4 className={'rustica text-lg text-pretty'}>Con <span className="rustica-bold">duppla</span> tu dinero puede crecer <span className={'rustica-bold text-2xl'}> {simuladorData?.total_acumulado_portafolio_porc} </span>veces en 5 años
+            y una rentabilidad esperada del
             <span className={'rustica-bold text-2xl'}> {simuladorData?.rentabilidad}</span>.</h4>
         </Card>
         <div className={`flex flex-col text-left col-span-1 md:col-span-3 lg:col-span-4 ${!sim && 'blur-sm'}`}>

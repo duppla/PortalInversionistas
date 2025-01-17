@@ -4,7 +4,7 @@ import FormsController from "../../Controllers/forms_controller";
 import AplicacionParcial from "../aplicacionParcial";
 
 export default function Aplicar({ params }: { params: any }) {
-  const controller: Controller = FormsController.getInstance();
+  const controller: FormsController = FormsController.getInstance();
 
   return (
     <main className="flex w-full min-h-screen flex-col items-center justify-between">

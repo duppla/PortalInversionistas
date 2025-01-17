@@ -1,4 +1,4 @@
-const BASE_URL = 'https://back.duppla.co';
+export const BASE_URL = 'https://back.duppla.co';
 
 abstract class Controller {
   protected constructor() { }
