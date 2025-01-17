@@ -1,11 +1,9 @@
 "use client";
 import Link from "next/link";
 import Button from "../Components/button";
-import Controller from "../Controllers/controller";
 import FormsController from "../Controllers/forms_controller";
 import AplicacionParcial from "./aplicacionParcial";
 import Navbar from "../Components/navbar";
-import { redirect } from "next/navigation";
 
 export default function Aplicar() {
   const controller: FormsController = FormsController.getInstance();
