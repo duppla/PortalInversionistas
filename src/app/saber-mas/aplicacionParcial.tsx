@@ -10,11 +10,13 @@ import Card from "../Components/card";
 interface Props {
   controller: FormsController;
   campaign?: string;
+  showsScore?: boolean;
 }
 
 export default function AplicacionParcial({
   controller,
   campaign = "701Rb00000MA4fDIAT",
+  showsScore = false
 }: Readonly<Props>) {
   // let params = useSearchParams();
   const [formData, setFormData] = useState({
@@ -563,7 +565,7 @@ export default function AplicacionParcial({
             <>
               <p className="font-nunito-sans text-center text-lg text-white text-pretty">
                 Ya estás más cerca de hacer crecer tu dinero.
-                <span className="font-nunito-sans font-bold text-sm text-sonador-darker"> {score}</span>
+                {showsScore && <span className="font-nunito-sans font-bold text-sm text-sonador-darker"> {score}</span>}
               </p>
               <p className="font-nunito-sans text-center text-lg text-white text-pretty">
                 Nuestros expertos se pondrán en contacto contigo próximamente para continuar con el proceso.

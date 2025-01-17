@@ -4,12 +4,16 @@ import { ResponsiveLine } from "@nivo/line";
 
 interface Props {
     data: any[],
-    formatter?: any
+    formatter?: any,
+    axisY?: string,
+    axisX?: string,
 }
 
 export default function LineChart({
     data,
-    formatter
+    formatter,
+    axisY = "Monto (COP)",
+    axisX = "Mes"
 }: Props) {
     return (
         <div className="h-96 w-full">
@@ -141,7 +145,7 @@ export default function LineChart({
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'Mes',
+                    legend: axisY,
                     legendOffset: 36,
                     legendPosition: 'middle',
                     truncateTickAt: 0
@@ -150,7 +154,7 @@ export default function LineChart({
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'Monto recibido (COP)',
+                    legend: axisY,
                     legendOffset: -70,
                     legendPosition: 'middle',
                     truncateTickAt: 0,

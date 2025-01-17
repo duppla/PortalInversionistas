@@ -13,7 +13,7 @@ export default function Simulador() {
   const controller = SimuladorController.getInstance();
   let [simuladorData, setSimuladorData] = useState<SimuladorData>();
   let [temp, setTemp] = useState<number>(1);
-  let [email, setEmail] = useState<string>("");
+  let [email, setEmail] = useState<string>("none");
   let [inv, setInv] = useState<number>(0);
   let [sim, setSim] = useState<boolean>(false);
   let [isLoading, setIsLoading] = useState<boolean>(false);
@@ -112,13 +112,13 @@ export default function Simulador() {
             <h2 className="text-4xl rustica-bold text-ilusion mt-4">Información del portafolio</h2>
           </div>
           <Card color="highlight" className="col-span-1 md:col-span-3 lg:col-span-2 grid grid-cols-2 p-8 gap-2">
-            <h4 className={'rustica text-lg text-left'}>Valor presente</h4>
+            <h4 className={'rustica text-lg text-left'}>Valor portafolio</h4>
             <h4 className={'rustica-bold text-lg text-right'}>{formatNumber(simuladorData?.precio_flujo ?? 0)}</h4>
             <h4 className={'rustica text-lg text-left'}>En venta</h4>
             <h4 className={'rustica-bold text-lg text-right'}>{((simuladorData?.participacion_adquirida ?? 0) * 100).toLocaleString("es-CO")}%</h4>
-            <h4 className={'rustica text-lg text-left'}>Precio total</h4>
+            <h4 className={'rustica text-lg text-left'}>Valor en venta</h4>
             <h4 className={'rustica-bold text-lg text-right'}>{formatNumber(simuladorData?.valor_beneficio ?? 0)}</h4>
-            <h4 className={'rustica text-lg text-left text-ilusion'}>Rentabilidad*</h4>
+            <h4 className={'rustica text-lg text-left text-ilusion'}>Rentabilidad esperada</h4>
             <h4 className={'rustica-bold text-lg text-right text-ilusion'}>{simuladorData?.rentabilidad}</h4>
           </Card>
           <Card className="col-span-1 md:col-span-3 lg:col-span-4 overflow-scroll max-h-72">
@@ -230,7 +230,7 @@ export default function Simulador() {
               />
 
             </div>
-            <Button id="Simular" onClick={email && inv >= 1000000 && inv <= 3000000000 && !isLoading ? () => { setIsLoading(true); simulate() } : undefined} color="ilusion" className="md:col-span-2">
+            <Button id="Simular" onClick={inv >= 1000000 && inv <= 3000000000 && !isLoading ? () => { setIsLoading(true); simulate() } : undefined} color="ilusion" className="md:col-span-2">
               <p className="text-lg rustica-bold">Simular inversión</p>
             </Button>
           </Card>}
@@ -278,15 +278,19 @@ export default function Simulador() {
                 "id": "Recompra",
                 "data": mensualRecompra
               },
-            ]} formatter={formatNumberCompact}></LineChart>
+            ]}
+              formatter={formatNumberCompact}
+              axisY="Monto Recibido (COP)"
+              axisX="Mes">
+            </LineChart>
             <div className='grid md:grid-cols-2 gap-2 mx-12 lg:mx-2'>
               <div className='flex flex-row justify-left lg:justify-center'>
                 <div className="bg-ilusion size-4 mr-1.5 rounded shrink-0"></div>
-                <p className={'text-left font-mukta text-xs'}>Ingresos por renta</p>
+                <p className={'text-left font-mukta text-xs'}>Renta</p>
               </div>
               <div className='flex flex-row justify-left lg:justify-center'>
                 <div className="bg-[#97AAFD] size-4 mr-1.5 rounded shrink-0"></div>
-                <p className={'text-left font-mukta text-xs'}>Ingresos por recompra</p>
+                <p className={'text-left font-mukta text-xs'}>Valorización</p>
               </div>
             </div>
           </Card>

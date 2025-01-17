@@ -11,6 +11,7 @@ export default function Aplicar({ params }: { params: any }) {
       <AplicacionParcial
         controller={controller}
         campaign={params.campaign}
+        showsScore
       ></AplicacionParcial>
     </main>
   );
