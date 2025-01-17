@@ -158,7 +158,7 @@ export default function LineChart({
                 }}
                 pointSize={7}
                 pointColor="#4F576A"
-                colors={['#C5F5CA', '#FFA971', '#C3CFFE']}
+                colors={['#C5F5CA', '#97AAFD', '#FFA971', '#C3CFFE']}
                 pointBorderWidth={2}
                 pointBorderColor={{ from: 'serieColor' }}
                 pointLabel="data.yFormatted"

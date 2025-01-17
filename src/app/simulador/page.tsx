@@ -126,9 +126,9 @@ export default function Simulador() {
               <thead className="font-bold text-base text-nowrap ">
                 <tr>
                   <th className="border-b pr-4 border-sonador">Inmueble</th>
-                  <th className="border-b pr-4 border-sonador">SPV IRR</th>
+                  <th className="border-b pr-4 border-sonador">TIR</th>
                   {simuladorData?.inmuebles[0].flujo.map((inm) => (
-                    <th key={inm.fecha} className="border-b pr-2 border-sonador">{inm.fecha}</th>)
+                    <th key={inm.fecha} className="border-b text-sm pr-2 border-sonador">{inm.fecha}</th>)
                   )}
                 </tr>
               </thead>
@@ -137,7 +137,7 @@ export default function Simulador() {
                   (simuladorData && index === simuladorData.inmuebles?.length - 1) ? "" :
                     (<tr key={inm.numero + inm.inmueble}>
                       <td className="border-t p-0.5 border-sonador/20">{inm.inmueble.toUpperCase().replace('_', ' ')}</td>
-                      <td className="border-t p-0.5 pt-1.5 border-sonador/20">{inm.spv_irr ? (inm.spv_irr * 100).toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ""}%</td>
+                      <td className="border-t p-0.5 pt-1.5 pr-2 border-sonador/20">{inm.spv_irr ? (inm.spv_irr * 100).toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ""}%</td>
                       {simuladorData?.inmuebles[index]?.flujo.map((flu, i) => (
                         <td key={flu.monto + inm.inmueble + i} className="border-t p-0.5 pt-1.5 border-sonador/20">{formatNumber(flu.monto)}</td>)
                       )}
@@ -236,7 +236,7 @@ export default function Simulador() {
           </Card>}
         <Card color="ilusion" className="col-span-1 md:col-span-6 lg:col-span-2">
           <h4 className={'rustica text-lg text-pretty'}>Con <span className="rustica-bold">duppla</span> tu dinero puede crecer <span className={'rustica-bold text-2xl'}> {simuladorData?.total_acumulado_portafolio_porc} </span>veces en 5 años
-            y una rentabilidad esperada del
+            con una rentabilidad esperada del
             <span className={'rustica-bold text-2xl'}> {simuladorData?.rentabilidad}</span>.</h4>
         </Card>
         <div className={`flex flex-col text-left col-span-1 md:col-span-3 lg:col-span-4 ${!sim && 'blur-sm'}`}>
@@ -285,7 +285,7 @@ export default function Simulador() {
                 <p className={'text-left font-mukta text-xs'}>Ingresos por renta</p>
               </div>
               <div className='flex flex-row justify-left lg:justify-center'>
-                <div className="bg-proyeccion size-4 mr-1.5 rounded shrink-0"></div>
+                <div className="bg-[#97AAFD] size-4 mr-1.5 rounded shrink-0"></div>
                 <p className={'text-left font-mukta text-xs'}>Ingresos por recompra</p>
               </div>
             </div>
