@@ -17,7 +17,7 @@ export default function ProtectedRoute({
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!loading && !token) {
-      router.push("/"); // Redireccionar a la página de inicio de sesión si el usuario no está autenticado
+      // ruta protegida
     }
   }, [user, loading, router]);
 
