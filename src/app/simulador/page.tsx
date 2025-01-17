@@ -136,7 +136,7 @@ export default function Simulador() {
                 {simuladorData?.inmuebles.map((inm, index) =>
                   (simuladorData && index === simuladorData.inmuebles?.length - 1) ? "" :
                     (<tr key={inm.numero + inm.inmueble}>
-                      <td className="border-t p-0.5 pt-1.5 border-sonador/20">{inm.inmueble.toUpperCase()}</td>
+                      <td className="border-t p-0.5 border-sonador/20">{inm.inmueble.toUpperCase().replace('_', ' ')}</td>
                       <td className="border-t p-0.5 pt-1.5 border-sonador/20">{inm.spv_irr ? (inm.spv_irr * 100).toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ""}%</td>
                       {simuladorData?.inmuebles[index]?.flujo.map((flu, i) => (
                         <td key={flu.monto + inm.inmueble + i} className="border-t p-0.5 pt-1.5 border-sonador/20">{formatNumber(flu.monto)}</td>)
@@ -239,31 +239,6 @@ export default function Simulador() {
             Con rentas mensuales promedio del<span className={'rustica-bold text-2xl'}> {((simuladorData?.renta_mensual_promedio_porc ?? 0.0167) * 100).toLocaleString("es-CO")}%</span> y una rentabilidad esperada del
             <span className={'rustica-bold text-2xl'}> {simuladorData?.rentabilidad}</span>.</h4>
         </Card>
-        <div className={`flex flex-col text-left col-span-1 md:col-span-6 ${!sim && 'blur-sm'}`}>
-          <h3 className="text-2xl rustica-bold">Ingreso acumulado</h3>
-          <Card className="justify-items-center">
-            <div className="col-span-1 flex flex-row">
-              <Button id="Declaro" onClick={() => { setTemp(1) }} color={temp == 1 ? "sonador" : "toggle_c"}>Vista mensual</Button>
-              <Button id="No declaro" onClick={() => { setTemp(2) }} color={temp == 2 ? "sonador" : "toggle_c"}>Vista anual</Button>
-            </div>
-            <LineChart data={[
-              {
-                "id": "banco",
-                "data": acumulado
-              },
-            ]} formatter={temp === 0 ? (e: any) => { const eVal = parseFloat(e.toString()); return eVal.toFixed(2) + "%" } : formatNumberCompact}></LineChart>
-            <div className='grid md:grid-cols-2 gap-2 mx-12 lg:mx-2'>
-              <div className='flex flex-row justify-left lg:justify-center'>
-                <div className="bg-ilusion size-4 mr-1.5 rounded shrink-0"></div>
-                <p className={'text-left font-mukta text-xs'}>Caption</p>
-              </div>
-              <div className='flex flex-row justify-left lg:justify-center'>
-                <div className="bg-proyeccion size-4 mr-1.5 rounded shrink-0"></div>
-                <p className={'text-left font-mukta text-xs'}>Caption</p>
-              </div>
-            </div>
-          </Card>
-        </div>
         <div className={`flex flex-col text-left col-span-1 md:col-span-3 lg:col-span-4 ${!sim && 'blur-sm'}`}>
           <h3 className="text-2xl rustica-bold">Flujos futuros</h3>
           <Card className="col-span-1 md:col-span-3 lg:col-span-4 overflow-scroll max-h-[500px]">
@@ -307,13 +282,28 @@ export default function Simulador() {
             <div className='grid md:grid-cols-2 gap-2 mx-12 lg:mx-2'>
               <div className='flex flex-row justify-left lg:justify-center'>
                 <div className="bg-ilusion size-4 mr-1.5 rounded shrink-0"></div>
-                <p className={'text-left font-mukta text-xs'}>Caption</p>
+                <p className={'text-left font-mukta text-xs'}>Ingresos por renta</p>
               </div>
               <div className='flex flex-row justify-left lg:justify-center'>
                 <div className="bg-proyeccion size-4 mr-1.5 rounded shrink-0"></div>
-                <p className={'text-left font-mukta text-xs'}>Caption</p>
+                <p className={'text-left font-mukta text-xs'}>Ingresos por recompra</p>
               </div>
             </div>
+          </Card>
+        </div>
+        <div className={`flex flex-col text-left col-span-1 md:col-span-6 ${!sim && 'blur-sm'}`}>
+          <h3 className="text-2xl rustica-bold">Ingreso acumulado</h3>
+          <Card className="justify-items-center">
+            <div className="col-span-1 flex flex-row">
+              <Button id="Declaro" onClick={() => { setTemp(1) }} color={temp == 1 ? "sonador" : "toggle_c"}>Vista mensual</Button>
+              <Button id="No declaro" onClick={() => { setTemp(2) }} color={temp == 2 ? "sonador" : "toggle_c"}>Vista anual</Button>
+            </div>
+            <LineChart data={[
+              {
+                "id": "banco",
+                "data": acumulado
+              },
+            ]} formatter={temp === 0 ? (e: any) => { const eVal = parseFloat(e.toString()); return eVal.toFixed(2) + "%" } : formatNumberCompact}></LineChart>
           </Card>
         </div>
         <Card className="col-span-1 md:col-span-6 grid grid-cols-1 lg:grid-cols-6 md:flex-row p-8 gap-4" color="highlight">
