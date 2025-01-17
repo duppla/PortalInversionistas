@@ -56,7 +56,7 @@ export default function TablePyG(props: Readonly<{ fechas: string[]; opex: numbe
   const posColor = "#9B9EAB";
   const negColor = "#f18282";
   return (
-    <div className="custom-table nivo-text">
+    <div className="nivo-text">
       <div>
         <FormControl fullWidth>
           <Grid
@@ -82,7 +82,6 @@ export default function TablePyG(props: Readonly<{ fechas: string[]; opex: numbe
             <TableHead key="table_head">
               <TableRow key="first_row">
                 <TableCell
-                  padding="none"
                   sx={{
                     color: "#6C9FFF",
                     textAlign: "center",

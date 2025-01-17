@@ -107,7 +107,6 @@ const PageGenerator = (data: Inversion) => {
                     {/* primera fila  componente D*/}
                     <Grid
                         container
-                        className="size-card-main"
                         sx={{
                             mb: 5,
                             display: "flex",
@@ -116,21 +115,21 @@ const PageGenerator = (data: Inversion) => {
                             backgroundColor: "#212126",
                             borderRadius: "20px",
                             boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-                            p: 0.5,
+                            p: 4,
                         }}
                         columnGap={3}
                         rowGap={1}
                     >
-                        <Grid xs={12} sm={12} md={3} lg={2.5} sx={{}}>
+                        <Grid xs={12} sm={12} md={5} lg={2.5} sx={{}}>
                             <CardCompBox title="Inversión original" data={data ? "$ " + data.inversion_original.toLocaleString("es-co") : ""} />
                         </Grid>
-                        <Grid xs={12} sm={12} md={3} lg={2.5} sx={{}}>
+                        <Grid xs={12} sm={12} md={5} lg={2.5} sx={{}}>
                             <CardCompBox title="Participación adquirida" data={data ? formatNumber(data.participacion_adquirida, 1, true) : ""} />
                         </Grid>
-                        <Grid xs={12} sm={12} md={3} lg={2.5} sx={{}}>
+                        <Grid xs={12} sm={12} md={5} lg={2.5} sx={{}}>
                             <CardCompBox title="Retorno total a la fecha" data={data ? "$ " + data.retorno_a_la_fecha.reduce((a, b) => a + b, 0).toLocaleString("es-co") : ""} />
                         </Grid>
-                        <Grid xs={12} sm={12} md={3} lg={2.5} sx={{}}>
+                        <Grid xs={12} sm={12} md={5} lg={2.5} sx={{}}>
                             <CardCompBox title="Devolución capital a la fecha" data={data ? "$ " + Math.round(data.devolucion_capital_acumulado.slice(-1)[0]).toLocaleString("es-co") : ""} />
                         </Grid>
                     </Grid>
@@ -202,7 +201,7 @@ const PageGenerator = (data: Inversion) => {
                             mb: 4,
                             p: 1,
                         }}
-                        columnGap={10}
+                        columnGap={3}
                         rowGap={1}
                     >
                         <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
