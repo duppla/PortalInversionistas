@@ -8,7 +8,7 @@ import Navbar from "../Components/navbar";
 import { redirect } from "next/navigation";
 
 export default function Aplicar() {
-  const controller: Controller = FormsController.getInstance();
+  const controller: FormsController = FormsController.getInstance();
 
   return (
     <main className="flex w-full min-h-screen flex-col items-center justify-between absolute">

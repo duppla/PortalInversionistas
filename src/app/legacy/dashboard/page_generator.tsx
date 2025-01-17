@@ -10,7 +10,6 @@ import LineChartRentabilidad from "./Components/LineChartRentabilidad";
 import { chartBlocks } from "./Components/ChartBlocks";
 import MapMapa from "./Components/MapMapa";
 import TablePyG from "./Components/TablePyG";
-import LineChartUnidades from "./Components/BarChartUnidades";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CardCompBox, CardCompDateBox } from "./Components/CardComps";
@@ -210,7 +209,7 @@ const PageGenerator = (data: Inversion) => {
                             <CardCompDateBox title="NOI" fecha={data ? data.fechas.slice(-1)[0] : ""} value={data ? "$ " + data.noi.slice(-1)[0].toLocaleString("es-co") : ""} />
                         </Grid>
                         <Grid xs={12} sm={12} md={3} lg={3} sx={{}}>
-                            <CardCompDateBox title="Tasa de morosidad" fecha={data ? data.fechas.slice(-1)[0] : ""} value={data ? formatNumber(data.porcentaje_pago_tarde.slice(-1)[0], 1, true) : ""} />
+                            <CardCompDateBox title="Tasa de morosidad" fecha={data ? data.fechas.slice(-1)[0] : ""} value={data ? formatNumber(data.porcentaje_pago_tarde.slice(-1)[0], 2, true) : ""} />
                         </Grid>
                         <Grid xs={9} sm={12} md={3} lg={3} sx={{}}>
                             <CardCompDateBox title="Adelanto" fecha={data ? data.fechas.slice(-1)[0] : ""} value={data ? "$ " + data.adelanto.slice(-1)[0].toLocaleString("es-co") : ""} />

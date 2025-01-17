@@ -55,7 +55,7 @@ function LineChartHistMora(props: Readonly<{ fechas: string[]; tasa_mora: number
         </FormControl>
       </div>
       <br />
-      {LineChart(formattedData, "Tasa de mora", ticks, 1, true)}
+      {LineChart(formattedData, "Tasa de mora", ticks, 2, true)}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-const BASE_URL = "https://back.duppla.co";
+import { BASE_URL } from "@/app/Controllers/controller";
 
 type QueryParams = {
   [key: string]: string | number | null;
