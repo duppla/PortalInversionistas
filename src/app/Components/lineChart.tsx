@@ -4,6 +4,7 @@ import { ResponsiveLine } from "@nivo/line";
 
 interface Props {
     data: any[],
+    children?: ReactNode;
     formatter?: any,
     axisY?: string,
     axisX?: string,
@@ -147,7 +148,7 @@ export default function LineChart({
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: axisY,
+                    legend: axisX,
                     legendOffset: 36,
                     legendPosition: 'middle',
                     truncateTickAt: 0

@@ -67,8 +67,9 @@ export default function Simulador() {
   mensualRecompra = [];
   simuladorData?.noi.forEach((valor, index) => {
     if (index % 12 === 0 || index > 54) {
+      const val = simuladorData?.apreciacion[index] ?? 0;
       mensualRecibido.push({ "x": index, "y": valor });
-      mensualRecompra.push({ "x": index, "y": simuladorData?.apreciacion[index] });
+      mensualRecompra.push({ "x": index, "y": val });
     }
   });
 
@@ -307,13 +308,13 @@ export default function Simulador() {
               <Button id="Mensual" onClick={() => { setTemp(1) }} color={temp == 1 ? "sonador" : "toggle_c"}>Vista mensual</Button>
               <Button id="Anual" onClick={() => { setTemp(2) }} color={temp == 2 ? "sonador" : "toggle_c"}>Vista anual</Button>
             </div>
-            <LineChart colors={['#C5F5CA', '#FFA971', '#C3CFFE']} data={[
+            <LineChart data={[
               {
                 "id": "Ingresos",
                 "data": acumuladoIn
               },
             ]}
-              formatter={temp === 0 ? (e: any) => { const eVal = parseFloat(e.toString()); return eVal.toFixed(2) + "%" } : formatNumberCompact}>
+              formatter={formatNumberCompact}>
             </LineChart>
             <div className='flex flex-row justify-left lg:justify-center'>
               <div className="bg-ilusion size-4 mr-1.5 rounded shrink-0"></div>
