@@ -17,7 +17,8 @@ export default function Simulador() {
   let [inv, setInv] = useState<number>(0);
   let [sim, setSim] = useState<boolean>(false);
   let [isLoading, setIsLoading] = useState<boolean>(false);
-  let acumulado: { x: number; y: number; }[] = [];
+  let acumuladoIn: { x: number; y: number; }[] = [];
+  let acumuladoOut: { x: number; y: number; }[] = [];
   let mensualRecibido: { x: number; y: number; }[] = [];
   let mensualRecompra: { x: number; y: number; }[] = [];
 
@@ -33,38 +34,41 @@ export default function Simulador() {
     );
   };
 
-  if (temp === 0) {
-    acumulado = [];
-    simuladorData?.porcentaje_mes.forEach((valor, index) => {
-      acumulado.push({ "x": index + 1, "y": valor });
-    });
-  }
-  else if (temp === 1) {
-    acumulado = [];
+  if (temp === 1) {
+    acumuladoIn = [];
+    acumuladoOut = [];
     simuladorData?.dinero_acumulado.forEach((valor, index) => {
-      acumulado.push({ "x": index + 1, "y": valor });
+      if (index === 0) {
+        acumuladoOut.push({ "x": index, "y": valor });
+        acumuladoIn.push({ "x": index, "y": 0 });
+      }
+      else {
+        acumuladoOut.push({ "x": index, "y": 0 });
+        acumuladoIn.push({ "x": index, "y": valor });
+      }
     });
   }
   else {
-    acumulado = [];
+    acumuladoIn = [];
+    acumuladoOut = [];
     simuladorData?.dinero_acumulado.forEach((valor, index) => {
       if (index % 12 === 0) {
-        acumulado.push({ "x": index, "y": valor });
+        if (index === 0) {
+          acumuladoOut.push({ "x": index, "y": valor });
+          acumuladoIn.push({ "x": index, "y": 0 });
+        }
+        else {
+          acumuladoOut.push({ "x": index, "y": 0 });
+          acumuladoIn.push({ "x": index, "y": valor });
+        }
       }
     });
   }
   mensualRecibido = [];
   mensualRecompra = [];
-  simuladorData?.pago_mensual.forEach((valor, index) => {
-    if (index % 12 === 0 || index === 55) {
-      mensualRecibido.push({ "x": index, "y": valor });
-      mensualRecompra.push({ "x": index, "y": 0 });
-    }
-    else if (index > 55) {
-      const val = (simuladorData?.pago_mensual[55] ?? 0);
-      mensualRecibido.push({ "x": index, "y": val });
-      mensualRecompra.push({ "x": index, "y": valor - val });
-    }
+  simuladorData?.noi.forEach((valor, index) => {
+    mensualRecibido.push({ "x": index, "y": valor });
+    mensualRecompra.push({ "x": index, "y": simuladorData?.apreciacion[index] });
   });
 
   function formatNumber(value: number) {
@@ -299,15 +303,21 @@ export default function Simulador() {
           <h3 className="text-2xl rustica-bold">Ingreso acumulado</h3>
           <Card className="justify-items-center">
             <div className="col-span-1 flex flex-row">
-              <Button id="Declaro" onClick={() => { setTemp(1) }} color={temp == 1 ? "sonador" : "toggle_c"}>Vista mensual</Button>
-              <Button id="No declaro" onClick={() => { setTemp(2) }} color={temp == 2 ? "sonador" : "toggle_c"}>Vista anual</Button>
+              <Button id="Mensual" onClick={() => { setTemp(1) }} color={temp == 1 ? "sonador" : "toggle_c"}>Vista mensual</Button>
+              <Button id="Anual" onClick={() => { setTemp(2) }} color={temp == 2 ? "sonador" : "toggle_c"}>Vista anual</Button>
             </div>
-            <LineChart data={[
+            <LineChart colors={['#C5F5CA', '#FFA971', '#C3CFFE']} data={[
               {
-                "id": "banco",
-                "data": acumulado
+                "id": "Ingresos",
+                "data": acumuladoIn
               },
-            ]} formatter={temp === 0 ? (e: any) => { const eVal = parseFloat(e.toString()); return eVal.toFixed(2) + "%" } : formatNumberCompact}></LineChart>
+            ]}
+              formatter={temp === 0 ? (e: any) => { const eVal = parseFloat(e.toString()); return eVal.toFixed(2) + "%" } : formatNumberCompact}>
+            </LineChart>
+            <div className='flex flex-row justify-left lg:justify-center'>
+              <div className="bg-ilusion size-4 mr-1.5 rounded shrink-0"></div>
+              <p className={'text-left font-mukta text-xs'}>Ingresos operativos + valorización</p>
+            </div>
           </Card>
         </div>
         <Card className="col-span-1 md:col-span-6 grid grid-cols-1 lg:grid-cols-6 md:flex-row p-8 gap-4" color="highlight">

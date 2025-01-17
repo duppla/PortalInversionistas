@@ -53,6 +53,8 @@ class SimuladorData {
     public porcentaje_mes: number[];
     public porcentaje_acumulado: number[];
     public dinero_acumulado: number[];
+    public noi: number[];
+    public apreciacion: number[];
 
     constructor(data: any) {
         this.monto_a_invertir = data.monto_a_invertir;
@@ -86,6 +88,8 @@ class SimuladorData {
         this.porcentaje_mes = data.porcentaje_mes;
         this.porcentaje_acumulado = data.porcentaje_acumulado;
         this.dinero_acumulado = data.dinero_acumulado;
+        this.noi = data.noi;
+        this.apreciacion = data.apreciacion;
     }
 }
 

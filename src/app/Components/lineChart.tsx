@@ -7,13 +7,15 @@ interface Props {
     formatter?: any,
     axisY?: string,
     axisX?: string,
+    colors?: string[]
 }
 
 export default function LineChart({
     data,
     formatter,
     axisY = "Monto (COP)",
-    axisX = "Mes"
+    axisX = "Mes",
+    colors = ['#C5F5CA', '#97AAFD', '#FFA971', '#C3CFFE']
 }: Props) {
     return (
         <div className="h-96 w-full">
@@ -162,7 +164,7 @@ export default function LineChart({
                 }}
                 pointSize={7}
                 pointColor="#4F576A"
-                colors={['#C5F5CA', '#97AAFD', '#FFA971', '#C3CFFE']}
+                colors={colors}
                 pointBorderWidth={2}
                 pointBorderColor={{ from: 'serieColor' }}
                 pointLabel="data.yFormatted"
