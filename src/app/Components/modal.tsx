@@ -10,7 +10,7 @@ import Image from 'next/image';
 interface Props {
     id: string
     title?: string;
-    body?: React.ReactNode;
+    children?: React.ReactNode;
     image?: string;
     textButton?: string;
     textLink?: string;
@@ -21,7 +21,7 @@ interface Props {
 }
 
 
-function Modal({ id, title, body, image, textButton, textLink, linkUrl, buttonUrl = "#", toggleModal, onAccept }: Readonly<Props>) {
+function Modal({ id, title, children, image, textButton, textLink, linkUrl, buttonUrl = "#", toggleModal, onAccept }: Readonly<Props>) {
 
 
     return (
@@ -34,7 +34,7 @@ function Modal({ id, title, body, image, textButton, textLink, linkUrl, buttonUr
                         </button>
                     </div>
                     <div className="flex justify-center items-center px-2">
-                        <h3 className="text-white text-center font-nunito font-bold text-2xl items-center leading-8">
+                        <h3 className="text-white text-center rustica-bold text-2xl items-center leading-8">
                             {title}
                         </h3>
                     </div>
@@ -42,8 +42,8 @@ function Modal({ id, title, body, image, textButton, textLink, linkUrl, buttonUr
                         <div className="flex justify-center items-center ">
                             <Image src={image ?? ''} alt='' width={208} height={98} className={` mt-4 space-y-6 min-w-180px max-w-[360px]`} />
                         </div>
-                        <div className="flex justify-center items-center ">
-                            <p className=" font-nunito text-center text-lg text-white">{body}</p>
+                        <div className="flex flex-col justify-center items-center ">
+                            {children}
                         </div>
                     </div>
                     <div className="flex flex-col justify-center items-center p-4 md:p-5 gap-4">

@@ -1,17 +1,14 @@
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import Accordeon from "../Components/accordeon";
 import Button from "../Components/button";
 import Modal from "../Components/modal";
-import Controller from "../Controllers/controller";
 import Lead from "../Models/forms_models";
 import FormsController from "../Controllers/forms_controller";
 import Link from "next/link";
 import Card from "../Components/card";
 
 interface Props {
-  controller: Controller;
+  controller: FormsController;
   campaign?: string;
 }
 
@@ -34,6 +31,7 @@ export default function AplicacionParcial({
   });
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [declaraRenta, setDeclaraRenta] = useState<boolean>();
+  const [score, setScore] = useState<string>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isModalErrOpen, setIsModalErrOpen] = useState<boolean>(false);
   const [optAge, setOptAge] = useState<any[]>([
@@ -199,21 +197,15 @@ export default function AplicacionParcial({
   function postAplicacion() {
     setIsFetching(true);
     const lead = new Lead(formData);
-    if (!(controller instanceof FormsController)) {
-      setIsFetching(false);
-      return;
-    }
-
     controller.postFormLead(
       lead,
       campaign,
       "",
       //params.get("owner") ?? "",
-      (lead_id: string) => {
+      (scoreLead: any) => {
+        setScore(scoreLead);
         setIsFetching(false);
-        if (lead_id) {
-          setIsModalOpen(true);
-        }
+        setIsModalOpen(true);
       },
       () => {
         setIsFetching(false);
@@ -561,16 +553,23 @@ export default function AplicacionParcial({
             id="Success"
             title={"¡Inscripción realizada con éxito!"}
             image={"https://cotizacion-web.s3.amazonaws.com/5.png"}
-            body={
-              "Ya estás más cerca de hacer crecer tu dinero. Nuestros expertos se pondrán en contacto contigo próximamente para continuar con el proceso."
-            }
             textButton="Aceptar"
             onAccept={() => {
               setIsModalOpen(false);
             }}
             toggleModal={() => setIsModalOpen(!isModalOpen)}
             buttonUrl="/"
-          ></Modal>
+          >
+            <>
+              <p className="font-nunito-sans text-center text-lg text-white text-pretty">
+                Ya estás más cerca de hacer crecer tu dinero.
+                <span className="font-nunito-sans font-bold text-sm text-sonador-darker"> {score}</span>
+              </p>
+              <p className="font-nunito-sans text-center text-lg text-white text-pretty">
+                Nuestros expertos se pondrán en contacto contigo próximamente para continuar con el proceso.
+              </p>
+            </>
+          </Modal>
         )}
       </div>
       <div className="col-span-1 md:col-span-6 flex justify-center items-center">
@@ -579,13 +578,16 @@ export default function AplicacionParcial({
             id="Error"
             title={"¡No pudimos completar tu solicitud!"}
             image={"https://cotizacion-web.s3.amazonaws.com/5.png"}
-            body={"Vuelve a intentarlo más tarde"}
             textButton="Aceptar"
             onAccept={() => {
               setIsModalErrOpen(false);
             }}
             toggleModal={() => setIsModalErrOpen(!isModalErrOpen)}
-          ></Modal>
+          >
+            <p className=" font-nunito-sans text-center text-lg text-white">
+              Vuelve a intentarlo más tarde
+            </p>
+          </Modal>
         )}
       </div>
     </>

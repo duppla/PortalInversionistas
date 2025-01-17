@@ -28,7 +28,7 @@ class FormsController extends Controller {
     }
     this.postData(endpoint, lead)
       .then((response) => {
-        setterCallback(response as string);
+        setterCallback(response.clasificacion);
       })
       .catch((err) => {
         errorCallback();
