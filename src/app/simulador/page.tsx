@@ -2,7 +2,6 @@
 import Link from "next/link";
 import Button from "../Components/button";
 import Navbar from "../Components/navbar";
-import { redirect } from "next/navigation";
 import Card from "../Components/card";
 import LineChart from "../Components/lineChart";
 import { useEffect, useState } from "react";
@@ -67,8 +66,10 @@ export default function Simulador() {
   mensualRecibido = [];
   mensualRecompra = [];
   simuladorData?.noi.forEach((valor, index) => {
-    mensualRecibido.push({ "x": index, "y": valor });
-    mensualRecompra.push({ "x": index, "y": simuladorData?.apreciacion[index] });
+    if (index % 12 === 0 || index > 54) {
+      mensualRecibido.push({ "x": index, "y": valor });
+      mensualRecompra.push({ "x": index, "y": simuladorData?.apreciacion[index] });
+    }
   });
 
   function formatNumber(value: number) {
