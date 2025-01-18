@@ -11,12 +11,14 @@ interface Props {
   controller: FormsController;
   campaign?: string;
   showsScore?: boolean;
+  reloadOnAccept?: boolean;
 }
 
 export default function AplicacionParcial({
   controller,
   campaign = "701Rb00000MA4fDIAT",
-  showsScore = false
+  showsScore = false,
+  reloadOnAccept = false,
 }: Readonly<Props>) {
   // let params = useSearchParams();
   const [formData, setFormData] = useState({
@@ -560,7 +562,7 @@ export default function AplicacionParcial({
               setIsModalOpen(false);
             }}
             toggleModal={() => setIsModalOpen(!isModalOpen)}
-            buttonUrl="/"
+            buttonUrl={reloadOnAccept ? `/saber-mas/${campaign}` : "/"}
           >
             <>
               <p className="font-nunito-sans text-center text-lg text-white text-pretty">

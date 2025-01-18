@@ -21,6 +21,7 @@ export default function Aplicar({ params }: { params: any }) {
         controller={controller}
         campaign={params.campaign}
         showsScore
+        reloadOnAccept
       ></AplicacionParcial>
     </main>
   );
