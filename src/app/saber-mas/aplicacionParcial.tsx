@@ -554,7 +554,7 @@ export default function AplicacionParcial({
         </div>
       </form>
       <div className="col-span-1 md:col-span-6 flex justify-center items-center">
-        {isModalOpen && (
+        {!isModalOpen && (
           <Modal
             id="Success"
             title={"¡Inscripción realizada con éxito!"}
@@ -566,15 +566,27 @@ export default function AplicacionParcial({
             toggleModal={() => setIsModalOpen(!isModalOpen)}
             buttonUrl={redirectAccept ?? "/"}
           >
-            <>
-              <p className="font-nunito-sans text-center text-lg text-white text-pretty">
-                Ya estás más cerca de hacer crecer tu dinero.
-                {showsScore && campaign != "701Rb00000MGDSsIAP" && <span className="font-nunito-sans font-bold text-sm text-sonador-darker"> {score}</span>}
-              </p>
-              <p className="font-nunito-sans text-center text-lg text-white text-pretty">
-                {campaign == "701Rb00000MGDSsIAP" ? "¡Gracias por asistir a nuestro conversatorio!" : "Nuestros expertos se pondrán en contacto contigo próximamente para continuar con el proceso."}
-              </p>
-            </>
+            {campaign == "701Rb00000MGDSsIAP" ?
+              <>
+                <p className="font-nunito-sans text-center text-lg text-white text-pretty">
+                  ¡Gracias por asistir a nuestro conversatorio!
+                </p>
+                <p className="font-nunito-sans text-center text-lg text-white text-pretty">
+                  Al dar click en aceptar accederás a todo el material mencionado.
+                </p>
+              </>
+
+              :
+              <>
+                <p className="font-nunito-sans text-center text-lg text-white text-pretty">
+                  Ya estás más cerca de hacer crecer tu dinero.
+                  {showsScore && <span className="font-nunito-sans font-bold text-sm text-sonador-darker"> {score}</span>}
+                </p>
+                <p className="font-nunito-sans text-center text-lg text-white text-pretty">
+                  Nuestros expertos se pondrán en contacto contigo próximamente para continuar con el proceso.
+                </p>
+              </>
+            }
           </Modal>
         )}
       </div>
