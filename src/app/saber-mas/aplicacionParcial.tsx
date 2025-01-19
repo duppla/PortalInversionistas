@@ -11,14 +11,16 @@ interface Props {
   controller: FormsController;
   campaign?: string;
   showsScore?: boolean;
-  reloadOnAccept?: boolean;
+  redirectAccept?: string;
+  caption?: string;
 }
 
 export default function AplicacionParcial({
   controller,
   campaign = "701Rb00000MA4fDIAT",
   showsScore = false,
-  reloadOnAccept = false,
+  redirectAccept,
+  caption = "Invertir con duppla es fácil y seguro, deja tus datos y nuestro equipo de expertos se contactará contigo",
 }: Readonly<Props>) {
   // let params = useSearchParams();
   const [formData, setFormData] = useState({
@@ -267,7 +269,7 @@ export default function AplicacionParcial({
           <h2
             className={"md:col-span-6 rustica text-xl text-center px-4"}
           >
-            Invertir con duppla es fácil y seguro, deja tus datos y nuestro equipo de expertos se contactará contigo
+            {caption}
           </h2>
         </div>
         <div
@@ -485,7 +487,7 @@ export default function AplicacionParcial({
             </label>
             <div className="py-2">
               <Accordeon
-                textLeft="Piensos invertir:"
+                textLeft="Pienso invertir:"
                 textRight={selectedValueInv ? selectedValueInv.id : ""}
                 defaultOpen
               >
@@ -562,15 +564,15 @@ export default function AplicacionParcial({
               setIsModalOpen(false);
             }}
             toggleModal={() => setIsModalOpen(!isModalOpen)}
-            buttonUrl={reloadOnAccept ? `/saber-mas/${campaign}` : "/"}
+            buttonUrl={redirectAccept ?? "/"}
           >
             <>
               <p className="font-nunito-sans text-center text-lg text-white text-pretty">
                 Ya estás más cerca de hacer crecer tu dinero.
-                {showsScore && <span className="font-nunito-sans font-bold text-sm text-sonador-darker"> {score}</span>}
+                {showsScore && campaign != "701Rb00000MGDSsIAP" && <span className="font-nunito-sans font-bold text-sm text-sonador-darker"> {score}</span>}
               </p>
               <p className="font-nunito-sans text-center text-lg text-white text-pretty">
-                Nuestros expertos se pondrán en contacto contigo próximamente para continuar con el proceso.
+                {campaign == "701Rb00000MGDSsIAP" ? "¡Gracias por asistir a nuestro conversatorio!" : "Nuestros expertos se pondrán en contacto contigo próximamente para continuar con el proceso."}
               </p>
             </>
           </Modal>

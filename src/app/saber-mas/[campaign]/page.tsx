@@ -7,6 +7,7 @@ import Button from "@/app/Components/button";
 
 export default function Aplicar({ params }: { params: any }) {
   const controller: FormsController = FormsController.getInstance();
+  const camp = params.campaign
 
   return (
     <main className="flex w-full min-h-screen flex-col items-center justify-between">
@@ -19,9 +20,10 @@ export default function Aplicar({ params }: { params: any }) {
       </Navbar>
       <AplicacionParcial
         controller={controller}
-        campaign={params.campaign}
+        campaign={camp}
         showsScore
-        reloadOnAccept
+        redirectAccept={camp == "701Rb00000MGDSsIAP" ? "https://duppla.notion.site/Duppla-Moneycon-17e4df06f7c98040afb5ec37d4717774" : `/saber-mas/${camp}`}
+        caption={camp == "701Rb00000MGDSsIAP" ? "Completa el siguiente formulario para descargar el material de nuestra masterclass en Moneycon 2025" : undefined}
       ></AplicacionParcial>
     </main>
   );
