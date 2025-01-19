@@ -554,7 +554,7 @@ export default function AplicacionParcial({
         </div>
       </form>
       <div className="col-span-1 md:col-span-6 flex justify-center items-center">
-        {!isModalOpen && (
+        {isModalOpen && (
           <Modal
             id="Success"
             title={"¡Inscripción realizada con éxito!"}
